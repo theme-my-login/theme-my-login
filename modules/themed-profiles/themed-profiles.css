@@ -1,0 +1,45 @@
+.profile {
+	max-width: 100%;
+}
+
+.profile .form-table {
+	border-collapse: collapse;
+}
+
+.profile .form-table th,
+.profile .form-table td {
+	display: block;
+	vertical-align: middle;
+	width: auto;
+}
+
+.profile .screen-reader-text,
+.profile .screen-reader-text span {
+	height: 1px;
+	left: -1000em;
+	overflow: hidden;
+	position: absolute;
+	width: 1px;
+}
+
+.profile .wp-pwd {
+	text-align: right;
+}
+
+.profile .wp-pwd .dashicons {
+	font-size: 1em;
+	line-height: 1;
+	height: 1em;
+	width: 1em;
+	vertical-align: middle;
+}
+
+.profile #pass-strength-result {
+	margin: 0.5em 0;
+}
+
+.hidden,
+.no-js .hide-if-no-js,
+.js .hide-if-js {
+	display: none;
+}

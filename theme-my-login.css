@@ -1,0 +1,180 @@
+.login {
+	max-width: 320px;
+}
+
+.login * {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.login .error,
+.login .message {
+	color: #333;
+	padding: 0.5em;
+}
+
+.login .error {
+	border: 1px solid #c00;
+	background-color: #ffebe8;
+}
+
+.login .message {
+	border: 1px solid #e6db55;
+	background-color: #ffffe0;
+}
+
+.login label {
+	display: block;
+	text-align: left;
+}
+
+.login .forgetmenot label {
+	display: inline;
+}
+
+
+.login input,
+.login textarea,
+.login select {
+	margin: 0.5em 0;
+	width: 100%;
+}
+
+.login input[type="checkbox"],
+.login input[type="radio"],
+.login .forgetmenot input {
+	vertical-align: middle;
+	width: auto;
+}
+
+.login .tml-action-links {
+	display: inline-block;
+	list-style: none;
+	margin: 0.5em auto;
+	text-align: center;
+}
+
+.login .tml-action-links li {
+	border: none;
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+	float: left;
+	line-height: 1;
+	list-style: none;
+	margin-right: 0.5em;
+	padding-right: 0.5em;
+}
+
+.login .tml-action-links li:last-child {
+	border-right: none;
+	margin-right: 0;
+	padding-right: 0;
+}
+
+.login .tml-action-links a {
+	border: none;
+	display: block;
+	padding: 0;
+	text-decoration: none;
+}
+
+.login .clear:before,
+.login .clear:after,
+.login .tml-action-links:before,
+.login .tml-action-links:after {
+	content: "";
+	display: table;
+}
+
+.login .clear:after,
+.login .tml-action-links:after {
+	clear: both;
+}
+
+.mu_register .hint {
+	font-size: 12px;
+	margin-bottom: 10px;
+	display: block;
+}
+
+.mu_register label.checkbox {
+	display: inline;
+}
+
+#pass-strength-result {
+	background-color: #eee;
+	border: 1px solid #ddd;
+	color: #23282d;
+	font-weight: 600;
+	margin: 0;
+	padding: 3px 5px;
+	text-align: center;
+	width: 100%;
+	opacity: 0;
+}
+
+#pass-strength-result.short {
+	background-color: #f1adad;
+	border-color: #e35b5b;
+	opacity: 1;
+}
+
+#pass-strength-result.bad {
+	background-color: #fbc5a9;
+	border-color: #f78b53;
+	opacity: 1;
+}
+
+#pass-strength-result.good {
+	background-color: #ffe399;
+	border-color: #ffc733;
+	opacity: 1;
+}
+
+#pass-strength-result.strong {
+	background-color: #c1e1b9;
+	border-color: #83c373;
+	opacity: 1;
+}
+
+.pw-weak {
+	display:none;
+}
+
+.indicator-hint {
+	padding-top: 8px;
+}
+
+#pass1,
+#pass1-text {
+	width: 100%;
+}
+
+#pass1-text,
+.show-password #pass1 {
+	display: none;
+}
+
+.show-password #pass1-text
+{
+	display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+	.login .forgetmenot {
+		float: left;
+	}
+
+	.login .forgetmenot input {
+		margin: 1em 0;
+	}
+
+	.login .submit {
+		float: right;
+	}
+
+	.login .submit input {
+		margin: -0.5em 0 0;
+		width: auto;
+	}
+}
