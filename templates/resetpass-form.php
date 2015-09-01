@@ -35,5 +35,8 @@ Theme My Login will always look in your theme's directory first, before using th
 			<input type="hidden" name="action" value="resetpass" />
 		</p>
 	</form>
+	
+	<p class="description"><?php _e( 'Click the "Reset Password" button to set (or reset) your password with the new password entered above, or click the "Log In" link below to log in without resetting your password.' ); ?></p>
+	
 	<?php $template->the_action_links( array( 'lostpassword' => false ) ); ?>
 </div>
