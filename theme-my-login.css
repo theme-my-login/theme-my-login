@@ -162,11 +162,15 @@
 
 @media screen and (min-width: 768px) {
 	.login .forgetmenot {
-		float: left;
+		float: none;
 	}
 
 	.login .forgetmenot input {
 		margin: 1em 0;
+	}
+	
+	.login .submit {
+		float: none;
 	}
 
 	.login .submit input {
