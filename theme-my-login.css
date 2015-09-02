@@ -1,5 +1,5 @@
 .login {
-	max-width: 320px;
+	/* max-width: 320px; */
 }
 
 .login * {
@@ -24,6 +24,11 @@
 	background-color: #ffffe0;
 }
 
+.login p.user-pass1-wrap,
+.login p.user-pass2-wrap {
+	margin: 0;
+}
+
 .login label {
 	display: block;
 	text-align: left;
@@ -32,7 +37,6 @@
 .login .forgetmenot label {
 	display: inline;
 }
-
 
 .login input,
 .login textarea,
