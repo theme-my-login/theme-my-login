@@ -251,6 +251,13 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		if ( ! $query->is_search )
 			return;
 
+		// Get the requested post type
+		$post_type = $query->get( 'post_type' );
+
+		// Bail if not querying pages
+		if ( ! empty( $post_type ) && ! in_array( 'page', (array) $post_type ) )
+			return;
+
 		// Get TML pages
 		$pages = get_posts( array(
 			'post_type'      => 'page',
