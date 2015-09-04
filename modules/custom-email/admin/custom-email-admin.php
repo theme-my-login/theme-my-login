@@ -587,7 +587,7 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 		$screen = get_current_screen();
 
 		if ( 'user' == $screen->base && 'add' == $screen->action ) {
-			do_action( 'tml_new_user_registered', $user_id, $notify = 'both' );
+			do_action( 'tml_new_user_registered', $user_id, 'both' );
 
 			if ( current_user_can( 'list_users' ) )
 				$redirect = 'users.php?update=add&id=' . $user_id;
