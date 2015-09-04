@@ -1,0 +1,1754 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/theme-my-login\n"
+"POT-Creation-Date: 2015-08-31 18:58:35+00:00\n"
+"PO-Revision-Date: 2015-09-04 11:23+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: admin/class-theme-my-login-admin.php:68
+#: admin/class-theme-my-login-admin.php:133
+msgid "Theme My Login Settings"
+msgstr "Nastavení Theme My Login"
+
+#: admin/class-theme-my-login-admin.php:69
+msgid "TML"
+msgstr "TML"
+
+#: admin/class-theme-my-login-admin.php:77
+#: admin/class-theme-my-login-admin.php:78
+#: admin/class-theme-my-login-admin.php:103
+msgid "General"
+msgstr "Obecné"
+
+#: admin/class-theme-my-login-admin.php:104
+#: admin/class-theme-my-login-admin.php:109
+msgid "Modules"
+msgstr "Moduly"
+
+#: admin/class-theme-my-login-admin.php:107
+msgid "Stylesheet"
+msgstr "Styl"
+
+#: admin/class-theme-my-login-admin.php:108
+msgid "Login Type"
+msgstr "Typ přihlášení"
+
+#: admin/class-theme-my-login-admin.php:162
+msgid "Enable \"theme-my-login.css\""
+msgstr "Povolit \"theme-my-login.css\""
+
+#: admin/class-theme-my-login-admin.php:163
+msgid ""
+"In order to keep changes between upgrades, you can store your customized "
+"\"theme-my-login.css\" in your current theme directory."
+msgstr ""
+"V zájmu zachování změn mezi upgrady můžete uložit svůj vlastní \"theme-my-"
+"login.css\" v adresáři aktuálního tématu."
+
+#: admin/class-theme-my-login-admin.php:179
+msgid "Username only"
+msgstr "Pouze uživatelské jméno"
+
+#: admin/class-theme-my-login-admin.php:182
+msgid "E-mail only"
+msgstr "Pouze e-mail"
+
+#: admin/class-theme-my-login-admin.php:185 templates/login-form.php:16
+msgid "Username or E-mail"
+msgstr "Uživatelské jméno nebo e-mail"
+
+#: admin/class-theme-my-login-admin.php:189
+msgid "Allow users to login using their username and/or e-mail address."
+msgstr ""
+"Povolit uživatelům přihlásit se pomocí svého uživatelské jméno a/nebo e-"
+"mailové adresy."
+
+#: admin/class-theme-my-login-admin.php:205
+msgid "Enable %s"
+msgstr "Povolit %s"
+
+#: includes/class-theme-my-login-ms-signup.php:109
+msgctxt "Multisite active signup type"
+msgid "all"
+msgstr "všechny"
+
+#: includes/class-theme-my-login-ms-signup.php:110
+msgctxt "Multisite active signup type"
+msgid "none"
+msgstr "žádné"
+
+#: includes/class-theme-my-login-ms-signup.php:111
+msgctxt "Multisite active signup type"
+msgid "blog"
+msgstr "blog"
+
+#: includes/class-theme-my-login-ms-signup.php:112
+msgctxt "Multisite active signup type"
+msgid "user"
+msgstr "uživatel"
+
+#: includes/class-theme-my-login-ms-signup.php:115
+msgid ""
+"Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; "
+"registrations. To change or disable registration go to your <a href=\"%s"
+"\">Options page</a>."
+msgstr ""
+"Zdravíme správce stránek! V současné době umožňujete &#8220;%s&#8221; "
+"registrací. Chcete-li registrace změnit nebo zakázat jděte na <a href=\"%s"
+"\">stránku Možnosti</a>."
+
+#: includes/class-theme-my-login-ms-signup.php:121
+msgid "Registration has been disabled."
+msgstr "Registrace byla zakázána."
+
+#: includes/class-theme-my-login-ms-signup.php:123
+msgid ""
+"You must first <a href=\"%s\">log in</a>, and then you can create a new site."
+msgstr ""
+"Nejprve se musíte <a href=\"%s\">přihlásit</a> a pak můžete vytvořit nové "
+"stránky."
+
+#: includes/class-theme-my-login-ms-signup.php:147
+msgid "%s is your new username"
+msgstr "%s je vaše nové uživatelské jméno"
+
+#: includes/class-theme-my-login-ms-signup.php:148
+msgid ""
+"But, before you can start using your new username, <strong>you must activate "
+"it</strong>."
+msgstr ""
+"Ale předtím, než začnete používat nové uživatelské jméno, <strong>jej musíte "
+"aktivovat</strong>."
+
+#: includes/class-theme-my-login-ms-signup.php:149
+msgid "Check your inbox at <strong>%1$s</strong> and click the link given."
+msgstr ""
+"Zkontrolujte si svoji e-mailovou schránku na <strong>%1$s</strong> a "
+"klikněte na poskytnutý odkaz."
+
+#: includes/class-theme-my-login-ms-signup.php:150
+msgid ""
+"If you do not activate your username within two days, you will have to sign "
+"up again."
+msgstr ""
+"Pokud neaktivujete své uživatelské jméno během dvou dnů, budete se muset "
+"znovu registrovat."
+
+#: includes/class-theme-my-login-ms-signup.php:154
+msgid "User registration has been disabled."
+msgstr "Registrace uživatelů byla zakázána."
+
+#: includes/class-theme-my-login-ms-signup.php:186
+msgid "Congratulations! Your new site, %s, is almost ready."
+msgstr "Blahopřejeme! Vaše nové stránky,%s, jsou téměř připraveny."
+
+#: includes/class-theme-my-login-ms-signup.php:188
+msgid ""
+"But, before you can start using your site, <strong>you must activate it</"
+"strong>."
+msgstr ""
+"Ale předtím, než začnete svoje stránky používat, <strong>je musíte "
+"aktivovat</strong>."
+
+#: includes/class-theme-my-login-ms-signup.php:189
+msgid "Check your inbox at <strong>%s</strong> and click the link given."
+msgstr ""
+"Zkontrolujte si svoji e-mailovou schránku na <strong>%s</strong> a klikněte "
+"na poskytnutý odkaz."
+
+#: includes/class-theme-my-login-ms-signup.php:190
+msgid ""
+"If you do not activate your site within two days, you will have to sign up "
+"again."
+msgstr ""
+"Pokud neaktivujete svoje stránky během dvou dnů, budete se muset znovu "
+"registrovat."
+
+#: includes/class-theme-my-login-ms-signup.php:191
+msgid "Still waiting for your email?"
+msgstr "Stále čekáte na svůj email?"
+
+#: includes/class-theme-my-login-ms-signup.php:193
+msgid ""
+"If you haven&#8217;t received your email yet, there are a number of things "
+"you can do:"
+msgstr ""
+"Pokud jste doposud svůj e-mail neobdrželi, existuje několik věcí, které "
+"můžete udělat:"
+
+#: includes/class-theme-my-login-ms-signup.php:195
+msgid ""
+"Wait a little longer. Sometimes delivery of email can be delayed by "
+"processes outside of our control."
+msgstr ""
+"Počkejte o něco déle. Někdy může být doručování e-mailů opožděno procesy "
+"mimo naši kontrolu."
+
+#: includes/class-theme-my-login-ms-signup.php:196
+msgid ""
+"Check the junk or spam folder of your email client. Sometime emails wind up "
+"there by mistake."
+msgstr ""
+"Zkontrolujte složku nevyžádané pošty vašeho e-mailového klienta. Někdy tam e-"
+"maily omylem skončí."
+
+#: includes/class-theme-my-login-ms-signup.php:197
+msgid ""
+"Have you entered your email correctly?  You have entered %s, if it&#8217;s "
+"incorrect, you will not receive your email."
+msgstr ""
+"Jste správně zadali svůj e-mail?  Zadali jste %s, pokud to není správně, "
+"svůj e-mail neobdržíte."
+
+#: includes/class-theme-my-login-ms-signup.php:203
+msgid "Site registration has been disabled."
+msgstr "Registrace na stránky byla zakázána."
+
+#: includes/class-theme-my-login-ms-signup.php:227
+msgid "The site %s is yours."
+msgstr "Stránky %s jsou vaše."
+
+#: includes/class-theme-my-login-ms-signup.php:229
+msgid ""
+"<a href=\"http://%1$s\">http://%2$s</a> is your new site.  <a href=\"%3$s"
+"\">Log in</a> as &#8220;%4$s&#8221; using your existing password."
+msgstr ""
+"<a href=\"http://%1$s\">http://%2$s</a> jsou vaše nové stránky. <a href="
+"\"%3$s\">Přihlaste se</a> jako &#8220;%4$s&#8221; za pomocí svého "
+"stávajícího hesla."
+
+#: includes/class-theme-my-login-ms-signup.php:245
+msgid "Sorry, new registrations are not allowed at this time."
+msgstr "Je nám líto, v tomto okamžiku nejsou povoleny nové registrace."
+
+#: includes/class-theme-my-login-ms-signup.php:247
+msgid "You are logged in already. No need to register again!"
+msgstr "Jste již přihlášeni. Není třeba se znovu registrovat!"
+
+#: includes/class-theme-my-login-ms-signup.php:253
+msgid ""
+"<p><em>The site you were looking for, <strong>%s</strong> does not exist, "
+"but you can create it now!</em></p>"
+msgstr ""
+"<p><em>Stránky, které jste hledali, <strong>%s</strong> neexistují, ale "
+"můžete je nyní vytvořit!</em></p>"
+
+#: includes/class-theme-my-login-ms-signup.php:255
+msgid ""
+"<p><em>The site you were looking for, <strong>%s</strong>, does not exist.</"
+"em></p>"
+msgstr ""
+"<p><em>Stránky, které jste hledali, <strong>%s</strong> neexistují.</em></p>"
+
+#: includes/class-theme-my-login-ms-signup.php:397
+msgid "Activation Key Required"
+msgstr "Vyžadován aktivační klíč"
+
+#: includes/class-theme-my-login-ms-signup.php:400
+msgid "Activation Key:"
+msgstr "Aktivační klíč:"
+
+#: includes/class-theme-my-login-ms-signup.php:404
+#: includes/class-theme-my-login-ms-signup.php:476
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: includes/class-theme-my-login-ms-signup.php:416
+#: includes/class-theme-my-login-ms-signup.php:436
+msgid "Your account is now active!"
+msgstr "Váš účet je nyní aktivní!"
+
+#: includes/class-theme-my-login-ms-signup.php:420
+msgid ""
+"Your account has been activated. You may now <a href=\"%1$s\">login</a> to "
+"the site using your chosen username of &#8220;%2$s&#8221;.  Please check "
+"your email inbox at %3$s for your password and login instructions. If you do "
+"not receive an email, please check your junk or spam folder. If you still do "
+"not receive an email within an hour, you can <a href=\"%4$s\">reset your "
+"password</a>."
+msgstr ""
+"Váš účet byl aktivován. Nyní se můžete na stránky <a href=\"%1$s"
+"\">přihlásit</a> pomocí zvoleného uživatelského jména &#8220;%2$s&#8221;. "
+"Zkontrolujte si prosím svoji e-mailovou schránku na 4%$s pro své heslo a "
+"přihlašovací instrukce. Pokud jste žádný e-mail neobdrželi, zkontrolujte "
+"prosím složku nevyžádané pošty. Pokud přesto neobdržíte e-mail během jedné "
+"hodiny, můžete <a href=\"%4$s\">své heslo obnovit</a>."
+
+#: includes/class-theme-my-login-ms-signup.php:422
+msgid ""
+"Your site at <a href=\"%1$s\">%2$s</a> is active. You may now log in to your "
+"site using your chosen username of &#8220;%3$s&#8221;.  Please check your "
+"email inbox at %4$s for your password and login instructions.  If you do not "
+"receive an email, please check your junk or spam folder.  If you still do "
+"not receive an email within an hour, you can <a href=\"%5$s\">reset your "
+"password</a>."
+msgstr ""
+"Vaše stránky na <a href=\"%1$s\">%2$s</a> jsou aktivní. Nyní se můžete "
+"přihlásit do svého webu pomocí zvoleného uživatelského jména &#8220;"
+"%3$s&#8221;. Zkontrolujte si prosím svoji e-mailovou schránku na 4%$s pro "
+"své heslo a přihlašovací instrukce. Pokud jste žádný e-mail neobdrželi, "
+"zkontrolujte prosím složku nevyžádané pošty. Pokud přesto neobdržíte e-mail "
+"během jedné hodiny, můžete <a href=\"%5$s\">své heslo obnovit</a>."
+
+#: includes/class-theme-my-login-ms-signup.php:427
+msgid "An error occurred during the activation"
+msgstr "Při aktivaci došlo k chybě"
+
+#: includes/class-theme-my-login-ms-signup.php:439
+#: templates/ms-signup-user-form.php:14
+msgid "Username:"
+msgstr "Uživatelské jméno:"
+
+#: includes/class-theme-my-login-ms-signup.php:440
+#: modules/custom-passwords/custom-passwords.php:95
+msgid "Password:"
+msgstr "Heslo:"
+
+#: includes/class-theme-my-login-ms-signup.php:444
+msgid ""
+"Your account is now activated. <a href=\"%1$s\">View your site</a> or <a "
+"href=\"%2$s\">Login</a>"
+msgstr ""
+"Váš účet je nyní aktivován. <a href=\"%1$s\">Zobrazte svoje stránky</a> nebo "
+"<a href=\"%2$s\">se přihlaste</a>"
+
+#: includes/class-theme-my-login-ms-signup.php:446
+msgid ""
+"Your account is now activated. <a href=\"%1$s\">Login</a> or go back to the "
+"<a href=\"%2$s\">homepage</a>."
+msgstr ""
+"Váš účet je nyní aktivován. <a href=\"%1$s\">Přihlaste se</a> nebo přejděte "
+"zpět na <a href=\"%2$s\">domovskou stránku</a>."
+
+#: includes/class-theme-my-login-template.php:150
+msgid "Welcome, %s"
+msgstr "Vítejte, %s"
+
+#: includes/class-theme-my-login-template.php:157
+#: includes/class-theme-my-login-widget.php:111
+#: includes/class-theme-my-login.php:119 templates/register-form.php:28
+msgid "Register"
+msgstr "Registrovat"
+
+#: includes/class-theme-my-login-template.php:163
+#: includes/class-theme-my-login-widget.php:112
+#: includes/class-theme-my-login.php:120
+msgid "Lost Password"
+msgstr "Zapomenuté heslo"
+
+#: includes/class-theme-my-login-template.php:167
+#: includes/class-theme-my-login.php:117 templates/login-form.php:35
+msgid "Log In"
+msgstr "Přihlásit se"
+
+#: includes/class-theme-my-login-template.php:348
+#: modules/custom-user-links/custom-user-links.php:61
+msgid "Dashboard"
+msgstr "Nástěnka"
+
+#: includes/class-theme-my-login-template.php:351
+#: modules/custom-user-links/custom-user-links.php:65
+msgid "Profile"
+msgstr "Profil"
+
+#: includes/class-theme-my-login-template.php:400
+msgid "Register For This Site"
+msgstr "Registrace pro tyto stránky"
+
+#: includes/class-theme-my-login-template.php:403
+msgid ""
+"Please enter your username or email address. You will receive a link to "
+"create a new password via email."
+msgstr ""
+"Prosím, zadejte své uživatelské jméno nebo e-mailovou adresu. E-mailem "
+"obdržíte odkaz pro vytvoření nového hesla."
+
+#: includes/class-theme-my-login-template.php:406
+msgid "Enter your new password below."
+msgstr "Zadejte své nové heslo níže."
+
+#: includes/class-theme-my-login-widget.php:24
+msgid "A login form for your blog."
+msgstr "Formulář pro přihlášení pro váš blog."
+
+#. Plugin Name of the plugin/theme
+#: includes/class-theme-my-login-widget.php:26
+msgid "Theme My Login"
+msgstr "Theme My Login"
+
+#: includes/class-theme-my-login-widget.php:110
+msgid "Login"
+msgstr "Přihlášení"
+
+#: includes/class-theme-my-login-widget.php:115
+msgid "Default Action"
+msgstr "Výchozí akce"
+
+#: includes/class-theme-my-login-widget.php:123
+msgid "Show When Logged In"
+msgstr "Zobrazit při přihlášení"
+
+#: includes/class-theme-my-login-widget.php:126
+msgid "Show When Logged Out"
+msgstr "Zobrazit při odhlášení"
+
+#: includes/class-theme-my-login-widget.php:129
+msgid "Show Title"
+msgstr "Zobrazit nadpis"
+
+#: includes/class-theme-my-login-widget.php:132
+msgid "Show Login Link"
+msgstr "Zobrazit odkaz Přihlásit se"
+
+#: includes/class-theme-my-login-widget.php:135
+msgid "Show Register Link"
+msgstr "Zobrazit odkaz Registrovat se"
+
+#: includes/class-theme-my-login-widget.php:138
+msgid "Show Lost Password Link"
+msgstr "Zobrazit odkaz Zapomenuté heslo"
+
+#: includes/class-theme-my-login-widget.php:141
+msgid "Show Gravatar"
+msgstr "Ukázat Gravatar"
+
+#: includes/class-theme-my-login-widget.php:143
+msgid "Gravatar Size"
+msgstr "Velikost Gravataru"
+
+#: includes/class-theme-my-login.php:118
+msgid "Log Out"
+msgstr "Odhlásit se"
+
+#: includes/class-theme-my-login.php:121
+#: modules/custom-email/admin/custom-email-admin.php:102
+#: templates/resetpass-form.php:31
+msgid "Reset Password"
+msgstr "Obnovit heslo"
+
+#: includes/class-theme-my-login.php:342
+msgid ""
+"Your password reset link appears to be invalid. Please request a new link "
+"below."
+msgstr ""
+"Váš odkaz pro obnovení hesla se zdá být neplatný. Prosím požádejte o nový "
+"odkaz níže."
+
+#: includes/class-theme-my-login.php:344
+msgid "Your password reset link has expired. Please request a new link below."
+msgstr ""
+"Váš odkaz pro obnovení hesla vypršel. Prosím požádejte o nový odkaz níže."
+
+#: includes/class-theme-my-login.php:383
+msgid "The passwords do not match."
+msgstr "Hesla se neshodují."
+
+#: includes/class-theme-my-login.php:485
+msgid "You are now logged out."
+msgstr "Nyní jste odhlášeni."
+
+#: includes/class-theme-my-login.php:487
+msgid "User registration is currently not allowed."
+msgstr "Registrace uživatelů není v současnosti povolena."
+
+#: includes/class-theme-my-login.php:489
+msgid "Check your e-mail for the confirmation link."
+msgstr "Zkontrolujte e-mail pro potvrzovací odkaz."
+
+#: includes/class-theme-my-login.php:491
+msgid "Your password has been reset."
+msgstr "Vaše heslo bylo obnoveno."
+
+#: includes/class-theme-my-login.php:493
+msgid "Registration complete. Please check your e-mail."
+msgstr "Registrace kompletní. Zkontrolujte prosím svůj e-mail."
+
+#: includes/class-theme-my-login.php:495
+msgid "Your session has expired. Please log-in again."
+msgstr "Vaše relace vypršela. Přihlaste se prosím znovu."
+
+#: includes/class-theme-my-login.php:497
+msgid ""
+"<strong>You have successfully updated WordPress!</strong> Please log back in "
+"to experience the awesomeness."
+msgstr ""
+"<strong>Úspěšně jste aktualizovali WordPress!</strong>Prosím přihlaste se a "
+"zažijte znovu jeho úžasnost."
+
+#: includes/class-theme-my-login.php:499
+msgid "Please log in to continue."
+msgstr "Pro pokračování se prosím přihlaste."
+
+#: includes/class-theme-my-login.php:1118
+msgid "<strong>ERROR</strong>: Enter a username or e-mail address."
+msgstr ""
+"<strong>CHYBA</strong>: Zadejte uživatelské jméno nebo e-mailovou adresu."
+
+#: includes/class-theme-my-login.php:1122
+msgid ""
+"<strong>ERROR</strong>: There is no user registered with that email address."
+msgstr ""
+"<strong>CHYBA</strong>: Neexistuje uživatel registrovaný s touto e-mailovou "
+"adresou."
+
+#: includes/class-theme-my-login.php:1134
+msgid "<strong>ERROR</strong>: Invalid username or e-mail."
+msgstr "<strong>CHYBA</strong>: Neplatné uživatelské jméno nebo e-mail."
+
+#: includes/class-theme-my-login.php:1148
+msgid "Password reset is not allowed for this user"
+msgstr "Obnovení hesla není pro tohoto uživatele povoleno"
+
+#: includes/class-theme-my-login.php:1165
+msgid "Someone requested that the password be reset for the following account:"
+msgstr "Někdo požádal, aby bylo obnoveno heslo pro následující účet:"
+
+#: includes/class-theme-my-login.php:1167
+#: modules/custom-email/custom-email.php:820
+#: modules/custom-email/custom-email.php:849
+#: modules/user-moderation/admin/user-moderation-admin.php:379
+#: modules/user-moderation/user-moderation.php:475
+msgid "Username: %s"
+msgstr "Uživatelské jméno: %s"
+
+#: includes/class-theme-my-login.php:1168
+msgid "If this was a mistake, just ignore this email and nothing will happen."
+msgstr ""
+"Pokud je to nedorozumění, tento email prosím ignorujte a nic se nestane."
+
+#: includes/class-theme-my-login.php:1169
+msgid "To reset your password, visit the following address:"
+msgstr "Chcete-li heslo obnovit, navštivte následující adresu:"
+
+#: includes/class-theme-my-login.php:1180
+msgid "[%s] Password Reset"
+msgstr "[%s] Obnovení hesla"
+
+#: includes/class-theme-my-login.php:1186
+#: modules/user-moderation/admin/user-moderation-admin.php:252
+#: modules/user-moderation/admin/user-moderation-admin.php:389
+#: modules/user-moderation/admin/user-moderation-admin.php:431
+msgid "The e-mail could not be sent."
+msgstr "E-mail nebylo možné odeslat."
+
+#: includes/class-theme-my-login.php:1186
+#: modules/user-moderation/admin/user-moderation-admin.php:252
+#: modules/user-moderation/admin/user-moderation-admin.php:389
+#: modules/user-moderation/admin/user-moderation-admin.php:431
+msgid "Possible reason: your host may have disabled the mail() function..."
+msgstr "Možný důvod: váš hostitel pravděpodobně zakázal funkci mail()..."
+
+#: includes/class-theme-my-login.php:1228
+msgid "<strong>ERROR</strong>: Please enter a username."
+msgstr "<strong>CHYBA</strong>: Zadejte prosím uživatelské jméno."
+
+#: includes/class-theme-my-login.php:1230
+msgid ""
+"<strong>ERROR</strong>: This username is invalid because it uses illegal "
+"characters. Please enter a valid username."
+msgstr ""
+"<strong>CHYBA</strong>: Toto uživatelské jméno je neplatné, protože používá "
+"neplatné znaky. Zadejte platné uživatelské jméno."
+
+#: includes/class-theme-my-login.php:1233
+msgid ""
+"<strong>ERROR</strong>: This username is already registered, please choose "
+"another one."
+msgstr ""
+"<strong>CHYBA</strong>: Toto uživatelské jméno je již registrováno, zvolte "
+"jiné."
+
+#: includes/class-theme-my-login.php:1238
+msgid "<strong>ERROR</strong>: Please type your e-mail address."
+msgstr "<strong>CHYBA</strong>: Zadejte prosím svoji e-mailovou adresu."
+
+#: includes/class-theme-my-login.php:1240
+msgid "<strong>ERROR</strong>: The email address isn&#8217;t correct."
+msgstr "<strong>CHYBA</strong>: E-mailová adresa není správná."
+
+#: includes/class-theme-my-login.php:1243
+msgid ""
+"<strong>ERROR</strong>: This email is already registered, please choose "
+"another one."
+msgstr ""
+"<strong>CHYBA</strong>: Tento e-mail je již registrován, zvolte prosím "
+"nějaký jiný."
+
+#: includes/class-theme-my-login.php:1256
+msgid ""
+"<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
+"href=\"mailto:%s\">webmaster</a> !"
+msgstr ""
+"<strong>CHYBA</strong>: Nelze vás zaregistrovat... kontaktujte prosím <a "
+"href=\"mailto:%s\">správce webu</a>!"
+
+#: modules/custom-email/admin/custom-email-admin.php:92
+#: modules/custom-email/admin/custom-email-admin.php:150
+msgid "Theme My Login Custom E-mail Settings"
+msgstr "Vlastní e-mailová nastavení Theme My Login"
+
+#: modules/custom-email/admin/custom-email-admin.php:93
+#: templates/login-form.php:14 templates/profile-form.php:97
+#: templates/register-form.php:19
+msgid "E-mail"
+msgstr "E-mail"
+
+#: modules/custom-email/admin/custom-email-admin.php:99
+msgid "New User"
+msgstr "﻿Nový uživatel"
+
+#: modules/custom-email/admin/custom-email-admin.php:100
+msgid "New User Admin"
+msgstr "Nový správce uživatelů"
+
+#: modules/custom-email/admin/custom-email-admin.php:101
+msgid "Retrieve Password"
+msgstr "Získat heslo"
+
+#: modules/custom-email/admin/custom-email-admin.php:106
+msgid "User Activation"
+msgstr "Aktivace uživatele"
+
+#: modules/custom-email/admin/custom-email-admin.php:107
+msgid "User Approval"
+msgstr "Schválení uživatele"
+
+#: modules/custom-email/admin/custom-email-admin.php:108
+msgid "User Approval Admin"
+msgstr "Admin schválení uživatele"
+
+#: modules/custom-email/admin/custom-email-admin.php:109
+msgid "User Denial"
+msgstr "Odmítnutí uživatele"
+
+#: modules/custom-email/admin/custom-email-admin.php:179
+msgid "This e-mail will be sent to a new user upon registration."
+msgstr "Tento e-mail bude zaslána po registraci nového uživatele."
+
+#: modules/custom-email/admin/custom-email-admin.php:180
+#: modules/custom-email/admin/custom-email-admin.php:285
+msgid ""
+"Please be sure to include the variable %reseturl% or else the user will not "
+"be able to recover their password!"
+msgstr ""
+"Nezapomeňte prosím zahrnout proměnnou %reseturl%, jinak uživatel nebude moci "
+"své heslo obnovit!"
+
+#: modules/custom-email/admin/custom-email-admin.php:181
+#: modules/custom-email/admin/custom-email-admin.php:228
+#: modules/custom-email/admin/custom-email-admin.php:286
+#: modules/custom-email/admin/custom-email-admin.php:333
+#: modules/custom-email/admin/custom-email-admin.php:392
+#: modules/custom-email/admin/custom-email-admin.php:439
+#: modules/custom-email/admin/custom-email-admin.php:486
+#: modules/custom-email/admin/custom-email-admin.php:544
+msgid "If any field is left empty, the default will be used instead."
+msgstr "Pokud nějaké pole zůstane prázdné, bude použita výchozí hodnota."
+
+#: modules/custom-email/admin/custom-email-admin.php:185
+#: modules/custom-email/admin/custom-email-admin.php:236
+#: modules/custom-email/admin/custom-email-admin.php:290
+#: modules/custom-email/admin/custom-email-admin.php:341
+#: modules/custom-email/admin/custom-email-admin.php:396
+#: modules/custom-email/admin/custom-email-admin.php:443
+#: modules/custom-email/admin/custom-email-admin.php:494
+#: modules/custom-email/admin/custom-email-admin.php:548
+msgid "From Name"
+msgstr "Jméno odesílatele"
+
+#: modules/custom-email/admin/custom-email-admin.php:189
+#: modules/custom-email/admin/custom-email-admin.php:240
+#: modules/custom-email/admin/custom-email-admin.php:294
+#: modules/custom-email/admin/custom-email-admin.php:345
+#: modules/custom-email/admin/custom-email-admin.php:400
+#: modules/custom-email/admin/custom-email-admin.php:447
+#: modules/custom-email/admin/custom-email-admin.php:498
+#: modules/custom-email/admin/custom-email-admin.php:552
+msgid "From E-mail"
+msgstr "E-mail odesílatele"
+
+#: modules/custom-email/admin/custom-email-admin.php:193
+#: modules/custom-email/admin/custom-email-admin.php:244
+#: modules/custom-email/admin/custom-email-admin.php:298
+#: modules/custom-email/admin/custom-email-admin.php:349
+#: modules/custom-email/admin/custom-email-admin.php:404
+#: modules/custom-email/admin/custom-email-admin.php:451
+#: modules/custom-email/admin/custom-email-admin.php:502
+#: modules/custom-email/admin/custom-email-admin.php:556
+msgid "E-mail Format"
+msgstr "Formát e-mailu"
+
+#: modules/custom-email/admin/custom-email-admin.php:196
+#: modules/custom-email/admin/custom-email-admin.php:247
+#: modules/custom-email/admin/custom-email-admin.php:301
+#: modules/custom-email/admin/custom-email-admin.php:352
+#: modules/custom-email/admin/custom-email-admin.php:407
+#: modules/custom-email/admin/custom-email-admin.php:454
+#: modules/custom-email/admin/custom-email-admin.php:505
+#: modules/custom-email/admin/custom-email-admin.php:559
+msgid "Plain Text"
+msgstr "Prostý text"
+
+#: modules/custom-email/admin/custom-email-admin.php:197
+#: modules/custom-email/admin/custom-email-admin.php:248
+#: modules/custom-email/admin/custom-email-admin.php:302
+#: modules/custom-email/admin/custom-email-admin.php:353
+#: modules/custom-email/admin/custom-email-admin.php:408
+#: modules/custom-email/admin/custom-email-admin.php:455
+#: modules/custom-email/admin/custom-email-admin.php:506
+#: modules/custom-email/admin/custom-email-admin.php:560
+msgid "HTML"
+msgstr "HTML"
+
+#: modules/custom-email/admin/custom-email-admin.php:202
+#: modules/custom-email/admin/custom-email-admin.php:252
+#: modules/custom-email/admin/custom-email-admin.php:307
+#: modules/custom-email/admin/custom-email-admin.php:358
+#: modules/custom-email/admin/custom-email-admin.php:413
+#: modules/custom-email/admin/custom-email-admin.php:460
+#: modules/custom-email/admin/custom-email-admin.php:511
+#: modules/custom-email/admin/custom-email-admin.php:565
+msgid "Subject"
+msgstr "Předmět"
+
+#: modules/custom-email/admin/custom-email-admin.php:206
+#: modules/custom-email/admin/custom-email-admin.php:256
+#: modules/custom-email/admin/custom-email-admin.php:311
+#: modules/custom-email/admin/custom-email-admin.php:362
+#: modules/custom-email/admin/custom-email-admin.php:417
+#: modules/custom-email/admin/custom-email-admin.php:464
+#: modules/custom-email/admin/custom-email-admin.php:515
+#: modules/custom-email/admin/custom-email-admin.php:569
+msgid "Message"
+msgstr "Zpráva"
+
+#: modules/custom-email/admin/custom-email-admin.php:208
+#: modules/custom-email/admin/custom-email-admin.php:258
+#: modules/custom-email/admin/custom-email-admin.php:313
+#: modules/custom-email/admin/custom-email-admin.php:364
+#: modules/custom-email/admin/custom-email-admin.php:419
+#: modules/custom-email/admin/custom-email-admin.php:466
+#: modules/custom-email/admin/custom-email-admin.php:517
+#: modules/custom-email/admin/custom-email-admin.php:571
+msgid "Available Variables"
+msgstr "Dostupné proměnné"
+
+#: modules/custom-email/admin/custom-email-admin.php:227
+msgid ""
+"This e-mail will be sent to the e-mail address or addresses (multiple "
+"addresses may be separated by commas) specified below, upon new user "
+"registration."
+msgstr ""
+"Tento e-mail bude odeslán na e-mailovou adresu nebo adresy (více adres může "
+"být odděleno čárkami) uvedené níže při registraci nového uživatele."
+
+#: modules/custom-email/admin/custom-email-admin.php:232
+#: modules/custom-email/admin/custom-email-admin.php:337
+#: modules/custom-email/admin/custom-email-admin.php:490
+msgid "To"
+msgstr "Komu"
+
+#: modules/custom-email/admin/custom-email-admin.php:266
+#: modules/custom-email/admin/custom-email-admin.php:372
+#: modules/custom-email/admin/custom-email-admin.php:525
+msgid "Disable Admin Notification"
+msgstr "Zakázat oznámení správci"
+
+#: modules/custom-email/admin/custom-email-admin.php:284
+msgid ""
+"This e-mail will be sent to a user when they attempt to recover their "
+"password."
+msgstr "Tento e-mail bude odeslán uživateli, když se pokusí obnovit své heslo."
+
+#: modules/custom-email/admin/custom-email-admin.php:332
+msgid ""
+"This e-mail will be sent to the e-mail address or addresses (multiple "
+"addresses may be separated by commas) specified below, upon user password "
+"change."
+msgstr ""
+"Tento e-mail bude odeslán na e-mailovou adresu nebo adresy (více adres může "
+"být odděleno čárkami) uvedené níže po změně hesla uživatele."
+
+#: modules/custom-email/admin/custom-email-admin.php:390
+msgid ""
+"This e-mail will be sent to a new user upon registration when \"E-mail "
+"Confirmation\" is checked for \"User Moderation\"."
+msgstr ""
+"Tento e-mail bude odeslán novému uživateli po registraci, když je zatrhnuto "
+"\"Potvrzení e-mailu\" pro \"Moderování uživatelů\"."
+
+#: modules/custom-email/admin/custom-email-admin.php:391
+msgid ""
+"Please be sure to include the variable %activateurl% or else the user will "
+"not be able to activate their account!"
+msgstr ""
+"Nezapomeňte prosím zahrnout proměnnou %activateurl%, jinak uživatel nebude "
+"schopen svůj účet aktivovat!"
+
+#: modules/custom-email/admin/custom-email-admin.php:438
+msgid ""
+"This e-mail will be sent to a new user upon admin approval when \"Admin "
+"Approval\" is checked for \"User Moderation\"."
+msgstr ""
+"Tento e-mail bude odeslán novému uživateli po schválení správcem, když je "
+"zatrhnuto \"Schválení správcem\" pro \"Moderování uživatelů\"."
+
+#: modules/custom-email/admin/custom-email-admin.php:485
+msgid ""
+"This e-mail will be sent to the e-mail address or addresses (multiple "
+"addresses may be separated by commas) specified below upon user registration "
+"when \"Admin Approval\" is checked for \"User Moderation\"."
+msgstr ""
+"Tento e-mail bude odeslán na e-mailovou adresu nebo adresy (více adres může "
+"být odděleno čárkami) uvedené níže při registraci uživatele, když je "
+"zatrhnuto \"Schválení správcem\" pro \"Moderování uživatelů\"."
+
+#: modules/custom-email/admin/custom-email-admin.php:543
+msgid ""
+"This e-mail will be sent to a user who is deleted/denied when \"Admin "
+"Approval\" is checked for \"User Moderation\" and the user's role is "
+"\"Pending\"."
+msgstr ""
+"Tento e-mail bude odeslán uživateli, který je odstraněn/odmítnut, když je "
+"zatrhnuto \"Schválení správcem\" pro \"Moderování uživatelů\" a role "
+"uživatele je \"Čekající\"."
+
+#: modules/custom-email/admin/custom-email-admin.php:579
+msgid "Disable Notification"
+msgstr "Zakázat oznámení"
+
+#: modules/custom-email/custom-email.php:819
+msgid "New user registration on your site %s:"
+msgstr "Registrace nového uživatele na vaše stránky %s:"
+
+#: modules/custom-email/custom-email.php:821
+#: modules/user-moderation/user-moderation.php:476
+msgid "E-mail: %s"
+msgstr "E-mail: %s"
+
+#: modules/custom-email/custom-email.php:823
+msgid "[%s] New User Registration"
+msgstr "[%s] Registrace nového uživatele"
+
+#: modules/custom-email/custom-email.php:850
+msgid "To set your password, visit the following address:"
+msgstr "Pro obnovení vašeho hesla navštivte následující adresu:"
+
+#: modules/custom-email/custom-email.php:855
+msgid "[%s] Your username and password info"
+msgstr "[%s] Informace o vašem uživatelském jménu a heslu"
+
+#: modules/custom-email/custom-email.php:883
+msgid "[%s] Password Lost/Changed"
+msgstr "[%s] Ztracené/změněné heslo"
+
+#: modules/custom-email/custom-email.php:884
+msgid "Password Lost and Changed for user: %s"
+msgstr "Heslo ztraceno a změněno pro uživatele: %s"
+
+#: modules/custom-passwords/custom-passwords.php:68
+#: templates/login-form.php:23
+msgid "Password"
+msgstr "Heslo"
+
+#: modules/custom-passwords/custom-passwords.php:70
+#: templates/profile-form.php:175
+msgid "Confirm Password"
+msgstr "Potvrdit heslo"
+
+#: modules/custom-passwords/custom-passwords.php:100
+msgid "(Must be at least 6 characters.)"
+msgstr "(Musí být nejméně 6 znaků.)"
+
+#: modules/custom-passwords/custom-passwords.php:102
+msgid "Confirm Password:"
+msgstr "Potvrdit heslo:"
+
+#: modules/custom-passwords/custom-passwords.php:104
+msgid "Confirm that you've typed your password correctly."
+msgstr "Potvrďte, že jste zadali heslo správně."
+
+#: modules/custom-passwords/custom-passwords.php:141
+msgid "<strong>ERROR</strong>: Please enter your password twice."
+msgstr "<strong>CHYBA</strong>: Zadejte své heslo dvakrát."
+
+#: modules/custom-passwords/custom-passwords.php:145
+msgid "<strong>ERROR</strong>: Passwords may not contain the character \"\\\"."
+msgstr "<strong>CHYBA</strong>: Heslo nesmí obsahovat znak \"\\\"."
+
+#: modules/custom-passwords/custom-passwords.php:149
+msgid ""
+"<strong>ERROR</strong>: Please enter the same password in the two password "
+"fields."
+msgstr "<strong>CHYBA</strong>: Zadejte stejné heslo do obou polí s heslem."
+
+#: modules/custom-passwords/custom-passwords.php:153
+msgid ""
+"<strong>ERROR</strong>: Your password must be at least 6 characters in "
+"length."
+msgstr "<strong>CHYBA</strong>: Vaše heslo musí být nejméně 6 znaků dlouhé."
+
+#: modules/custom-passwords/custom-passwords.php:282
+msgid "Registration complete. You may now log in."
+msgstr "Registrace kompletní. Nyní se můžete přihlásit."
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:86
+#: modules/custom-redirection/admin/custom-redirection-admin.php:134
+msgid "Theme My Login Custom Redirection Settings"
+msgstr "Nastavení vlastního přesměrování Theme My Login"
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:87
+msgid "Redirection"
+msgstr "Přesměrování"
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:167
+msgid "Log in"
+msgstr "Přihlásit se"
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:169
+#: modules/custom-redirection/admin/custom-redirection-admin.php:183
+msgid "Default"
+msgstr "Výchozí"
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:170
+msgid ""
+"Check this option to send the user to their WordPress Dashboard/Profile."
+msgstr ""
+"Zatrhněte tuto volbu pro přesměrování uživatele na jeho nástěnku WordPressu/"
+"profil."
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:172
+#: modules/custom-redirection/admin/custom-redirection-admin.php:186
+msgid "Referer"
+msgstr "Odkazující server"
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:173
+msgid ""
+"Check this option to send the user back to the page they were visiting "
+"before logging in."
+msgstr ""
+"Zatrhněte tuto volbu pro přesměrování uživatele zpět na stránku, kterou "
+"navštívil před přihlášením."
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:177
+#: modules/custom-redirection/admin/custom-redirection-admin.php:191
+msgid ""
+"Check this option to send the user to a custom location, specified by the "
+"textbox above."
+msgstr ""
+"Zatrhněte tuto volbu pro přesměrování uživatele na vlastní URL, určené "
+"textovým polem výše."
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:181
+msgid "Log out"
+msgstr "Odhlásit se"
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:184
+msgid ""
+"Check this option to send the user to the log in page, displaying a message "
+"that they have successfully logged out."
+msgstr ""
+"Zaškrtněte tuto volbu pro přesměrování uživatele na přihlašovací stránku "
+"zobrazující zprávu, že byl úspěšně odhlášen."
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:187
+msgid ""
+"Check this option to send the user back to the page they were visiting "
+"before logging out. (Note: If the previous page being visited was an admin "
+"page, this can have unexpected results.)"
+msgstr ""
+"Zatrhněte tuto volbu pro přesměrování uživatele zpět na stránku, kterou "
+"navštívili před odhlášením. (Poznámka: Pokud předchozí navštívená stránka "
+"byla stránka administrace, může to vést k neočekávaným výsledkům.)"
+
+#: modules/custom-user-links/admin/custom-user-links-admin.php:94
+#: modules/custom-user-links/admin/custom-user-links-admin.php:145
+msgid "Theme My Login Custom User Links Settings"
+msgstr "Nastavení vlastních uživatelských odkazů Theme My Login"
+
+#: modules/custom-user-links/admin/custom-user-links-admin.php:95
+msgid "User Links"
+msgstr "Uživatelské odkazy"
+
+#: modules/custom-user-links/admin/custom-user-links-admin.php:182
+#: modules/custom-user-links/admin/custom-user-links-admin.php:232
+msgid "Title"
+msgstr "Titulek"
+
+#: modules/custom-user-links/admin/custom-user-links-admin.php:183
+#: modules/custom-user-links/admin/custom-user-links-admin.php:233
+msgid "URL"
+msgstr "URL"
+
+#: modules/custom-user-links/admin/custom-user-links-admin.php:206
+msgid "Add Link"
+msgstr "Přidat odkaz"
+
+#: modules/custom-user-links/admin/custom-user-links-admin.php:236
+msgid "Delete"
+msgstr "Odstranit"
+
+#: modules/custom-user-links/admin/custom-user-links-admin.php:238
+msgid "Update"
+msgstr "Aktualizovat"
+
+#: modules/recaptcha/admin/recaptcha-admin.php:89
+#: modules/recaptcha/admin/recaptcha-admin.php:139
+msgid "Theme My Login reCAPTCHA Settings"
+msgstr "Nastavení reCAPTCHA Theme My Login"
+
+#: modules/recaptcha/admin/recaptcha-admin.php:90
+msgid "reCAPTCHA"
+msgstr "reCAPTCHA"
+
+#: modules/recaptcha/admin/recaptcha-admin.php:98
+msgid "Site Key"
+msgstr "Klíč webu"
+
+#: modules/recaptcha/admin/recaptcha-admin.php:99
+msgid "Secret Key"
+msgstr "Tajný klíč"
+
+#: modules/recaptcha/admin/recaptcha-admin.php:100
+msgid "Theme"
+msgstr "Téma"
+
+#: modules/recaptcha/admin/recaptcha-admin.php:123
+msgctxt "recaptcha theme"
+msgid "Light"
+msgstr "Světlý [motiv recaptcha]"
+
+#: modules/recaptcha/admin/recaptcha-admin.php:124
+msgctxt "recaptcha theme"
+msgid "Dark"
+msgstr "Tmavý [motiv recaptcha]"
+
+#: modules/recaptcha/recaptcha.php:108
+msgid "<strong>ERROR</strong>: Invalid reCAPTCHA secret key."
+msgstr "<strong>CHYBA</strong>: Neplatný soukromý klíč reCAPTCHA."
+
+#: modules/recaptcha/recaptcha.php:112
+msgid ""
+"<strong>ERROR</strong>: Please check the box to prove that you are not a "
+"robot."
+msgstr ""
+"<strong>CHYBA</strong>: Zkontrolujte prosím pole, abyste dokázali, že nejste "
+"robot."
+
+#: modules/recaptcha/recaptcha.php:116
+msgid "<strong>ERROR</strong>: Unable to reach the reCAPTCHA server."
+msgstr "<strong>CHYBA</strong>: Nelze navázat spojení s reCAPTCHA serverem."
+
+#: modules/security/admin/security-admin.php:89
+#: modules/security/admin/security-admin.php:121
+msgid "Theme My Login Security Settings"
+msgstr "Nastavení bezpečnosti Theme My Login"
+
+#: modules/security/admin/security-admin.php:90
+msgid "Security"
+msgstr "Bezpečnost"
+
+#: modules/security/admin/security-admin.php:98
+msgid "Private Site"
+msgstr "Soukromé stránky"
+
+#: modules/security/admin/security-admin.php:99
+msgid "Private Login"
+msgstr "Soukromé přihlášení"
+
+#: modules/security/admin/security-admin.php:100
+msgid "Login Attempts"
+msgstr "Pokusy o přihlášení"
+
+#: modules/security/admin/security-admin.php:135
+msgid "Require users to be logged in to view site"
+msgstr "Vyžadovat, aby byli uživatelé pro prohlížení stránek přihlášeni"
+
+#: modules/security/admin/security-admin.php:148
+msgid "Disable <tt>wp-login.php</tt>"
+msgstr "Zakázat <tt>wp-login.php</tt>"
+
+#: modules/security/admin/security-admin.php:161
+msgid "minute(s)"
+msgstr "minut"
+
+#: modules/security/admin/security-admin.php:162
+msgid "hour(s)"
+msgstr "hodin"
+
+#: modules/security/admin/security-admin.php:163
+msgid "day(s)"
+msgstr "dnů"
+
+#: modules/security/admin/security-admin.php:190
+msgid ""
+"After %1$s failed login attempts within %2$s %3$s, lockout the account for "
+"%4$s %5$s."
+msgstr ""
+"Po %1$s neúspěšných pokusech o přihlášení do %2$s %3$s uzamknout účet na "
+"%4$s %5$s."
+
+#: modules/security/admin/security-admin.php:241
+#: modules/security/admin/security-admin.php:244
+#: modules/user-moderation/admin/user-moderation-admin.php:232
+#: modules/user-moderation/admin/user-moderation-admin.php:242
+msgid "You can&#8217;t edit that user."
+msgstr "Nemůžete upravit tohoto uživatele."
+
+#: modules/security/admin/security-admin.php:276
+msgid "User locked."
+msgstr "Uživatel uzamčen."
+
+#: modules/security/admin/security-admin.php:278
+msgid "User unlocked."
+msgstr "Uživatel odemčen."
+
+#: modules/security/admin/security-admin.php:301
+msgid "Unlock"
+msgstr "Odemknout"
+
+#: modules/security/admin/security-admin.php:303
+msgid "Lock"
+msgstr "Uzamknout"
+
+#: modules/security/security.php:167
+msgid "Your account has been unlocked. You may now log in."
+msgstr "Váš účet byl odemčen. Nyní se můžete přihlásit."
+
+#: modules/security/security.php:185 modules/security/security.php:188
+#: modules/security/security.php:191 modules/security/security.php:194
+#: modules/user-moderation/user-moderation.php:350
+#: modules/user-moderation/user-moderation.php:353
+#: modules/user-moderation/user-moderation.php:358
+msgid "Invalid key"
+msgstr "Neplatný klíč"
+
+#: modules/security/security.php:226 modules/security/security.php:249
+msgid ""
+"<strong>ERROR</strong>: This account has been locked because of too many "
+"failed login attempts. You may try again in %s."
+msgstr ""
+"<strong>CHYBA</strong>: Tento účet byl uzamčen kvůli příliš mnoha nezdařeným "
+"pokusům o přihlášení. Můžete zkusit znovu v %s."
+
+#: modules/security/security.php:228
+msgid "<strong>ERROR</strong>: This account has been locked."
+msgstr "<strong>CHYBA</strong>: Tento účet byl uzamčen."
+
+#: modules/security/security.php:293
+msgid "Failed Login Attempts"
+msgstr "Neúspěšné pokusy o přihlášení"
+
+#: modules/security/security.php:297
+msgid "IP Address"
+msgstr "IP adresa"
+
+#: modules/security/security.php:298
+msgid "Date"
+msgstr "Datum"
+
+#: modules/security/security.php:301 modules/security/security.php:604
+msgid "Y/m/d g:i:s A"
+msgstr "d.m.Y G:i:s"
+
+#: modules/security/security.php:306
+msgid "%s ago"
+msgstr "%s nazpět"
+
+#: modules/security/security.php:308
+msgid "Y/m/d"
+msgstr "d.m.Y"
+
+#: modules/security/security.php:596
+msgid "[%s] Account Locked"
+msgstr "[%s] Účet uzamčen"
+
+#: modules/security/security.php:597
+msgid ""
+"For your security, your account has been locked because of too many failed "
+"login attempts. To unlock your account please click the following link: "
+msgstr ""
+"Pro vaši bezpečnost byl váš účet uzamčen kvůli příliš mnoha nezdařeným "
+"pokusům o přihlášení. Chcete-li svůj účet odemknout, klikněte prosím na "
+"následující odkaz:"
+
+#: modules/security/security.php:602
+msgid "The following attempts resulted in the lock:"
+msgstr "Následující pokusy vyústily v uzamčení:"
+
+#: modules/themed-profiles/admin/themed-profiles-admin.php:73
+msgid "Your Profile"
+msgstr "Váš profil"
+
+#: modules/themed-profiles/admin/themed-profiles-admin.php:108
+#: modules/themed-profiles/admin/themed-profiles-admin.php:143
+msgid "Theme My Login Themed Profiles Settings"
+msgstr "Nastavení přizpůsobených profilů Theme My Login"
+
+#: modules/themed-profiles/admin/themed-profiles-admin.php:109
+#: modules/themed-profiles/admin/themed-profiles-admin.php:117
+msgid "Themed Profiles"
+msgstr "Přizpůsobené profily"
+
+#: modules/themed-profiles/admin/themed-profiles-admin.php:118
+msgid "Restrict Admin Access"
+msgstr "Omezit přístup správce"
+
+#: modules/themed-profiles/themed-profiles.php:255
+msgid "You do not have permission to edit this user."
+msgstr "Nemáte oprávnění pro upravení tohoto uživatele."
+
+#: modules/themed-profiles/themed-profiles.php:292
+msgid "Profile updated."
+msgstr "Profil aktualizován."
+
+#: modules/user-moderation/admin/user-moderation-admin.php:86
+msgid "User Moderation is not currently compatible with multisite."
+msgstr "Moderování uživatelů není v současnosti kompatibilní se sítí stránek."
+
+#: modules/user-moderation/admin/user-moderation-admin.php:136
+#: modules/user-moderation/admin/user-moderation-admin.php:168
+msgid "Theme My Login User Moderation Settings"
+msgstr "Nastavení Moderování uživatelů Theme My Login"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:137
+msgid "Moderation"
+msgstr "Moderování"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:145
+msgid "Moderation Type"
+msgstr "Typ moderování"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:182
+msgid "None"
+msgstr "Žádné"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:183
+msgid "Check this option to require no moderation."
+msgstr "Zatrhněte tuto volbu pro nevyžadování žádného moderování."
+
+#: modules/user-moderation/admin/user-moderation-admin.php:186
+msgid "E-mail Confirmation"
+msgstr "E-mailové potvrzení"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:187
+msgid ""
+"Check this option to require new users to confirm their e-mail address "
+"before they may log in."
+msgstr ""
+"Zatrhněte tuto volbu pro vyžadování toho, aby noví uživatelé potvrdili svou "
+"e-mailovou adresu předtím, než se budou moci přihlásit."
+
+#: modules/user-moderation/admin/user-moderation-admin.php:190
+msgid "Admin Approval"
+msgstr "Schválení správcem"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:191
+msgid ""
+"Check this option to require new users to be approved by an administrator "
+"before they may log in."
+msgstr ""
+"Zatrhněte tuto volbu pro vyžadování schválení nových uživatelů správcem "
+"předtím, než se budou moci přihlásit."
+
+#: modules/user-moderation/admin/user-moderation-admin.php:275
+msgid "User approved."
+msgstr "Uživatel schválen."
+
+#: modules/user-moderation/admin/user-moderation-admin.php:277
+msgid "Activation sent."
+msgstr "Aktivace zaslána."
+
+#: modules/user-moderation/admin/user-moderation-admin.php:308
+msgid "Resend Activation"
+msgstr "Znovu zaslat aktivaci"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:318
+msgid "Approve"
+msgstr "Schválit"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:378
+msgid "You have been approved access to %s"
+msgstr "Byl vám schválen přístup k %s"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:380
+msgid "Password: %s"
+msgstr "Heslo: %s"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:383
+msgid "[%s] Registration Approved"
+msgstr "[%s] Registrace schválena"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:424
+msgid "You have been denied access to %s"
+msgstr "Byl vám odmítnut přístup k %s"
+
+#: modules/user-moderation/admin/user-moderation-admin.php:425
+msgid "[%s] Registration Denied"
+msgstr "[%s] Registrace odmítnuta"
+
+#: modules/user-moderation/user-moderation.php:157
+msgid ""
+"<strong>ERROR</strong>: You have not yet confirmed your e-mail address. <a "
+"href=\"%s\">Resend activation</a>?"
+msgstr ""
+"<strong>CHYBA</strong>: Dosud jste nepotvrdili svoji e-mailovou adresu. <a "
+"href=\"%s\">Znovu poslat aktivaci</a>?"
+
+#: modules/user-moderation/user-moderation.php:161
+msgid "<strong>ERROR</strong>: Your registration has not yet been approved."
+msgstr "<strong>CHYBA</strong>: Vaše registrace ještě nebyla schválena."
+
+#: modules/user-moderation/user-moderation.php:200
+msgid ""
+"Your registration was successful but you must now confirm your email address "
+"before you can log in. Please check your email and click on the link "
+"provided."
+msgstr ""
+"Vaše registrace byla úspěšná, ale musíte teď potvrdit svou e-mailovou "
+"adresu, než se budete moci přihlásit. Zkontrolujte prosím svůj e-mail a "
+"klikněte na odkaz."
+
+#: modules/user-moderation/user-moderation.php:203
+msgid ""
+"Your registration was successful but you must now be approved by an "
+"administrator before you can log in. You will be notified by e-mail once "
+"your account has been reviewed."
+msgstr ""
+"Vaše registrace byla úspěšná, ale musíte být nyní schválen administrátorem, "
+"než se budete moci přihlásit. Budete upozorněni e-mailem, jakmile bude váš "
+"účet přezkoumán."
+
+#: modules/user-moderation/user-moderation.php:212
+msgid "Your account has been activated. You may now log in."
+msgstr "Váš účet byl aktivován. Nyní se můžete přihlásit."
+
+#: modules/user-moderation/user-moderation.php:214
+msgid ""
+"Your account has been activated. Please check your e-mail for your password."
+msgstr ""
+"Váš účet byl aktivován. Zkontrolujte prosím svůj e-mail pro vaše heslo."
+
+#: modules/user-moderation/user-moderation.php:217
+msgid "<strong>ERROR</strong>: Sorry, that key does not appear to be valid."
+msgstr "<strong>CHYBA</strong>: Je nám líto, tento klíč nevypadá jako platný."
+
+#: modules/user-moderation/user-moderation.php:225
+msgid "<strong>ERROR</strong>: Sorry, the activation e-mail could not be sent."
+msgstr "<strong>CHYBA</strong>: Je nám líto, aktivační e-mail nelze odeslat."
+
+#: modules/user-moderation/user-moderation.php:228
+msgid ""
+"The activation e-mail has been sent to the e-mail address with which you "
+"registered. Please check your email and click on the link provided."
+msgstr ""
+"Aktivační e-mail byla odeslán na e-mailovou adresu, pod kterou jste "
+"registrováni. Zkontrolujte prosím svůj e-mail a klikněte na poskytnutý odkaz."
+
+#: modules/user-moderation/user-moderation.php:438
+msgid "[%s] Activate Your Account"
+msgstr "[%s] Aktivujte váš účet"
+
+#: modules/user-moderation/user-moderation.php:439
+msgid ""
+"Thanks for registering at %s! To complete the activation of your account "
+"please click the following link: "
+msgstr ""
+"Děkujeme za registraci na %s! K dokončení aktivace účtu klikněte prosím na "
+"následující odkaz:"
+
+#: modules/user-moderation/user-moderation.php:472
+msgid "[%s] New User Awaiting Approval"
+msgstr "[%s] Nových uživatelů čeká na schválení"
+
+#: modules/user-moderation/user-moderation.php:474
+msgid "New user requires approval on your blog %s:"
+msgstr "Nový uživatel vyžaduje schválení na vašem blogu %s:"
+
+#: modules/user-moderation/user-moderation.php:477
+msgid "To approve or deny this user:"
+msgstr "Pro schválení nebo zamítnutí tohoto uživatele:"
+
+#: templates/login-form.php:18 templates/profile-form.php:37
+#: templates/register-form.php:13
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: templates/login-form.php:32
+msgid "Remember Me"
+msgstr "Pamatovat si mě"
+
+#: templates/lostpassword-form.php:12
+msgid "Username or E-mail:"
+msgstr "Uživatelské jméno nebo e-mail:"
+
+#: templates/lostpassword-form.php:19
+msgid "Get New Password"
+msgstr "Získat nové heslo"
+
+#: templates/ms-signup-another-blog-form.php:7
+msgid "Get <em>another</em> %s site in seconds"
+msgstr "Získat <em>další</em> %s stránky za chvilku"
+
+#: templates/ms-signup-another-blog-form.php:10
+msgid "There was a problem, please correct the form below and try again."
+msgstr ""
+"Došlo k problému, prosím opravte níže uvedený formulář a opakujte akci."
+
+#: templates/ms-signup-another-blog-form.php:13
+msgid ""
+"Welcome back, %s. By filling out the form below, you can <strong>add another "
+"site to your account</strong>. There is no limit to the number of sites you "
+"can have, so create to your heart&#8217;s content, but write responsibly!"
+msgstr ""
+"Vítejte zpět, %s. Vyplněním níže uvedeného formuláře, můžete <strong>ke "
+"svému účtu přidat další stránky</strong>. Neexistuje žádný limit na počet "
+"stránek, které můžete mít, tak vytvářejte do sytosti, ale pište zodpovědně!"
+
+#: templates/ms-signup-another-blog-form.php:18
+msgid "Sites you are already a member of:"
+msgstr "Stránky, kterých jste již členem:"
+
+#: templates/ms-signup-another-blog-form.php:27
+msgid ""
+"If you&#8217;re not going to use a great site domain, leave it for a new "
+"user. Now have at it!"
+msgstr ""
+"Pokud nebudete používat rozsáhlou síť stránek, ponechte to pro nového "
+"uživatele. Teď jdeme na to!"
+
+#: templates/ms-signup-another-blog-form.php:34
+#: templates/ms-signup-blog-form.php:15
+msgid "Site Name:"
+msgstr "Název stránek:"
+
+#: templates/ms-signup-another-blog-form.php:36
+#: templates/ms-signup-blog-form.php:17
+msgid "Site Domain:"
+msgstr "Doména stránek:"
+
+#: templates/ms-signup-another-blog-form.php:53
+#: templates/ms-signup-blog-form.php:34
+msgid "sitename"
+msgstr "adresa stránek"
+
+#: templates/ms-signup-another-blog-form.php:55
+#: templates/ms-signup-blog-form.php:36
+msgid "domain"
+msgstr "doména"
+
+#: templates/ms-signup-another-blog-form.php:56
+#: templates/ms-signup-blog-form.php:37
+msgid "Your address will be %s."
+msgstr "Vaše adresa bude %s."
+
+#: templates/ms-signup-another-blog-form.php:56
+#: templates/ms-signup-blog-form.php:37
+msgid ""
+"Must be at least 4 characters, letters and numbers only. It cannot be "
+"changed, so choose carefully!"
+msgstr ""
+"Musí být nejméně 4 znaky, pouze písmena a čísla. To nemůže být změněno, "
+"takže vybírejte pečlivě!"
+
+#: templates/ms-signup-another-blog-form.php:59
+#: templates/ms-signup-blog-form.php:40
+msgid "Site Title:"
+msgstr "Název stránek:"
+
+#: templates/ms-signup-another-blog-form.php:67
+#: templates/ms-signup-blog-form.php:48
+msgid "Privacy:"
+msgstr "Soukromí:"
+
+#: templates/ms-signup-another-blog-form.php:68
+#: templates/ms-signup-blog-form.php:49
+msgid "Allow search engines to index this site."
+msgstr "Umožnit vyhledávačům indexovat tyto stránky."
+
+#: templates/ms-signup-another-blog-form.php:72
+#: templates/ms-signup-blog-form.php:53
+msgid "Yes"
+msgstr "Ano"
+
+#: templates/ms-signup-another-blog-form.php:76
+#: templates/ms-signup-blog-form.php:57
+msgid "No"
+msgstr "Ne"
+
+#: templates/ms-signup-another-blog-form.php:83
+msgid "Create Site"
+msgstr "Vytvořit stránky"
+
+#: templates/ms-signup-blog-form.php:64
+msgid "Signup"
+msgstr "Registrace"
+
+#: templates/ms-signup-user-form.php:7
+msgid "Get your own %s account in seconds"
+msgstr "Získejte svůj vlastní účet %s ve chvilce."
+
+#: templates/ms-signup-user-form.php:20
+msgid "(Must be at least 4 characters, letters and numbers only.)"
+msgstr "(Musí být alespoň 4 znaky, pouze písmena a čísla)."
+
+#: templates/ms-signup-user-form.php:22
+msgid "Email&nbsp;Address:"
+msgstr "E-mail&nbsp;adresa:"
+
+#: templates/ms-signup-user-form.php:28
+msgid ""
+"We send your registration email to this address. (Double-check your email "
+"address before continuing.)"
+msgstr ""
+"Pošleme váš registrační e-mail na tuto adresu. (Před pokračováním raději "
+"dvakrát zkontrolujte svoji e-mailovou adresu.)"
+
+#: templates/ms-signup-user-form.php:42
+msgid "Gimme a site!"
+msgstr "Sem s těmi stránkami!"
+
+#: templates/ms-signup-user-form.php:45
+msgid "Just a username, please."
+msgstr "Jen uživatelské jméno, prosím."
+
+#: templates/ms-signup-user-form.php:49
+msgid "Next"
+msgstr "Další"
+
+#: templates/profile-form.php:18
+msgid "Personal Options"
+msgstr "Osobní možnosti"
+
+#: templates/profile-form.php:22
+msgid "Toolbar"
+msgstr "Panel nástrojů"
+
+#: templates/profile-form.php:25
+msgid "Show Toolbar when viewing site"
+msgstr "Zobrazit panel nástrojů při prohlížení stránek"
+
+#: templates/profile-form.php:33
+msgid "Name"
+msgstr "Jméno"
+
+#: templates/profile-form.php:38
+msgid "Usernames cannot be changed."
+msgstr "Uživatelská jména nemohou být změněna."
+
+#: templates/profile-form.php:42
+msgid "First Name"
+msgstr "Jméno"
+
+#: templates/profile-form.php:47
+msgid "Last Name"
+msgstr "Příjmení"
+
+#: templates/profile-form.php:52
+msgid "Nickname"
+msgstr "Přezdívka"
+
+#: templates/profile-form.php:52 templates/profile-form.php:97
+msgid "(required)"
+msgstr "(vyžadováno)"
+
+#: templates/profile-form.php:57
+msgid "Display name publicly as"
+msgstr "Zobrazit jméno veřejně jako"
+
+#: templates/profile-form.php:93
+msgid "Contact Info"
+msgstr "Kontaktní informace"
+
+#: templates/profile-form.php:105
+msgid ""
+"There is a pending change of your e-mail to %1$s. <a href=\"%2$s\">Cancel</a>"
+msgstr ""
+"Je tam probíhající změna vašeho e-mailu na %1$s. <a href=\"%2$s\">Zrušit</a>"
+
+#: templates/profile-form.php:114
+msgid "Website"
+msgstr "Webová stránka:"
+
+#: templates/profile-form.php:130
+msgid "About Yourself"
+msgstr "O vás"
+
+#: templates/profile-form.php:134
+msgid "Biographical Info"
+msgstr "Životopisné informace"
+
+#: templates/profile-form.php:136
+msgid ""
+"Share a little biographical information to fill out your profile. This may "
+"be shown publicly."
+msgstr ""
+"Sdílejte trochu biografických informací pro naplnění vašeho profilu. Ty "
+"mohou být veřejně zobrazeny."
+
+#: templates/profile-form.php:145
+msgid "Account Management"
+msgstr "Správa účtu"
+
+#: templates/profile-form.php:148
+msgid "New Password"
+msgstr "Nové heslo"
+
+#: templates/profile-form.php:151
+msgid "Generate Password"
+msgstr "Generovat heslo"
+
+#: templates/profile-form.php:157
+msgid "Hide password"
+msgstr "Skrýt heslo"
+
+#: templates/profile-form.php:159
+msgid "Hide"
+msgstr "Skrýt"
+
+#: templates/profile-form.php:161
+msgid "Cancel password change"
+msgstr "Zrušit změnu hesla"
+
+#: templates/profile-form.php:162
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: templates/profile-form.php:168
+msgid "Repeat New Password"
+msgstr "Opakujte nové heslo"
+
+#: templates/profile-form.php:171
+msgid "Type your new password again."
+msgstr "Zadejte nové heslo znovu."
+
+#: templates/profile-form.php:179
+msgid "Confirm use of weak password"
+msgstr "Potvrdit použití slabého hesla"
+
+#: templates/profile-form.php:193
+msgid "Update Profile"
+msgstr "Aktualizovat profil"
+
+#: templates/register-form.php:25
+msgid "Registration confirmation will be e-mailed to you."
+msgstr "Potvrzení registrace vám bude zasláno e-mailem."
+
+#: templates/resetpass-form.php:12
+msgid "New password"
+msgstr "Nové heslo"
+
+#: templates/resetpass-form.php:17
+msgid "Strength indicator"
+msgstr "Ukazatel síly"
+
+#: templates/resetpass-form.php:22
+msgid "Confirm new password"
+msgstr "Potvrďte nové heslo"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.jfarthing.com/extend/wordpress-plugins/theme-my-login/"
+msgstr "http://www.jfarthing.com/extend/wordpress-plugins/theme-my-login/"
+
+#. Description of the plugin/theme
+msgid ""
+"Themes the WordPress login, registration and forgot password pages according "
+"to your theme."
+msgstr ""
+"Přizpůsobí stránky WordPressu pro přihlášení, registraci a zapomenuté heslo "
+"vašemu tématu."
+
+#. Author of the plugin/theme
+msgid "Jeff Farthing"
+msgstr "Jeff Farthing"
+
+#. Author URI of the plugin/theme
+msgid "http://www.jfarthing.com"
+msgstr "http://www.jfarthing.com"
+
+#~ msgid "E-mail Login"
+#~ msgstr "Přihlášení e-mailem"
+
+#~ msgid "Enable e-mail address login"
+#~ msgstr "Povolit přihlášení e-mailovou adresou"
+
+#~ msgid ""
+#~ "Allows users to login using their e-mail address in place of their "
+#~ "username."
+#~ msgstr ""
+#~ "Umožňuje uživatelům přihlásit pomocí své e-mailové adresy namísto jejich "
+#~ "uživatelského jména."
+
+#~ msgid "Sorry, that key does not appear to be valid."
+#~ msgstr "Omlouváme se, tento klíč se nezdá být platným."
+
+#~ msgid ""
+#~ "Please be sure to include the variable %user_pass% if using default "
+#~ "passwords or else the user will not know their password!"
+#~ msgstr ""
+#~ "Nezapomeňte prosím zahrnout proměnnou %user_pass%, pokud se používají "
+#~ "výchozí hesla, jinak se uživatel své heslo nedozví!"
+
+#~ msgid "[%s] Your username and password"
+#~ msgstr "[%s] Vaše uživatelské jméno a heslo"
+
+#~ msgid "Public Key"
+#~ msgstr "Veřejný klíč"
+
+#~ msgid "Private Key"
+#~ msgstr "Soukromý klíč"
+
+#~ msgctxt "recaptcha theme"
+#~ msgid "Red (Default)"
+#~ msgstr "Červené (Výchozí)"
+
+#~ msgctxt "recaptcha theme"
+#~ msgid "White"
+#~ msgstr "Bílé"
+
+#~ msgctxt "recaptcha theme"
+#~ msgid "Black Glass"
+#~ msgstr "Černé sklo"
+
+#~ msgctxt "recaptcha theme"
+#~ msgid "Clean"
+#~ msgstr "Čisté"
+
+#~ msgid "<strong>ERROR</strong>: Invalid reCAPTCHA private key."
+#~ msgstr "<strong>CHYBA</strong>: Neplatný soukromý klíč reCAPTCHA."
+
+#~ msgid "<strong>ERROR</strong>: Invalid reCAPTCHA challenge parameter."
+#~ msgstr "<strong>CHYBA</strong>: Neplatný parametr challenge reCAPTCHA."
+
+#~ msgid "<strong>ERROR</strong>: Incorrect captcha code."
+#~ msgstr "<strong>CHYBA</strong>: Nesprávný captcha kód."
+
+#~ msgid "Your username cannot be changed."
+#~ msgstr "Vaše uživatelské jméno nelze změnit."
+
+#~ msgid ""
+#~ "If you would like to change the password type a new one. Otherwise leave "
+#~ "this blank."
+#~ msgstr ""
+#~ "Pokud chcete heslo změnit, zadejte nové. V opačném případě nechte pole "
+#~ "prázdné."
+
+#~ msgid ""
+#~ "Hint: The password should be at least seven characters long. To make it "
+#~ "stronger, use upper and lower case letters, numbers and symbols like ! "
+#~ "\" ? $ % ^ &amp; )."
+#~ msgstr ""
+#~ "Tip: Heslo by mělo být alespoň sedm znaků.  Použijte velká a malá "
+#~ "písmena, čísla a symboly jako ! \" ? $ % ^ &amp; ), aby bylo bezpečnější."
+
+#~ msgid "A password will be e-mailed to you."
+#~ msgstr "Heslo vám bude zasláno e-mailem."
