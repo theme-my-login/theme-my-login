@@ -1,5 +1,5 @@
 .login {
-	max-width: 320px;
+	/* max-width: 320px; */
 }
 
 .login * {
@@ -24,6 +24,11 @@
 	background-color: #ffffe0;
 }
 
+.login p.user-pass1-wrap,
+.login p.user-pass2-wrap {
+	margin: 0;
+}
+
 .login label {
 	display: block;
 	text-align: left;
@@ -32,7 +37,6 @@
 .login .forgetmenot label {
 	display: inline;
 }
-
 
 .login input,
 .login textarea,
@@ -162,19 +166,19 @@
 
 @media screen and (min-width: 768px) {
 	.login .forgetmenot {
-		float: left;
+		float: none;
 	}
 
 	.login .forgetmenot input {
 		margin: 1em 0;
 	}
-
+	
 	.login .submit {
-		float: right;
+		float: none;
 	}
 
 	.login .submit input {
-		margin: -0.5em 0 0;
+		margin: 0;
 		width: auto;
 	}
 }
