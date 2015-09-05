@@ -436,6 +436,7 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 		?>
 		<p class="description">
 			<?php _e( 'This e-mail will be sent to a new user upon admin approval when "Admin Approval" is checked for "User Moderation".', 'theme-my-login' ); ?>
+			<?php _e( 'Please be sure to include the variable %reseturl% or else the user will not be able to recover their password!', 'theme-my-login' ); ?>
 			<?php _e( 'If any field is left empty, the default will be used instead.', 'theme-my-login' ); ?>
 		</p>
 		<table class="form-table">
@@ -463,7 +464,7 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 			<tr valign="top">
 				<th scope="row"><label for="<?php echo $this->options_key; ?>_user_approval_message"><?php _e( 'Message', 'theme-my-login' ); ?></label></th>
 				<td>
-					<p class="description"><?php _e( 'Available Variables', 'theme-my-login' ); ?>: %blogname%, %siteurl%, %loginurl%, %user_login%, %user_email%</p>
+					<p class="description"><?php _e( 'Available Variables', 'theme-my-login' ); ?>: %blogname%, %siteurl%, %reseturl%, %loginurl%, %user_login%, %user_email%</p>
 					<textarea name="<?php echo $this->options_key; ?>[user_approval][message]" id="<?php echo $this->options_key; ?>_user_approval_message" class="large-text" rows="10"><?php echo $this->get_option( array( 'user_approval', 'message' ) ); ?></textarea></td>
 				</td>
 			</tr>
