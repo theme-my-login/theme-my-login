@@ -554,9 +554,10 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 					$this->get_option( array( 'user_approval', 'admin_mail_from_name'    ) ),
 					$this->get_option( array( 'user_approval', 'admin_mail_content_type' ) )
 				);
-				add_filter( 'user_approval_admin_notification_mail_to', array( &$this, 'user_approval_admin_notification_mail_to_filter' )        );
-				add_filter( 'user_approval_admin_notification_title',   array( &$this, 'user_approval_admin_notification_title_filter'   ), 10, 2 );
-				add_filter( 'user_approval_admin_notification_message', array( &$this, 'user_approval_admin_notification_message_filter' ), 10, 2 );
+				add_filter( 'user_approval_admin_notification_mail_to',  array( &$this, 'user_approval_admin_notification_mail_to_filter'  )        );
+				add_filter( 'user_approval_admin_notification_title',    array( &$this, 'user_approval_admin_notification_title_filter'    ), 10, 2 );
+				add_filter( 'user_approval_admin_notification_message',  array( &$this, 'user_approval_admin_notification_message_filter'  ), 10, 2 );
+				add_filter( 'send_new_user_approval_admin_notification', array( &$this, 'send_new_user_approval_admin_notification_filter' )        );
 				break;
 		}
 	}
@@ -741,6 +742,24 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 			) );
 		}
 		return $message;
+	}
+
+	/**
+	 * Determines whether or not to send the new user admin approval notification e-mail
+	 *
+	 * Callback for "send_new_user_approval_admin_notification" hook
+	 *
+	 * @since 6.4
+	 * @access public
+	 *
+	 * @param bool $enable Default setting
+	 * @return bool New setting
+	 */
+	public function send_new_user_approval_admin_notification_filter( $enable ) {
+		if ( $this->get_option( array( 'user_approval', 'admin_disable' ) ) )
+			return false;
+
+		return $enable;
 	}
 
 	/**

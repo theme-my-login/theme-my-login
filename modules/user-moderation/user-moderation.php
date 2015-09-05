@@ -456,6 +456,9 @@ class Theme_My_Login_User_Moderation extends Theme_My_Login_Abstract {
 	public static function new_user_approval_admin_notification( $user_id ) {
 		global $current_site;
 
+		if ( ! apply_filters( 'send_new_user_approval_admin_notification', true ) )
+			return;
+
 		$user = new WP_User( $user_id );
 
 		$user_login = stripslashes( $user->user_login );
