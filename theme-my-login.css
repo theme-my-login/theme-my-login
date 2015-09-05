@@ -61,8 +61,8 @@
 	float: left;
 	line-height: 1;
 	list-style: none;
-	margin-right: 0.5em;
-	padding-right: 0.5em;
+	margin: 0 0.5em 0 0;
+	padding: 0 0.5em 0 0;
 }
 
 .login .tml-action-links li:last-child {
