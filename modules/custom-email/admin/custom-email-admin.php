@@ -617,11 +617,13 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 	 * @return string|array Sanitized settings
 	 */
 	public function save_settings( $settings ) {
-		$settings['new_user']['admin_disable']   = ! empty( $settings['new_user']['admin_disable']   );
-		$settings['reset_pass']['admin_disable'] = ! empty( $settings['reset_pass']['admin_disable'] );
+		$settings['new_user']['admin_disable']   = isset( $settings['new_user']['admin_disable']   );
+		$settings['reset_pass']['admin_disable'] = isset( $settings['reset_pass']['admin_disable'] );
 
-		if ( class_exists( 'Theme_My_Login_User_Moderation' ) )
+		if ( class_exists( 'Theme_My_Login_User_Moderation' ) ) {
 			$settings['user_approval']['admin_disable'] = isset( $settings['user_approval']['admin_disable'] );
+			$settings['user_denial']['disable'] = isset( $settings['user_denial']['disable'] );
+		}
 
 		$settings = Theme_My_Login_Common::array_merge_recursive( $this->get_options(), $settings );
 
