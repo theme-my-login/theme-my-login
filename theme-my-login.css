@@ -1,61 +1,66 @@
-.login {
+.tml {
 	max-width: 320px;
 }
 
-.login * {
+.tml * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
-.login .error,
-.login .message {
+.tml .error,
+.tml .message {
 	color: #333;
 	padding: 0.5em;
 }
 
-.login .error {
+.tml .error {
 	border: 1px solid #c00;
 	background-color: #ffebe8;
 }
 
-.login .message {
+.tml .message {
 	border: 1px solid #e6db55;
 	background-color: #ffffe0;
 }
 
-.login label {
+.tml p {
+	margin: 0 0 1.5em 0;
+	padding: 0;
+}
+
+.tml label {
 	display: block;
 	text-align: left;
 }
 
-.login .forgetmenot label {
+.tml .tml-rememberme-wrap label {
 	display: inline;
 }
 
-
-.login input,
-.login textarea,
-.login select {
+.tml input,
+.tml textarea,
+.tml select {
 	margin: 0.5em 0;
 	width: 100%;
 }
 
-.login input[type="checkbox"],
-.login input[type="radio"],
-.login .forgetmenot input {
+.tml input[type="checkbox"],
+.tml input[type="radio"],
+.tml .tml-rememberme-wrap input {
 	vertical-align: middle;
 	width: auto;
 }
 
-.login .tml-action-links {
+.tml .tml-action-links {
 	display: inline-block;
 	list-style: none;
 	margin: 0.5em auto;
+	padding: 0;
 	text-align: center;
 }
 
-.login .tml-action-links li {
+.tml .tml-action-links li {
 	border: none;
 	border-right: 1px solid rgba(0, 0, 0, 0.1);
 	float: left;
@@ -65,30 +70,34 @@
 	padding: 0 0.5em 0 0;
 }
 
-.login .tml-action-links li:last-child {
+.tml .tml-action-links li:last-child {
 	border-right: none;
 	margin-right: 0;
 	padding-right: 0;
 }
 
-.login .tml-action-links a {
+.tml .tml-action-links a {
 	border: none;
 	display: block;
 	padding: 0;
 	text-decoration: none;
 }
 
-.login .clear:before,
-.login .clear:after,
-.login .tml-action-links:before,
-.login .tml-action-links:after {
+.tml .tml-rememberme-submit-wrap:before,
+.tml .tml-rememberme-submit-wrap:after,
+.tml .tml-action-links:before,
+.tml .tml-action-links:after {
 	content: "";
 	display: table;
 }
 
-.login .clear:after,
-.login .tml-action-links:after {
+.tml .tml-rememberme-submit-wrap:after,
+.tml .tml-action-links:after {
 	clear: both;
+}
+
+.tml .tml-user-avatar {
+	text-align: left;
 }
 
 .mu_register .hint {
@@ -161,20 +170,31 @@
 }
 
 @media screen and (min-width: 768px) {
-	.login .forgetmenot {
-		float: left;
+	.tml .tml-submit-wrap input {
+		width: auto;
 	}
 
-	.login .forgetmenot input {
-		margin: 1em 0;
+	.tml-login .tml-rememberme-submit-wrap {
+		display: table;
+		margin-bottom: 1.5em;
+		width: 100%;
 	}
 
-	.login .submit {
-		float: right;
+	.tml-login .tml-rememberme-wrap {
+		display: table-cell;
 	}
 
-	.login .submit input {
-		margin: -0.5em 0 0;
+	.tml-login .tml-rememberme-wrap input {
+		margin: 0;
+	}
+
+	.tml-login .tml-submit-wrap {
+		display: table-cell;
+		text-align: right;
+	}
+
+	.tml-login .tml-submit-wrap input {
+		margin: 0;
 		width: auto;
 	}
 }

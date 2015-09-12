@@ -1,20 +1,20 @@
-.profile {
+.tml-profile {
 	max-width: 100%;
 }
 
-.profile .form-table {
+.tml-profile .tml-form-table {
 	border-collapse: collapse;
 }
 
-.profile .form-table th,
-.profile .form-table td {
+.tml-profile .tml-form-table th,
+.tml-profile .tml-form-table td {
 	display: block;
 	vertical-align: middle;
 	width: auto;
 }
 
-.profile .screen-reader-text,
-.profile .screen-reader-text span {
+.tml-profile .screen-reader-text,
+.tml-profile .screen-reader-text span {
 	height: 1px;
 	left: -1000em;
 	overflow: hidden;
@@ -22,11 +22,11 @@
 	width: 1px;
 }
 
-.profile .wp-pwd {
+.tml-profile .wp-pwd {
 	text-align: right;
 }
 
-.profile .wp-pwd .dashicons {
+.tml-profile .wp-pwd .dashicons {
 	font-size: 1em;
 	line-height: 1;
 	height: 1em;
@@ -34,7 +34,7 @@
 	vertical-align: middle;
 }
 
-.profile #pass-strength-result {
+.tml-profile #pass-strength-result {
 	margin: 0.5em 0;
 }
 
@@ -42,4 +42,10 @@
 .no-js .hide-if-no-js,
 .js .hide-if-js {
 	display: none;
+}
+
+@media screen and (min-width: 768px) {
+	.tml-profile .tml-submit-wrap input {
+		width: auto;
+	}
 }

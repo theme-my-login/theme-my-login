@@ -4,7 +4,7 @@ If you would like to edit this file, copy it to your current theme's directory a
 Theme My Login will always look in your theme's directory first, before using this default template.
 */
 ?>
-<div class="login" id="theme-my-login<?php $template->the_instance(); ?>">
+<div class="tml tml-resetpass" id="theme-my-login<?php $template->the_instance(); ?>">
 	<?php $template->the_action_template_message( 'resetpass' ); ?>
 	<?php $template->the_errors(); ?>
 	<form name="resetpassform" id="resetpassform<?php $template->the_instance(); ?>" action="<?php $template->the_action_url( 'resetpass' ); ?>" method="post" autocomplete="off">
@@ -27,7 +27,7 @@ Theme My Login will always look in your theme's directory first, before using th
 
 		<?php do_action( 'resetpassword_form' ); ?>
 
-		<p class="submit">
+		<p class="tml-submit-wrap">
 			<input type="submit" name="wp-submit" id="wp-submit<?php $template->the_instance(); ?>" value="<?php esc_attr_e( 'Reset Password', 'theme-my-login' ); ?>" />
 			<input type="hidden" id="user_login" value="<?php echo esc_attr( $GLOBALS['rp_login'] ); ?>" autocomplete="off" />
 			<input type="hidden" name="rp_key" value="<?php echo esc_attr( $GLOBALS['rp_key'] ); ?>" />
