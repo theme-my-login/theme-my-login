@@ -1,5 +1,6 @@
 === Theme My Login ===
 Contributors: jfarthing84
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 3.7
 Tested up to: 4.3
