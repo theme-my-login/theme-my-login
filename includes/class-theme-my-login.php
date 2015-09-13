@@ -757,7 +757,7 @@ if(typeof wpOnload=='function')wpOnload()
 	}
 
 	/**
-	 * Alters menu item title & link according to whether user is logged in or not
+	 * Hide Login & Register if user is logged in, hide Logout if not
 	 *
 	 * Callback for "wp_setup_nav_menu_item" hook in wp_setup_nav_menu_item()
 	 *
@@ -775,16 +775,25 @@ if(typeof wpOnload=='function')wpOnload()
 		if ( 'page' != $menu_item->object )
 			return $menu_item;
 
-		if ( ! is_user_logged_in() )
-			return $menu_item;
+		// User  is logged in
+		if ( is_user_logged_in() ) {
 
-		if ( self::is_tml_page( 'login', $menu_item->object_id ) ) {
-			$menu_item->title = $this->get_instance()->get_title( 'logout' );
-			$menu_item->url   = wp_logout_url();
+			// Change Login to Logout
+			if ( self::is_tml_page( 'login', $menu_item->object_id ) ) {
+				$menu_item->_invalid = true;
 
-		} elseif ( self::is_tml_page( 'register', $menu_item->object_id ) ) {
-			$menu_item->title = $this->get_instance()->get_title( 'profile' );
-			$menu_item->url   = get_edit_profile_url();
+			// Hide Register
+			} elseif ( self::is_tml_page( 'register', $menu_item->object_id ) ) {
+				$menu_item->_invalid = true;
+			}
+
+		// User is not logged in
+		} else {
+
+			// Hide Logout
+			if ( self::is_tml_page( 'logout', $menu_item->object_id ) ) {
+				$menu_item->_invalid = true;
+			}
 		}
 
 		return $menu_item;
