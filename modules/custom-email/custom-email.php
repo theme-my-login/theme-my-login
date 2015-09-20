@@ -123,7 +123,7 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 		remove_action( 'tml_new_user_registered',   'wp_new_user_notification' );
 		remove_action( 'tml_user_password_changed', 'wp_password_change_notification' );
 
-		add_action( 'tml_new_user_registered',   array( &$this, 'new_user_notification' ), 10, 2 );
+		add_action( 'tml_new_user_registered',   array( &$this, 'new_user_notification' ), 10, 3 );
 		add_action( 'tml_user_password_changed', array( &$this, 'password_change_notification' ) );
 
 		add_action( 'register_post',              array( &$this, 'apply_user_moderation_notification_filters' ) );
@@ -822,9 +822,10 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 	 * @access public
 	 *
 	 * @param int $user_id User ID
+	 * @param null Not used (argument deprecated)
 	 * @param string $notify Type of notification that should happen
 	 */
-	public function new_user_notification( $user_id, $notify = '' ) {
+	public function new_user_notification( $user_id, $deprecated = null, $notify = '' ) {
 		global $wpdb;
 
 		$user = get_userdata( $user_id );

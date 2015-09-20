@@ -152,7 +152,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		add_filter( 'wp_list_pages_excludes', array( &$this, 'wp_list_pages_excludes' )        );
 		add_filter( 'page_link',              array( &$this, 'page_link'              ), 10, 2 );
 
-		add_action( 'tml_new_user_registered',   'wp_new_user_notification', 10, 2 );
+		add_action( 'tml_new_user_registered',   'wp_new_user_notification', 10, 3 );
 		add_action( 'tml_user_password_changed', 'wp_password_change_notification' );
 
 		add_shortcode( 'theme-my-login', array( &$this, 'shortcode' ) );
@@ -1234,6 +1234,8 @@ if(typeof wpOnload=='function')wpOnload()
 	 * @return int|WP_Error Either user's ID or error on failure.
 	 */
 	public static function register_new_user( $user_login, $user_email ) {
+		global $wp_version;
+
 		$errors = new WP_Error();
 
 		$sanitized_user_login = sanitize_user( $user_login );
@@ -1275,7 +1277,7 @@ if(typeof wpOnload=='function')wpOnload()
 
 		update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.
 
-		do_action( 'tml_new_user_registered', $user_id, 'both' );
+		do_action( 'tml_new_user_registered', $user_id, null, 'both' );
 
 		return $user_id;
 	}

@@ -382,7 +382,7 @@ class Theme_My_Login_User_Moderation extends Theme_My_Login_Abstract {
 	 * @param int $user_id The user's ID
 	 */
 	public function new_user_activated( $user_id ) {
-		do_action( 'tml_new_user_registered', $user_id, 'both' );
+		do_action( 'tml_new_user_registered', $user_id, null, 'both' );
 	}
 
 	/**
