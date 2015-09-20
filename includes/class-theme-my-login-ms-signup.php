@@ -61,14 +61,9 @@ class Theme_My_Login_MS_Signup extends Theme_My_Login_Abstract {
 	 * @param object $theme_my_login Theme_My_Login object
 	 */
 	public function tml_request_register( &$theme_my_login ) {
-		global $current_site, $wp_version;
+		global $current_site;
 
-		if ( version_compare( $wp_version, '3.3', '<' ) ) {
-			add_filter( 'pre_option_blog_public', '__return_zero' );
-			add_action( 'wp_head', 'noindex' );
-		} else {
-			add_action( 'wp_head', 'wp_no_robots' );
-		}
+		add_action( 'wp_head', 'wp_no_robots' );
 		add_action( 'wp_head', array( &$this, 'signup_header' ) );
 
 		if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) == true ) {

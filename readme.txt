@@ -2,7 +2,7 @@
 Contributors: jfarthing84
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
-Requires at least: 3.7
+Requires at least: 4.3.1
 Tested up to: 4.3
 Stable tag: 6.3.12
 
@@ -67,6 +67,7 @@ Please visit http://www.jfarthing.com/development/theme-my-login.
 * Fix logout redirect
 * Fix broken interim login when wp-login.php is disabled
 * Remove AJAX module
+* Require WordPress 4.3.1
 
 = 6.3.12 =
 * Fix multiple widget custom redirect error
