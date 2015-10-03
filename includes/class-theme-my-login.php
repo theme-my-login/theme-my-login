@@ -778,12 +778,8 @@ if(typeof wpOnload=='function')wpOnload()
 		// User  is logged in
 		if ( is_user_logged_in() ) {
 
-			// Change Login to Logout
-			if ( self::is_tml_page( 'login', $menu_item->object_id ) ) {
-				$menu_item->_invalid = true;
-
-			// Hide Register
-			} elseif ( self::is_tml_page( 'register', $menu_item->object_id ) ) {
+			// Hide login, register and lost password
+			if ( self::is_tml_page( array( 'login', 'register', 'lostpassword' ), $menu_item->object_id ) ) {
 				$menu_item->_invalid = true;
 			}
 
