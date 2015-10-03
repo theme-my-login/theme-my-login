@@ -899,7 +899,7 @@ if(typeof wpOnload=='function')wpOnload()
 	 *
 	 * @since 6.3
 	 *
-	 * @param string $action The action to check
+	 * @param array|string $action An action or array of actions to check
 	 * @param int|object Post ID or object
 	 * @return bool True if $action is for $page, false otherwise
 	 */
@@ -913,7 +913,10 @@ if(typeof wpOnload=='function')wpOnload()
 		if ( ! $page_action = self::get_page_action( $page->ID ) )
 			return false;
 
-		if ( empty( $action ) || $action == $page_action )
+		if ( empty( $action ) )
+			return true;
+
+		if ( in_array( $page_action, (array) $action ) )
 			return true;
 
 		return false;

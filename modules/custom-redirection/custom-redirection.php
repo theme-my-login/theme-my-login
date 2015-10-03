@@ -115,7 +115,7 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 		$http_referer = remove_query_arg( array( 'instance', 'action', 'checkemail', 'error', 'loggedout', 'registered', 'redirect_to', 'updated', 'key', '_wpnonce', 'reauth' ), $http_referer );
 
 		// Make sure $user object exists and is a WP_User instance
-		if ( ! is_wp_error( $user ) && is_a( $user, 'WP_User' ) ) {
+		if ( is_a( $user, 'WP_User' ) ) {
 			if ( is_multisite() && empty( $user->roles ) ) {
 				$user->roles = array( 'subscriber' );
 			}
@@ -124,17 +124,34 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 
 			$redirection = $this->get_option( $user_role, array() );
 
-			if ( 'referer' == $redirection['login_type'] ) {
-				// Send 'em back to the referer
-				$redirect_to = $http_referer;
-			} elseif ( 'custom' == $redirection['login_type'] ) {
-				// Send 'em to the specified URL
-				$redirect_to = $redirection['login_url'];
+			switch ($redirection['login_type']) {
 
-				// Allow a few user specific variables
-				$redirect_to = Theme_My_Login_Common::replace_vars( $redirect_to, $user->ID, array(
-					'%user_id%' => $user->ID
-				) );
+				case 'referer' :
+					$page_id = url_to_postid( $http_referer );
+
+					if ( ! ( $page_id && Theme_My_Login::is_tml_page( array( 'lostpassword', 'resetpass' ), $page_id ) ) ) {
+						// Send 'em back to the referer
+						$redirect_to = $http_referer;
+					}
+					break;
+
+				case 'custom' :
+					// Send 'em to the specified URL
+					$redirect_to = $redirection['login_url'];
+
+					// Allow a few user specific variables
+					$redirect_to = str_replace(
+						array(
+							'%user_id%',
+							'%user_nicename%'
+						),
+						array(
+							$user->ID,
+							$user->user_nicename
+						),
+						$redirect_to
+					);
+					break;
 			}
 		}
 
@@ -209,5 +226,3 @@ endif;
 
 if ( is_admin() )
 	include_once( dirname( __FILE__ ) . '/admin/custom-redirection-admin.php' );
-
-
