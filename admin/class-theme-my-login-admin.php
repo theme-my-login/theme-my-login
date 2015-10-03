@@ -96,7 +96,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		register_setting( 'theme_my_login', 'theme_my_login',  array( &$this, 'save_settings' ) );
 
 		// Install/Upgrade
-		if ( version_compare( $this->get_option( 'version', 0 ), Theme_My_Login::version, '<' ) )
+		if ( version_compare( $this->get_option( 'version', 0 ), Theme_My_Login::VERSION, '<' ) )
 			$this->install();
 
 		// Add sections
@@ -116,7 +116,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function admin_enqueue_scripts() {
-		wp_enqueue_script( 'theme-my-login-admin', plugins_url( 'theme-my-login/admin/js/theme-my-login-admin.js' ), array( 'jquery' ), Theme_My_Login::version, true );
+		wp_enqueue_script( 'theme-my-login-admin', plugins_url( 'theme-my-login/admin/js/theme-my-login-admin.js' ), array( 'jquery' ), Theme_My_Login::VERSION, true );
 		wp_localize_script( 'theme-my-login-admin', 'tmlAdmin', array(
 			'interim_login_url' => site_url( 'wp-login.php?interim-login=1', 'login' )
 		) );
@@ -256,7 +256,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		global $wpdb;
 
 		// Current version
-		$version = $this->get_option( 'version', Theme_My_Login::version );
+		$version = $this->get_option( 'version', Theme_My_Login::VERSION );
 
 		// Check if legacy page exists
 		if ( $page_id = $this->get_option( 'page_id' ) ) {
@@ -351,7 +351,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 			do_action( 'tml_activate_' . $module );
 		}
 
-		$this->set_option( 'version', Theme_My_Login::version );
+		$this->set_option( 'version', Theme_My_Login::VERSION );
 		$this->save_options();
 	}
 
