@@ -80,6 +80,89 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 	}
 
 	/**
+	 * Get the redirect URL for a user.
+	 *
+	 * @since 6.4.1
+	 *
+	 * @param WP_User $user User object
+	 * @param string $type Optional. Type of redirect. Accepts 'login'
+	 *                               or 'logout'. Default is 'login'.
+	 * @param string $default Optional. Default URL if somehow not found
+	 * @return string Redirect URL
+	 */
+	public function get_redirect_for_user( $user, $type = 'login', $default = '' ) {
+		// Make sure we have a default
+		if ( empty( $default ) )
+			$default = admin_url( 'profile.php' );
+
+		// Bail if $user is not a WP_User
+		if ( ! $user instanceof WP_User )
+			return $default;
+
+		// Make sure $type is valid
+		if ( ! ( 'login' == $type || 'logout' == $type ) )
+			$type = 'login';
+
+		// Make sure the user has a role
+		if ( is_multisite() && empty( $user->roles ) ) {
+			$user->roles = array( 'subscriber' );
+		}
+
+		// Get the user's role
+		$user_role = reset( $user->roles );
+
+		// Get the redirection settings for the user's role
+		$redirection = $this->get_option( $user_role, array() );
+
+		// Determine which redirection type is being used
+		switch ( $redirection["{$type}_type"] ) {
+
+			case 'referer' :
+				// Get the referer
+				if ( ! $referer = wp_get_original_referer() )
+					$referer = wp_get_referer();
+
+				// Strip unwanted arguments from the referer
+				$referer = Theme_My_Login_Common::strip_query_args( $referer );
+
+				// Is the URL a single post type?
+				if ( $page_id = url_to_postid( $referer ) ) {
+					// Bail if the referer is TML page
+					if ( Theme_My_Login::is_tml_page( null, $page_id ) )
+						return $default;
+				}
+
+				// Send 'em back to the referer
+				$redirect_to = $referer;
+				break;
+
+			case 'custom' :
+				// Send 'em to the specified URL
+				$redirect_to = $redirection["{$type}_url"];
+
+				// Allow a few user specific variables
+				$redirect_to = str_replace(
+					array(
+						'%user_id%',
+						'%user_nicename%'
+					),
+					array(
+						$user->ID,
+						$user->user_nicename
+					),
+					$redirect_to
+				);
+				break;
+		}
+
+		// Make sure $redirect_to isn't empty
+		if ( empty( $redirect_to ) )
+			$redirect_to = $default;
+
+		return $redirect_to;
+	}
+
+	/**
 	 * Adds "_wp_original_referer" field to login form
 	 *
 	 * Callback for "login_form" hook in file "login-form.php", included by method Theme_My_Login_Template::display()
@@ -89,7 +172,14 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function login_form() {
-		echo wp_original_referer_field( false, Theme_My_Login::is_tml_page() ? 'previous' : 'current' ) . "\n";
+		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+			$referer = wp_unslash( $_REQUEST['redirect_to'] );
+		} elseif ( wp_get_original_referer() ) {
+			$referer = wp_get_original_referer();
+		} else {
+			$referer = Theme_My_Login::is_tml_page() ? wp_get_referer() : wp_unslash( $_SERVER['REQUEST_URI'] );
+		}
+		echo '<input type="hidden" name="_wp_original_http_referer" value="' . esc_attr( $referer ) . '" />';
 	}
 
 	/**
@@ -107,63 +197,8 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 	 * @return string New redirect
 	 */
 	public function login_redirect( $redirect_to, $request, $user ) {
-		// Determine the correct referer
-		if ( ! $http_referer = wp_get_original_referer() )
-			$http_referer = wp_get_referer();
-
-		// Remove some arguments that may be present and shouldn't be
-		$http_referer = remove_query_arg( array( 'instance', 'action', 'checkemail', 'error', 'loggedout', 'registered', 'redirect_to', 'updated', 'key', '_wpnonce', 'reauth' ), $http_referer );
-
-		// Make sure $user object exists and is a WP_User instance
-		if ( is_a( $user, 'WP_User' ) ) {
-			if ( is_multisite() && empty( $user->roles ) ) {
-				$user->roles = array( 'subscriber' );
-			}
-
-			$user_role = reset( $user->roles );
-
-			$redirection = $this->get_option( $user_role, array() );
-
-			switch ($redirection['login_type']) {
-
-				case 'referer' :
-					$page_id = url_to_postid( $http_referer );
-
-					if ( ! ( $page_id && Theme_My_Login::is_tml_page( array( 'lostpassword', 'resetpass' ), $page_id ) ) ) {
-						// Send 'em back to the referer
-						$redirect_to = $http_referer;
-					}
-					break;
-
-				case 'custom' :
-					// Send 'em to the specified URL
-					$redirect_to = $redirection['login_url'];
-
-					// Allow a few user specific variables
-					$redirect_to = str_replace(
-						array(
-							'%user_id%',
-							'%user_nicename%'
-						),
-						array(
-							$user->ID,
-							$user->user_nicename
-						),
-						$redirect_to
-					);
-					break;
-			}
-		}
-
-		// If a redirect is requested, it takes precedence
-		if ( ! empty( $request ) && admin_url() != $request && admin_url( 'profile.php' ) != $request )
-			$redirect_to = $request;
-
-		// Make sure $redirect_to isn't empty
-		if ( empty( $redirect_to ) )
-			$redirect_to = get_option( 'home' );
-
-		return $redirect_to;
+		// Return the redirect URL for the user
+		return $this->get_redirect_for_user( $user, 'login', $redirect_to );
 	}
 
 	/**
@@ -181,41 +216,14 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 	 * @return string New redirect
 	 */
 	public function logout_redirect( $redirect_to, $request, $user ) {
-		// Determine the correct referer
-		if ( ! $http_referer = wp_get_original_referer() )
-			$http_referer = wp_get_referer();
+		// Get the redirect URL for the user
+		$redirect_to = $this->get_redirect_for_user( $user, 'logout', $redirect_to );
 
-		// Remove some arguments that may be present and shouldn't be
-		$http_referer = remove_query_arg( array( 'instance', 'action', 'checkemail', 'error', 'loggedout', 'registered', 'redirect_to', 'updated', 'key', '_wpnonce' ), $http_referer );
-
-		// Make sure $user object exists and is a WP_User instance
-		if ( ! is_wp_error( $user ) && is_a( $user, 'WP_User' ) ) {
-			if ( is_multisite() && empty( $user->roles ) ) {
-				$user->roles = array( 'subscriber' );
-			}
-
-			$user_role = reset( $user->roles );
-
-			$redirection = $this->get_option( $user_role, array() );
-
-			if ( 'referer' == $redirection['logout_type'] ) {
-				// Send 'em back to the referer
-				$redirect_to = $http_referer;
-			} elseif ( 'custom' == $redirection['logout_type'] ) {
-				// Send 'em to the specified URL
-				$redirect_to = $redirection['logout_url'];
-
-				// Allow a few user specific variables
-				$redirect_to = Theme_My_Login_Common::replace_vars( $redirect_to, $user->ID, array(
-					'%user_id%' => $user->ID
-				) );
-			}
-		}
-
-		// Make sure $redirect_to isn't empty or pointing to an admin URL (causing an endless loop)
-		if ( empty( $redirect_to ) || false !== strpos( $redirect_to, 'wp-admin' ) )
+		// Make sure we're not trying to redirect to an admin URL
+		if ( false !== strpos( $redirect_to, 'wp-admin' ) )
 			$redirect_to = add_query_arg( 'loggedout', 'true', wp_login_url() );
 
+		// Return the redirect URL for the user
 		return $redirect_to;
 	}
 }
