@@ -35,5 +35,9 @@ Theme My Login will always look in your theme's directory first, before using th
 			<input type="hidden" name="action" value="resetpass" />
 		</p>
 	</form>
-	<?php $template->the_action_links( array( 'lostpassword' => false ) ); ?>
+	<?php $template->the_action_links( array(
+		'login' => false,
+		'register' => false,
+		'lostpassword' => false
+	) ); ?>
 </div>
