@@ -100,7 +100,7 @@ class Theme_My_Login_Common {
 
 		// Iterate through matches
 		foreach ( $matches[0] as $key => $match ) {
-			if ( ! isset( $replacements[$match] ) ) {	
+			if ( ! isset( $replacements[$match] ) ) {
 				if ( $user && isset( $user->{$matches[1][$key]} ) ) // Replacement from WP_User object
 					$replacements[$match] = $user->{$matches[1][$key]};
 				else
@@ -121,6 +121,30 @@ class Theme_My_Login_Common {
 		$replace = array_values( $replacements );
 
 		return str_replace( $search, $replace, $input );
+	}
+
+	/**
+	 * Strip unwanted query arguments from a URL
+	 *
+	 * @since 6.4.1
+	 *
+	 * @param string $url The URL
+	 * @return string The URL
+	 */
+	public static function strip_query_args( $url ) {
+		return remove_query_arg( array(
+			'instance',
+			'action',
+			'checkemail',
+			'error',
+			'loggedout',
+			'registered',
+			'redirect_to',
+			'updated',
+			'key',
+			'_wpnonce',
+			'reauth'
+		), $url );
 	}
 }
 endif; // Class exists
