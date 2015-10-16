@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Theme My Login package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Theme My Login 6.4\n"
+"Project-Id-Version: Theme My Login 6.4.x\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/theme-my-login\n"
-"POT-Creation-Date: 2015-08-31 18:58:35+00:00\n"
+"POT-Creation-Date: 2015-10-16 15:51:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -70,167 +70,167 @@ msgstr ""
 msgid "Enable %s"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:109
+#: includes/class-theme-my-login-ms-signup.php:104
 msgctxt "Multisite active signup type"
 msgid "all"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:110
+#: includes/class-theme-my-login-ms-signup.php:105
 msgctxt "Multisite active signup type"
 msgid "none"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:111
+#: includes/class-theme-my-login-ms-signup.php:106
 msgctxt "Multisite active signup type"
 msgid "blog"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:112
+#: includes/class-theme-my-login-ms-signup.php:107
 msgctxt "Multisite active signup type"
 msgid "user"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:115
+#: includes/class-theme-my-login-ms-signup.php:110
 msgid ""
 "Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; "
 "registrations. To change or disable registration go to your <a href=\"%s"
 "\">Options page</a>."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:121
+#: includes/class-theme-my-login-ms-signup.php:116
 msgid "Registration has been disabled."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:123
+#: includes/class-theme-my-login-ms-signup.php:118
 msgid ""
 "You must first <a href=\"%s\">log in</a>, and then you can create a new site."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:147
+#: includes/class-theme-my-login-ms-signup.php:142
 msgid "%s is your new username"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:148
+#: includes/class-theme-my-login-ms-signup.php:143
 msgid ""
 "But, before you can start using your new username, <strong>you must activate "
 "it</strong>."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:149
+#: includes/class-theme-my-login-ms-signup.php:144
 msgid "Check your inbox at <strong>%1$s</strong> and click the link given."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:150
+#: includes/class-theme-my-login-ms-signup.php:145
 msgid ""
 "If you do not activate your username within two days, you will have to sign "
 "up again."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:154
+#: includes/class-theme-my-login-ms-signup.php:149
 msgid "User registration has been disabled."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:186
+#: includes/class-theme-my-login-ms-signup.php:181
 msgid "Congratulations! Your new site, %s, is almost ready."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:188
+#: includes/class-theme-my-login-ms-signup.php:183
 msgid ""
 "But, before you can start using your site, <strong>you must activate it</"
 "strong>."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:189
+#: includes/class-theme-my-login-ms-signup.php:184
 msgid "Check your inbox at <strong>%s</strong> and click the link given."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:190
+#: includes/class-theme-my-login-ms-signup.php:185
 msgid ""
 "If you do not activate your site within two days, you will have to sign up "
 "again."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:191
+#: includes/class-theme-my-login-ms-signup.php:186
 msgid "Still waiting for your email?"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:193
+#: includes/class-theme-my-login-ms-signup.php:188
 msgid ""
 "If you haven&#8217;t received your email yet, there are a number of things "
 "you can do:"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:195
+#: includes/class-theme-my-login-ms-signup.php:190
 msgid ""
 "Wait a little longer. Sometimes delivery of email can be delayed by "
 "processes outside of our control."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:196
+#: includes/class-theme-my-login-ms-signup.php:191
 msgid ""
 "Check the junk or spam folder of your email client. Sometime emails wind up "
 "there by mistake."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:197
+#: includes/class-theme-my-login-ms-signup.php:192
 msgid ""
 "Have you entered your email correctly?  You have entered %s, if it&#8217;s "
 "incorrect, you will not receive your email."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:203
+#: includes/class-theme-my-login-ms-signup.php:198
 msgid "Site registration has been disabled."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:227
+#: includes/class-theme-my-login-ms-signup.php:222
 msgid "The site %s is yours."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:229
+#: includes/class-theme-my-login-ms-signup.php:224
 msgid ""
 "<a href=\"http://%1$s\">http://%2$s</a> is your new site.  <a href=\"%3$s"
 "\">Log in</a> as &#8220;%4$s&#8221; using your existing password."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:245
+#: includes/class-theme-my-login-ms-signup.php:240
 msgid "Sorry, new registrations are not allowed at this time."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:247
+#: includes/class-theme-my-login-ms-signup.php:242
 msgid "You are logged in already. No need to register again!"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:253
+#: includes/class-theme-my-login-ms-signup.php:248
 msgid ""
 "<p><em>The site you were looking for, <strong>%s</strong> does not exist, "
 "but you can create it now!</em></p>"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:255
+#: includes/class-theme-my-login-ms-signup.php:250
 msgid ""
 "<p><em>The site you were looking for, <strong>%s</strong>, does not exist.</"
 "em></p>"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:397
+#: includes/class-theme-my-login-ms-signup.php:392
 msgid "Activation Key Required"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:400
+#: includes/class-theme-my-login-ms-signup.php:395
 msgid "Activation Key:"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:404
-#: includes/class-theme-my-login-ms-signup.php:476
+#: includes/class-theme-my-login-ms-signup.php:399
+#: includes/class-theme-my-login-ms-signup.php:471
 msgid "Activate"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:416
-#: includes/class-theme-my-login-ms-signup.php:436
+#: includes/class-theme-my-login-ms-signup.php:411
+#: includes/class-theme-my-login-ms-signup.php:431
 msgid "Your account is now active!"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:420
+#: includes/class-theme-my-login-ms-signup.php:415
 msgid ""
 "Your account has been activated. You may now <a href=\"%1$s\">login</a> to "
 "the site using your chosen username of &#8220;%2$s&#8221;.  Please check "
@@ -240,7 +240,7 @@ msgid ""
 "password</a>."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:422
+#: includes/class-theme-my-login-ms-signup.php:417
 msgid ""
 "Your site at <a href=\"%1$s\">%2$s</a> is active. You may now log in to your "
 "site using your chosen username of &#8220;%3$s&#8221;.  Please check your "
@@ -250,27 +250,27 @@ msgid ""
 "password</a>."
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:427
+#: includes/class-theme-my-login-ms-signup.php:422
 msgid "An error occurred during the activation"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:439
+#: includes/class-theme-my-login-ms-signup.php:434
 #: templates/ms-signup-user-form.php:14
 msgid "Username:"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:440
+#: includes/class-theme-my-login-ms-signup.php:435
 #: modules/custom-passwords/custom-passwords.php:95
 msgid "Password:"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:444
+#: includes/class-theme-my-login-ms-signup.php:439
 msgid ""
 "Your account is now activated. <a href=\"%1$s\">View your site</a> or <a "
 "href=\"%2$s\">Login</a>"
 msgstr ""
 
-#: includes/class-theme-my-login-ms-signup.php:446
+#: includes/class-theme-my-login-ms-signup.php:441
 msgid ""
 "Your account is now activated. <a href=\"%1$s\">Login</a> or go back to the "
 "<a href=\"%2$s\">homepage</a>."
@@ -429,92 +429,92 @@ msgstr ""
 msgid "Please log in to continue."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1134
+#: includes/class-theme-my-login.php:1133
 msgid "<strong>ERROR</strong>: Enter a username or e-mail address."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1138
+#: includes/class-theme-my-login.php:1137
 msgid ""
 "<strong>ERROR</strong>: There is no user registered with that email address."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1150
+#: includes/class-theme-my-login.php:1149
 msgid "<strong>ERROR</strong>: Invalid username or e-mail."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1164
+#: includes/class-theme-my-login.php:1163
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1181
+#: includes/class-theme-my-login.php:1180
 msgid "Someone requested that the password be reset for the following account:"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1183
-#: modules/custom-email/custom-email.php:840
-#: modules/custom-email/custom-email.php:869
+#: includes/class-theme-my-login.php:1182
+#: modules/custom-email/custom-email.php:841
+#: modules/custom-email/custom-email.php:870
 #: modules/user-moderation/admin/user-moderation-admin.php:382
 #: modules/user-moderation/user-moderation.php:460
 msgid "Username: %s"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1184
+#: includes/class-theme-my-login.php:1183
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1185
+#: includes/class-theme-my-login.php:1184
 msgid "To reset your password, visit the following address:"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1196
+#: includes/class-theme-my-login.php:1195
 msgid "[%s] Password Reset"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1202
+#: includes/class-theme-my-login.php:1201
 #: modules/user-moderation/admin/user-moderation-admin.php:252
 #: modules/user-moderation/admin/user-moderation-admin.php:394
 #: modules/user-moderation/admin/user-moderation-admin.php:436
 msgid "The e-mail could not be sent."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1202
+#: includes/class-theme-my-login.php:1201
 #: modules/user-moderation/admin/user-moderation-admin.php:252
 #: modules/user-moderation/admin/user-moderation-admin.php:394
 #: modules/user-moderation/admin/user-moderation-admin.php:436
 msgid "Possible reason: your host may have disabled the mail() function..."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1244
+#: includes/class-theme-my-login.php:1245
 msgid "<strong>ERROR</strong>: Please enter a username."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1246
+#: includes/class-theme-my-login.php:1247
 msgid ""
 "<strong>ERROR</strong>: This username is invalid because it uses illegal "
 "characters. Please enter a valid username."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1249
+#: includes/class-theme-my-login.php:1250
 msgid ""
 "<strong>ERROR</strong>: This username is already registered, please choose "
 "another one."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1254
+#: includes/class-theme-my-login.php:1255
 msgid "<strong>ERROR</strong>: Please type your e-mail address."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1256
+#: includes/class-theme-my-login.php:1257
 msgid "<strong>ERROR</strong>: The email address isn&#8217;t correct."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1259
+#: includes/class-theme-my-login.php:1260
 msgid ""
 "<strong>ERROR</strong>: This email is already registered, please choose "
 "another one."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1272
+#: includes/class-theme-my-login.php:1273
 msgid ""
 "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
 "href=\"mailto:%s\">webmaster</a> !"
@@ -738,33 +738,33 @@ msgstr ""
 msgid "Disable Notification"
 msgstr ""
 
-#: modules/custom-email/custom-email.php:839
+#: modules/custom-email/custom-email.php:840
 msgid "New user registration on your site %s:"
 msgstr ""
 
-#: modules/custom-email/custom-email.php:841
+#: modules/custom-email/custom-email.php:842
 #: modules/user-moderation/user-moderation.php:461
 msgid "E-mail: %s"
 msgstr ""
 
-#: modules/custom-email/custom-email.php:843
+#: modules/custom-email/custom-email.php:844
 msgid "[%s] New User Registration"
 msgstr ""
 
-#: modules/custom-email/custom-email.php:870
+#: modules/custom-email/custom-email.php:871
 #: modules/user-moderation/admin/user-moderation-admin.php:383
 msgid "To set your password, visit the following address:"
 msgstr ""
 
-#: modules/custom-email/custom-email.php:875
+#: modules/custom-email/custom-email.php:876
 msgid "[%s] Your username and password info"
 msgstr ""
 
-#: modules/custom-email/custom-email.php:903
+#: modules/custom-email/custom-email.php:904
 msgid "[%s] Password Lost/Changed"
 msgstr ""
 
-#: modules/custom-email/custom-email.php:904
+#: modules/custom-email/custom-email.php:905
 msgid "Password Lost and Changed for user: %s"
 msgstr ""
 
