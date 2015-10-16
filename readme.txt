@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 4.3.1
 Tested up to: 4.3
-Stable tag: 6.4
+Stable tag: 6.4.1
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +56,13 @@ Please visit http://www.jfarthing.com/development/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.1 =
+* Allow array of actions in Theme_My_Login::is_tml_page()
+* Lost Password nav menu item will only show when not logged in
+* Hide action links on Reset Password page
+* Fix false password reset error caused by referer redirection
+* Fix PHP strict warning about abstract class constructor compatibility
 
 = 6.4 =
 * Add option to login using either username only, email only or both
