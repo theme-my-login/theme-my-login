@@ -8,15 +8,19 @@ Theme My Login will always look in your theme's directory first, before using th
 	<?php $template->the_action_template_message( 'resetpass' ); ?>
 	<?php $template->the_errors(); ?>
 	<form name="resetpassform" id="resetpassform<?php $template->the_instance(); ?>" action="<?php $template->the_action_url( 'resetpass' ); ?>" method="post" autocomplete="off">
-		<p class="user-pass1-wrap">
-			<label for="pass1"><?php _e( 'New password', 'theme-my-login' ); ?></label>
+
+		<div class="user-pass1-wrap">
+			<p>
+				<label for="pass1"><?php _e( 'New password', 'theme-my-login' ); ?></label>
+			</p>
+
 			<div class="wp-pwd">
 				<span class="password-input-wrapper">
 					<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" aria-describedby="pass-strength-result" />
 				</span>
 				<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite"><?php _e( 'Strength indicator', 'theme-my-login' ); ?></div>
 			</div>
-		</p>
+		</div>
 
 		<p class="user-pass2-wrap">
 			<label for="pass2"><?php _e( 'Confirm new password', 'theme-my-login' ); ?></label>
