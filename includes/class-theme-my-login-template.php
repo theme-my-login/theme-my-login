@@ -245,9 +245,10 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 	 * @access public
 	 *
 	 * @param string $action Action to retrieve
+	 * @param string $scheme Scheme to give the URL context
 	 * @return string The requested action URL
 	 */
-	public function get_action_url( $action = '' ) {
+	public function get_action_url( $action = '', $scheme = 'login' ) {
 
 		$instance = $this->get_option( 'instance' );
 
@@ -260,11 +261,9 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 			$url = Theme_My_Login::get_page_link( $action );
 		}
 
-		// Respect FORCE_SSL_LOGIN
-		if ( 'login' == $action && force_ssl_login() )
-			$url = preg_replace( '|^http://|', 'https://', $url );
+		$url = set_url_scheme( $url, $scheme );
 
-		return apply_filters( 'tml_action_url', $url, $action, $instance );
+		return apply_filters( 'tml_action_url', $url, $action, $scheme, $instance );
 	}
 
 	/**
@@ -274,9 +273,10 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 	 * @access public
 	 *
 	 * @param string $action Action to retrieve
+	 * @param string $scheme Scheme to give the URL context
 	 */
-	public function the_action_url( $action = 'login' ) {
-		echo esc_url( $this->get_action_url( $action ) );
+	public function the_action_url( $action = 'login', $scheme = 'login' ) {
+		echo esc_url( $this->get_action_url( $action, $scheme ) );
 	}
 
 	/**
