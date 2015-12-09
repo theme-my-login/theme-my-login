@@ -153,7 +153,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		add_filter( 'page_link',              array( &$this, 'page_link'              ), 10, 2 );
 
 		add_action( 'tml_new_user_registered',   'wp_new_user_notification', 10, 3 );
-		add_action( 'tml_user_password_changed', 'wp_password_change_notification' );
+
 
 		add_shortcode( 'theme-my-login', array( &$this, 'shortcode' ) );
 	}
@@ -403,7 +403,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					do_action( 'validate_password_reset', $this->errors, $user );
 
 					if ( ( ! $this->errors->get_error_code() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
-						self::reset_password( $user, $_POST['pass1'] );
+						reset_password( $user, $_POST['pass1'] );
 						setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
 						$redirect_to = site_url( 'wp-login.php?resetpass=complete' );
 						wp_safe_redirect( $redirect_to );
@@ -1164,7 +1164,7 @@ if(typeof wpOnload=='function')wpOnload()
 		// redefining user_login ensures we return the right case in the email
 		$user_login = $user_data->user_login;
 		$user_email = $user_data->user_email;
-		$key = get_password_reset_key();
+		$key = get_password_reset_key( $user_data );
 
 		if ( is_wp_error( $key ) ) {
 			return $key;
@@ -1194,25 +1194,6 @@ if(typeof wpOnload=='function')wpOnload()
 			wp_die( __( 'The e-mail could not be sent.', 'theme-my-login' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...', 'theme-my-login' ) );
 
 		return true;
-	}
-
-	/**
-	 * Handles resetting the user's password.
-	 *
-	 * @since 6.0
-	 * @access public
-	 * @uses $wpdb WordPress Database object
-	 *
-	 * @param WP_User $user The user
-	 * @param string $new_pass New password for the user
-	 */
-	public static function reset_password( $user, $new_pass ) {
-		do_action( 'password_reset', $user, $new_pass );
-
-		wp_set_password( $new_pass, $user->ID );
-		update_user_option( $user->ID, 'default_password_nag', false, true );
-
-		do_action_ref_array( 'tml_user_password_changed', array( &$user ) );
 	}
 
 	/**
