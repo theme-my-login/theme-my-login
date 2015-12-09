@@ -135,7 +135,6 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		) ) );
 		?>
 		<div id="<?php echo $options_key; ?>" class="wrap">
-			<?php screen_icon( 'options-general' ); ?>
 			<h2><?php echo esc_html( $title ); ?></h2>
 			<?php settings_errors(); ?>
 
