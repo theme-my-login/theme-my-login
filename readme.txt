@@ -3,8 +3,8 @@ Contributors: jfarthing84
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 4.3.1
-Tested up to: 4.3
-Stable tag: 6.4.1
+Tested up to: 4.4
+Stable tag: 6.4.2
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +56,11 @@ Please visit http://www.jfarthing.com/development/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.2 =
+* Fix deprecated function notices
+* Deprecate "tml_user_password_changed" hook in favor of "after_password_reset"
+* Deprecate "tml_new_user_registered" hook in favor of "register_new_user"
 
 = 6.4.1 =
 * Allow array of actions in Theme_My_Login::is_tml_page()
