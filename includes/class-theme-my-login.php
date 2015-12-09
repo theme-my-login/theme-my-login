@@ -1153,29 +1153,11 @@ if(typeof wpOnload=='function')wpOnload()
 		// redefining user_login ensures we return the right case in the email
 		$user_login = $user_data->user_login;
 		$user_email = $user_data->user_email;
+		$key = get_password_reset_key();
 
-		do_action( 'retreive_password', $user_login );  // Misspelled and deprecated
-		do_action( 'retrieve_password', $user_login );
-
-		$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
-
-		if ( ! $allow )
-			return new WP_Error( 'no_password_reset', __( 'Password reset is not allowed for this user', 'theme-my-login' ) );
-		else if ( is_wp_error( $allow ) )
-			return $allow;
-
-		// Generate something random for a password reset key.
-		$key = wp_generate_password( 20, false );
-
-		do_action( 'retrieve_password_key', $user_login, $key );
-
-		// Now insert the key, hashed, into the DB.
-		if ( empty( $wp_hasher ) ) {
-			require_once ABSPATH . WPINC . '/class-phpass.php';
-			$wp_hasher = new PasswordHash( 8, true );
+		if ( is_wp_error( $key ) ) {
+			return $key;
 		}
-		$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
-		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
 		$message = __( 'Someone requested that the password be reset for the following account:', 'theme-my-login' ) . "\r\n\r\n";
 		$message .= network_home_url( '/' ) . "\r\n\r\n";
@@ -1194,8 +1176,8 @@ if(typeof wpOnload=='function')wpOnload()
 
 		$title = sprintf( __( '[%s] Password Reset', 'theme-my-login' ), $blogname );
 
-		$title = apply_filters( 'retrieve_password_title', $title, $user_data->ID );
-		$message = apply_filters( 'retrieve_password_message', $message, $key, $user_data->ID );
+		$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
+		$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 		if ( $message && ! wp_mail( $user_email, $title, $message ) )
 			wp_die( __( 'The e-mail could not be sent.', 'theme-my-login' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...', 'theme-my-login' ) );
