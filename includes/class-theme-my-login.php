@@ -953,9 +953,7 @@ if(typeof wpOnload=='function')wpOnload()
 			$link = add_query_arg( array_map( 'rawurlencode', $args ), $link );
 		}
 
-		// Respect FORCE_SSL_LOGIN
-		if ( 'login' == $action && force_ssl_login() )
-			$link = preg_replace( '|^http://|', 'https://', $link );
+		$link = set_url_scheme( $link, 'login' );
 
 		return apply_filters( 'tml_page_link', $link, $action, $query );
 	}
