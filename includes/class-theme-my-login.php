@@ -482,7 +482,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 								elseif ( is_multisite() && ! $user->has_cap( 'read' ) )
 									$redirect_to = get_dashboard_url( $user->ID );
 								elseif ( ! $user->has_cap( 'edit_posts' ) )
-									$redirect_to = admin_url( 'profile.php' );
+									$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
 							}
 							wp_safe_redirect( $redirect_to );
 							exit;
