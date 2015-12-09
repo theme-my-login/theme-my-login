@@ -236,6 +236,8 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					exit;
 				}
 			}
+
+			nocache_headers();
 		}
 	}
 
