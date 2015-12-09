@@ -7,7 +7,7 @@ Theme My Login will always look in your theme's directory first, before using th
 <div class="tml tml-register" id="theme-my-login<?php $template->the_instance(); ?>">
 	<?php $template->the_action_template_message( 'register' ); ?>
 	<?php $template->the_errors(); ?>
-	<form name="registerform" id="registerform<?php $template->the_instance(); ?>" action="<?php $template->the_action_url( 'register' ); ?>" method="post">
+	<form name="registerform" id="registerform<?php $template->the_instance(); ?>" action="<?php $template->the_action_url( 'register', 'login_post' ); ?>" method="post">
 		<?php if ( 'email' != $theme_my_login->get_option( 'login_type' ) ) : ?>
 		<p class="tml-user-login-wrap">
 			<label for="user_login<?php $template->the_instance(); ?>"><?php _e( 'Username', 'theme-my-login' ); ?></label>

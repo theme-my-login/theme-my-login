@@ -6,7 +6,7 @@ Theme My Login will always look in your theme's directory first, before using th
 ?>
 <h2><?php printf( __( 'Get your own %s account in seconds', 'theme-my-login' ), $current_site->site_name ); ?></h2>
 
-<form id="setupform" method="post" action="<?php $template->the_action_url( 'register' ); ?>">
+<form id="setupform" method="post" action="<?php $template->the_action_url( 'register', 'login_post' ); ?>">
 	<input type="hidden" name="action" value="register" />
 	<input type="hidden" name="stage" value="validate-user-signup" />
 	<?php do_action( 'signup_hidden_fields' ); ?>

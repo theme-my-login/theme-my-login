@@ -25,7 +25,7 @@ if ( ! empty( $blogs ) ) { ?>
 <?php } ?>
 
 <p><?php _e( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!', 'theme-my-login' ); ?></p>
-<form id="setupform" method="post" action="<?php $template->the_action_url( 'register' ); ?>">
+<form id="setupform" method="post" action="<?php $template->the_action_url( 'register', 'login_post' ); ?>">
 	<input type="hidden" name="action" value="register" />
 	<input type="hidden" name="stage" value="gimmeanotherblog" />
 	<?php do_action( 'signup_hidden_fields' ); ?>

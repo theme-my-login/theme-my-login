@@ -4,7 +4,7 @@ If you would like to edit this file, copy it to your current theme's directory a
 Theme My Login will always look in your theme's directory first, before using this default template.
 */
 ?>
-<form id="setupform" method="post" action="<?php $template->the_action_url( 'register' ); ?>">
+<form id="setupform" method="post" action="<?php $template->the_action_url( 'register', 'login_post' ); ?>">
 	<input type="hidden" name="action" value="register" />
 	<input type="hidden" name="stage" value="validate-blog-signup" />
 	<input type="hidden" name="user_name" value="<?php echo esc_attr( $user_name ); ?>" />
