@@ -229,7 +229,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 
 			if ( force_ssl_admin() && ! is_ssl() ) {
 				if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
-					wp_redirect( preg_replace( '|^http://|', 'https://', $_SERVER['REQUEST_URI'] ) );
+					wp_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
 					exit;
 				} else {
 					wp_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
