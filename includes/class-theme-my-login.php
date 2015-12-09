@@ -152,9 +152,6 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		add_filter( 'wp_list_pages_excludes', array( &$this, 'wp_list_pages_excludes' )        );
 		add_filter( 'page_link',              array( &$this, 'page_link'              ), 10, 2 );
 
-		add_action( 'tml_new_user_registered',   'wp_new_user_notification', 10, 3 );
-
-
 		add_shortcode( 'theme-my-login', array( &$this, 'shortcode' ) );
 	}
 
@@ -424,13 +421,13 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					$user_email = '';
 					if ( $http_post ) {
 						if ( 'email' == $this->get_option( 'login_type' ) ) {
-							$user_login = $_POST['user_email'];
+							$user_login = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
 						} else {
-							$user_login = $_POST['user_login'];
+							$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
 						}
-						$user_email = $_POST['user_email'];
+						$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
 
-						$this->errors = self::register_new_user( $user_login, $user_email );
+						$this->errors = register_new_user( $user_login, $user_email );
 						if ( ! is_wp_error( $this->errors ) ) {
 							$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url( 'wp-login.php?checkemail=registered' );
 							wp_safe_redirect( $redirect_to );
@@ -1194,65 +1191,6 @@ if(typeof wpOnload=='function')wpOnload()
 			wp_die( __( 'The e-mail could not be sent.', 'theme-my-login' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...', 'theme-my-login' ) );
 
 		return true;
-	}
-
-	/**
-	 * Handles registering a new user.
-	 *
-	 * @since 6.0
-	 * @access public
-	 *
-	 * @param string $user_login User's username for logging in
-	 * @param string $user_email User's email address to send password and add
-	 * @return int|WP_Error Either user's ID or error on failure.
-	 */
-	public static function register_new_user( $user_login, $user_email ) {
-		global $wp_version;
-
-		$errors = new WP_Error();
-
-		$sanitized_user_login = sanitize_user( $user_login );
-		$user_email = apply_filters( 'user_registration_email', $user_email );
-
-		// Check the username
-		if ( $sanitized_user_login == '' ) {
-			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Please enter a username.', 'theme-my-login' ) );
-		} elseif ( ! validate_username( $user_login ) ) {
-			$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.', 'theme-my-login' ) );
-			$sanitized_user_login = '';
-		} elseif ( username_exists( $sanitized_user_login ) ) {
-			$errors->add( 'username_exists', __( '<strong>ERROR</strong>: This username is already registered, please choose another one.', 'theme-my-login' ) );
-		}
-
-		// Check the e-mail address
-		if ( '' == $user_email ) {
-			$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please type your e-mail address.', 'theme-my-login' ) );
-		} elseif ( ! is_email( $user_email ) ) {
-			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.', 'theme-my-login' ) );
-			$user_email = '';
-		} elseif ( email_exists( $user_email ) ) {
-			$errors->add( 'email_exists', __( '<strong>ERROR</strong>: This email is already registered, please choose another one.', 'theme-my-login' ) );
-		}
-
-		do_action( 'register_post', $sanitized_user_login, $user_email, $errors );
-
-		$errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
-
-		if ( $errors->get_error_code() )
-			return $errors;
-
-		$user_pass = apply_filters( 'tml_user_registration_pass', wp_generate_password( 12, false ) );
-		$user_id = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
-		if ( ! $user_id || is_wp_error( $user_id ) ) {
-			$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !', 'theme-my-login' ), get_option( 'admin_email' ) ) );
-			return $errors;
-		}
-
-		update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.
-
-		do_action( 'tml_new_user_registered', $user_id, null, 'both' );
-
-		return $user_id;
 	}
 }
 endif; // Class exists
