@@ -146,7 +146,6 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 		global $current_screen;
 		?>
 		<div class="wrap">
-			<?php screen_icon( 'options-general' ); ?>
 			<h2><?php echo esc_html_e( 'Theme My Login Custom E-mail Settings', 'theme-my-login' ); ?></h2>
 			<?php settings_errors(); ?>
 
