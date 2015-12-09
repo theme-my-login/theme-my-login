@@ -1140,7 +1140,7 @@ if(typeof wpOnload=='function')wpOnload()
 			$user_data = get_user_by( 'login', $login );
 		}
 
-		do_action( 'lostpassword_post' );
+		do_action( 'lostpassword_post', $errors );
 
 		if ( $errors->get_error_code() )
 			return $errors;
