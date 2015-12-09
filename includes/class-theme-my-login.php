@@ -306,6 +306,11 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 			$http_post = ( 'POST' == $_SERVER['REQUEST_METHOD'] );
 			switch ( $this->request_action ) {
 				case 'postpass' :
+					if ( ! array_key_exists( 'post_password', $_POST ) ) {
+						wp_safe_redirect( wp_get_referer() );
+						exit();
+					}
+
 					require_once( ABSPATH . 'wp-includes/class-phpass.php' );
 					$hasher = new PasswordHash( 8, true );
 
