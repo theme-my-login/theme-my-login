@@ -456,7 +456,7 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 			get_stylesheet_directory(),
 			get_template_directory() . '/theme-my-login',
 			get_template_directory(),
-			WP_PLUGIN_DIR . '/theme-my-login/templates'
+			THEMEMYLOGIN_PATH . '/templates'
 		) );
 
 		foreach ( (array) $template_names as $template_name ) {

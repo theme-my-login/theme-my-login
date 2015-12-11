@@ -168,8 +168,8 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 */
 	public function plugins_loaded() {
 		foreach ( $this->get_option( 'active_modules', array() ) as $module ) {
-			if ( file_exists( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module ) )
-				include_once( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module );
+			if ( file_exists( THEMEMYLOGIN_PATH . '/modules/' . $module ) )
+				include_once( THEMEMYLOGIN_PATH . '/modules/' . $module );
 		}
 		do_action_ref_array( 'tml_modules_loaded', array( &$this ) );
 	}
@@ -1015,7 +1015,7 @@ if(typeof wpOnload=='function')wpOnload()
 		elseif ( file_exists( get_template_directory() . '/' . $file ) )
 			$stylesheet = get_template_directory_uri() . '/' . $file;
 		else
-			$stylesheet = plugins_url( '/theme-my-login/' . $file );
+			$stylesheet = plugins_url( $file, dirname( dirname( __FILE__ ) ) );
 		return $stylesheet;
 	}
 
