@@ -889,9 +889,8 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 	 * @access public
 	 *
 	 * @param object $user User object
-	 * @param string $newpass New password
 	 */
-	public function password_change_notification( &$user, $newpass ) {
+	public function password_change_notification( $user ) {
 		global $current_site;
 
 		$to = apply_filters( 'password_change_notification_mail_to', get_option( 'admin_email' ) );
