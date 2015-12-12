@@ -7,12 +7,16 @@ Version: 6.4.2
 Author: Jeff Farthing
 Author URI: http://www.jfarthing.com
 Text Domain: theme-my-login
-Domain Path: /language/
+Domain Path: /language
 */
 
 // Allow custom functions file
 if ( file_exists( WP_PLUGIN_DIR . '/theme-my-login-custom.php' ) )
 	include_once( WP_PLUGIN_DIR . '/theme-my-login-custom.php' );
+
+if ( ! defined( 'THEMEMYLOGIN_PATH' ) ) {
+	define( 'THEMEMYLOGIN_PATH', dirname( __FILE__ ) );
+}
 
 // Require a few needed files
 require_once( WP_PLUGIN_DIR . '/theme-my-login/includes/class-theme-my-login-common.php' );
