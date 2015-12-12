@@ -120,11 +120,13 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 		add_action( 'password_reset',            array( &$this, 'apply_password_reset_filters' ) );
 		add_action( 'tml_new_user_notification', array( &$this, 'apply_new_user_filters'       ) );
 
-		remove_action( 'register_new_user',      'wp_send_new_user_notifications'  );
-		remove_action( 'after_password_reset',   'wp_password_change_notification' );
+		remove_action( 'register_new_user',      'wp_send_new_user_notifications'        );
+		remove_action( 'edit_user_created_user', 'wp_send_new_user_notifications', 10, 2 );
+		remove_action( 'after_password_reset',   'wp_password_change_notification'       );
 
-		add_action( 'register_new_user',    array( &$this, 'new_user_notification'        ) );
-		add_action( 'after_password_reset', array( &$this, 'password_change_notification' ) );
+		add_action( 'register_new_user',      array( &$this, 'new_user_notification'        )        );
+		add_action( 'edit_user_created_user', array( &$this, 'new_user_notification'        ), 10, 2 );
+		add_action( 'after_password_reset',   array( &$this, 'password_change_notification' )        );
 
 		add_action( 'register_post',              array( &$this, 'apply_user_moderation_notification_filters' ) );
 		add_action( 'tml_user_activation_resend', array( &$this, 'apply_user_moderation_notification_filters' ) );
