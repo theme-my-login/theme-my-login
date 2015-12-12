@@ -116,12 +116,12 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 		add_filter( 'wp_mail_from_name',    array( &$this, 'mail_from_name_filter'    ) );
 		add_filter( 'wp_mail_content_type', array( &$this, 'mail_content_type_filter' ) );
 
-		add_action( 'retrieve_password', array( &$this, 'apply_retrieve_pass_filters'  ) );
-		add_action( 'password_reset',    array( &$this, 'apply_password_reset_filters' ) );
-		add_action( 'register_post',     array( &$this, 'apply_new_user_filters'       ) );
+		add_action( 'retrieve_password',         array( &$this, 'apply_retrieve_pass_filters'  ) );
+		add_action( 'password_reset',            array( &$this, 'apply_password_reset_filters' ) );
+		add_action( 'tml_new_user_notification', array( &$this, 'apply_new_user_filters'       ) );
 
-		remove_action( 'register_new_user',    'wp_send_new_user_notifications'  );
-		remove_action( 'after_password_reset', 'wp_password_change_notification' );
+		remove_action( 'register_new_user',      'wp_send_new_user_notifications'  );
+		remove_action( 'after_password_reset',   'wp_password_change_notification' );
 
 		add_action( 'register_new_user',    array( &$this, 'new_user_notification'        ) );
 		add_action( 'after_password_reset', array( &$this, 'password_change_notification' ) );
