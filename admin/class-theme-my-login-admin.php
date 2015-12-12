@@ -54,7 +54,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		add_action( 'admin_menu', array( &$this, 'admin_menu' ), 8 );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ), 11 );
 
-		register_uninstall_hook( WP_PLUGIN_DIR . '/theme-my-login/theme-my-login.php', array( 'Theme_My_Login_Admin', 'uninstall' ) );
+		register_uninstall_hook( THEMEMYLOGIN_PATH . '/theme-my-login.php', array( 'Theme_My_Login_Admin', 'uninstall' ) );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function admin_enqueue_scripts() {
-		wp_enqueue_script( 'theme-my-login-admin', plugins_url( 'theme-my-login/admin/js/theme-my-login-admin.js' ), array( 'jquery' ), Theme_My_Login::VERSION, true );
+		wp_enqueue_script( 'theme-my-login-admin', plugins_url( 'js/theme-my-login-admin.js', __FILE__ ), array( 'jquery' ), Theme_My_Login::VERSION, true );
 		wp_localize_script( 'theme-my-login-admin', 'tmlAdmin', array(
 			'interim_login_url' => site_url( 'wp-login.php?interim-login=1', 'login' )
 		) );
@@ -227,8 +227,8 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		// If we have modules to activate
 		if ( $activate = array_diff( $settings['active_modules'], $this->get_option( 'active_modules', array() ) ) ) {
 			foreach ( $activate as $module ) {
-				if ( file_exists( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module ) )
-					include_once( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module );
+				if ( file_exists( THEMEMYLOGIN_PATH . '/modules/' . $module ) )
+					include_once( THEMEMYLOGIN_PATH . '/modules/' . $module );
 				do_action( 'tml_activate_' . $module );
 			}
 		}
@@ -345,8 +345,8 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 
 		// Activate modules
 		foreach ( $this->get_option( 'active_modules', array() ) as $module ) {
-			if ( file_exists( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module ) )
-				include_once( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module );
+			if ( file_exists( THEMEMYLOGIN_PATH . '/modules/' . $module ) )
+				include_once( THEMEMYLOGIN_PATH . '/modules/' . $module );
 			do_action( 'tml_activate_' . $module );
 		}
 
@@ -391,8 +391,8 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		foreach ( array_keys( $modules ) as $module ) {
 			$module = plugin_basename( trim( $module ) );
 
-			if ( file_exists( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module ) )
-				@include ( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module );
+			if ( file_exists( THEMEMYLOGIN_PATH . '/modules/' . $module ) )
+				@include ( THEMEMYLOGIN_PATH . '/modules/' . $module );
 
 			do_action( 'tml_uninstall_' . $module );
 		}

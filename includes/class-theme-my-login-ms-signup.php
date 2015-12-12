@@ -485,7 +485,7 @@ class Theme_My_Login_MS_Signup extends Theme_My_Login_Abstract {
 		global $wpdb;
 		require_once ( ABSPATH . '/wp-admin/includes/plugin.php' );
 		if ( is_plugin_active_for_network( 'theme-my-login/theme-my-login.php' ) ) {
-			require_once( WP_PLUGIN_DIR . '/theme-my-login/admin/class-theme-my-login-admin.php' );
+			require_once( THEMEMYLOGIN_PATH . '/admin/class-theme-my-login-admin.php' );
 			switch_to_blog( $blog_id );
 			$admin = Theme_My_Login_Admin::get_object();
 			$admin->install();
