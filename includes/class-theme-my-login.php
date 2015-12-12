@@ -1099,20 +1099,17 @@ if(typeof wpOnload=='function')wpOnload()
 	private static function load_textdomain() {
 
 		// Traditional WordPress plugin locale filter
-		$locale = apply_filters( 'plugin_locale',  get_locale(), 'theme-my-login' );
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'theme-my-login' );
 		$mofile = sprintf( 'theme-my-login-%s.mo', $locale );
 
 		// Look in global /wp-content/languages/theme-my-login folder
-		if ( file_exists( WP_LANG_DIR . '/theme-my-login/' . $mofile ) ) {
-			return load_textdomain( 'theme-my-login', WP_LANG_DIR . '/theme-my-login/' . $mofile );
+		load_textdomain( 'theme-my-login', WP_LANG_DIR . '/theme-my-login/' . $mofile );
 
-		// Look in local /wp-content/plugins/theme-my-login/language folder
-		} elseif ( file_exists( WP_PLUGIN_DIR . '/theme-my-login/language/' . $mofile ) ) {
-			return load_textdomain( 'theme-my-login', WP_PLUGIN_DIR . '/theme-my-login/language/' . $mofile );
-		}
+		// Look in local /wp-content/plugins/theme-my-login/languages folder
+		load_textdomain( 'theme-my-login', WP_PLUGIN_DIR . '/theme-my-login/languages/' . $mofile );
 
-		// Nothing found
-		return false;
+		// Look in global /wp-content/languages/plugins folder
+		load_plugin_textdomain( 'theme-my-login' );
 	}
 
 	/**
