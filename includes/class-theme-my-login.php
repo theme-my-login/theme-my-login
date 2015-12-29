@@ -132,27 +132,27 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 
 		$this->load_instance();
 
-		add_action( 'plugins_loaded',          array( &$this, 'plugins_loaded'          ) );
-		add_action( 'init',                    array( &$this, 'init'                    ) );
-		add_action( 'widgets_init',            array( &$this, 'widgets_init'            ) );
-		add_action( 'wp',                      array( &$this, 'wp'                      ) );
-		add_action( 'pre_get_posts',           array( &$this, 'pre_get_posts'           ) );
-		add_action( 'template_redirect',       array( &$this, 'template_redirect'       ) );
-		add_action( 'wp_enqueue_scripts',      array( &$this, 'wp_enqueue_scripts'      ) );
-		add_action( 'wp_head',                 array( &$this, 'wp_head'                 ) );
-		add_action( 'wp_footer',               array( &$this, 'wp_footer'               ) );
-		add_action( 'wp_print_footer_scripts', array( &$this, 'wp_print_footer_scripts' ) );
-		add_action( 'wp_authenticate',         array( &$this, 'wp_authenticate'         ) );
+		add_action( 'plugins_loaded',          array( $this, 'plugins_loaded'          ) );
+		add_action( 'init',                    array( $this, 'init'                    ) );
+		add_action( 'widgets_init',            array( $this, 'widgets_init'            ) );
+		add_action( 'wp',                      array( $this, 'wp'                      ) );
+		add_action( 'pre_get_posts',           array( $this, 'pre_get_posts'           ) );
+		add_action( 'template_redirect',       array( $this, 'template_redirect'       ) );
+		add_action( 'wp_enqueue_scripts',      array( $this, 'wp_enqueue_scripts'      ) );
+		add_action( 'wp_head',                 array( $this, 'wp_head'                 ) );
+		add_action( 'wp_footer',               array( $this, 'wp_footer'               ) );
+		add_action( 'wp_print_footer_scripts', array( $this, 'wp_print_footer_scripts' ) );
+		add_action( 'wp_authenticate',         array( $this, 'wp_authenticate'         ) );
 
-		add_filter( 'site_url',               array( &$this, 'site_url'               ), 10, 3 );
-		add_filter( 'logout_url',             array( &$this, 'logout_url'             ), 10, 2 );
-		add_filter( 'single_post_title',      array( &$this, 'single_post_title'      )        );
-		add_filter( 'the_title',              array( &$this, 'the_title'              ), 10, 2 );
-		add_filter( 'wp_setup_nav_menu_item', array( &$this, 'wp_setup_nav_menu_item' )        );
-		add_filter( 'wp_list_pages_excludes', array( &$this, 'wp_list_pages_excludes' )        );
-		add_filter( 'page_link',              array( &$this, 'page_link'              ), 10, 2 );
+		add_filter( 'site_url',               array( $this, 'site_url'               ), 10, 3 );
+		add_filter( 'logout_url',             array( $this, 'logout_url'             ), 10, 2 );
+		add_filter( 'single_post_title',      array( $this, 'single_post_title'      )        );
+		add_filter( 'the_title',              array( $this, 'the_title'              ), 10, 2 );
+		add_filter( 'wp_setup_nav_menu_item', array( $this, 'wp_setup_nav_menu_item' )        );
+		add_filter( 'wp_list_pages_excludes', array( $this, 'wp_list_pages_excludes' )        );
+		add_filter( 'page_link',              array( $this, 'page_link'              ), 10, 2 );
 
-		add_shortcode( 'theme-my-login', array( &$this, 'shortcode' ) );
+		add_shortcode( 'theme-my-login', array( $this, 'shortcode' ) );
 	}
 
 
@@ -171,7 +171,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 			if ( file_exists( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module ) )
 				include_once( WP_PLUGIN_DIR . '/theme-my-login/modules/' . $module );
 		}
-		do_action_ref_array( 'tml_modules_loaded', array( &$this ) );
+		do_action_ref_array( 'tml_modules_loaded', array( $this ) );
 	}
 
 	/**
@@ -292,13 +292,13 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 			$this->request_action = self::get_page_action( get_the_id() );
 		$this->request_instance = isset( $_REQUEST['instance'] ) ? sanitize_key( $_REQUEST['instance'] ) : 0;
 
-		do_action_ref_array( 'tml_request', array( &$this ) );
+		do_action_ref_array( 'tml_request', array( $this ) );
 
 		// allow plugins to override the default actions, and to add extra actions if they want
 		do_action( 'login_form_' . $this->request_action );
 
 		if ( has_action( 'tml_request_' . $this->request_action ) ) {
-			do_action_ref_array( 'tml_request_' . $this->request_action, array( &$this ) );
+			do_action_ref_array( 'tml_request_' . $this->request_action, array( $this ) );
 		} else {
 			$http_post = ( 'POST' == $_SERVER['REQUEST_METHOD'] );
 			switch ( $this->request_action ) {
