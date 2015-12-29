@@ -366,11 +366,10 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					// Dirty hack for now
 					global $rp_login, $rp_key;
 
-					list( $rp_path ) = explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) );
 					$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 					if ( isset( $_GET['key'] ) ) {
 						$value = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-						setcookie( $rp_cookie, $value, 0, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
+						setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
 						wp_safe_redirect( remove_query_arg( array( 'key', 'login' ) ) );
 						exit;
 					}
@@ -386,7 +385,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					}
 
 					if ( ! $user || is_wp_error( $user ) ) {
-						setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
+						setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/', COOKIE_DOMAIN, is_ssl(), true );
 						if ( $user && $user->get_error_code() === 'expired_key' )
 							wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) );
 						else
@@ -401,7 +400,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 
 					if ( ( ! $this->errors->get_error_code() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 						reset_password( $user, $_POST['pass1'] );
-						setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
+						setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/', COOKIE_DOMAIN, is_ssl(), true );
 						$redirect_to = site_url( 'wp-login.php?resetpass=complete' );
 						wp_safe_redirect( $redirect_to );
 						exit;
