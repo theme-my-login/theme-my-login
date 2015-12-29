@@ -50,9 +50,9 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	protected function load() {
-		add_action( 'admin_init', array( &$this, 'admin_init' ) );
-		add_action( 'admin_menu', array( &$this, 'admin_menu' ), 8 );
-		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ), 11 );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ), 8 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 11 );
 
 		register_uninstall_hook( WP_PLUGIN_DIR . '/theme-my-login/theme-my-login.php', array( 'Theme_My_Login_Admin', 'uninstall' ) );
 	}
@@ -93,7 +93,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 	public function admin_init() {
 
 		// Register setting
-		register_setting( 'theme_my_login', 'theme_my_login',  array( &$this, 'save_settings' ) );
+		register_setting( 'theme_my_login', 'theme_my_login',  array( $this, 'save_settings' ) );
 
 		// Install/Upgrade
 		if ( version_compare( $this->get_option( 'version', 0 ), Theme_My_Login::VERSION, '<' ) )
@@ -104,9 +104,9 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		add_settings_section( 'modules',    __( 'Modules', 'theme-my-login'    ), '__return_false', $this->options_key );
 
 		// Add fields
-		add_settings_field( 'enable_css', __( 'Stylesheet', 'theme-my-login' ), array( &$this, 'settings_field_enable_css' ), $this->options_key, 'general' );
-		add_settings_field( 'login_type', __( 'Login Type', 'theme-my-login' ), array( &$this, 'settings_field_login_type' ), $this->options_key, 'general' );
-		add_settings_field( 'modules',    __( 'Modules',    'theme-my-login' ), array( &$this, 'settings_field_modules'    ), $this->options_key, 'modules' );
+		add_settings_field( 'enable_css', __( 'Stylesheet', 'theme-my-login' ), array( $this, 'settings_field_enable_css' ), $this->options_key, 'general' );
+		add_settings_field( 'login_type', __( 'Login Type', 'theme-my-login' ), array( $this, 'settings_field_login_type' ), $this->options_key, 'general' );
+		add_settings_field( 'modules',    __( 'Modules',    'theme-my-login' ), array( $this, 'settings_field_modules'    ), $this->options_key, 'modules' );
 	}
 
 	/**

@@ -72,18 +72,18 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'tml_modules_loaded', array( &$this, 'modules_loaded' ) );
+		add_action( 'tml_modules_loaded', array( $this, 'modules_loaded' ) );
 
-		add_action( 'init',               array( &$this, 'init'               ) );
-		add_action( 'template_redirect',  array( &$this, 'template_redirect'  ) );
-		add_filter( 'show_admin_bar',     array( &$this, 'show_admin_bar'     ) );
-		add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_scripts' ) );
-		add_filter( 'body_class',         array( &$this, 'body_class'         ) );
+		add_action( 'init',               array( $this, 'init'               ) );
+		add_action( 'template_redirect',  array( $this, 'template_redirect'  ) );
+		add_filter( 'show_admin_bar',     array( $this, 'show_admin_bar'     ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+		add_filter( 'body_class',         array( $this, 'body_class'         ) );
 
-		add_action( 'tml_request_profile', array( &$this, 'tml_request_profile' ) );
-		add_action( 'tml_display_profile', array( &$this, 'tml_display_profile' ) );
+		add_action( 'tml_request_profile', array( $this, 'tml_request_profile' ) );
+		add_action( 'tml_display_profile', array( $this, 'tml_display_profile' ) );
 
-		add_filter( 'wp_setup_nav_menu_item', array( &$this, 'wp_setup_nav_menu_item' ), 12 );
+		add_filter( 'wp_setup_nav_menu_item', array( $this, 'wp_setup_nav_menu_item' ), 12 );
 	}
 
 	/**
@@ -95,8 +95,8 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function modules_loaded() {
-		add_filter( 'site_url',  array( &$this, 'site_url' ), 10, 3 );
-		add_filter( 'admin_url', array( &$this, 'site_url' ), 10, 2 );
+		add_filter( 'site_url',  array( $this, 'site_url' ), 10, 3 );
+		add_filter( 'admin_url', array( $this, 'site_url' ), 10, 2 );
 	}
 
 	/**
