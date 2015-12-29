@@ -112,26 +112,26 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_filter( 'wp_mail_from',         array( &$this, 'mail_from_filter'         ) );
-		add_filter( 'wp_mail_from_name',    array( &$this, 'mail_from_name_filter'    ) );
-		add_filter( 'wp_mail_content_type', array( &$this, 'mail_content_type_filter' ) );
+		add_filter( 'wp_mail_from',         array( $this, 'mail_from_filter'         ) );
+		add_filter( 'wp_mail_from_name',    array( $this, 'mail_from_name_filter'    ) );
+		add_filter( 'wp_mail_content_type', array( $this, 'mail_content_type_filter' ) );
 
-		add_action( 'retrieve_password',         array( &$this, 'apply_retrieve_pass_filters'  ) );
-		add_action( 'password_reset',            array( &$this, 'apply_password_reset_filters' ) );
-		add_action( 'tml_new_user_notification', array( &$this, 'apply_new_user_filters'       ) );
+		add_action( 'retrieve_password',         array( $this, 'apply_retrieve_pass_filters'  ) );
+		add_action( 'password_reset',            array( $this, 'apply_password_reset_filters' ) );
+		add_action( 'tml_new_user_notification', array( $this, 'apply_new_user_filters'       ) );
 
 		remove_action( 'register_new_user',      'wp_send_new_user_notifications'        );
 		remove_action( 'edit_user_created_user', 'wp_send_new_user_notifications', 10, 2 );
 		remove_action( 'after_password_reset',   'wp_password_change_notification'       );
 
-		add_action( 'register_new_user',      array( &$this, 'new_user_notification'        )        );
-		add_action( 'edit_user_created_user', array( &$this, 'new_user_notification'        ), 10, 2 );
-		add_action( 'after_password_reset',   array( &$this, 'password_change_notification' )        );
+		add_action( 'register_new_user',      array( $this, 'new_user_notification'        )        );
+		add_action( 'edit_user_created_user', array( $this, 'new_user_notification'        ), 10, 2 );
+		add_action( 'after_password_reset',   array( $this, 'password_change_notification' )        );
 
-		add_action( 'register_post',              array( &$this, 'apply_user_moderation_notification_filters' ) );
-		add_action( 'tml_user_activation_resend', array( &$this, 'apply_user_moderation_notification_filters' ) );
-		add_action( 'approve_user',               array( &$this, 'apply_user_approval_notification_filters'   ) );
-		add_action( 'deny_user',                  array( &$this, 'apply_user_denial_notification_filters'     ) );
+		add_action( 'register_post',              array( $this, 'apply_user_moderation_notification_filters' ) );
+		add_action( 'tml_user_activation_resend', array( $this, 'apply_user_moderation_notification_filters' ) );
+		add_action( 'approve_user',               array( $this, 'apply_user_approval_notification_filters'   ) );
+		add_action( 'deny_user',                  array( $this, 'apply_user_denial_notification_filters'     ) );
 	}
 
 	/**
@@ -165,8 +165,8 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 			$this->get_option( array( 'retrieve_pass', 'mail_from_name'    ) ),
 			$this->get_option( array( 'retrieve_pass', 'mail_content_type' ) )
 		);
-		add_filter( 'retrieve_password_title',   array( &$this, 'retrieve_pass_title_filter'   ), 10, 3 );
-		add_filter( 'retrieve_password_message', array( &$this, 'retrieve_pass_message_filter' ), 10, 4 );
+		add_filter( 'retrieve_password_title',   array( $this, 'retrieve_pass_title_filter'   ), 10, 3 );
+		add_filter( 'retrieve_password_message', array( $this, 'retrieve_pass_message_filter' ), 10, 4 );
 	}
 
 	/**
@@ -184,10 +184,10 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 			$this->get_option( array( 'reset_pass', 'admin_mail_from_name'    ) ),
 			$this->get_option( array( 'reset_pass', 'admin_mail_content_type' ) )
 		);
-		add_filter( 'password_change_notification_mail_to', array( &$this, 'password_change_notification_mail_to_filter' )        );
-		add_filter( 'password_change_notification_title',   array( &$this, 'password_change_notification_title_filter'   ), 10, 2 );
-		add_filter( 'password_change_notification_message', array( &$this, 'password_change_notification_message_filter' ), 10, 2 );
-		add_filter( 'send_password_change_notification',    array( &$this, 'send_password_change_notification_filter'    )        );
+		add_filter( 'password_change_notification_mail_to', array( $this, 'password_change_notification_mail_to_filter' )        );
+		add_filter( 'password_change_notification_title',   array( $this, 'password_change_notification_title_filter'   ), 10, 2 );
+		add_filter( 'password_change_notification_message', array( $this, 'password_change_notification_message_filter' ), 10, 2 );
+		add_filter( 'send_password_change_notification',    array( $this, 'send_password_change_notification_filter'    )        );
 	}
 
 	/**
@@ -200,13 +200,13 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function apply_new_user_filters() {
-		add_filter( 'new_user_notification_title',         array( &$this, 'new_user_notification_title_filter'         ), 10, 2 );
-		add_filter( 'new_user_notification_message',       array( &$this, 'new_user_notification_message_filter'       ), 10, 3 );
-		add_filter( 'send_new_user_notification',          array( &$this, 'send_new_user_notification_filter'          )        );
-		add_filter( 'new_user_admin_notification_mail_to', array( &$this, 'new_user_admin_notification_mail_to_filter' )        );
-		add_filter( 'new_user_admin_notification_title',   array( &$this, 'new_user_admin_notification_title_filter'   ), 10, 2 );
-		add_filter( 'new_user_admin_notification_message', array( &$this, 'new_user_admin_notification_message_filter' ), 10, 2 );
-		add_filter( 'send_new_user_admin_notification',    array( &$this, 'send_new_user_admin_notification_filter'    )        );
+		add_filter( 'new_user_notification_title',         array( $this, 'new_user_notification_title_filter'         ), 10, 2 );
+		add_filter( 'new_user_notification_message',       array( $this, 'new_user_notification_message_filter'       ), 10, 3 );
+		add_filter( 'send_new_user_notification',          array( $this, 'send_new_user_notification_filter'          )        );
+		add_filter( 'new_user_admin_notification_mail_to', array( $this, 'new_user_admin_notification_mail_to_filter' )        );
+		add_filter( 'new_user_admin_notification_title',   array( $this, 'new_user_admin_notification_title_filter'   ), 10, 2 );
+		add_filter( 'new_user_admin_notification_message', array( $this, 'new_user_admin_notification_message_filter' ), 10, 2 );
+		add_filter( 'send_new_user_admin_notification',    array( $this, 'send_new_user_admin_notification_filter'    )        );
 	}
 
 	/**
@@ -548,8 +548,8 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 					$this->get_option( array( 'user_activation', 'mail_from_name'    ) ),
 					$this->get_option( array( 'user_activation', 'mail_content_type' ) )
 				);
-				add_filter( 'user_activation_notification_title',   array( &$this, 'user_activation_notification_title_filter'   ), 10, 2 );
-				add_filter( 'user_activation_notification_message', array( &$this, 'user_activation_notification_message_filter' ), 10, 3 );
+				add_filter( 'user_activation_notification_title',   array( $this, 'user_activation_notification_title_filter'   ), 10, 2 );
+				add_filter( 'user_activation_notification_message', array( $this, 'user_activation_notification_message_filter' ), 10, 3 );
 				break;
 			case 'admin' :
 				$this->set_mail_headers(
@@ -557,10 +557,10 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 					$this->get_option( array( 'user_approval', 'admin_mail_from_name'    ) ),
 					$this->get_option( array( 'user_approval', 'admin_mail_content_type' ) )
 				);
-				add_filter( 'user_approval_admin_notification_mail_to',  array( &$this, 'user_approval_admin_notification_mail_to_filter'  )        );
-				add_filter( 'user_approval_admin_notification_title',    array( &$this, 'user_approval_admin_notification_title_filter'    ), 10, 2 );
-				add_filter( 'user_approval_admin_notification_message',  array( &$this, 'user_approval_admin_notification_message_filter'  ), 10, 2 );
-				add_filter( 'send_new_user_approval_admin_notification', array( &$this, 'send_new_user_approval_admin_notification_filter' )        );
+				add_filter( 'user_approval_admin_notification_mail_to',  array( $this, 'user_approval_admin_notification_mail_to_filter'  )        );
+				add_filter( 'user_approval_admin_notification_title',    array( $this, 'user_approval_admin_notification_title_filter'    ), 10, 2 );
+				add_filter( 'user_approval_admin_notification_message',  array( $this, 'user_approval_admin_notification_message_filter'  ), 10, 2 );
+				add_filter( 'send_new_user_approval_admin_notification', array( $this, 'send_new_user_approval_admin_notification_filter' )        );
 				break;
 		}
 	}
@@ -580,8 +580,8 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 			$this->get_option( array( 'user_approval', 'mail_from_name'    ) ),
 			$this->get_option( array( 'user_approval', 'mail_content_type' ) )
 		);
-		add_filter( 'user_approval_notification_title',   array( &$this, 'user_approval_notification_title_filter'   ), 10, 2 );
-		add_filter( 'user_approval_notification_message', array( &$this, 'user_approval_notification_message_filter' ), 10, 3 );
+		add_filter( 'user_approval_notification_title',   array( $this, 'user_approval_notification_title_filter'   ), 10, 2 );
+		add_filter( 'user_approval_notification_message', array( $this, 'user_approval_notification_message_filter' ), 10, 3 );
 	}
 
 	/**
@@ -599,9 +599,9 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 			$this->get_option( array( 'user_denial', 'mail_from_name'    ) ),
 			$this->get_option( array( 'user_denial', 'mail_content_type' ) )
 		);
-		add_filter( 'user_denial_notification_title',    array( &$this, 'user_denial_notification_title_filter'    ), 10, 2 );
-		add_filter( 'user_denial_notification_message',  array( &$this, 'user_denial_notification_message_filter'  ), 10, 2 );
-		add_filter( 'send_new_user_denial_notification', array( &$this, 'send_new_user_denial_notification_filter' )        );
+		add_filter( 'user_denial_notification_title',    array( $this, 'user_denial_notification_title_filter'    ), 10, 2 );
+		add_filter( 'user_denial_notification_message',  array( $this, 'user_denial_notification_message_filter'  ), 10, 2 );
+		add_filter( 'send_new_user_denial_notification', array( $this, 'send_new_user_denial_notification_filter' )        );
 	}
 
 	/**

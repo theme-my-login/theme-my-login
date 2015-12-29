@@ -68,18 +68,18 @@ class Theme_My_Login_Security extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'init',               array( &$this, 'init'              ) );
-		add_action( 'template_redirect',  array( &$this, 'template_redirect' ) );
-		add_action( 'tml_request_unlock', array( &$this, 'request_unlock'    ) );
-		add_action( 'tml_request',        array( &$this, 'action_messages'   ) );
+		add_action( 'init',               array( $this, 'init'              ) );
+		add_action( 'template_redirect',  array( $this, 'template_redirect' ) );
+		add_action( 'tml_request_unlock', array( $this, 'request_unlock'    ) );
+		add_action( 'tml_request',        array( $this, 'action_messages'   ) );
 
-		add_action( 'authenticate',         array( &$this, 'authenticate'         ), 100, 3 );
-		add_filter( 'allow_password_reset', array( &$this, 'allow_password_reset' ),  10, 2 );
+		add_action( 'authenticate',         array( $this, 'authenticate'         ), 100, 3 );
+		add_filter( 'allow_password_reset', array( $this, 'allow_password_reset' ),  10, 2 );
 
-		add_action( 'show_user_profile', array( &$this, 'show_user_profile' ) );
-		add_action( 'edit_user_profile', array( &$this, 'show_user_profile' ) );
+		add_action( 'show_user_profile', array( $this, 'show_user_profile' ) );
+		add_action( 'edit_user_profile', array( $this, 'show_user_profile' ) );
 
-		add_filter( 'show_admin_bar', array( &$this, 'show_admin_bar' ) );
+		add_filter( 'show_admin_bar', array( $this, 'show_admin_bar' ) );
 	}
 
 	/**

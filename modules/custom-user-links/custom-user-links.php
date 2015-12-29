@@ -78,7 +78,7 @@ class Theme_My_Login_Custom_User_Links extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_filter( 'tml_user_links', array( &$this, 'get_user_links' ) );
+		add_filter( 'tml_user_links', array( $this, 'get_user_links' ) );
 	}
 
 	/**

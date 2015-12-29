@@ -44,15 +44,15 @@ class Theme_My_Login_Custom_User_Links_Admin extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'tml_uninstall_custom-user-links/custom-user-links.php', array( &$this, 'uninstall' ) );
+		add_action( 'tml_uninstall_custom-user-links/custom-user-links.php', array( $this, 'uninstall' ) );
 
-		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-		add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-		add_action( 'load-tml_page_theme_my_login_user_links', array( &$this, 'load_settings_page' ) );
+		add_action( 'load-tml_page_theme_my_login_user_links', array( $this, 'load_settings_page' ) );
 
-		add_action( 'wp_ajax_add-user-link',    array( &$this, 'add_user_link_ajax' ) );
-		add_action( 'wp_ajax_delete-user-link', array( &$this, 'delete_user_link_ajax' ) );
+		add_action( 'wp_ajax_add-user-link',    array( $this, 'add_user_link_ajax' ) );
+		add_action( 'wp_ajax_delete-user-link', array( $this, 'delete_user_link_ajax' ) );
 	}
 
 	/**
@@ -95,12 +95,12 @@ class Theme_My_Login_Custom_User_Links_Admin extends Theme_My_Login_Abstract {
 			__( 'User Links', 'theme-my-login' ),
 			'manage_options',
 			$this->options_key,
-			array( &$this, 'settings_page' )
+			array( $this, 'settings_page' )
 		);
 
 		foreach ( $wp_roles->get_names() as $role => $role_name ) {
 			if ( 'pending' != $role )
-				add_meta_box( $role, translate_user_role( $role_name ), array( &$this, 'user_links_meta_box' ), 'tml_page_' . $this->options_key, 'normal' );
+				add_meta_box( $role, translate_user_role( $role_name ), array( $this, 'user_links_meta_box' ), 'tml_page_' . $this->options_key, 'normal' );
 		}
 	}
 
@@ -113,7 +113,7 @@ class Theme_My_Login_Custom_User_Links_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function admin_init() {
-		register_setting( $this->options_key, $this->options_key, array( &$this, 'save_settings' ) );
+		register_setting( $this->options_key, $this->options_key, array( $this, 'save_settings' ) );
 	}
 
 	/**
@@ -125,8 +125,8 @@ class Theme_My_Login_Custom_User_Links_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function load_settings_page() {
-		wp_enqueue_style(  'tml-custom-user-links-admin', plugins_url( 'theme-my-login/modules/custom-user-links/admin/css/custom-user-links-admin.css' ) );
-		wp_enqueue_script( 'tml-custom-user-links-admin', plugins_url( 'theme-my-login/modules/custom-user-links/admin/js/custom-user-links-admin.js' ), array( 'wp-lists', 'postbox', 'jquery-ui-sortable' ) );
+		wp_enqueue_style(  'tml-custom-user-links-admin', plugins_url( 'css/custom-user-links-admin.css', __FILE__ ) );
+		wp_enqueue_script( 'tml-custom-user-links-admin', plugins_url( 'js/custom-user-links-admin.js', __FILE__ ), array( 'wp-lists', 'postbox', 'jquery-ui-sortable' ) );
 	}
 
 	/**

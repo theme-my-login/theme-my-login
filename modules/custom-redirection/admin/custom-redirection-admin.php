@@ -41,12 +41,12 @@ class Theme_My_Login_Custom_Redirection_Admin extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'tml_uninstall_custom-redirection/custom-redirection.php', array( &$this, 'uninstall' ) );
+		add_action( 'tml_uninstall_custom-redirection/custom-redirection.php', array( $this, 'uninstall' ) );
 
-		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-		add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-		add_action( 'load-tml_page_theme_my_login_redirection', array( &$this, 'load_settings_page' ) );
+		add_action( 'load-tml_page_theme_my_login_redirection', array( $this, 'load_settings_page' ) );
 	}
 
 	/**
@@ -87,12 +87,12 @@ class Theme_My_Login_Custom_Redirection_Admin extends Theme_My_Login_Abstract {
 			__( 'Redirection', 'theme-my-login' ),
 			'manage_options',
 			$this->options_key,
-			array( &$this, 'settings_page' )
+			array( $this, 'settings_page' )
 		);
 
 		foreach ( $wp_roles->get_names() as $role => $role_name ) {
 			if ( 'pending' != $role )
-				add_meta_box( $role, translate_user_role( $role_name ), array( &$this, 'redirection_meta_box' ), 'tml_page_' . $this->options_key, 'normal' );
+				add_meta_box( $role, translate_user_role( $role_name ), array( $this, 'redirection_meta_box' ), 'tml_page_' . $this->options_key, 'normal' );
 		}
 	}
 
@@ -117,7 +117,7 @@ class Theme_My_Login_Custom_Redirection_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function load_settings_page() {
-		wp_enqueue_script( 'tml-custom-redirection-admin', plugins_url( 'theme-my-login/modules/custom-redirection/admin/js/custom-redirection-admin.js' ), array( 'postbox' ) );
+		wp_enqueue_script( 'tml-custom-redirection-admin', plugins_url( 'js/custom-redirection-admin.js', __FILE__ ), array( 'postbox' ) );
 	}
 
 	/**

@@ -202,7 +202,7 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function wp_enqueue_scripts() {
-		wp_enqueue_script( 'tml-themed-profiles', plugins_url( 'theme-my-login/modules/themed-profiles/themed-profiles.js' ), array( 'jquery' ) );
+		wp_enqueue_script( 'tml-themed-profiles', plugins_url( 'themed-profiles.js', __FILE__ ), array( 'jquery' ) );
 	}
 
 	/**
@@ -244,7 +244,7 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 
 		register_admin_color_schemes();
 
-		wp_enqueue_style( 'password-strength', plugins_url( 'theme-my-login/modules/themed-profiles/themed-profiles.css' ) );
+		wp_enqueue_style( 'password-strength', plugins_url( 'themed-profiles.css', __FILE__ ) );
 
 		wp_enqueue_script( 'user-profile' );
 
