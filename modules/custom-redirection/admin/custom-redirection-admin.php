@@ -117,7 +117,7 @@ class Theme_My_Login_Custom_Redirection_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function load_settings_page() {
-		wp_enqueue_script( 'tml-custom-redirection-admin', plugins_url( 'theme-my-login/modules/custom-redirection/admin/js/custom-redirection-admin.js' ), array( 'postbox' ) );
+		wp_enqueue_script( 'tml-custom-redirection-admin', plugins_url( 'js/custom-redirection-admin.js', __FILE__ ), array( 'postbox' ) );
 	}
 
 	/**

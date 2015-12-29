@@ -129,7 +129,7 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function load_settings_page() {
-		wp_enqueue_script( 'tml-custom-email-admin', plugins_url( 'theme-my-login/modules/custom-email/admin/js/custom-email-admin.js' ), array( 'postbox' ) );
+		wp_enqueue_script( 'tml-custom-email-admin', plugins_url( 'js/custom-email-admin.js', __FILE__ ), array( 'postbox' ) );
 	}
 
 	/**

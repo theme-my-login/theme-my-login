@@ -125,8 +125,8 @@ class Theme_My_Login_Custom_User_Links_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function load_settings_page() {
-		wp_enqueue_style(  'tml-custom-user-links-admin', plugins_url( 'theme-my-login/modules/custom-user-links/admin/css/custom-user-links-admin.css' ) );
-		wp_enqueue_script( 'tml-custom-user-links-admin', plugins_url( 'theme-my-login/modules/custom-user-links/admin/js/custom-user-links-admin.js' ), array( 'wp-lists', 'postbox', 'jquery-ui-sortable' ) );
+		wp_enqueue_style(  'tml-custom-user-links-admin', plugins_url( 'css/custom-user-links-admin.css', __FILE__ ) );
+		wp_enqueue_script( 'tml-custom-user-links-admin', plugins_url( 'js/custom-user-links-admin.js', __FILE__ ), array( 'wp-lists', 'postbox', 'jquery-ui-sortable' ) );
 	}
 
 	/**

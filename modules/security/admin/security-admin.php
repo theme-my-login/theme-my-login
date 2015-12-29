@@ -228,7 +228,7 @@ class Theme_My_Login_Security_Admin extends Theme_My_Login_Abstract {
 
 		$security = Theme_My_Login_Security::get_object();
 
-		wp_enqueue_script( 'tml-security-admin', plugins_url( 'theme-my-login/modules/security/admin/js/security-admin.js' ), array( 'jquery' ) );
+		wp_enqueue_script( 'tml-security-admin', plugins_url( 'js/security-admin.js', __FILE__ ), array( 'jquery' ) );
 
 		add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
 
