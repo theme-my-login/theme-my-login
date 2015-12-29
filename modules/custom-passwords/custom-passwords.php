@@ -35,22 +35,22 @@ class Theme_My_Login_Custom_Passwords extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'register_form',       array( &$this, 'password_fields' ) );
-		add_filter( 'registration_errors', array( &$this, 'password_errors' ) );
-		add_filter( 'random_password',     array( &$this, 'set_password'    ) );
+		add_action( 'register_form',       array( $this, 'password_fields' ) );
+		add_filter( 'registration_errors', array( $this, 'password_errors' ) );
+		add_filter( 'random_password',     array( $this, 'set_password'    ) );
 
-		add_action( 'signup_extra_fields',       array( &$this, 'ms_password_fields'       ) );
-		add_action( 'signup_hidden_fields',      array( &$this, 'ms_hidden_password_field' ) );
-		add_filter( 'wpmu_validate_user_signup', array( &$this, 'ms_password_errors'       ) );
-		add_filter( 'add_signup_meta',           array( &$this, 'ms_save_password'         ) );
+		add_action( 'signup_extra_fields',       array( $this, 'ms_password_fields'       ) );
+		add_action( 'signup_hidden_fields',      array( $this, 'ms_hidden_password_field' ) );
+		add_filter( 'wpmu_validate_user_signup', array( $this, 'ms_password_errors'       ) );
+		add_filter( 'add_signup_meta',           array( $this, 'ms_save_password'         ) );
 
-		add_action( 'register_new_user', array( &$this, 'remove_default_password_nag' ) );
-		add_action( 'approve_user',      array( &$this, 'remove_default_password_nag' ) );
+		add_action( 'register_new_user', array( $this, 'remove_default_password_nag' ) );
+		add_action( 'approve_user',      array( $this, 'remove_default_password_nag' ) );
 
-		add_filter( 'tml_register_passmail_template_message', array( &$this, 'register_passmail_template_message' ) );
-		add_action( 'tml_request',                            array( &$this, 'action_messages'                    ) );
+		add_filter( 'tml_register_passmail_template_message', array( $this, 'register_passmail_template_message' ) );
+		add_action( 'tml_request',                            array( $this, 'action_messages'                    ) );
 
-		add_filter( 'registration_redirect', array( &$this, 'registration_redirect' ) );
+		add_filter( 'registration_redirect', array( $this, 'registration_redirect' ) );
 	}
 
 	/**
@@ -221,7 +221,7 @@ class Theme_My_Login_Custom_Passwords extends Theme_My_Login_Abstract {
 		global $wpdb;
 
 		// Remove filter as not to filter User Moderation activation key
-		remove_filter( 'random_password', array( &$this, 'set_password' ) );
+		remove_filter( 'random_password', array( $this, 'set_password' ) );
 
 		if ( is_multisite() && isset( $_REQUEST['key'] ) ) {
 			if ( $meta = $wpdb->get_var( $wpdb->prepare( "SELECT meta FROM $wpdb->signups WHERE activation_key = %s", $_REQUEST['key'] ) ) ) {

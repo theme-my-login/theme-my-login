@@ -54,10 +54,10 @@ class Theme_My_Login_Recaptcha_Admin extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'tml_uninstall_recaptcha/recaptcha.php', array( &$this, 'uninstall' ) );
+		add_action( 'tml_uninstall_recaptcha/recaptcha.php', array( $this, 'uninstall' ) );
 
-		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-		add_action( 'admin_init', array( &$this, 'admin_init' ) );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 	}
 
 	/**
@@ -90,14 +90,14 @@ class Theme_My_Login_Recaptcha_Admin extends Theme_My_Login_Abstract {
 			__( 'reCAPTCHA', 'theme-my-login' ),
 			'manage_options',
 			$this->options_key,
-			array( &$this, 'settings_page' )
+			array( $this, 'settings_page' )
 		);
 
 		add_settings_section( 'general', null, '__return_false', $this->options_key );
 
-		add_settings_field( 'public_key',  __( 'Site Key',   'theme-my-login' ), array( &$this, 'settings_field_public_key'  ), $this->options_key, 'general' );
-		add_settings_field( 'private_key', __( 'Secret Key', 'theme-my-login' ), array( &$this, 'settings_field_private_key' ), $this->options_key, 'general' );
-		add_settings_field( 'theme',       __( 'Theme',      'theme-my-login' ), array( &$this, 'settings_field_theme'       ), $this->options_key, 'general' );
+		add_settings_field( 'public_key',  __( 'Site Key',   'theme-my-login' ), array( $this, 'settings_field_public_key'  ), $this->options_key, 'general' );
+		add_settings_field( 'private_key', __( 'Secret Key', 'theme-my-login' ), array( $this, 'settings_field_private_key' ), $this->options_key, 'general' );
+		add_settings_field( 'theme',       __( 'Theme',      'theme-my-login' ), array( $this, 'settings_field_theme'       ), $this->options_key, 'general' );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class Theme_My_Login_Recaptcha_Admin extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function admin_init() {
-		register_setting( $this->options_key, $this->options_key,  array( &$this, 'save_settings' ) );
+		register_setting( $this->options_key, $this->options_key,  array( $this, 'save_settings' ) );
 	}
 
 	/**

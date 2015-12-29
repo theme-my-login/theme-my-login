@@ -65,18 +65,18 @@ class Theme_My_Login_User_Moderation extends Theme_My_Login_Abstract {
 
 		if ( in_array( $this->get_option( 'type' ), array( 'admin', 'email' ) ) ) {
 
-			add_action( 'register_post',         array( &$this, 'register_post'         )      );
-			add_filter( 'registration_redirect', array( &$this, 'registration_redirect' ), 100 );
+			add_action( 'register_post',         array( $this, 'register_post'         )      );
+			add_filter( 'registration_redirect', array( $this, 'registration_redirect' ), 100 );
 
-			add_action( 'authenticate',         array( &$this, 'authenticate'         ), 100, 3 );
-			add_filter( 'allow_password_reset', array( &$this, 'allow_password_reset' ),  10, 2 );
+			add_action( 'authenticate',         array( $this, 'authenticate'         ), 100, 3 );
+			add_filter( 'allow_password_reset', array( $this, 'allow_password_reset' ),  10, 2 );
 
-			add_action( 'tml_request',            array( &$this, 'action_messages'    ) );
-			add_action( 'tml_new_user_activated', array( &$this, 'new_user_activated' ) );
+			add_action( 'tml_request',            array( $this, 'action_messages'    ) );
+			add_action( 'tml_new_user_activated', array( $this, 'new_user_activated' ) );
 
 			if ( 'email' == $this->get_option( 'type' ) ) {
-				add_action( 'tml_request_activate',       array( &$this, 'user_activation' ) );
-				add_action( 'tml_request_sendactivation', array( &$this, 'send_activation' ) );
+				add_action( 'tml_request_activate',       array( $this, 'user_activation' ) );
+				add_action( 'tml_request_sendactivation', array( $this, 'send_activation' ) );
 			}
 		}
 	}
@@ -95,12 +95,12 @@ class Theme_My_Login_User_Moderation extends Theme_My_Login_Abstract {
 		// Remove Custom Email new user notification
 		if ( class_exists( 'Theme_My_Login_Custom_Email' ) ) {
 			$custom_email = Theme_My_Login_Custom_Email::get_object();
-			if ( has_action( 'register_new_user', array( &$custom_email, 'new_user_notification' ) ) )
-				remove_action( 'register_new_user', array( &$custom_email, 'new_user_notification' ) );
+			if ( has_action( 'register_new_user', array( $custom_email, 'new_user_notification' ) ) )
+				remove_action( 'register_new_user', array( $custom_email, 'new_user_notification' ) );
 		}
 
 		// Moderate user upon registration
-		add_action( 'register_new_user', array( &$this, 'moderate_user' ), 100 );
+		add_action( 'register_new_user', array( $this, 'moderate_user' ), 100 );
 	}
 
 	/**

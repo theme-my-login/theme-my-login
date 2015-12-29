@@ -65,15 +65,15 @@ class Theme_My_Login_Recaptcha extends Theme_My_Login_Abstract {
 		if ( ! ( $this->get_option( 'public_key' ) || $this->get_option( 'private_key' ) ) )
 			return;
 
-		add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 
-		add_action( 'register_form',       array( &$this, 'recaptcha_display'   ) );
-		add_filter( 'registration_errors', array( &$this, 'registration_errors' ) );
+		add_action( 'register_form',       array( $this, 'recaptcha_display'   ) );
+		add_filter( 'registration_errors', array( $this, 'registration_errors' ) );
 
 		if ( is_multisite() ) {
-			add_action( 'signup_extra_fields',       array( &$this, 'recaptcha_display'    ) );
-			add_filter( 'wpmu_validate_user_signup', array( &$this, 'wpmu_validate_signup' ) );
-			add_filter( 'wpmu_validate_blog_signup', array( &$this, 'wpmu_validate_signup' ) );
+			add_action( 'signup_extra_fields',       array( $this, 'recaptcha_display'    ) );
+			add_filter( 'wpmu_validate_user_signup', array( $this, 'wpmu_validate_signup' ) );
+			add_filter( 'wpmu_validate_blog_signup', array( $this, 'wpmu_validate_signup' ) );
 		}
 	}
 

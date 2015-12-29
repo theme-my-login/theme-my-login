@@ -46,9 +46,9 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'login_form',      array( &$this, 'login_form'      )        );
-		add_filter( 'login_redirect',  array( &$this, 'login_redirect'  ), 10, 3 );
-		add_filter( 'logout_redirect', array( &$this, 'logout_redirect' ), 10, 3 );
+		add_action( 'login_form',      array( $this, 'login_form'      )        );
+		add_filter( 'login_redirect',  array( $this, 'login_redirect'  ), 10, 3 );
+		add_filter( 'logout_redirect', array( $this, 'logout_redirect' ), 10, 3 );
 	}
 
 	/**

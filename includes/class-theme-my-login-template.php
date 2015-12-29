@@ -89,7 +89,7 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 			echo $this->get_option( 'before_title' ) . $this->get_title( $action ) . $this->get_option( 'after_title' ) . "\n";
 		// Is there a specified template?
 		if ( has_action( 'tml_display_' . $action ) ) {
-			do_action_ref_array( 'tml_display_' . $action, array( $this ) );
+			do_action_ref_array( 'tml_display_' . $action, array( &$this ) );
 		} else {
 			$template = array();
 			if ( is_user_logged_in() && 'login' == $action ) {

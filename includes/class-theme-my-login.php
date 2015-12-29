@@ -172,7 +172,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 			if ( file_exists( THEME_MY_LOGIN_PATH . '/modules/' . $module ) )
 				include_once( THEME_MY_LOGIN_PATH . '/modules/' . $module );
 		}
-		do_action_ref_array( 'tml_modules_loaded', array( $this ) );
+		do_action_ref_array( 'tml_modules_loaded', array( &$this ) );
 	}
 
 	/**
@@ -293,13 +293,13 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 			$this->request_action = self::get_page_action( get_the_id() );
 		$this->request_instance = isset( $_REQUEST['instance'] ) ? sanitize_key( $_REQUEST['instance'] ) : 0;
 
-		do_action_ref_array( 'tml_request', array( $this ) );
+		do_action_ref_array( 'tml_request', array( &$this ) );
 
 		// allow plugins to override the default actions, and to add extra actions if they want
 		do_action( 'login_form_' . $this->request_action );
 
 		if ( has_action( 'tml_request_' . $this->request_action ) ) {
-			do_action_ref_array( 'tml_request_' . $this->request_action, array( $this ) );
+			do_action_ref_array( 'tml_request_' . $this->request_action, array( &$this ) );
 		} else {
 			$http_post = ( 'POST' == $_SERVER['REQUEST_METHOD'] );
 			switch ( $this->request_action ) {
