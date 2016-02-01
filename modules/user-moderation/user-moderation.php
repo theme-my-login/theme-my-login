@@ -415,7 +415,10 @@ class Theme_My_Login_User_Moderation extends Theme_My_Login_Abstract {
 			$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		}
 
-		$activation_url = add_query_arg( array( 'action' => 'activate', 'key' => $key, 'login' => rawurlencode( $user_login ) ), wp_login_url() );
+		$activation_url = wp_login_url();
+		$activation_url = apply_filters( 'user_activation_notification_activation_url', $activation_url );
+		
+		$activation_url = add_query_arg( array( 'action' => 'activate', 'key' => $key, 'login' => rawurlencode( $user_login ) ), $activation_url );
 
 		$title    = sprintf( __( '[%s] Activate Your Account', 'theme-my-login' ), $blogname );
 		$message  = sprintf( __( 'Thanks for registering at %s! To complete the activation of your account please click the following link: ', 'theme-my-login' ), $blogname ) . "\r\n\r\n";
