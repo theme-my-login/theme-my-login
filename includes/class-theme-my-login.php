@@ -610,14 +610,21 @@ setTimeout( function() {
 try {
 <?php if ( $user_login ) { ?>
 d = document.getElementById('user_pass');
+d.value = '';
 <?php } else { ?>
 d = document.getElementById('user_login');
-<?php } ?>
+<?php if ( 'invalid_username' == $this->errors->get_error_code() ) { ?>
+if ( d.value != '' )
 d.value = '';
+<?php
+}
+} ?>
 d.focus();
+d.select();
 } catch(e){}
 }, 200 );
 }
+
 wp_attempt_focus();
 if(typeof wpOnload=='function')wpOnload()
 </script>
