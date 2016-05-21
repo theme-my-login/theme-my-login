@@ -175,13 +175,13 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		<ul>
 
 			<li><input name="theme_my_login[login_type]" type="radio" id="theme_my_login_login_type_default" value="default"<?php checked( 'default', $this->get_option( 'login_type' ) ); ?> />
-			<label for="theme_my_login_login_type_default"><?php _e( 'Username only', 'theme-my-login' ); ?></label></li>
+			<label for="theme_my_login_login_type_default"><?php _e( 'Username or E-mail', 'theme-my-login' ); ?></label></li>
+
+			<li><input name="theme_my_login[login_type]" type="radio" id="theme_my_login_login_type_username" value="username"<?php checked( 'username', $this->get_option( 'login_type' ) ); ?> />
+			<label for="theme_my_login_login_type_username"><?php _e( 'Username only', 'theme-my-login' ); ?></label></li>
 
 			<li><input name="theme_my_login[login_type]" type="radio" id="theme_my_login_login_type_email" value="email"<?php checked( 'email', $this->get_option( 'login_type' ) ); ?> />
 			<label for="theme_my_login_login_type_email"><?php _e( 'E-mail only', 'theme-my-login' ); ?></label></li>
-
-			<li><input name="theme_my_login[login_type]" type="radio" id="theme_my_login_login_type_both" value="both"<?php checked( 'both', $this->get_option( 'login_type' ) ); ?> />
-			<label for="theme_my_login_login_type_both"><?php _e( 'Username or E-mail', 'theme-my-login' ); ?></label></li>
 
 		</ul>
 
@@ -221,7 +221,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 	 */
 	public function save_settings( $settings ) {
 		$settings['enable_css']     = ! empty( $settings['enable_css']   );
-		$settings['login_type']     = in_array( $settings['login_type'], array( 'default', 'email', 'both' ) ) ? $settings['login_type'] : 'default';
+		$settings['login_type']     = in_array( $settings['login_type'], array( 'default', 'username', 'email' ) ) ? $settings['login_type'] : 'default';
 		$settings['active_modules'] = isset( $settings['active_modules'] ) ? (array) $settings['active_modules'] : array();
 
 		// If we have modules to activate
@@ -325,6 +325,17 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 			if ( $this->get_option( 'email_login' ) )
 				$this->set_option( 'login_type', 'both' );
 			$this->delete_option( 'email_login' );
+		}
+
+		// 6.4.5 upgrade
+		if ( version_compare( $version, '6.4.5', '<' ) ) {
+			// Convert login type option
+			$login_type = $this->get_option( 'login_type' );
+			if ( 'both' == $login_type ) {
+				$this->set_option( 'login_type', 'default' );
+			} elseif ( 'default' == $login_type ) {
+				$this->set_option( 'login_type', 'username' );
+			}
 		}
 
 		// Setup default pages

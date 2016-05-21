@@ -10,12 +10,13 @@ Theme My Login will always look in your theme's directory first, before using th
 	<form name="loginform" id="loginform<?php $template->the_instance(); ?>" action="<?php $template->the_action_url( 'login', 'login_post' ); ?>" method="post">
 		<p class="tml-user-login-wrap">
 			<label for="user_login<?php $template->the_instance(); ?>"><?php
-				if ( 'email' == $theme_my_login->get_option( 'login_type' ) )
-					_e( 'E-mail', 'theme-my-login' );
-				elseif ( 'both' == $theme_my_login->get_option( 'login_type' ) )
-					_e( 'Username or E-mail', 'theme-my-login' );
-				else
+				if ( 'username' == $theme_my_login->get_option( 'login_type' ) ) {
 					_e( 'Username', 'theme-my-login' );
+				} elseif ( 'email' == $theme_my_login->get_option( 'login_type' ) ) {
+					_e( 'E-mail', 'theme-my-login' );
+				} else {
+					_e( 'Username or E-mail', 'theme-my-login' );
+				}
 			?></label>
 			<input type="text" name="log" id="user_login<?php $template->the_instance(); ?>" class="input" value="<?php $template->the_posted_value( 'log' ); ?>" size="20" />
 		</p>

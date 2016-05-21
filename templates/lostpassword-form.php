@@ -9,7 +9,12 @@ Theme My Login will always look in your theme's directory first, before using th
 	<?php $template->the_errors(); ?>
 	<form name="lostpasswordform" id="lostpasswordform<?php $template->the_instance(); ?>" action="<?php $template->the_action_url( 'lostpassword', 'login_post' ); ?>" method="post">
 		<p class="tml-user-login-wrap">
-			<label for="user_login<?php $template->the_instance(); ?>"><?php _e( 'Username or E-mail:', 'theme-my-login' ); ?></label>
+			<label for="user_login<?php $template->the_instance(); ?>"><?php
+			if ( 'email' == $theme_my_login->get_option( 'login_type' ) ) {
+				_e( 'E-mail:', 'theme-my-login' );
+			} else {
+				_e( 'Username or E-mail:', 'theme-my-login' );
+			} ?></label>
 			<input type="text" name="user_login" id="user_login<?php $template->the_instance(); ?>" class="input" value="<?php $template->the_posted_value( 'user_login' ); ?>" size="20" />
 		</p>
 

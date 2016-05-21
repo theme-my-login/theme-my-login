@@ -143,7 +143,6 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		add_action( 'wp_head',                 array( $this, 'wp_head'                 ) );
 		add_action( 'wp_footer',               array( $this, 'wp_footer'               ) );
 		add_action( 'wp_print_footer_scripts', array( $this, 'wp_print_footer_scripts' ) );
-		add_action( 'wp_authenticate',         array( $this, 'wp_authenticate'         ) );
 
 		add_filter( 'site_url',               array( $this, 'site_url'               ), 10, 3 );
 		add_filter( 'logout_url',             array( $this, 'logout_url'             ), 10, 2 );
@@ -152,8 +151,15 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		add_filter( 'wp_setup_nav_menu_item', array( $this, 'wp_setup_nav_menu_item' )        );
 		add_filter( 'wp_list_pages_excludes', array( $this, 'wp_list_pages_excludes' )        );
 		add_filter( 'page_link',              array( $this, 'page_link'              ), 10, 2 );
+		add_filter( 'authenticate',           array( $this, 'authenticate'           ), 20, 3 );
 
 		add_shortcode( 'theme-my-login', array( $this, 'shortcode' ) );
+
+		if ( 'username' == $this->get_option( 'login_type' ) ) {
+			remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
+		} elseif ( 'email' == $this->get_option( 'login_type' ) ) {
+			remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
+		}
 	}
 
 
@@ -620,32 +626,6 @@ if(typeof wpOnload=='function')wpOnload()
 		}
 	}
 
-	/**
-	 * Handles login type enforcement
-	 *
-	 * @since 6.0
-	 * @access public
-	 *
-	 * @param string $username Username or email
-	 * @param string $password User's password
-	 */
-	public function wp_authenticate( &$user_login ) {
-		global $wpdb;
-
-		$login_type = $this->get_option( 'login_type' );
-
-		if ( 'default' == $login_type )
-			return;
-
-		if ( ! is_email( $user_login ) && 'email' == $login_type ) {
-			$user_login = -1;
-		} elseif ( is_email( $user_login ) ) {
-			if ( $found = $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM $wpdb->users WHERE user_email = %s", $user_login ) ) )
-				$user_login = $found;
-		}
-	}
-
-
 	/************************************************************************************************************************
 	 * Filters
 	 ************************************************************************************************************************/
@@ -833,6 +813,24 @@ if(typeof wpOnload=='function')wpOnload()
 		if ( self::is_tml_page( 'logout', $post_id ) )
 			$link = add_query_arg( '_wpnonce', wp_create_nonce( 'log-out' ), $link );
 		return $link;
+	}
+
+	/**
+	 * Add proper message in case of e-mail login error
+	 *
+	 * @since 6.4.5
+	 *
+	 * @param null|WP_Error|WP_User $user
+	 * @param string                $username
+	 * @param string                $password
+	 * @return null|WP_User|WP_Error
+	 */
+	public function authenticate( $user, $username, $password ) {
+		if ( 'email' == $this->get_option( 'login_type' ) && null == $user ) {
+			return new WP_Error( 'invalid_email', __( '<strong>ERROR</strong>: Invalid email address.', 'theme-my-login' ) );
+		}
+
+		return $user;
 	}
 
 
