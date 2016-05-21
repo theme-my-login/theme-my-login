@@ -593,12 +593,12 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 	 * @return string|array Sanitized settings
 	 */
 	public function save_settings( $settings ) {
-		$settings['new_user']['admin_disable']   = isset( $settings['new_user']['admin_disable']   );
-		$settings['reset_pass']['admin_disable'] = isset( $settings['reset_pass']['admin_disable'] );
+		$settings['new_user']['admin_disable'] = isset( $settings['new_user']['admin_disable'] ) ? (bool) $settings['new_user']['admin_disable'] : false;
+		$settings['reset_pass']['admin_disable'] = isset( $settings['reset_pass']['admin_disable'] ) ? (bool) $settings['reset_pass']['admin_disable'] : false;
 
 		if ( class_exists( 'Theme_My_Login_User_Moderation' ) ) {
-			$settings['user_approval']['admin_disable'] = isset( $settings['user_approval']['admin_disable'] );
-			$settings['user_denial']['disable'] = isset( $settings['user_denial']['disable'] );
+			$settings['user_approval']['admin_disable'] = isset( $settings['user_approval']['admin_disable'] ) ? (bool) $settings['user_approval']['admin_disable'] : false;
+			$settings['user_denial']['disable'] = isset( $settings['user_denial']['disable'] ) ? (bool) $settings['user_denial']['admin_disable'] : false;
 		}
 
 		$settings = Theme_My_Login_Common::array_merge_recursive( $this->get_options(), $settings );

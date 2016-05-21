@@ -83,8 +83,7 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 				'admin_mail_from_name' => '',
 				'admin_mail_content_type' => '',
 				'admin_title' => '',
-				'admin_message' => '',
-				'admin_disable' => false
+				'admin_message' => ''
 			),
 			'retrieve_pass' => array(
 				'mail_from' => '',
@@ -99,8 +98,7 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 				'admin_mail_from_name' => '',
 				'admin_mail_content_type' => '',
 				'admin_title' => '',
-				'admin_message' => '',
-				'admin_disable' => false
+				'admin_message' => ''
 			)
 		);
 	}
