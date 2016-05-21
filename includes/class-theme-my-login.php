@@ -477,6 +477,9 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 									$redirect_to = get_dashboard_url( $user->ID );
 								elseif ( ! $user->has_cap( 'edit_posts' ) )
 									$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
+
+								wp_redirect( $redirect_to );
+								exit;
 							}
 							wp_safe_redirect( $redirect_to );
 							exit;
