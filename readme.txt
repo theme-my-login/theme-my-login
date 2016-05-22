@@ -2,9 +2,9 @@
 Contributors: jfarthing84
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
-Requires at least: 4.4
-Tested up to: 4.4
-Stable tag: 6.4.4
+Requires at least: 4.5
+Tested up to: 4.5.2
+Stable tag: 6.4.5
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +56,13 @@ Please visit http://www.jfarthing.com/development/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.5 =
+* Don't clear username input on login form when autofocusing
+* Fix custom e-mail disable checkboxes defaulting to being checked
+* Fix login type functionality
+* Bring wp-login.php duplicated code up to date
+* Require WordPress 4.5
 
 = 6.4.4 =
 * Fix file loading for non-standard directory setups
