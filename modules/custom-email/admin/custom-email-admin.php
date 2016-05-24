@@ -500,8 +500,8 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 				<th scope="row"><label for="<?php echo $this->options_key; ?>_user_approval_admin_mail_content_type"><?php _e( 'E-mail Format', 'theme-my-login' ); ?></label></th>
 				<td>
 					<select name="<?php echo $this->options_key; ?>[user_approval][admin_mail_content_type]" id="<?php echo $this->options_key; ?>_user_approval_admin_mail_content_type">
-						<option value="plain"<?php selected( $this->get_option( array( 'user_approval', 'mail_content_type' ) ), 'plain' ); ?>><?php _e( 'Plain Text', 'theme-my-login' ); ?></option>
-						<option value="html"<?php  selected( $this->get_option( array( 'user_approval', 'mail_content_type' ) ), 'html' ); ?>><?php  _e( 'HTML', 'theme-my-login' ); ?></option>
+						<option value="plain"<?php selected( $this->get_option( array( 'user_approval', 'admin_mail_content_type' ) ), 'plain' ); ?>><?php _e( 'Plain Text', 'theme-my-login' ); ?></option>
+						<option value="html"<?php  selected( $this->get_option( array( 'user_approval', 'admin_mail_content_type' ) ), 'html' ); ?>><?php  _e( 'HTML', 'theme-my-login' ); ?></option>
 					</select>
 				</td>
 			</tr>
