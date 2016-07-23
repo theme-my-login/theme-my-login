@@ -130,6 +130,8 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 		add_action( 'tml_user_activation_resend', array( $this, 'apply_user_moderation_notification_filters' ) );
 		add_action( 'approve_user',               array( $this, 'apply_user_approval_notification_filters'   ) );
 		add_action( 'deny_user',                  array( $this, 'apply_user_denial_notification_filters'     ) );
+
+		add_action( 'phpmailer_init', array( $this, 'phpmailer_init' ) );
 	}
 
 	/**
@@ -908,6 +910,21 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 			$message = apply_filters( 'password_change_notification_message', $message, $user->ID );
 
 			wp_mail( $to, $title, $message );
+		}
+	}
+
+	/**
+	 * Modify PHPMailer settings.
+	 *
+	 * @since 6.4.6
+	 *
+	 * @param PHPMailer $phpmailer PHPMailer object.
+	 */
+	public function phpmailer_init( $phpmailer ) {
+
+		// Supply a plaintext alternate body if sending HTML
+		if ( 'text/html' == $phpmailer->ContentType && empty( $phpmailer->AltBody ) ) {
+			$phpmailer->AltBody = wp_strip_all_tags( $phpmailer->Body );
 		}
 	}
 }
