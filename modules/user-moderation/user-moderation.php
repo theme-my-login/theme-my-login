@@ -150,7 +150,9 @@ class Theme_My_Login_User_Moderation extends Theme_My_Login_Abstract {
 
 		$cap_key = $wpdb->prefix . 'capabilities';
 
-		if ( $userdata = get_user_by( 'login', $username ) ) {
+		$field = is_email( $username ) ? 'email' : 'login';
+
+		if ( $userdata = get_user_by( $field, $username ) ) {
 			if ( array_key_exists( 'pending', (array) $userdata->$cap_key ) ) {
 				if ( 'email' == $this->get_option( 'type' ) ) {
 					return new WP_Error( 'pending', sprintf(
