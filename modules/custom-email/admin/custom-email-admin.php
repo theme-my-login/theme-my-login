@@ -598,7 +598,7 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 
 		if ( class_exists( 'Theme_My_Login_User_Moderation' ) ) {
 			$settings['user_approval']['admin_disable'] = isset( $settings['user_approval']['admin_disable'] ) ? (bool) $settings['user_approval']['admin_disable'] : false;
-			$settings['user_denial']['disable'] = isset( $settings['user_denial']['disable'] ) ? (bool) $settings['user_denial']['admin_disable'] : false;
+			$settings['user_denial']['disable'] = isset( $settings['user_denial']['disable'] ) ? (bool) $settings['user_denial']['disable'] : false;
 		}
 
 		$settings = Theme_My_Login_Common::array_merge_recursive( $this->get_options(), $settings );
