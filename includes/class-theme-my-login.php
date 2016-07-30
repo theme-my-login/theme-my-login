@@ -988,7 +988,7 @@ if(typeof wpOnload=='function')wpOnload()
 				return null;
 			wp_cache_add( $action, $page_id, 'tml_page_ids' );
 		}
-		return $page_id;
+		return apply_filters( 'tml_page_id', $page_id, $action );
 	}
 
 	/**
