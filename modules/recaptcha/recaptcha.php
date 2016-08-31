@@ -131,6 +131,11 @@ class Theme_My_Login_Recaptcha extends Theme_My_Login_Abstract {
 	 * @return array Signup parameters
 	 */
 	public function wpmu_validate_signup( $result ) {
+		// Don't add errors if adding a user from wp-admin.
+		if ( is_admin() ) {
+			return $result;
+		}
+
 		$result['errors'] = $this->registration_errors( $result['errors'] );
 		return $result;
 	}
