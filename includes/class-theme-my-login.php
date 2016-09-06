@@ -251,7 +251,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 * @since 6.1.13
 	 * @access public
 	 */
-	public function pre_get_posts( &$query ) {
+	public function pre_get_posts( $query ) {
 
 		// Bail if not a search
 		if ( ! $query->is_search )
