@@ -1077,11 +1077,11 @@ if(typeof wpOnload=='function')wpOnload()
 	 * @return object Instance object
 	 */
 	public function load_instance( $args = '' ) {
-		$args['instance'] = count( $this->loaded_instances );
 
 		$instance = new Theme_My_Login_Template( $args );
+		$instance->set_option( 'instance', count( $this->loaded_instances ) );
 
-		if ( $args['instance'] == $this->request_instance ) {
+		if ( $instance->get_option( 'instance' ) === $this->request_instance ) {
 			$instance->set_active();
 			$instance->set_option( 'default_action', $this->request_action );
 		}
