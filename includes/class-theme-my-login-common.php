@@ -86,6 +86,7 @@ class Theme_My_Login_Common {
 	public static function replace_vars( $input, $user_id = '', $replacements = array() ) {
 		$defaults = array(
 			'%site_url%' => get_bloginfo( 'url' ),
+			'%siteurl%'  => get_bloginfo( 'url' ),
 			'%user_ip%'  => $_SERVER['REMOTE_ADDR']
 		);
 		$replacements = wp_parse_args( $replacements, $defaults );
