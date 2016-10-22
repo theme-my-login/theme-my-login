@@ -66,7 +66,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 * @access public
 	 * @var int
 	 */
-	public $request_instance;
+	public $request_instance = 0;
 
 	/**
 	 * Holds loaded instances
