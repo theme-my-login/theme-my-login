@@ -519,3 +519,4 @@ Please visit http://www.jfarthing.com/development/theme-my-login.
 
 = 1.0.0 =
 * Initial release version
+
