@@ -212,7 +212,8 @@ class Theme_My_Login_Security extends Theme_My_Login_Abstract {
 	 */
 	public function authenticate( $user, $username, $password ) {
 		// Make sure user exists
-		if ( ! $userdata = get_user_by( 'login', $username ) )
+		$field = is_email( $username ) ? 'email' : 'login';
+		if ( ! $userdata = get_user_by( $field, $username ) )
 			return $user;
 
 		// Current time
@@ -620,4 +621,3 @@ endif;
 
 if ( is_admin() )
 	include_once( dirname( __FILE__ ) . '/admin/security-admin.php' );
-
