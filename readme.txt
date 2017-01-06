@@ -3,8 +3,8 @@ Contributors: jfarthing84
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 4.5
-Tested up to: 4.6.1
-Stable tag: 6.4.6
+Tested up to: 4.7.1
+Stable tag: 6.4.7
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +56,9 @@ Please visit https://wordpress.org/support/plugin/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.7 =
+* Don't allow locked users to log in using their email address
 
 = 6.4.6 =
 * Fix errors and messages not displaying
@@ -530,4 +533,3 @@ Please visit https://wordpress.org/support/plugin/theme-my-login.
 
 = 1.0.0 =
 * Initial release version
-
