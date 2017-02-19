@@ -153,6 +153,33 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 					$redirect_to
 				);
 				break;
+				
+				case 'cookie' :
+				// Send 'em to the specified Cookie name
+				if(count($_COOKIE) > 0) {
+					//Determine if cookies turned on
+				$cookie = $redirection["{$type}_cookie"];
+				
+				if (isset($_COOKIE["{$cookie}"])){
+					//Determine if cookie by that name is set
+				$redirect_to = $_COOKIE["{$cookie}"];
+				
+				// Allow a few user specific variables
+				$redirect_to = str_replace(
+					array(
+						'%user_id%',
+						'%user_nicename%'
+					),
+					array(
+						$user->ID,
+						$user->user_nicename
+					),
+					$redirect_to
+				);
+				
+				}
+				}
+				break;
 		}
 
 		// Make sure $redirect_to isn't empty
