@@ -256,6 +256,14 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 */
 	public function pre_get_posts( $query ) {
 
+		// Bail if in admin area
+		if ( is_admin() )
+			return;
+
+		// Bail if not the main query
+		if ( ! $wp_query->is_main_query() )
+			return;
+
 		// Bail if not a search
 		if ( ! $query->is_search )
 			return;
