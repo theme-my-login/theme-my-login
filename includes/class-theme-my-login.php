@@ -130,6 +130,9 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 */
 	protected function load() {
 
+		$this->request_action = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : '';
+		$this->request_instance = isset( $_REQUEST['instance'] ) ? (int) $_REQUEST['instance'] : 0;
+
 		$this->load_instance();
 
 		add_action( 'plugins_loaded',          array( $this, 'plugins_loaded'          ) );
@@ -294,10 +297,8 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function template_redirect() {
-		$this->request_action = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : '';
 		if ( ! $this->request_action && self::is_tml_page() )
 			$this->request_action = self::get_page_action( get_the_id() );
-		$this->request_instance = isset( $_REQUEST['instance'] ) ? sanitize_key( $_REQUEST['instance'] ) : 0;
 
 		do_action_ref_array( 'tml_request', array( &$this ) );
 
