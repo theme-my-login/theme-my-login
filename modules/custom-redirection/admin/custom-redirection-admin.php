@@ -174,6 +174,11 @@ class Theme_My_Login_Custom_Redirection_Admin extends Theme_My_Login_Abstract {
 					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][login_type]" type="radio" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_login_type_custom" value="custom"<?php checked( 'custom', $this->get_option( array( $role, 'login_type' ) ) ); ?> />
 					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][login_url]" type="text" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_login_url" value="<?php echo $this->get_option( array( $role, 'login_url' ) ); ?>" class="regular-text" />
 					<p class="description"><?php _e( 'Check this option to send the user to a custom location, specified by the textbox above.', 'theme-my-login' ); ?></p>
+				
+					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][login_type]" type="radio" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_login_type_cookie" value="cookie"<?php checked( 'cookie', $this->get_option( array( $role, 'login_type' ) ) ); ?> />
+					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][login_cookie]" type="text" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_login_cookie" value="<?php echo $this->get_option( array( $role, 'login_cookie' ) ); ?>" class="regular-text" />
+					<p class="description"><?php _e( 'Check this option to send the user to a custom cookie, name specified by the textbox above. Please remember to ask users to turn on cookies. If no cookie is set users will be redirected to default.', 'theme-my-login' ); ?></p>
+				
 				</td>
 			</tr>
 			<tr valign="top">
