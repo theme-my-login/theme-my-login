@@ -261,7 +261,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 			return;
 
 		// Bail if not the main query
-		if ( ! $wp_query->is_main_query() )
+		if ( ! $query->is_main_query() )
 			return;
 
 		// Bail if not a search
