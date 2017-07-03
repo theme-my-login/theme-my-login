@@ -112,6 +112,11 @@ abstract class Theme_My_Login_Abstract {
 		$options = wp_parse_args( $options, $this->options );
 
 		$this->options = $options;
+
+		// Re-read options after plugins are loaded so WPML can translate them.
+		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+			add_action( 'plugins_loaded', array( $this, 'load_options' ), 12 );
+		}
 	}
 
 	/**
