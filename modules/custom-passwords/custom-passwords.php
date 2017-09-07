@@ -153,7 +153,7 @@ class Theme_My_Login_Custom_Passwords extends Theme_My_Login_Abstract {
 			$errors->add( 'password_mismatch', __( '<strong>ERROR</strong>: Please enter the same password in the two password fields.', 'theme-my-login' ) );
 
 		// Make sure password is long enough
-		} elseif ( strlen( $_POST['pass1'] ) < 6 ) {
+		} elseif ( strlen( $_POST['pass1'] ) < apply_filters( 'tml_minimum_password_length', 6 ) ) {
 			$errors->add( 'password_length', __( '<strong>ERROR</strong>: Your password must be at least 6 characters in length.', 'theme-my-login' ) );
 
 		// All is good, assign password to a friendlier key
@@ -311,4 +311,3 @@ class Theme_My_Login_Custom_Passwords extends Theme_My_Login_Abstract {
 Theme_My_Login_Custom_Passwords::get_object();
 
 endif;
-
