@@ -889,9 +889,18 @@ if(typeof wpOnload=='function')wpOnload()
 		if ( self::is_tml_page() && in_the_loop() && is_main_query() && ! $did_main_instance ) {
 			$instance = $this->get_instance();
 
-			if ( ! empty( $this->request_instance ) )
-				$instance->set_active( false );
+			if ( isset( $atts['instance'] ) ) {
+				$instance->set_option( 'instance', (int) $atts['instance'] );
+			}
 
+			if ( ! empty( $this->request_instance ) ) {
+				if ( $instance->get_option( 'instance' ) === $this->request_instance ) {
+					$instance->set_active();
+				} else {
+					$instance->set_active( false );
+				}
+			}
+			
 			if ( ! empty( $this->request_action ) )
 				$atts['default_action'] = $this->request_action;
 
