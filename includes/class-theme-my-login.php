@@ -198,7 +198,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		$this->errors = new WP_Error();
 
 		if ( ! is_admin() && 'wp-login.php' != $pagenow && $this->get_option( 'enable_css' ) )
-			wp_enqueue_style( 'theme-my-login', self::get_stylesheet(), false, $this->get_option( 'version' ) );
+			wp_enqueue_style( 'theme-my-login', self::get_stylesheet(), array( 'dashicons' ), $this->get_option( 'version' ) );
 	}
 
 	/**
