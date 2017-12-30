@@ -115,7 +115,7 @@
 	border: 1px solid #ddd;
 	color: #23282d;
 	font-weight: 600;
-	margin: 0;
+	margin: -1px 0 1.5em;
 	padding: 3px 5px;
 	text-align: center;
 	width: 100%;
@@ -128,10 +128,20 @@
 	opacity: 1;
 }
 
+#pass1.short,
+#pass1-text.short {
+	border-color: #e35b5b;
+}
+
 #pass-strength-result.bad {
 	background-color: #fbc5a9;
 	border-color: #f78b53;
 	opacity: 1;
+}
+
+#pass1.bad,
+#pass1-text.bad {
+	border-color: #f78b53;
 }
 
 #pass-strength-result.good {
@@ -140,18 +150,45 @@
 	opacity: 1;
 }
 
+#pass1.good,
+#pass1-text.good {
+	border-color: #ffc733;
+}
+
 #pass-strength-result.strong {
 	background-color: #c1e1b9;
 	border-color: #83c373;
 	opacity: 1;
 }
 
-.pw-weak {
-	display:none;
+#pass1.strong,
+#pass1-text.strong {
+	border-color: #83c373;
 }
 
-.indicator-hint {
-	padding-top: 8px;
+.tml .password-input-wrapper {
+	display: table;
+	width: 100%;
+}
+
+.tml .input.password-input {
+	display: table-cell;
+	margin: 0;
+}
+
+.tml .pw-weak {
+	display: none;
+	margin-bottom: 1.5em;
+}
+
+.tml .wp-hide-pw {
+	cursor: pointer;
+	display: table-cell;
+	margin: 0;
+	padding: 0 0.5em;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
 }
 
 #pass1,

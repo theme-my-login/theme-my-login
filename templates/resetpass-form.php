@@ -15,10 +15,19 @@ Theme My Login will always look in your theme's directory first, before using th
 			</p>
 
 			<div class="wp-pwd">
-				<span class="password-input-wrapper">
-					<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" aria-describedby="pass-strength-result" />
-				</span>
+				<div class="password-input-wrapper">
+					<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input password-input" value="" autocomplete="off" aria-describedby="pass-strength-result" />
+					<span class="wp-hide-pw hide-if-no-js">
+						<span class="dashicons dashicons-hidden"></span>
+					</span>
+				</div>
 				<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite"><?php _e( 'Strength indicator', 'theme-my-login' ); ?></div>
+			</div>
+			<div class="pw-weak">
+				<label>
+					<input type="checkbox" name="pw_weak" class="pw-checkbox" />
+					<?php _e( 'Confirm use of weak password', 'theme-my-login' ); ?>
+				</label>
 			</div>
 		</div>
 
