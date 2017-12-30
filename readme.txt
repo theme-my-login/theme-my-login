@@ -3,8 +3,8 @@ Contributors: jfarthing84
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 4.5
-Tested up to: 4.7.2
-Stable tag: 6.4.9
+Tested up to: 4.9.1
+Stable tag: 6.4.10
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +56,12 @@ Please visit https://wordpress.org/support/plugin/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.10 =
+* Add weak password confirmation checkbox to password reset form
+* Introduce `tml_enforce_private_site` filter
+* Introduce `tml_minimum_password_length` filter
+* Hide admin bar checkbox on themed profiles when admin is disabled
 
 = 6.4.9 =
 * Fix fatal error from typo in previous release
