@@ -117,6 +117,10 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 			if ( is_multisite() && empty( $user_role ) )
 				$user_role = 'subscriber';
 
+			if ( is_super_admin() ) {
+			    $user_role = 'administrator';
+			}
+
 			if ( 'profile.php' == $pagenow && ! isset( $_REQUEST['page'] ) ) {
 				if ( $this->get_option( array( $user_role, 'theme_profile' ) ) ) {
 					if ( ! empty( $_GET ) )
@@ -188,6 +192,10 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 		$user_role = reset( $current_user->roles );
 		if ( is_multisite() && empty( $user_role ) )
 			$user_role = 'subscriber';
+
+		if ( is_super_admin() ) {
+			$user_role = 'administrator';
+		}
 
 		if ( $this->get_option( array( $user_role, 'restrict_admin' ) ) )
 			return false;
@@ -300,6 +308,10 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 		if ( is_multisite() && empty( $user_role ) )
 			$user_role = 'subscriber';
 
+		if ( is_super_admin() ) {
+			$user_role = 'administrator';
+	        }
+
 		$_template = array();
 
 		// Allow template override via shortcode or template tag args
@@ -341,6 +353,10 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 			$user_role = reset( $current_user->roles );
 			if ( is_multisite() && empty( $user_role ) )
 				$user_role = 'subscriber';
+
+			if ( is_super_admin() ) {
+				$user_role = 'administrator';
+			}
 
 			if ( $user_role && ! $this->get_option( array( $user_role, 'theme_profile' ) ) )
 				return $url;

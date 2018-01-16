@@ -106,6 +106,9 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 		// Make sure the user has a role
 		if ( is_multisite() && empty( $user->roles ) ) {
 			$user->roles = array( 'subscriber' );
+			if ( is_super_admin() ) {
+				$user->roles = array( 'administrator' );
+			}
 		}
 
 		// Get the user's role
