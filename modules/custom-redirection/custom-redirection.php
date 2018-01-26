@@ -139,6 +139,25 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 			case 'custom' :
 				// Send 'em to the specified URL
 				$redirect_to = $redirection["{$type}_url"];
+				
+				// Check if our URL is in list of special exceptions
+        // If so, we will redirect back to the same page once logged in
+				if( ! empty( $redirection["{$type}_url_referers"] ) ) {
+
+				  // split value by newlines
+				  $custom_referers = preg_split('/\r\n|[\r\n]/', $redirection["{$type}_url_referers"] );
+				  $referer = wp_get_referer();
+
+				  // Check if the string
+				  foreach( $custom_referers as $special_url ) {
+
+				    if( $referer == $special_url || $referer == home_url() . $special_url ) {
+              $redirect_to = $special_url;
+              break;
+            }
+          }
+
+        }
 
 				// Allow a few user specific variables
 				$redirect_to = str_replace(

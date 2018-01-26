@@ -174,6 +174,8 @@ class Theme_My_Login_Custom_Redirection_Admin extends Theme_My_Login_Abstract {
 					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][login_type]" type="radio" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_login_type_custom" value="custom"<?php checked( 'custom', $this->get_option( array( $role, 'login_type' ) ) ); ?> />
 					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][login_url]" type="text" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_login_url" value="<?php echo $this->get_option( array( $role, 'login_url' ) ); ?>" class="regular-text" />
 					<p class="description"><?php _e( 'Check this option to send the user to a custom location, specified by the textbox above.', 'theme-my-login' ); ?></p>
+                    <textarea name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][login_url_referers]" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_login_url_referers" class="regular-text"><?php echo $this->get_option( array( $role, 'login_url_referers' ) ); ?></textarea>
+                    <p class="description"><?php _e( 'If you would like certain URLs to override the custom location, enter those above, separated by a line break.', 'theme-my-login' ); ?></p>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -188,6 +190,8 @@ class Theme_My_Login_Custom_Redirection_Admin extends Theme_My_Login_Abstract {
 					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][logout_type]" type="radio" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_logout_type_custom" value="custom"<?php checked( 'custom', $this->get_option( array( $role, 'logout_type' ) ) ); ?> />
 					<input name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][logout_url]" type="text" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_logout_url" value="<?php echo $this->get_option( array( $role, 'logout_url' ) ); ?>" class="regular-text" />
 					<p class="description"><?php _e( 'Check this option to send the user to a custom location, specified by the textbox above.', 'theme-my-login' ); ?></p>
+                    <textarea name="<?php echo $this->options_key; ?>[<?php echo $role; ?>][logout_url_referers]" id="<?php echo $this->options_key; ?>_<?php echo $role; ?>_logout_url_referers" class="regular-text"><?php echo $this->get_option( array( $role, 'logout_url_referers' ) ); ?></textarea>
+                    <p class="description"><?php _e( 'If you would like certain URLs to override the custom location, enter those above, separated by a line break.', 'theme-my-login' ); ?></p>
 				</td>
 			</tr>
 		</table>
