@@ -793,7 +793,7 @@ msgid "Log in"
 msgstr ""
 
 #: modules/custom-redirection/admin/custom-redirection-admin.php:168
-#: modules/custom-redirection/admin/custom-redirection-admin.php:182
+#: modules/custom-redirection/admin/custom-redirection-admin.php:184
 msgid "Default"
 msgstr ""
 
@@ -803,7 +803,7 @@ msgid ""
 msgstr ""
 
 #: modules/custom-redirection/admin/custom-redirection-admin.php:171
-#: modules/custom-redirection/admin/custom-redirection-admin.php:185
+#: modules/custom-redirection/admin/custom-redirection-admin.php:187
 msgid "Referer"
 msgstr ""
 
@@ -814,23 +814,30 @@ msgid ""
 msgstr ""
 
 #: modules/custom-redirection/admin/custom-redirection-admin.php:176
-#: modules/custom-redirection/admin/custom-redirection-admin.php:190
+#: modules/custom-redirection/admin/custom-redirection-admin.php:192
 msgid ""
 "Check this option to send the user to a custom location, specified by the "
 "textbox above."
 msgstr ""
 
-#: modules/custom-redirection/admin/custom-redirection-admin.php:180
+#: modules/custom-redirection/admin/custom-redirection-admin.php:178
+#: modules/custom-redirection/admin/custom-redirection-admin.php:194
+msgid ""
+"If you would like certain URLs to override the custom location, enter those "
+"above, separated by a line break."
+msgstr ""
+
+#: modules/custom-redirection/admin/custom-redirection-admin.php:182
 msgid "Log out"
 msgstr ""
 
-#: modules/custom-redirection/admin/custom-redirection-admin.php:183
+#: modules/custom-redirection/admin/custom-redirection-admin.php:185
 msgid ""
 "Check this option to send the user to the log in page, displaying a message "
 "that they have successfully logged out."
 msgstr ""
 
-#: modules/custom-redirection/admin/custom-redirection-admin.php:186
+#: modules/custom-redirection/admin/custom-redirection-admin.php:188
 msgid ""
 "Check this option to send the user back to the page they were visiting "
 "before logging out. (Note: If the previous page being visited was an admin "
