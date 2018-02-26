@@ -948,12 +948,21 @@ if(typeof wpOnload=='function')wpOnload()
 	 * @return string Login page link with optional $query arguments appended
 	 */
 	public static function get_page_link( $action, $query = '' ) {
-		$page_id = self::get_page_id( $action );
+		global $wp_rewrite;
 
-		if ( $page_id ) {
-			$link = get_permalink( $page_id );
+		if ( $page_id = self::get_page_id( $action ) ) {
+			if ( $wp_rewrite instanceof WP_Rewrite ) {
+				$link = get_permalink( $page_id );
+			} else {
+				$link = home_url( '?page_id=' . $page_id );
+			}
 		} elseif ( $page_id = self::get_page_id( 'login' ) ) {
-			$link = add_query_arg( 'action', $action, get_permalink( $page_id ) );
+			if ( $wp_rewrite instanceof WP_Rewrite ) {
+				$link = get_permalink( $page_id );
+			} else {
+				$link = home_url( '?page_id=' . $page_id );
+			}
+			$link = add_query_arg( 'action', $action, $link );
 		} else {
 			// Remove site_url filter so we can use wp-login.php
 			remove_filter( 'site_url', array( self::get_object(), 'site_url' ), 10, 3 );
