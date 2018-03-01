@@ -306,16 +306,15 @@ class Theme_My_Login_User_Moderation extends Theme_My_Login_Abstract {
 		global $wpdb;
 
 		$login = isset( $_GET['login'] ) ? trim( $_GET['login'] ) : '';
+		$field = is_email( $login ) ? 'email' : 'login';
 
-		if ( ! $user_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_login = %s", $login ) ) ) {
+		if ( ! $user = get_user_by( $field, $login ) ) {
 			$redirect_to = Theme_My_Login_Common::get_current_url( array( 'sendactivation' => 'failed' ) );
 			wp_redirect( $redirect_to );
 			exit;
 		}
 
-		do_action( 'tml_user_activation_resend', $user_id );
-
-		$user = new WP_User( $user_id );
+		do_action( 'tml_user_activation_resend', $user->ID );
 
 		if ( in_array( 'pending', (array) $user->roles ) ) {
 			// Send activation e-mail
@@ -479,4 +478,3 @@ endif;
 
 if ( is_admin() )
 	include_once( dirname( __FILE__ ) . '/admin/user-moderation-admin.php' );
-
