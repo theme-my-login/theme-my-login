@@ -101,7 +101,7 @@ class Theme_My_Login_Custom_Passwords extends Theme_My_Login_Abstract {
 			<p class="error"><?php echo implode( '<br />', $errors ); ?></p>
 		<?php } ?>
 		<input autocomplete="off" name="pass1" id="pass1<?php $template->the_instance(); ?>" class="input" size="20" value="" type="password" /><br />
-		<span class="hint"><?php echo apply_filters( 'tml_password_hint', __( '(Must be at least 6 characters.)', 'theme-my-login' ) ); ?></span>
+		<span class="hint"><?php echo apply_filters( 'tml_password_hint', sprintf( __( '(Must be at least %d characters.)', 'theme-my-login' ), apply_filters( 'tml_minimum_password_length', 6 ) ) ); ?></span>
 
 		<label for="pass2<?php $template->the_instance(); ?>"><?php _e( 'Confirm Password:', 'theme-my-login' ); ?></label>
 		<input autocomplete="off" name="pass2" id="pass2<?php $template->the_instance(); ?>" class="input" size="20" value="" type="password" /><br />
@@ -154,7 +154,7 @@ class Theme_My_Login_Custom_Passwords extends Theme_My_Login_Abstract {
 
 		// Make sure password is long enough
 		} elseif ( strlen( $_POST['pass1'] ) < apply_filters( 'tml_minimum_password_length', 6 ) ) {
-			$errors->add( 'password_length', __( '<strong>ERROR</strong>: Your password must be at least 6 characters in length.', 'theme-my-login' ) );
+			$errors->add( 'password_length', sprintf( __( '<strong>ERROR</strong>: Your password must be at least %d characters in length.', 'theme-my-login' ), apply_filters( 'tml_minimum_password_length', 6 ) ) );
 
 		// All is good, assign password to a friendlier key
 		} else {
