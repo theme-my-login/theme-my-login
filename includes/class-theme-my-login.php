@@ -686,7 +686,6 @@ if(typeof wpOnload=='function')wpOnload()
 	 * @param string $url The URL
 	 * @param string $path The path specified
 	 * @param string $orig_scheme The current connection scheme (HTTP/HTTPS)
-	 * @param int $blog_id Blog ID
 	 * @return string The modified URL
 	 */
 	public function site_url( $url, $path, $orig_scheme ) {
