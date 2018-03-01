@@ -310,6 +310,15 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 
 		do_action_ref_array( 'tml_request', array( &$this ) );
 
+		//Set a cookie now to see if they are supported by the browser.
+		$secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
+		if ( ! isset( $_COOKIE[ TEST_COOKIE ] ) ) {
+			setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure );
+			if ( SITECOOKIEPATH != COOKIEPATH ) {
+				setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
+			}
+		}
+
 		// allow plugins to override the default actions, and to add extra actions if they want
 		do_action( 'login_form_' . $this->request_action );
 
@@ -480,6 +489,27 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					if ( $http_post && isset( $_POST['log'] ) ) {
 
 						$user = wp_signon( '', $secure_cookie );
+
+						if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
+							if ( headers_sent() ) {
+								/* translators: 1: Browser cookie documentation URL, 2: Support forums URL */
+								$user = new WP_Error(
+									'test_cookie', sprintf(
+										__( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
+										__( 'https://codex.wordpress.org/Cookies' ), __( 'https://wordpress.org/support/' )
+									)
+								);
+							} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
+								// If cookies are disabled we can't log in even with a valid user+pass
+								/* translators: 1: Browser cookie documentation URL */
+								$user = new WP_Error(
+									'test_cookie', sprintf(
+										__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
+										__( 'https://codex.wordpress.org/Cookies' )
+									)
+								);
+							}
+						}
 
 						$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
 
