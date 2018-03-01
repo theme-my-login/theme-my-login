@@ -50,7 +50,7 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 	public static function default_options() {
 		return array(
 			'instance'              => 0,
-			'default_action'        => '',
+			'default_action'        => 'login',
 			'login_template'        => '',
 			'register_template'     => '',
 			'lostpassword_template' => '',
