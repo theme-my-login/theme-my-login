@@ -337,6 +337,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					$hasher = new PasswordHash( 8, true );
 
 					$expire = apply_filters( 'post_password_expires', time() + 10 * DAY_IN_SECONDS );
+					$referer = wp_get_referer();
 					if ( $referer ) {
 						$secure = ( 'https' === parse_url( $referer, PHP_URL_SCHEME ) );
 					} else {
