@@ -220,6 +220,13 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 */
 	public function wp() {
 		if ( self::is_tml_page() ) {
+
+			// Define the page being requested
+			$this->request_page = self::get_page_action( get_the_id() );
+			if ( empty( $this->request_action ) ) {
+				$this->request_action = $this->request_page;
+			}
+
 			do_action( 'login_init' );
 
 			remove_action( 'wp_head', 'feed_links',                       2 );
@@ -922,8 +929,7 @@ if(typeof wpOnload=='function')wpOnload()
 			if ( ! empty( $this->request_instance ) )
 				$instance->set_active( false );
 
-			if ( ! empty( $this->request_action ) )
-				$atts['default_action'] = $this->request_action;
+			$atts['default_action'] = $this->request_page;
 
 			if ( ! isset( $atts['show_title'] ) )
 				$atts['show_title'] = false;
