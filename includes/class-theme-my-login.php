@@ -944,6 +944,9 @@ if(typeof wpOnload=='function')wpOnload()
 				$atts['show_title'] = false;
 
 			foreach ( $atts as $option => $value ) {
+				if ( 'instance' == $option ) {
+					continue;
+				}
 				$instance->set_option( $option, $value );
 			}
 
