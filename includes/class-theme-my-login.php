@@ -69,6 +69,15 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	public $request_instance = 0;
 
 	/**
+	 * Holds the current instance being displayed
+	 *
+	 * @since 6.4.11
+	 * @access public
+	 * @var int
+	 */
+	public $current_instance = 0;
+
+	/**
 	 * Holds loaded instances
 	 *
 	 * @since 6.3
@@ -942,6 +951,9 @@ if(typeof wpOnload=='function')wpOnload()
 		} else {
 			$instance = $this->load_instance( $atts );
 		}
+
+		$this->current_instance = $instance->get_option( 'instance' );
+
 		return $instance->display();
 	}
 
@@ -1091,6 +1103,18 @@ if(typeof wpOnload=='function')wpOnload()
 	 */
 	public function get_active_instance() {
 		return $this->get_instance( (int) $this->request_instance );
+	}
+
+	/**
+	 * Get the current instance object
+	 *
+	 * @since 6.4.11
+	 * @access public
+	 *
+	 * @return object Instance object
+	 */
+	public function get_current_instance() {
+		return $this->get_instance( (int) $this->current_instance );
 	}
 
 	/**

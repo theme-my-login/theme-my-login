@@ -63,7 +63,7 @@ class Theme_My_Login_Custom_Passwords extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function password_fields() {
-		$template = Theme_My_Login::get_object()->get_active_instance();
+		$template = Theme_My_Login::get_object()->get_current_instance();
 		?>
 		<p class="tml-user-pass1-wrap">
 			<label for="pass1<?php $template->the_instance(); ?>"><?php _e( 'Password', 'theme-my-login' ); ?></label>
