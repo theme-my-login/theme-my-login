@@ -172,10 +172,10 @@ class Theme_My_Login_Custom_Redirection extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function login_form() {
-		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
-			$referer = wp_unslash( $_REQUEST['redirect_to'] );
-		} elseif ( wp_get_original_referer() ) {
+		if ( wp_get_original_referer() ) {
 			$referer = wp_get_original_referer();
+		} elseif ( ! empty( $_REQUEST['redirect_to'] ) ) {
+			$referer = wp_unslash( $_REQUEST['redirect_to'] );
 		} else {
 			$referer = Theme_My_Login::is_tml_page() ? wp_get_referer() : wp_unslash( $_SERVER['REQUEST_URI'] );
 		}
