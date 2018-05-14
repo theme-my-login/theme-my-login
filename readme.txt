@@ -3,8 +3,8 @@ Contributors: jfarthing84
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 4.5
-Tested up to: 4.9.1
-Stable tag: 6.4.10
+Tested up to: 4.9.6
+Stable tag: 6.4.11
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +56,16 @@ Please visit https://wordpress.org/support/plugin/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.11 =
+* Fix fatal error when attempting to rewrite login links before `init` action
+* Add the test cookie functionality from wp-login.php
+* Fix a notice in the postpass action handler
+* Make User Moderation login type aware
+* Fix display of password length requirements
+* Fix a multisite error when the main site is not ID 1
+* Don't allow squashing of the main instance by shortcode attribute
+
 
 = 6.4.10 =
 * Add weak password confirmation checkbox to password reset form
