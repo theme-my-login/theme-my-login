@@ -160,6 +160,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 		add_filter( 'logout_url',             array( $this, 'logout_url'             ), 10, 2 );
 		add_filter( 'single_post_title',      array( $this, 'single_post_title'      )        );
 		add_filter( 'the_title',              array( $this, 'the_title'              ), 10, 2 );
+		add_filter( 'document_title_parts',   array( $this, 'document_title_parts'   )        );
 		add_filter( 'wp_setup_nav_menu_item', array( $this, 'wp_setup_nav_menu_item' )        );
 		add_filter( 'wp_list_pages_excludes', array( $this, 'wp_list_pages_excludes' )        );
 		add_filter( 'page_link',              array( $this, 'page_link'              ), 10, 2 );
@@ -475,6 +476,26 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 							exit;
 						}
 					}
+					break;
+				case 'confirmaction' :
+					if ( ! isset( $_GET['request_id'] ) ) {
+						wp_die( __( 'Invalid request.' ) );
+					}
+
+					$request_id = (int) $_GET['request_id'];
+
+					if ( isset( $_GET['confirm_key'] ) ) {
+						$key    = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
+						$result = wp_validate_user_request_key( $request_id, $key );
+					} else {
+						$result = new WP_Error( 'invalid_key', __( 'Invalid key' ) );
+					}
+
+					if ( is_wp_error( $result ) ) {
+						wp_die( $result );
+					}
+
+					do_action( 'user_request_action_confirmed', $request_id );
 					break;
 				case 'login' :
 				default:
@@ -796,11 +817,38 @@ if(typeof wpOnload=='function')wpOnload()
 		if ( is_admin() )
 			return $title;
 
-		if ( self::is_tml_page( 'login', $post_id ) && is_user_logged_in() ) {
-			if ( in_the_loop() )
-				$title = $this->get_instance()->get_title( 'login' );
+		if ( self::is_tml_page( 'login', $post_id ) ) {
+			if ( in_the_loop() ) {
+				if ( is_user_logged_in() ) {
+					$title = $this->get_instance()->get_title( 'login' );
+				} elseif ( 'login' != $this->request_action ) {
+					$title = $this->get_instance()->get_title( $this->request_action );
+				}
+			}
 		}
 		return $title;
+	}
+
+	/**
+	 * Changes wp_get_document_title() to reflect the current action
+	 *
+	 * Callback for "document_title_parts" hok in wp_get_document_title()
+	 *
+	 * @see wp_get_document_title()
+	 * @since 6.4.12
+	 *
+	 * @param array $parts The title parts
+	 * @return array The modified title parts
+	 */
+	public function document_title_parts( $parts ) {
+		if ( self::is_tml_page( 'login' ) ) {
+			if ( is_user_logged_in() ) {
+				$parts['title'] = $this->get_instance()->get_title( 'login' );
+			} elseif ( 'login' != $this->request_action ) {
+				$parts['title'] = $this->get_instance()->get_title( $this->request_action );
+			}
+		}
+		return $parts;
 	}
 
 	/**
@@ -938,7 +986,9 @@ if(typeof wpOnload=='function')wpOnload()
 			if ( ! empty( $this->request_instance ) )
 				$instance->set_active( false );
 
-			$atts['default_action'] = $this->request_page;
+			if ( 'login' != $this->request_page ) {
+				$atts['default_action'] = $this->request_page;
+			}
 
 			if ( ! isset( $atts['show_title'] ) )
 				$atts['show_title'] = false;

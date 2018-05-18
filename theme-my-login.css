@@ -9,19 +9,27 @@
 }
 
 .tml .error,
-.tml .message {
-	color: #333;
-	padding: 0.5em;
+.tml .message,
+.tml .success {
+	padding: 1em;
 }
 
 .tml .error {
-	border: 1px solid #c00;
-	background-color: #ffebe8;
+	border: 1px solid #ebccd1;
+	background-color: #f2dede;
+	color: #a94442;
 }
 
 .tml .message {
-	border: 1px solid #e6db55;
-	background-color: #ffffe0;
+	border: 1px solid #faebcc;
+	background-color: #fcf8e3;
+	color: #8a6d3b;
+}
+
+.tml .success {
+	border: 1px solid #d6e9c6;
+	background-color: #dff0d8;
+	color: #3c763d;
 }
 
 .tml p {
@@ -207,6 +215,10 @@
 }
 
 @media screen and (min-width: 768px) {
+	.tml {
+		max-width: 500px;
+	}
+
 	.tml .tml-submit-wrap input {
 		width: auto;
 	}
