@@ -322,19 +322,8 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 * @access public
 	 */
 	public function template_redirect() {
-		if ( ! $this->request_action && self::is_tml_page() )
-			$this->request_action = self::get_page_action( get_the_id() );
 
 		do_action_ref_array( 'tml_request', array( &$this ) );
-
-		//Set a cookie now to see if they are supported by the browser.
-		$secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
-		if ( ! isset( $_COOKIE[ TEST_COOKIE ] ) ) {
-			setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure );
-			if ( SITECOOKIEPATH != COOKIEPATH ) {
-				setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
-			}
-		}
 
 		// allow plugins to override the default actions, and to add extra actions if they want
 		do_action( 'login_form_' . $this->request_action );
@@ -524,9 +513,20 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 
 					$reauth = empty( $_REQUEST['reauth'] ) ? false : true;
 
-					if ( $http_post && isset( $_POST['log'] ) ) {
+					if ( isset( $_POST['log'] ) || isset( $_GET['testcookie'] ) ) {
 
-						$user = wp_signon( '', $secure_cookie );
+						$user = wp_signon( array(), $secure_cookie );
+
+						$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
+
+						if ( ! is_wp_error( $user ) && empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
+							$redirect_to = add_query_arg( array(
+								'testcookie' => 1,
+								'redirect_to' => $redirect_to
+							) );
+							wp_redirect( $redirect_to );
+							exit;
+						}
 
 						if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 							if ( headers_sent() ) {
@@ -537,7 +537,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 										__( 'https://codex.wordpress.org/Cookies' ), __( 'https://wordpress.org/support/' )
 									)
 								);
-							} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
+							} else {
 								// If cookies are disabled we can't log in even with a valid user+pass
 								/* translators: 1: Browser cookie documentation URL */
 								$user = new WP_Error(
@@ -547,9 +547,9 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 									)
 								);
 							}
+						} else {
+							$user = wp_get_current_user();
 						}
-
-						$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
 
 						if ( ! is_wp_error( $user ) && ! $reauth ) {
 							if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
@@ -575,23 +575,26 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 					if ( ! empty( $_GET['loggedout'] ) || $reauth )
 						$this->errors = new WP_Error();
 
-					// Some parts of this script use the main login form to display a message
-					if		( isset( $_GET['loggedout'] ) && true == $_GET['loggedout'] )
-						$this->errors->add( 'loggedout', __( 'You are now logged out.', 'theme-my-login' ), 'message' );
-					elseif	( isset( $_GET['registration'] ) && 'disabled' == $_GET['registration'] )
-						$this->errors->add( 'registerdisabled', __( 'User registration is currently not allowed.', 'theme-my-login' ) );
-					elseif	( isset( $_GET['checkemail'] ) && 'confirm' == $_GET['checkemail'] )
-						$this->errors->add( 'confirm', __( 'Check your e-mail for the confirmation link.', 'theme-my-login' ), 'message' );
-					elseif ( isset( $_GET['resetpass'] ) && 'complete' == $_GET['resetpass'] )
-						$this->errors->add( 'password_reset', __( 'Your password has been reset.', 'theme-my-login' ), 'message' );
-					elseif	( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] )
-						$this->errors->add( 'registered', __( 'Registration complete. Please check your e-mail.', 'theme-my-login' ), 'message' );
-					elseif	( $interim_login )
-						$this->errors->add( 'expired', __( 'Your session has expired. Please log-in again.', 'theme-my-login' ), 'message' );
-					elseif ( strpos( $redirect_to, 'about.php?updated' ) )
-						$this->errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to experience the awesomeness.', 'theme-my-login' ), 'message' );
-					elseif	( $reauth )
-						$this->errors->add( 'reauth', __( 'Please log in to continue.', 'theme-my-login' ), 'message' );
+					if ( $interim_login ) {
+						if ( ! $errors->get_error_code() )
+							$errors->add( 'expired', __( 'Your session has expired. Please log in to continue where you left off.', 'theme-my-login' ), 'message' );
+					} else {
+						// Some parts of this script use the main login form to display a message
+						if		( isset( $_GET['loggedout'] ) && true == $_GET['loggedout'] )
+							$this->errors->add( 'loggedout', __( 'You are now logged out.', 'theme-my-login' ), 'message' );
+						elseif	( isset( $_GET['registration'] ) && 'disabled' == $_GET['registration'] )
+							$this->errors->add( 'registerdisabled', __( 'User registration is currently not allowed.', 'theme-my-login' ) );
+						elseif	( isset( $_GET['checkemail'] ) && 'confirm' == $_GET['checkemail'] )
+							$this->errors->add( 'confirm', __( 'Check your email for the confirmation link.', 'theme-my-login' ), 'message' );
+						elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )
+							$this->errors->add( 'newpass', __( 'Check your email for your new password.', 'theme-my-login' ), 'message' );
+						elseif ( isset( $_GET['resetpass'] ) && 'complete' == $_GET['resetpass'] )
+							$this->errors->add( 'password_reset', __( 'Your password has been reset.', 'theme-my-login' ), 'message' );
+						elseif	( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] )
+							$this->errors->add( 'registered', __( 'Registration complete. Please check your email.', 'theme-my-login' ), 'message' );
+						elseif ( strpos( $redirect_to, 'about.php?updated' ) )
+							$this->errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.', 'theme-my-login' ), 'message' );
+					}
 
 					// Clear any stale cookies.
 					if ( $reauth )
@@ -1214,7 +1217,7 @@ if(typeof wpOnload=='function')wpOnload()
 
 		if ( $instance->get_option( 'instance' ) === $this->request_instance ) {
 			$instance->set_active();
-			$instance->set_option( 'default_action', $this->request_action );
+			$instance->set_option( 'default_action', $this->request_action ? $this->request_action : 'login' );
 		}
 
 		$this->loaded_instances[] = $instance;
