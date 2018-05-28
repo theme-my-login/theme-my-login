@@ -54,6 +54,9 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 8 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 11 );
 
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes'       ) );
+		add_action( 'save_post',      array( $this, 'save_action_meta_box' ) );
+
 		register_uninstall_hook( THEME_MY_LOGIN_PATH . '/theme-my-login.php', array( 'Theme_My_Login_Admin', 'uninstall' ) );
 	}
 
@@ -120,6 +123,59 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		wp_localize_script( 'theme-my-login-admin', 'tmlAdmin', array(
 			'interim_login_url' => site_url( 'wp-login.php?interim-login=1', 'login' )
 		) );
+	}
+
+	/**
+	 * Adds the TML Action meta box.
+	 *
+	 * @since 6.4.13
+	 */
+	public function add_meta_boxes() {
+		add_meta_box(
+			'tml_action',
+			__( 'Theme My Login Action', 'theme-my-login' ),
+			array( $this, 'action_meta_box' ),
+			'page',
+			'side'
+		);
+	}
+
+	/**
+	 * Renders the TML Action meta box.
+	 *
+	 * @since 6.4.13
+	 *
+	 * @param WP_Post $post The post object.
+	 */
+	public function action_meta_box( $post ) {
+		$page_action = get_post_meta( $post->ID, '_tml_action', true );
+		?>
+
+		<select name="tml_action" id="tml_action">
+			<option value=""></option>
+			<?php foreach ( Theme_My_Login::default_pages() as $action => $label ) : ?>
+				<option value="<?php echo esc_attr( $action ); ?>"<?php selected( $action, $page_action ); ?>><?php echo esc_html( $label ); ?></option>
+			<?php endforeach; ?>
+		</select>
+
+		<?php
+	}
+
+	/**
+	 * Saves the TML Action meta box.
+	 *
+	 * @since 6.4.13
+	 *
+	 * @param int $post_id The post ID.
+	 */
+	public function save_action_meta_box( $post_id ) {
+		if ( 'page' != get_post_type( $post_id ) ) {
+			return;
+		}
+
+		if ( isset( $_POST['tml_action'] ) ) {
+			update_post_meta( $post_id, '_tml_action', sanitize_key( $_POST['tml_action'] ) );
+		}
 	}
 
 	/**
@@ -427,4 +483,3 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 	}
 }
 endif; // Class exists
-

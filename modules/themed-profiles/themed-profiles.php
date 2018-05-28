@@ -72,7 +72,8 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 	 * @access protected
 	 */
 	protected function load() {
-		add_action( 'tml_modules_loaded', array( $this, 'modules_loaded' ) );
+		add_filter( 'tml_default_pages',  array( $this, 'tml_default_pages' ) );
+		add_action( 'tml_modules_loaded', array( $this, 'modules_loaded'    ) );
 
 		add_action( 'init',               array( $this, 'init'               ) );
 		add_action( 'template_redirect',  array( $this, 'template_redirect'  ) );
@@ -84,6 +85,19 @@ class Theme_My_Login_Themed_Profiles extends Theme_My_Login_Abstract {
 		add_action( 'tml_display_profile', array( $this, 'tml_display_profile' ) );
 
 		add_filter( 'wp_setup_nav_menu_item', array( $this, 'wp_setup_nav_menu_item' ), 12 );
+	}
+
+	/**
+	 * Add the profile page to the default pages.
+	 *
+	 * @since 6.4.13
+	 *
+	 * @param array $page The default pages.
+	 * @return array The default pages with the profile page added.
+	 */
+	public function tml_default_pages( $pages ) {
+		$pages['profile'] = __( 'Profile', 'theme-my-login' );
+		return $pages;
 	}
 
 	/**
@@ -393,4 +407,3 @@ endif;
 
 if ( is_admin() )
 	include_once( dirname( 	__FILE__ ) . '/admin/themed-profiles-admin.php' );
-
