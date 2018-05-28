@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 4.5
 Tested up to: 4.9.6
-Stable tag: 6.4.12
+Stable tag: 6.4.13
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +56,10 @@ Please visit https://wordpress.org/support/plugin/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.13 =
+* Implement a TML action selector for pages
+* Fix error about cookies not being enabled when they are
 
 = 6.4.12 =
 * Add support for data requests
