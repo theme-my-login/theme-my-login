@@ -1,0 +1,31 @@
+.tml {
+	font-size: 1em;
+
+	* {
+		box-sizing: border-box;
+	}
+}
+
+.tml-field-wrap {
+	margin-bottom: 1em;
+}
+
+.tml-label {
+	display: block;
+	margin: 0.5em 0;
+
+	.tml-checkbox + & {
+		display: inline;
+	}
+}
+
+.tml-field {
+	width: 100%;
+}
+
+.tml-description {
+	display: block;
+	font-size: 0.85em;
+	font-style: italic;
+	margin: 0.5em 0;
+}

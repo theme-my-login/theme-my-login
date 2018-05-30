@@ -1,10 +1,9 @@
 === Theme My Login ===
 Contributors: jfarthing84
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
-Tags: login, register, profile, password recovery, branding, customize, widget, wp-login, wp-login.php
-Requires at least: 4.4
-Tested up to: 4.4
-Stable tag: 6.4.3
+Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
+Requires at least: 4.5
+Tested up to: 4.9.6
+Stable tag: 6.4.14
 
 The ultimate login branding solution! Theme My Login offers matchless
 customization of your WordPress user experience!
@@ -20,61 +19,27 @@ recovery pages right within your theme. The best part? It works right out of the
 box, with no configuration necessary! Take back your login page, WordPress users!
 
 
-== Modules ==
+= Features =
 
-Theme My Login ships with a handful of included "modules". Modules to Theme My
-Login are what Plugins are to WordPress. They are "features" that can be enabled
-on a per-case basis.
+* Have you users log in from the frontend of your site.
+* Have your users register from the frontend of your site.
+* Have your users recover their password from the frontend of your site.
+* Customize the slugs used for login, registration, password recovery and other pages.
+* Allow your users to register with only their email.
+* Allow your users to set their own passwords upon registration.
+* Allow your users to log in using either their email and password, username and password or a combination of the two.
+* Allow your users to be logged in automatically after registration with auto-login.
 
-= Custom E-mail =
+= Do More With Extensions =
 
-Customize every aspect of your user registration and password recovery
-notifications. With this module enabled, you can change recipients of admin
-notifications and also change the from name, from email address, subject and
-body text of all notifications. You can even send HTML notifications!
+Boost your user experience even more with add-on plugins from our [extensions catalog](https://thememylogin.com/extensions). Some of our extensions include:
 
-= Custom Passwords =
-
-Allow your users to set their own password when they register. Most people
-change the auto-generated password after their first login anyway, right? Why
-not eliminate a step? Your users will thank you!
-
-= Custom Redirection =
-
-Customize where your users are sent when they login or logout. You can even have
-different settings for different user roles! Send administrators to the admin
-area and subscribers back to the referer. It's simple!
-
-= Custom User Links =
-
-User links are shown on the widget when a user is logged in. There are three
-links by default: "Dashboard", "Profile" and "Log Out". Don't want your
-subscribers to have a "Dashboard" link? No problem! You can add, edit and remove
-links on a per-role basis!
-
-= reCAPTCHA =
-
-Utilize Google's reCAPTCHA service in order to reduce spam registrations on your
-site. See https://www.google.com/recaptcha/intro/index.html for more info.
-
-= Security =
-
-Help protect your site and your users with various security options. Throttle
-login attempts to protect your users from brute-force attacks, lock the accounts
-of troublesome users, disable access to `wp-login.php` to reduce bogus spam
-registrations or even lock down your entire site so that only users who are
-logged in can see it.
-
-= Themed Profiles =
-
-Your users can edit their profiles in the familiar view of your theme, instead
-of the WordPress backend!
-
-= User Moderation =
-
-Require your users to click an activation link in their email or even require
-admin approval for new registrations.
-
+* [Moderation](https://thememylogin.com/extensions/moderation) allows you to moderate your users by requiring them to confirm their email or by requiring admin approval.
+* [Notifications](https://thememylogin.com/extensions/notification) allows you to send customized notification for many different actions that take place within your site.
+* [Profiles](https://thememylogin.com/extensions/profiles) lets your users edit their profile from the frontend of your site.
+* [reCAPTCHA](https://thememylogin.com/extensions/recaptcha) enables Google reCAPTCHA support for your registration and login forms.
+* [Redirection](https://thememylogin.com/extensions/redirection) allows you to redirect your users on login, logout and registration based on their role.
+* [Security](https://thememylogin.com/extensions/security) empowers you to secure you website and your users by offering brute-force protection via login throttling by IP address.
 
 == Installation ==
 
@@ -84,24 +49,100 @@ admin approval for new registrations.
 
 == Frequently Asked Questions ==
 
-= Where can I get support? =
-
-I currently provide free support right here at [WordPress](http://wordpress.org/support/plugin/theme-my-login).
-
 = Where can I find documentation? =
 
-Documentation can currently be found at [my site](http://www.jfarthing.com/development/theme-my-login/).
+Documentation can be found on our [documentation site](http://docs.thememylogin.com).
+
+= Where can I find support? =
+
+Support can be found using our [support form](https://thememylogin.com/support).
 
 = Where can I report a bug? =
 
-Report bugs, suggest ideas and participate in development at [GitHub](https://github.com/jfarthing84/theme-my-login/).
-
-= Where can I find translations or help translate? =
-
-Translations are now being handled at [Zanata](https://translate.zanata.org/zanata/project/view/theme-my-login).
+Report bugs, suggest ideas and participate in development at [GitHub](https://github.com/theme-my-login/theme-my-login/).
 
 
 == Changelog ==
+
+= 7.0 =
+* Rewrite plugin from the ground up
+* Pages are no longer used to represent actions
+* Actions are now represented by a class
+* Actions can be added/remove on the fly
+* Forms are now represented by a class
+* Forms can be added/remove on the fly
+* Form fields can be added/removed/modified/rearranged on the fly
+* Extensions can easily be written and integrated with the plugin
+* Move Custom E-mail module to a commercial extension
+* Merge Custom Passwords module into core plugin
+* Move Custom Redirection module to a commercial extension
+* Remove Custom User Links module
+* Move reCAPTCHA module to a commercial extension
+* Move Security module to a commercial extension
+* Move Themed Profiles module to a commercial extension
+* Move User Moderation module to a commercial extension
+* Add option to allow auto-login after registration
+
+= 6.4.14 =
+* Fix the "cookies blocked" notice that appeared upon entering invalid login credentials
+* Style alert link colors to match the alert that they're in
+* Tweak styling of the "Remember me" checkbox and label
+
+= 6.4.13 =
+* Implement a TML action selector for pages
+* Fix error about cookies not being enabled when they are
+
+= 6.4.12 =
+* Add support for data requests
+* Utilize Bootstrap 3 colors for notices
+
+= 6.4.11 =
+* Fix fatal error when attempting to rewrite login links before `init` action
+* Add the test cookie functionality from wp-login.php
+* Fix a notice in the postpass action handler
+* Make User Moderation login type aware
+* Fix display of password length requirements
+* Fix a multisite error when the main site is not ID 1
+* Don't allow squashing of the main instance by shortcode attribute
+
+= 6.4.10 =
+* Add weak password confirmation checkbox to password reset form
+* Introduce `tml_enforce_private_site` filter
+* Introduce `tml_minimum_password_length` filter
+* Hide admin bar checkbox on themed profiles when admin is disabled
+
+= 6.4.9 =
+* Fix fatal error from typo in previous release
+
+= 6.4.8 =
+* Fix errors and messages not displaying anywhere except default pages
+* Don't exclude TML pages from search in admin area or if not the main query
+
+= 6.4.7 =
+* Don't allow locked users to log in using their email address
+
+= 6.4.6 =
+* Fix errors and messages not displaying
+* Don't add reCAPTCHA errors when adding a user via wp-admin or WP-CLI
+* Improve PHP 7 compatibility
+* Introduce `tml_page_id` filter
+* Improve deliverability of HTML emails
+* Fix disabling of User Denial email notification
+* Pass locale to reCAPTCHA script allowing reCAPTCHA to be localized
+* Don't allow pending users to log in using their email address
+* Fix email content types from being reset
+
+= 6.4.5 =
+* Don't clear username input on login form when autofocusing
+* Fix custom e-mail disable checkboxes defaulting to being checked
+* Fix login type functionality
+* Bring wp-login.php duplicated code up to date
+* Require WordPress 4.5
+
+= 6.4.4 =
+* Fix file loading for non-standard directory setups
+* Fix language files not loading properly
+* Fix password reset cookie path
 
 = 6.4.3 =
 * Fix sending of custom emails when creating a user
@@ -435,7 +476,6 @@ Translations are now being handled at [Zanata](https://translate.zanata.org/zana
 * Implemented custom links for logged in users based on role
 * Implemented custom redirection upon log in based on role
 * Implemented custom registration/password recovery emails
-
 * Implemented true shortcode and template tag functionality
 * Implemented true multi-instance functionality
 * Implemented an easy-to-use jQuery tabbed administration menu
@@ -553,3 +593,9 @@ Translations are now being handled at [Zanata](https://translate.zanata.org/zana
 
 = 1.0.0 =
 * Initial release version
+
+
+== Upgrade Notice ==
+
+= 7.0 =
+Modules are no longer included with the plugin. Please consider this before you upgrade!
