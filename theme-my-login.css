@@ -56,6 +56,7 @@
 
 .tml .tml-rememberme-wrap label {
 	display: inline;
+	font-size: 90%;
 }
 
 .tml input,
@@ -68,6 +69,7 @@
 .tml input[type="checkbox"],
 .tml input[type="radio"],
 .tml .tml-rememberme-wrap input {
+	margin: 0 0.5em 0 0;
 	vertical-align: middle;
 	width: auto;
 }
@@ -243,10 +245,6 @@
 
 	.tml-login .tml-rememberme-wrap {
 		display: table-cell;
-	}
-
-	.tml-login .tml-rememberme-wrap input {
-		margin: 0;
 	}
 
 	.tml-login .tml-submit-wrap {
