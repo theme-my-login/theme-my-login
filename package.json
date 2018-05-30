@@ -1,7 +1,7 @@
 {
-  "author": "Jeff Farthing",
+  "author": "Theme My Login",
   "bugs": {
-      "url": "https://github.com/jfarthing84/theme-my-login/issues"
+      "url": "https://github.com/theme-my-login/theme-my-login/issues"
   },
   "description": "Creates an alternate login, registration and password recovery experience within your theme.",
   "devDependencies": {
@@ -16,7 +16,7 @@
     "gulp-uglify": "^3.0.0",
     "run-sequence": "^2.2.1"
   },
-  "homepage": "http://thememylogin.com",
+  "homepage": "https://thememylogin.com",
   "keywords": [
     "login",
     "registration",
@@ -27,7 +27,7 @@
   "name": "theme-my-login",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jfarthing84/theme-my-login"
+    "url": "https://github.com/theme-my-login/theme-my-login"
   },
   "scripts": {
     "build": "gulp build",
