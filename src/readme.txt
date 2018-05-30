@@ -1,5 +1,5 @@
 === Theme My Login ===
-Contributors: jfarthing84
+Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.5
 Tested up to: 4.9.6
