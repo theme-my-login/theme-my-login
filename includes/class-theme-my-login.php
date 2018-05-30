@@ -537,7 +537,7 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 										__( 'https://codex.wordpress.org/Cookies' ), __( 'https://wordpress.org/support/' )
 									)
 								);
-							} else {
+							} elseif ( isset( $_GET['testcookie'] ) ) {
 								// If cookies are disabled we can't log in even with a valid user+pass
 								/* translators: 1: Browser cookie documentation URL */
 								$user = new WP_Error(
