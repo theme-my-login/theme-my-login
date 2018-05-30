@@ -174,7 +174,14 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		}
 
 		if ( isset( $_POST['tml_action'] ) ) {
-			update_post_meta( $post_id, '_tml_action', sanitize_key( $_POST['tml_action'] ) );
+			$tml_action = sanitize_key( $_POST['tml_action'] );
+			if ( ! empty( $_POST['tml_action'] ) ) {
+				update_post_meta( $post_id, '_tml_action', $tml_action );
+			} else {
+				if ( false !== get_post_meta( $post_id, '_tml_action', true ) ) {
+					delete_post_meta( $post_id, '_tml_action' );
+				}
+			}
 		}
 	}
 
