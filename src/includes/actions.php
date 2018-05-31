@@ -376,7 +376,7 @@ function tml_login_handler() {
 						__( 'https://wordpress.org/support/' )
 					)
 				);
-			} else {
+			} elseif ( isset( $_GET['testcookie'] ) ) {
 				// If cookies are disabled we can't log in even with a valid user+pass
 				$user = new WP_Error( 'test_cookie', sprintf(
 						__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
