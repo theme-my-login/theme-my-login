@@ -107,9 +107,10 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 	 */
 	public static function default_options() {
 		return apply_filters( 'tml_default_options', array(
-			'enable_css'     => true,
-			'login_type'     => 'default',
-			'active_modules' => array()
+			'enable_css'        => true,
+			'login_type'        => 'default',
+			'active_modules'    => array(),
+			'dismissed_notices' => array()
 		) );
 	}
 
