@@ -1,5 +1,6 @@
 build/
 node_modules/
+vendor/
 npm-debug.log
 .DS_Store
 .svn/

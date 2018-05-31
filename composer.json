@@ -1,0 +1,12 @@
+{
+    "name": "theme-my-login/theme-my-login",
+    "description": "Creates an alternate login, registration and password recovery experience within your theme.",
+    "keywords": ["wordpress", "plugin", "login"],
+    "homepage": "https://thememylogin.com",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "require": {
+        "php": ">=5.2.4",
+        "composer/installers": "~1.0"
+    }
+}
