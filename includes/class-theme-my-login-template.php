@@ -115,6 +115,9 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 							$template[] = $this->get_option( 'register_template' );
 						$template[] = 'register-form.php';
 						break;
+					case 'confirmaction':
+						echo '<div class="tml">' . _wp_privacy_account_request_confirmed_message( $_GET['request_id'] ) . '</div>';
+						break;
 					case 'login':
 					default :
 						if ( $this->get_option( 'login_template' ) )
@@ -161,6 +164,9 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 					case 'resetpass':
 					case 'rp':
 						$title = __( 'Lost Password', 'theme-my-login' );
+						break;
+					case 'confirmaction':
+						$title = __( 'Your Data Request', 'theme-my-login' );
 						break;
 					case 'login':
 					default:
@@ -459,6 +465,7 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 			THEME_MY_LOGIN_PATH . '/templates'
 		) );
 
+		$located = '';
 		foreach ( (array) $template_names as $template_name ) {
 
 			if ( ! $template_name )
@@ -591,4 +598,3 @@ class Theme_My_Login_Template extends Theme_My_Login_Abstract {
 	}
 }
 endif; // Class exists
-

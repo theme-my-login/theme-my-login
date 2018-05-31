@@ -9,19 +9,39 @@
 }
 
 .tml .error,
-.tml .message {
-	color: #333;
-	padding: 0.5em;
+.tml .message,
+.tml .success {
+	padding: 1em;
 }
 
 .tml .error {
-	border: 1px solid #c00;
-	background-color: #ffebe8;
+	border: 1px solid #ebccd1;
+	background-color: #f2dede;
+	color: #a94442;
+}
+
+.tml .error a {
+	color: #843534;
 }
 
 .tml .message {
-	border: 1px solid #e6db55;
-	background-color: #ffffe0;
+	border: 1px solid #faebcc;
+	background-color: #fcf8e3;
+	color: #8a6d3b;
+}
+
+.tml .message a {
+	color: #66512c;
+}
+
+.tml .success {
+	border: 1px solid #d6e9c6;
+	background-color: #dff0d8;
+	color: #3c763d;
+}
+
+.tml .success a {
+	color: #2b542c;
 }
 
 .tml p {
@@ -36,6 +56,7 @@
 
 .tml .tml-rememberme-wrap label {
 	display: inline;
+	font-size: 90%;
 }
 
 .tml input,
@@ -48,6 +69,7 @@
 .tml input[type="checkbox"],
 .tml input[type="radio"],
 .tml .tml-rememberme-wrap input {
+	margin: 0 0.5em 0 0;
 	vertical-align: middle;
 	width: auto;
 }
@@ -207,6 +229,10 @@
 }
 
 @media screen and (min-width: 768px) {
+	.tml {
+		max-width: 500px;
+	}
+
 	.tml .tml-submit-wrap input {
 		width: auto;
 	}
@@ -219,10 +245,6 @@
 
 	.tml-login .tml-rememberme-wrap {
 		display: table-cell;
-	}
-
-	.tml-login .tml-rememberme-wrap input {
-		margin: 0;
 	}
 
 	.tml-login .tml-submit-wrap {
