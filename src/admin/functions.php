@@ -139,7 +139,7 @@ function tml_admin_enqueue_scripts() {
 function tml_admin_notices() {
 	global $plugin_page;
 
-	$is_pre_7 = tml_get_previous_version() && version_compare( $previous_version, '7.0', '<' );
+	$is_pre_7 = ( $previous_version = tml_get_previous_version() ) && version_compare( $previous_version, '7.0', '<' );
 
 	if ( 'theme-my-login-extensions' == $is_pre_7 ) {
 		?>
