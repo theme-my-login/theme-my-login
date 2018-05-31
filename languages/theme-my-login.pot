@@ -2,111 +2,111 @@
 # This file is distributed under the same license as the Theme My Login package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Theme My Login 6.4.14\n"
+"Project-Id-Version: Theme My Login 6.4.15\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/theme-my-login\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2018-05-29T21:37:32-04:00\n"
-"PO-Revision-Date: 2018-05-29T21:37:32-04:00\n"
+"POT-Creation-Date: 2018-05-31T17:31:27-04:00\n"
+"PO-Revision-Date: 2018-05-31T17:31:27-04:00\n"
 "X-Domain: theme-my-login\n"
 
-#: includes/class-theme-my-login.php:126
+#: includes/class-theme-my-login.php:127
 #: includes/class-theme-my-login-template.php:173
 #: templates/login-form.php:38
 msgid "Log In"
 msgstr ""
 
-#: includes/class-theme-my-login.php:127
+#: includes/class-theme-my-login.php:128
 msgid "Log Out"
 msgstr ""
 
-#: includes/class-theme-my-login.php:128
+#: includes/class-theme-my-login.php:129
 #: includes/class-theme-my-login-widget.php:111
 #: includes/class-theme-my-login-template.php:160
 #: templates/register-form.php:28
 msgid "Register"
 msgstr ""
 
-#: includes/class-theme-my-login.php:129
+#: includes/class-theme-my-login.php:130
 #: includes/class-theme-my-login-widget.php:112
 #: includes/class-theme-my-login-template.php:166
 msgid "Lost Password"
 msgstr ""
 
-#: includes/class-theme-my-login.php:130
+#: includes/class-theme-my-login.php:131
 #: templates/resetpass-form.php:44
 #: modules/custom-email/admin/custom-email-admin.php:100
 msgid "Reset Password"
 msgstr ""
 
-#: includes/class-theme-my-login.php:389
+#: includes/class-theme-my-login.php:390
 msgid "Your password reset link appears to be invalid. Please request a new link below."
 msgstr ""
 
-#: includes/class-theme-my-login.php:391
+#: includes/class-theme-my-login.php:392
 msgid "Your password reset link has expired. Please request a new link below."
 msgstr ""
 
-#: includes/class-theme-my-login.php:429
+#: includes/class-theme-my-login.php:430
 msgid "The passwords do not match."
 msgstr ""
 
-#: includes/class-theme-my-login.php:580
+#: includes/class-theme-my-login.php:581
 msgid "Your session has expired. Please log in to continue where you left off."
 msgstr ""
 
-#: includes/class-theme-my-login.php:584
+#: includes/class-theme-my-login.php:585
 msgid "You are now logged out."
 msgstr ""
 
-#: includes/class-theme-my-login.php:586
+#: includes/class-theme-my-login.php:587
 msgid "User registration is currently not allowed."
 msgstr ""
 
-#: includes/class-theme-my-login.php:588
+#: includes/class-theme-my-login.php:589
 msgid "Check your email for the confirmation link."
 msgstr ""
 
-#: includes/class-theme-my-login.php:590
+#: includes/class-theme-my-login.php:591
 msgid "Check your email for your new password."
 msgstr ""
 
-#: includes/class-theme-my-login.php:592
+#: includes/class-theme-my-login.php:593
 msgid "Your password has been reset."
 msgstr ""
 
-#: includes/class-theme-my-login.php:594
+#: includes/class-theme-my-login.php:595
 msgid "Registration complete. Please check your email."
 msgstr ""
 
-#: includes/class-theme-my-login.php:596
+#: includes/class-theme-my-login.php:597
 msgid "<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new."
 msgstr ""
 
-#: includes/class-theme-my-login.php:943
+#: includes/class-theme-my-login.php:944
 msgid "<strong>ERROR</strong>: Invalid email address."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1271
+#: includes/class-theme-my-login.php:1272
 msgid "<strong>ERROR</strong>: Enter a username or e-mail address."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1275
+#: includes/class-theme-my-login.php:1276
 msgid "<strong>ERROR</strong>: There is no user registered with that email address."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1287
+#: includes/class-theme-my-login.php:1288
 msgid "<strong>ERROR</strong>: Invalid username or e-mail."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1300
+#: includes/class-theme-my-login.php:1301
 msgid "Someone requested that the password be reset for the following account:"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1302
+#: includes/class-theme-my-login.php:1303
 #: modules/user-moderation/admin/user-moderation-admin.php:382
 #: modules/user-moderation/user-moderation.php:461
 #: modules/custom-email/custom-email.php:843
@@ -114,26 +114,26 @@ msgstr ""
 msgid "Username: %s"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1303
+#: includes/class-theme-my-login.php:1304
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1304
+#: includes/class-theme-my-login.php:1305
 msgid "To reset your password, visit the following address:"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1315
+#: includes/class-theme-my-login.php:1316
 msgid "[%s] Password Reset"
 msgstr ""
 
-#: includes/class-theme-my-login.php:1321
+#: includes/class-theme-my-login.php:1322
 #: modules/user-moderation/admin/user-moderation-admin.php:252
 #: modules/user-moderation/admin/user-moderation-admin.php:394
 #: modules/user-moderation/admin/user-moderation-admin.php:436
 msgid "The e-mail could not be sent."
 msgstr ""
 
-#: includes/class-theme-my-login.php:1321
+#: includes/class-theme-my-login.php:1322
 #: modules/user-moderation/admin/user-moderation-admin.php:252
 #: modules/user-moderation/admin/user-moderation-admin.php:394
 #: modules/user-moderation/admin/user-moderation-admin.php:436
@@ -364,64 +364,84 @@ msgstr ""
 msgid "Enter your new password below."
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:71
-#: admin/class-theme-my-login-admin.php:189
+#: admin/class-theme-my-login-admin.php:74
+#: admin/class-theme-my-login-admin.php:248
 msgid "Theme My Login Settings"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:72
+#: admin/class-theme-my-login-admin.php:75
 msgid "TML"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:80
-#: admin/class-theme-my-login-admin.php:81
-#: admin/class-theme-my-login-admin.php:106
+#: admin/class-theme-my-login-admin.php:83
+#: admin/class-theme-my-login-admin.php:84
+#: admin/class-theme-my-login-admin.php:109
 msgid "General"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:107
-#: admin/class-theme-my-login-admin.php:112
+#: admin/class-theme-my-login-admin.php:110
+#: admin/class-theme-my-login-admin.php:115
 msgid "Modules"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:110
+#: admin/class-theme-my-login-admin.php:113
 msgid "Stylesheet"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:111
+#: admin/class-theme-my-login-admin.php:114
 msgid "Login Type"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:136
+#: admin/class-theme-my-login-admin.php:146
+msgid "<strong>Heads up!</strong> Theme My Login 7 is right around the corner and some major changes are coming!"
+msgstr ""
+
+#: admin/class-theme-my-login-admin.php:148
+msgid "Most notably, all of the previously included modules (with the exception of Custom Passwords, which has been merged into the core plugin) have been removed."
+msgstr ""
+
+#: admin/class-theme-my-login-admin.php:149
+msgid "Instead, all of the legacy modules (now called \"Extensions\"), with many more to come, can now be purchased at our <a href=\"https://thememylogin.com/extensions\">extensions store</a>."
+msgstr ""
+
+#: admin/class-theme-my-login-admin.php:151
+msgid "It's not all bad news though! As a legacy user, we're offering you a discount for a limited time. Use discount code <strong>SAVINGFACE</strong> at checkout in order to receive <strong>20% off</strong> of your purchase!"
+msgstr ""
+
+#: admin/class-theme-my-login-admin.php:153
+msgid "Take Me To The Store"
+msgstr ""
+
+#: admin/class-theme-my-login-admin.php:188
 msgid "Theme My Login Action"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:217
+#: admin/class-theme-my-login-admin.php:276
 msgid "Enable \"theme-my-login.css\""
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:218
+#: admin/class-theme-my-login-admin.php:277
 msgid "In order to keep changes between upgrades, you can store your customized \"theme-my-login.css\" in your current theme directory."
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:234
+#: admin/class-theme-my-login-admin.php:293
 #: templates/login-form.php:18
 msgid "Username or E-mail"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:237
+#: admin/class-theme-my-login-admin.php:296
 msgid "Username only"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:240
+#: admin/class-theme-my-login-admin.php:299
 msgid "E-mail only"
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:244
+#: admin/class-theme-my-login-admin.php:303
 msgid "Allow users to login using their username and/or e-mail address."
 msgstr ""
 
-#: admin/class-theme-my-login-admin.php:260
+#: admin/class-theme-my-login-admin.php:319
 msgid "Enable %s"
 msgstr ""
 
