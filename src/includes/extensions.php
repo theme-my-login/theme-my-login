@@ -186,7 +186,7 @@ function tml_activate_extension_license( $extension ) {
 	) );
 
 	if ( empty( $response ) ) {
-		return new WP_Error( 'http_error', __( 'An error occured, please try again.', 'theme-my-login' ) );
+		return new WP_Error( 'http_error', __( 'An error occurred, please try again.', 'theme-my-login' ) );
 	}
 
 	if ( false === $response->success ) {
@@ -247,7 +247,7 @@ function tml_deactivate_extension_license( $extension ) {
 	) );
 
 	if ( empty( $response ) ) {
-		return new WP_Error( 'http_error', __( 'An error occured, please try again.', 'theme-my-login' ) );
+		return new WP_Error( 'http_error', __( 'An error occurred, please try again.', 'theme-my-login' ) );
 	}
 
 	return $response->license;

@@ -88,7 +88,7 @@ function tml_admin_register_settings() {
 function tml_admin_get_settings_sections() {
 	return (array) apply_filters( 'tml_admin_get_settings_sections', array(
 		'tml_settings_login' => array(
-			'title'    => __( 'Login', 'theme-my-login' ),
+			'title'    => __( 'Log In' ),
 			'callback' => '__return_null',
 			'page'     => 'theme-my-login',
 		),
@@ -179,7 +179,7 @@ function tml_admin_get_settings_fields() {
 		'tml_settings_slugs' => array(
 			// Login
 			'tml_login_slug' => array(
-				'title'             => __( 'Log In', 'theme-my-login' ),
+				'title'             => __( 'Log In' ),
 				'callback'          => 'tml_admin_setting_callback_input_field',
 				'sanitize_callback' => 'sanitize_text_field',
 				'args' => array(
@@ -190,7 +190,7 @@ function tml_admin_get_settings_fields() {
 			),
 			// Logout
 			'tml_logout_slug' => array(
-				'title'             => __( 'Log Out', 'theme-my-login' ),
+				'title'             => __( 'Log Out' ),
 				'callback'          => 'tml_admin_setting_callback_input_field',
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
@@ -201,7 +201,7 @@ function tml_admin_get_settings_fields() {
 			),
 			// Register
 			'tml_register_slug' => array(
-				'title'             => __( 'Register', 'theme-my-login' ),
+				'title'             => __( 'Register' ),
 				'callback'          => 'tml_admin_setting_callback_input_field',
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
@@ -212,7 +212,7 @@ function tml_admin_get_settings_fields() {
 			),
 			// Lost password
 			'tml_lostpassword_slug' => array(
-				'title'             => __( 'Lost Password', 'theme-my-login' ),
+				'title'             => __( 'Lost Password' ),
 				'callback'          => 'tml_admin_setting_callback_input_field',
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
@@ -223,7 +223,7 @@ function tml_admin_get_settings_fields() {
 			),
 			// Reset password
 			'tml_resetpass_slug' => array(
-				'title'             => __( 'Reset Password', 'theme-my-login' ),
+				'title'             => __( 'Reset Password' ),
 				'callback'          => 'tml_admin_setting_callback_input_field',
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
@@ -461,7 +461,7 @@ function tml_admin_settings_page() {
 
 		<?php do_settings_sections( $plugin_page ); ?>
 
-		<?php submit_button( __( 'Save Changes', 'theme-my-login' ) ); ?>
+		<?php submit_button(); ?>
 	</form>
 </div>
 

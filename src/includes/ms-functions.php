@@ -1055,7 +1055,7 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
 					'before' => '<h2>' . __( 'New Password' ) . '</h2>',
 				) );
 			} else {
-				$content .= '<h2>' . __( 'An error occured during the activation' ) . '</h2>';
+				$content .= '<h2>' . __( 'An error occurred during the activation' ) . '</h2>';
 				$content .= '<p>' . $result->get_error_message() . '</p>';
 			}
 		} else {
