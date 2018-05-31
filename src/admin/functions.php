@@ -141,7 +141,7 @@ function tml_admin_notices() {
 
 	$is_pre_7 = ( $previous_version = tml_get_previous_version() ) && version_compare( $previous_version, '7.0', '<' );
 
-	if ( 'theme-my-login-extensions' == $is_pre_7 ) {
+	if ( 'theme-my-login-extensions' == $plugin_page && $is_pre_7 ) {
 		?>
 
 		<div class="notice notice-info">
