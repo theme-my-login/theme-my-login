@@ -3,7 +3,7 @@ Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.5
 Tested up to: 4.9.6
-Stable tag: 6.4.14
+Stable tag: 6.4.15
 
 The ultimate login branding solution! Theme My Login offers matchless
 customization of your WordPress user experience!
@@ -29,6 +29,7 @@ box, with no configuration necessary! Take back your login page, WordPress users
 * Allow your users to set their own passwords upon registration.
 * Allow your users to log in using either their email and password, username and password or a combination of the two.
 * Allow your users to be logged in automatically after registration with auto-login.
+
 
 = Do More With Extensions =
 
@@ -82,6 +83,10 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 * Move Themed Profiles module to a commercial extension
 * Move User Moderation module to a commercial extension
 * Add option to allow auto-login after registration
+
+= 6.4.15 =
+* Fix a bug where pages were being excluded from legacy page menus and search
+* Add a notice about the impending release of 7
 
 = 6.4.14 =
 * Fix the "cookies blocked" notice that appeared upon entering invalid login credentials

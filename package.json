@@ -1,7 +1,7 @@
 {
   "author": "Theme My Login",
   "bugs": {
-      "url": "https://github.com/theme-my-login/theme-my-login/issues"
+    "url": "https://github.com/theme-my-login/theme-my-login/issues"
   },
   "description": "Creates an alternate login, registration and password recovery experience within your theme.",
   "devDependencies": {
