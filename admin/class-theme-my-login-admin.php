@@ -168,7 +168,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 			return;
 		}
 
-		$dismissed_notices = $this->get_option( 'disbaled_notices', array() );
+		$dismissed_notices = $this->get_option( 'dismissed_notices', array() );
 		$dismissed_notices[] = sanitize_key( $_POST['notice'] );
 
 		$this->set_option( 'dismissed_notices', $dismissed_notices );
