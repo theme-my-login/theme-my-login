@@ -460,7 +460,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		}
 
 		return new WP_Error( 'update_denied', sprintf(
-			__( 'Theme My Login has not been updated because you have not allowed the update on the <a href="%s">settings page</a>.', 'theme-my-login' ),
+			__( 'Theme My Login has not been updated because you have not allowed the update on the <a href="%s" target="_top">settings page</a>.', 'theme-my-login' ),
 			admin_url( 'admin.php?page=theme_my_login' )
 		) );
 	}
