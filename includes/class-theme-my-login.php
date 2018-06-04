@@ -110,7 +110,8 @@ class Theme_My_Login extends Theme_My_Login_Abstract {
 			'enable_css'        => true,
 			'login_type'        => 'default',
 			'active_modules'    => array(),
-			'dismissed_notices' => array()
+			'dismissed_notices' => array(),
+			'allow_update'      => false,
 		) );
 	}
 
