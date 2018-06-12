@@ -36,7 +36,7 @@ add_action( 'register_new_user', 'tml_set_new_user_password' );
 add_action( 'register_new_user', 'tml_handle_auto_login' );
 
 // Passwords
-add_action( 'retrieved_password_key', 'wp_retrieve_password_notification', 10, 2 );
+add_action( 'retrieved_password_key', 'tml_retrieve_password_notification', 10, 2 );
 
 // Activation
 add_action( 'tml_activate', 'tml_flush_rewrite_rules' );

@@ -10,7 +10,6 @@
  * @subpackage Compatibility
  */
 
-if ( ! function_exists( 'retrieve_password' ) ) :
 /**
  * Handles validating the lost password request and retrieving the password reset key.
  *
@@ -18,7 +17,7 @@ if ( ! function_exists( 'retrieve_password' ) ) :
  *
  * @return True on success, WP_Error on error.
  */
-function retrieve_password() {
+function tml_retrieve_password() {
 	$errors = new WP_Error();
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
@@ -62,18 +61,16 @@ function retrieve_password() {
 
 	return true;
 }
-endif;
 
-if ( ! function_exists( 'wp_retrieve_password_notification' ) ) :
 /**
  * Sends the retrieve password notification.
  *
- * @since unknown
+ * @since 7.0
  *
  * @param WP_User $user The user object.
  * @param string $key   The password reset key.
  */
-function wp_retrieve_password_notification( $user, $key ) {
+function tml_retrieve_password_notification( $user, $key ) {
 	if ( is_multisite() ) {
 		$site_name = get_network()->site_name;
 	} else {
@@ -127,4 +124,3 @@ function wp_retrieve_password_notification( $user, $key ) {
 		wp_die( __( 'The email could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function.' ) );
 	}
 }
-endif;

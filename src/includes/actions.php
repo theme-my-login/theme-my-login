@@ -520,7 +520,7 @@ function tml_registration_handler() {
 function tml_lost_password_handler() {
 
 	if ( tml_is_post_request() ) {
-		$errors = retrieve_password();
+		$errors = tml_retrieve_password();
 		if ( ! is_wp_error( $errors ) ) {
 			$redirect_to = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : site_url( 'wp-login.php?checkemail=confirm' );
 			wp_safe_redirect( $redirect_to );
