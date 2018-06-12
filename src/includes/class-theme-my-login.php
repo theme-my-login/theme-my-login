@@ -361,4 +361,21 @@ final class Theme_My_Login {
 	 * @since 7.0
 	 */
 	private function __wakeup() {}
+
+	/**
+	 * Handle some deprecated methods that other plugins use.
+	 *
+	 * @since 7.0.1
+	 */
+	public static function __callStatic( $name, $args ) {
+		switch ( $name ) {
+			case 'get_object' :
+				return self::get_instance();
+				break;
+
+			case 'is_tml_page' :
+				return tml_is_action( isset( $args[0] ) ? $args[0] : '' );
+				break;
+		}
+	}
 }
