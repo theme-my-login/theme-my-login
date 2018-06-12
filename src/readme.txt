@@ -3,20 +3,14 @@ Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
 Tested up to: 4.9.6
-Stable tag: 6.4.16
+Stable tag: 7.0
 
-The ultimate login branding solution! Theme My Login offers matchless
-customization of your WordPress user experience!
+The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
 
 == Description ==
 
-Ever wished that your WordPress login page matched the rest of your site? Your
-wish has come true! Theme My Login allows you to bypass the default
-WordPress-branded login page that looks nothing like the rest of your site.
-Instead, your users will be presented with the login, registration and password
-recovery pages right within your theme. The best part? It works right out of the
-box, with no configuration necessary! Take back your login page, WordPress users!
+Ever wished that your WordPress login page matched the rest of your site? Your wish has come true! Theme My Login allows you to bypass the default WordPress-branded login page that looks nothing like the rest of your site. Instead, your users will be presented with the login, registration and password recovery pages right within your theme. The best part? It works right out of the box, with no configuration necessary! Take back your login page, WordPress users!
 
 
 = Features =
