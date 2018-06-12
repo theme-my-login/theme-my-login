@@ -24,7 +24,7 @@
 function tml_shortcode( $atts = array() ) {
 
 	$atts = shortcode_atts( array(
-		'action'      => '',
+		'action'      => 'login',
 		'show_links'  => null,
 		'redirect_to' => null,
 	), $atts );
