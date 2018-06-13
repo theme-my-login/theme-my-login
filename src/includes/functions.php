@@ -107,18 +107,20 @@ function tml_the_posts( $posts, $wp_query ) {
 		return $posts;
 	}
 
-	// Fake a post
-	$post = array(
-		'ID'             => 0,
-		'post_type'      => 'page',
-		'post_content'   => sprintf( '[theme-my-login action="%s"]', tml_get_action()->get_name() ),
-		'post_title'     => tml_get_action_title(),
-		'post_name'      => tml_get_action_slug(),
-		'ping_status'    => 'closed',
-		'comment_status' => 'closed',
-		'filter'         => 'raw',
-	);
-	$post = new WP_Post( (object) $post );
+	if ( ! $post = tml_action_has_page() ) {
+		// Fake a post
+		$post = array(
+			'ID'             => 0,
+			'post_type'      => 'page',
+			'post_content'   => sprintf( '[theme-my-login action="%s"]', tml_get_action()->get_name() ),
+			'post_title'     => tml_get_action_title(),
+			'post_name'      => tml_get_action_slug(),
+			'ping_status'    => 'closed',
+			'comment_status' => 'closed',
+			'filter'         => 'raw',
+		);
+		$post = new WP_Post( (object) $post );
+	}
 
 	return array( $post );
 }

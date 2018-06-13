@@ -282,6 +282,27 @@ function tml_get_action_url( $action = '', $scheme = 'login', $network = null ) 
 }
 
 /**
+ * Determine if an action has an associated page.
+ *
+ * @since 7.0.1
+ *
+ * @param string|Theme_My_Login_Action $action The action name of object.
+ * @return bool|WP_Post The page object if one is found, false otherwise.
+ */
+function tml_action_has_page( $action = '' ) {
+
+	if ( ! $action = tml_get_action( $action ) ) {
+		return false;
+	}
+
+	if ( ! $page = get_page_by_path( tml_get_action_slug( $action ) ) ) {
+		return false;
+	}
+
+	return $page;
+}
+
+/**
  * Handle an action.
  *
  * @since 7.0
