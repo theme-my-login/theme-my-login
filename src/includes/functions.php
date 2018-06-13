@@ -476,6 +476,18 @@ function tml_setup_nav_menu_item( $menu_item ) {
 				$menu_item->_invalid = true;
 			}
 		}
+
+	// Legacy menu item
+	} elseif ( 'page' == $menu_item->object ) {
+		$slug = get_post_field( 'post_name', $menu_item->object_id );
+		if ( $action = tml_get_action( $slug ) ) {
+			if ( 'logout' == $action->get_name() ) {
+				$menu_item->url = wp_nonce_url( $action->get_url(), 'log-out' );
+			}
+			if ( ! is_admin() && ! $action->show_nav_menu_item ) {
+				$menu_item->_invalid = true;
+			}
+		}
 	}
 
 	return $menu_item;
