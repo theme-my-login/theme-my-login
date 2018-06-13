@@ -455,7 +455,7 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		$plugins = get_site_transient( 'update_plugins' );
 
 		// Bail if we're not upgrading to 7.0+
-		if ( version_compare( $plugins->response[ $basename ], '7.0', '>=' ) ) {
+		if ( version_compare( $plugins->response[ $basename ]->new_version, '7.0', '<' ) ) {
 			return $response;
 		}
 
