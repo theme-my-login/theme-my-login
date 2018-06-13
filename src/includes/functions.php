@@ -557,6 +557,21 @@ function tml_set_user_login( $sanitized_user_login ) {
 }
 
 /**
+ * Filter the registration redirect when auto-login is enabled.
+ *
+ * @since 7.0.1
+ *
+ * @param string $url The registration redirect URL.
+ * @return string The registration redirect URL.
+ */
+function tml_registration_redirect( $url ) {
+	if ( tml_allow_auto_login() ) {
+		$url = home_url();
+	}
+	return $url;
+}
+
+/**
  * Buffer an action hook call so that it's content can be returned.
  *
  * @since 7.0

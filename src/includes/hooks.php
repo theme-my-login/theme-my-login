@@ -68,11 +68,9 @@ if ( tml_is_username_login_type() ) {
 }
 
 // Registration
-add_filter( 'registration_errors', 'tml_validate_new_user_password' );
-add_action( 'pre_user_login',      'tml_set_user_login'             );
-if ( tml_allow_auto_login() ) {
-	add_filter( 'registration_redirect', 'home_url' );
-}
+add_filter( 'registration_errors',   'tml_validate_new_user_password' );
+add_action( 'pre_user_login',        'tml_set_user_login'             );
+add_filter( 'registration_redirect', 'tml_registration_redirect'      );
 
 // Notifications
 add_filter( 'wp_new_user_notification_email', 'tml_add_password_notice_to_new_user_notification_email' );
