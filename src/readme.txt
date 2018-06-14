@@ -3,7 +3,7 @@ Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
 Tested up to: 4.9.6
-Stable tag: 7.0.1
+Stable tag: 7.0.2
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -59,10 +59,16 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.0.2 =
+* Fix collision with some plugins which modify the nav menu edit walker
+* Fix a notice in multisite
+* Fix pages not using custom templates when used as TML actions
+* Fix shortcode not working in certain circumstances when no action is present
+
 = 7.0.1 =
 * Fix error where WP_Query is used before expected by other plugins
 * Fix existing shortcodes from pre-7 not working due to missing action
-* Fix compatibility with plugins the use some legacy methods on the plugin class
+* Fix compatibility with plugins that use some legacy methods on the plugin class
 * Fix registration redirection when auto-login is enabled
 * Allow actions to be represented by pages if their slugs match
 * Fix legacy page menu items no longer behaving as they did pre-7
