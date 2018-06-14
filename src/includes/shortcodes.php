@@ -36,8 +36,8 @@ function tml_shortcode( $atts = array() ) {
 
 	$content = '';
 
-	if ( empty( $atts['action'] ) && tml_is_action() ) {
-		$action = tml_get_action();
+	if ( empty( $atts['action'] ) ) {
+		$action = tml_is_action() ? tml_get_action() : tml_get_action( 'login' );
 	} elseif ( ! $action = tml_get_action( $atts['action'] ) ) {
 		return $content;
 	}
