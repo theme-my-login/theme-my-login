@@ -225,10 +225,10 @@ function tml_ms_add_blog_signup_form_fields( $form ) {
 	$current_network = get_network();
 
 	if ( ! is_subdomain_install() ) {
-		$blogname_after = '<br />';
+		$control_after = '<br />';
 		if ( ! is_user_logged_in() ) {
-			$blogname_after .= '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), $current_network->domain . $current_network->path . __( 'sitename' ) ) . '</strong>) ';
-			$blogname_after .= __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
+			$control_after .= '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), $current_network->domain . $current_network->path . __( 'sitename' ) ) . '</strong>) ';
+			$control_after .= __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 		}
 
 		tml_add_form_field( $form, 'blogname', array(
@@ -242,14 +242,14 @@ function tml_ms_add_blog_signup_form_fields( $form ) {
 			'priority'    => 10,
 			'render_args' => array(
 				'control_before' => '<span class="prefix_address">' . $current_network->domain . $current_network->path . '</span>',
-				'control_after'  => $blogname_after,
+				'control_after'  => $control_after,
 			),
 		) );
 	} else {
-		$blogname_after = '<span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_network->domain ) ) . '</span><br />';
+		$control_after = '<span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_network->domain ) ) . '</span><br />';
 		if ( ! is_user_logged_in() ) {
-			$blogname_after .= '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), __( 'domain' ) . '.' . $site_domain . $current_network->path ) . '</strong>) ';
-			$blogname_after .= __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
+			$control_after .= '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), __( 'domain' ) . '.' . $site_domain . $current_network->path ) . '</strong>) ';
+			$control_after .= __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 		}
 
 		tml_add_form_field( $form, 'blogname', array(
