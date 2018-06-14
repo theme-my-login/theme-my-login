@@ -97,13 +97,13 @@ function tml_parse_query( $wp_query ) {
  */
 function tml_the_posts( $posts, $wp_query ) {
 
-	// Bail if not handling a TML action
-	if ( ! tml_is_action() ) {
+	// Bail if not in the main loop
+	if ( ! $wp_query->is_main_query() ) {
 		return $posts;
 	}
 
-	// Bail if not in the main loop
-	if ( ! $wp_query->is_main_query() ) {
+	// Bail if not handling a TML action
+	if ( ! tml_is_action() ) {
 		return $posts;
 	}
 
