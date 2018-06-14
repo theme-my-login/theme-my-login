@@ -140,14 +140,7 @@ function tml_page_template( $template = 'page.php' ) {
 
 	$slug = $action->get_name();
 
-	/**
-	 * Filters the template hierarchy used for TML pages.
-	 *
-	 * @since 7.0
-	 *
-	 * @param array $templates The page template hierarchy.
-	 */
-	$templates = apply_filters( 'tml_page_templates', array(
+	$templates = array(
 		"$slug.php",
 		"theme-my-login-$slug.php",
 		"tml-$slug.php",
@@ -155,7 +148,23 @@ function tml_page_template( $template = 'page.php' ) {
 		'theme-my-login.php',
 		'tml.php',
 		'page.php',
-	) );
+	);
+
+	if ( tml_action_has_page() ) {
+		$template = get_page_template_slug();
+		if ( $template && 0 === validate_file( $template ) ) {
+			array_unshift( $templates, $template );
+		}
+	}
+
+	/**
+	 * Filters the template hierarchy used for TML pages.
+	 *
+	 * @since 7.0
+	 *
+	 * @param array $templates The page template hierarchy.
+	 */
+	$templates = apply_filters( 'tml_page_templates', $templates );
 
 	if ( $tml_template = locate_template( $templates ) ) {
 		return $tml_template;
