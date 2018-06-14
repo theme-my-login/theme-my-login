@@ -32,14 +32,14 @@ class Theme_My_Login_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 		/**
 		 * Fires just before the move field of a nav menu item in the menu editor.
 		 *
-		 * @since 7.0
+		 * @since unknown
 		 *
-		 * @param object $item  The nav menu item.
-		 * @param int    $depth The current walker depth.
-		 * @param array  $args  An array of arguments for walking the tree.
-		 * @param int    $id    The nav menu ID.
+		 * @param int    $item_id The item ID.
+		 * @param object $item    The nav menu item.
+		 * @param int    $depth   The current walker depth.
+		 * @param array  $args    An array of arguments for walking the tree.
 		 */
-		do_action( 'tml_nav_menu_item_custom_fields', $item, $depth, $args, $id );
+		do_action( 'wp_nav_menu_item_custom_fields', $item->ID, $item, $depth, $args );
 
 		// Get the contents of the output buffer
 		$custom_fields = ob_get_clean();
