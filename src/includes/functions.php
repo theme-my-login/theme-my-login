@@ -274,7 +274,7 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 	}
 
 	// Bail if currently in /wp-admin
-	if ( is_admin() && ! tml_is_post_request() ) {
+	if ( is_admin() && did_action( 'admin_init' ) ) {
 		return $url;
 	}
 
