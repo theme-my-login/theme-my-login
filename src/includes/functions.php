@@ -19,42 +19,6 @@ function theme_my_login() {
 }
 
 /**
- * Remove undesired actions and filters on TML pages.
- *
- * @since 7.0
- */
-function tml_init() {
-
-	if ( ! tml_is_action() ) {
-		return;
-	}
-
-	// Remove actions
-	remove_action( 'wp_head', 'feed_links',                       2 );
-	remove_action( 'wp_head', 'feed_links_extra',                 3 );
-	remove_action( 'wp_head', 'rsd_link',                        10 );
-	remove_action( 'wp_head', 'wlwmanifest_link',                10 );
-	remove_action( 'wp_head', 'parent_post_rel_link',            10 );
-	remove_action( 'wp_head', 'start_post_rel_link',             10 );
-	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
-	remove_action( 'wp_head', 'rel_canonical',                   10 );
-
-	// Remove filters
-	remove_filter( 'template_redirect', 'redirect_canonical' );
-}
-
-/**
- * Parse the request.
- *
- * @since 7.0
- *
- * @param $wp WP The WordPress object.
- */
-function tml_parse_request( $wp ) {
-
-}
-
-/**
  * Parse the query.
  *
  * @since 7.0
@@ -123,6 +87,31 @@ function tml_the_posts( $posts, $wp_query ) {
 	}
 
 	return array( $post );
+}
+
+/**
+ * Remove undesired actions and filters on TML pages.
+ *
+ * @since 7.0
+ */
+function tml_remove_default_actions_and_filters() {
+
+	if ( ! tml_is_action() ) {
+		return;
+	}
+
+	// Remove actions
+	remove_action( 'wp_head', 'feed_links',                       2 );
+	remove_action( 'wp_head', 'feed_links_extra',                 3 );
+	remove_action( 'wp_head', 'rsd_link',                        10 );
+	remove_action( 'wp_head', 'wlwmanifest_link',                10 );
+	remove_action( 'wp_head', 'parent_post_rel_link',            10 );
+	remove_action( 'wp_head', 'start_post_rel_link',             10 );
+	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
+	remove_action( 'wp_head', 'rel_canonical',                   10 );
+
+	// Remove filters
+	remove_filter( 'template_redirect', 'redirect_canonical' );
 }
 
 /**

@@ -23,8 +23,10 @@ add_action( 'init', 'tml_add_rewrite_rules' );
 add_action( 'widgets_init', 'Theme_My_Login_Widget::register' );
 
 // Query
-add_action( 'parse_request', 'tml_parse_request' );
-add_action( 'parse_query',   'tml_parse_query'   );
+add_action( 'parse_query', 'tml_parse_query' );
+
+// Pages
+add_action( 'wp', 'tml_remove_default_actions_and_filters' );
 
 // Template
 add_action( 'template_redirect',  'tml_action_handler',   0 );
