@@ -18,7 +18,7 @@ function tml_register_default_actions() {
 	tml_register_action( 'login', array(
 		'title'              => __( 'Log In' ),
 		'slug'               => 'login',
-		'handler'            => 'tml_login_handler',
+		'callback'           => 'tml_login_handler',
 		'show_on_forms'      => __( 'Log in' ),
 		'show_nav_menu_item' => ! is_user_logged_in(),
 	) );
@@ -27,7 +27,7 @@ function tml_register_default_actions() {
 	tml_register_action( 'logout', array(
 		'title'              => __( 'Log Out' ),
 		'slug'               => 'logout',
-		'handler'            => 'tml_logout_handler',
+		'callback'           => 'tml_logout_handler',
 		'show_on_forms'      => false,
 		'show_in_widget'     => false,
 		'show_nav_menu_item' => is_user_logged_in(),
@@ -37,7 +37,7 @@ function tml_register_default_actions() {
 	tml_register_action( 'register', array(
 		'title'              => __( 'Register' ),
 		'slug'               => 'register',
-		'handler'            => 'tml_registration_handler',
+		'callback'           => 'tml_registration_handler',
 		'show_on_forms'      => (bool) get_option( 'users_can_register' ),
 		'show_nav_menu_item' => ! is_user_logged_in(),
 	) );
@@ -46,7 +46,7 @@ function tml_register_default_actions() {
 	tml_register_action( 'lostpassword', array(
 		'title'             => __( 'Lost Password' ),
 		'slug'              => 'lostpassword',
-		'handler'           => 'tml_lost_password_handler',
+		'callback'          => 'tml_lost_password_handler',
 		'network'           => true,
 		'show_on_forms'     => __( 'Lost your password?' ),
 		'show_in_nav_menus' => false,
@@ -56,7 +56,7 @@ function tml_register_default_actions() {
 	tml_register_action( 'resetpass', array(
 		'title'             => __( 'Reset Password' ),
 		'slug'              => 'resetpass',
-		'handler'           => 'tml_password_reset_handler',
+		'callback'          => 'tml_password_reset_handler',
 		'network'           => true,
 		'show_on_forms'     => false,
 		'show_in_widget'    => false,
@@ -67,7 +67,7 @@ function tml_register_default_actions() {
 	tml_register_action( 'confirmaction', array(
 		'title'             => __( 'Your Data Request', 'theme-my-login' ),
 		'slug'              => 'confirmaction',
-		'handler'           => 'tml_confirmaction_handler',
+		'callback'          => 'tml_confirmaction_handler',
 		'show_on_forms'     => false,
 		'show_in_widget'    => false,
 		'show_in_nav_menus' => false,
@@ -325,7 +325,12 @@ function tml_action_handler() {
 
 	nocache_headers();
 
-	tml_get_action()->handle();
+	/**
+	 * Fires when a TML action is being requested.
+	 *
+	 * @since 7.0.3
+	 */
+	do_action( 'tml_action_' . tml_get_action()->get_name() );
 }
 
 /**

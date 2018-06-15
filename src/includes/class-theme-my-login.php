@@ -75,6 +75,8 @@ final class Theme_My_Login {
 
 		$this->actions[ $action->get_name() ] = $action;
 
+		$action->add_callback_hook();
+
 		/**
 		 * Fires after registering an action.
 		 *
@@ -97,9 +99,17 @@ final class Theme_My_Login {
 	 */
 	public function unregister_action( $action ) {
 		if ( $action instanceof Theme_My_Login_Action ) {
+
+			$action->remove_callback_hook();
+
 			unset( $this->actions[ $action->get_name() ] );
 		} else {
-			unset( $this->actions[ $action ] );
+			if ( $action = $this->get_action( $action ) ) {
+
+				$action->remove_callback_hook();
+
+				unset( $this->actions[ $action ] );
+			}
 		}
 	}
 

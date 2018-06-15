@@ -40,7 +40,7 @@ class Theme_My_Login_Action {
 	 *
 	 * @var callable
 	 */
-	protected $handler;
+	protected $callback;
 
 	/**
 	 * Whether this action is a network action or not.
@@ -88,7 +88,7 @@ class Theme_My_Login_Action {
 	 *
 	 *     @type string      $title              The action title.
 	 *     @type string      $slug               The action slug.
-	 *     @type callable    $handler            The action callback to fire when accessed.
+	 *     @type callable    $callback           The action callback to fire when accessed.
 	 *     @type bool|string $show_on_forms      Whether a link to the action should be shown on forms or not.
 	 *     @type bool        $show_in_widget     Whether this action should be selectable in the widget or not.
 	 *     @type bool        $show_in_nav_menus  Whether this action should be available for use in nav menus or not.
@@ -102,7 +102,7 @@ class Theme_My_Login_Action {
 		$args = wp_parse_args( $args, array(
 			'title'             => '',
 			'slug'              => '',
-			'handler'           => '',
+			'callback'          => '',
 			'network'           => false,
 			'show_on_forms'     => true,
 			'show_in_widget'    => true,
@@ -115,7 +115,7 @@ class Theme_My_Login_Action {
 
 		$this->set_title( $args['title'] );
 		$this->set_slug( $args['slug'] );
-		$this->set_handler( $args['handler'] );
+		$this->set_callback( $args['callback'] );
 
 		$this->network            = (bool) $args['network'];
 		$this->show_on_forms      = $args['show_on_forms'];
@@ -169,6 +169,50 @@ class Theme_My_Login_Action {
 	}
 
 	/**
+	 * Get the action callback.
+	 *
+	 * @since 7.0.3
+	 *
+	 * @return callable The action callback.
+	 */
+	public function get_callback() {
+		return $this->callback;
+	}
+
+	/**
+	 * Set the action callback.
+	 *
+	 * @since 7.0.3
+	 *
+	 * @param callable $callback The action callback.
+	 */
+	public function set_callback( $callback ) {
+		$this->callback = $callback;
+	}
+
+	/**
+	 * Adds the callback to the proper hook.
+	 *
+	 * @since 7.0.3
+	 */
+	public function add_callback_hook() {
+		if ( $callback = $this->get_callback() ) {
+			add_action( 'tml_action_' . $this->get_name(), $callback, 15 );
+		}
+	}
+
+	/**
+	 * Removes the callback from the proper hook.
+	 *
+	 * @since 7.0.3
+	 */
+	public function remove_callback_hook() {
+		if ( $callback = $this->get_callback() ) {
+			remove_action( 'tml_action_' . $this->get_name(), $callback, 15 );
+		}
+	}
+
+	/**
 	 * Get the action slug.
 	 *
 	 * @since 7.0
@@ -218,32 +262,5 @@ class Theme_My_Login_Action {
 			$url = add_query_arg( 'action', $this->name, $url );
 		}
 		return $url;
-	}
-
-	/**
-	 * Set the action handler.
-	 *
-	 * @since 7.0
-	 *
-	 * @param callable $handler The action handler.
-	 */
-	public function set_handler( $handler ) {
-		if ( is_callable( $handler ) ) {
-			$this->handler = $handler;
-		}
-	}
-
-	/**
-	 * Handle the action.
-	 *
-	 * @since 7.0
-	 */
-	public function handle() {
-
-		if ( ! is_callable( $this->handler ) ) {
-			return;
-		}
-
-		call_user_func( $this->handler );
 	}
 }
