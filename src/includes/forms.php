@@ -13,6 +13,10 @@
  * @since 7.0
  */
 function tml_register_default_forms() {
+	if ( is_admin() ) {
+		return;
+	}
+
 	tml_register_login_form();
 	tml_register_registration_form();
 	tml_register_lost_password_form();
