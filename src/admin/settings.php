@@ -245,12 +245,17 @@ function tml_admin_setting_callback_input_field( $args ) {
 	$args = wp_parse_args( $args, array(
 		'label_for'   => '',
 		'value'       => '',
+		'description' => '',
 		'input_type'  => 'text',
 		'input_class' => 'regular-text',
 	) );
 ?>
 
 	<input type="<?php echo esc_attr( $args['input_type'] ); ?>" name="<?php echo esc_attr( $args['label_for'] ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>" class="<?php echo esc_attr( $args['input_class'] ); ?>" />
+
+	<?php if ( ! empty( $args['description'] ) ) : ?>
+		<p class="description"><?php echo $args['description']; ?></p>
+	<?php endif; ?>
 
 <?php
 }
@@ -262,14 +267,19 @@ function tml_admin_setting_callback_input_field( $args ) {
  */
 function tml_admin_setting_callback_checkbox_field( $args ) {
 	$args = wp_parse_args( $args, array(
-		'label_for' => '',
-		'label'     => '',
-		'value'     => '1',
-		'checked'   => '',
+		'label_for'   => '',
+		'label'       => '',
+		'value'       => '1',
+		'checked'     => '',
+		'description' => '',
 	) );
 ?>
 
 	<input type="checkbox" name="<?php echo esc_attr( $args['label_for'] ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo $args['value']; ?>" <?php checked( ! empty( $args['checked'] ) ); ?> /> <label for="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
+
+	<?php if ( ! empty( $args['description'] ) ) : ?>
+		<p class="description"><?php echo $args['description']; ?></p>
+	<?php endif; ?>
 
 <?php
 }
@@ -285,8 +295,9 @@ function tml_admin_setting_callback_checkbox_field( $args ) {
  */
 function tml_admin_setting_callback_checkbox_group_field( $args ) {
 	$args = wp_parse_args( $args, array(
-		'legend'  => '',
-		'options' => array(),
+		'legend'      => '',
+		'options'     => array(),
+		'description' => '',
 	) );
 
 	$options = array();
@@ -306,6 +317,10 @@ function tml_admin_setting_callback_checkbox_group_field( $args ) {
 		<?php echo implode( "<br />\n", $options ); ?>
 	</fieldset>
 
+	<?php if ( ! empty( $args['description'] ) ) : ?>
+		<p class="description"><?php echo $args['description']; ?></p>
+	<?php endif; ?>
+
 <?php
 }
 
@@ -320,9 +335,10 @@ function tml_admin_setting_callback_checkbox_group_field( $args ) {
  */
 function tml_admin_setting_callback_dropdown_field( $args ) {
 	$args = wp_parse_args( $args, array(
-		'label_for' => '',
-		'options'   => array(),
-		'selected'  => '',
+		'label_for'   => '',
+		'options'     => array(),
+		'selected'    => '',
+		'description' => '',
 	) );
 
 	$options = array();
@@ -340,6 +356,10 @@ function tml_admin_setting_callback_dropdown_field( $args ) {
 		<?php echo implode( "<br />\n", $options ); ?>
 	</select>
 
+	<?php if ( ! empty( $args['description'] ) ) : ?>
+		<p class="description"><?php echo $args['description']; ?></p>
+	<?php endif; ?>
+
 <?php
 }
 
@@ -354,10 +374,11 @@ function tml_admin_setting_callback_dropdown_field( $args ) {
  */
 function tml_admin_setting_callback_radio_group_field( $args ) {
 	$args = wp_parse_args( $args, array(
-		'label_for' => '',
-		'legend'    => '',
-		'options'   => array(),
-		'checked'   => '',
+		'label_for'   => '',
+		'legend'      => '',
+		'options'     => array(),
+		'checked'     => '',
+		'description' => '',
 	) );
 
 	$options = array();
@@ -376,6 +397,10 @@ function tml_admin_setting_callback_radio_group_field( $args ) {
 		<legend class="screen-reader-text"><span><?php echo esc_html( $args['legend'] ); ?></span></legend>
 		<?php echo implode( "<br />\n", $options ); ?>
 	</fieldset>
+
+	<?php if ( ! empty( $args['description'] ) ) : ?>
+		<p class="description"><?php echo $args['description']; ?></p>
+	<?php endif; ?>
 
 <?php
 }
