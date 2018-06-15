@@ -60,6 +60,9 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes'       ) );
 		add_action( 'save_post',      array( $this, 'save_action_meta_box' ) );
 
+		if ( ! $this->get_option( 'allow_update' ) ) {
+			add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_plugins' ) );
+		}
 		add_action( 'upgrader_pre_install', array( $this, 'upgrader_pre_install' ), 0, 2 );
 
 		register_uninstall_hook( THEME_MY_LOGIN_PATH . '/theme-my-login.php', array( 'Theme_My_Login_Admin', 'uninstall' ) );
@@ -428,6 +431,67 @@ class Theme_My_Login_Admin extends Theme_My_Login_Abstract {
 		$settings = wp_parse_args( $settings, $this->get_options() );
 
 		return $settings;
+	}
+
+	/**
+	 * Give those who opt to stay on the 6.4 branch updates.
+	 *
+	 * @since 6.4.17
+	 *
+	 * @param object $transient The transient data.
+	 * @return object The transient data.
+	 */
+	public function pre_set_site_transient_update_plugins( $transient = '' ) {
+		$basename = 'theme-my-login/theme-my-login.php';
+
+		if ( ! is_object( $transient ) ) {
+			$transient = new stdClass;
+		}
+
+		if ( ! isset( $transient->response ) || ! isset( $transient->no_update ) ) {
+			return $transient;
+		}
+
+		if ( is_array( $transient->response ) && isset( $transient->response[ $basename ] ) ) {
+			$plugin_data = $transient->response[ $basename ];
+			unset( $transient->response[ $basename ] );
+		} elseif ( is_array( $transient->no_update ) && isset( $transient->no_update[ $basename ] ) ) {
+			$plugin_data = $transient->no_update[ $basename ];
+			unset( $transient->no_update[ $basename ] );
+		} else {
+			return $transient;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+		$plugin_info = plugins_api( 'plugin_information', array( 'slug' => 'theme-my-login' ) );
+		if ( is_wp_error( $plugin_info ) ) {
+			return $transient;
+		}
+
+		uksort( $plugin_info->versions, 'version_compare' );
+
+		// Find the latest 6.4 version
+		foreach ( array_reverse( $plugin_info->versions ) as $version => $file ) {
+			if ( strpos( $version, '6.4' ) === 0 ) {
+				$plugin_data->new_version = $version;
+				$plugin_data->package = $file;
+				break;
+			}
+		}
+
+		// This is an update
+		if ( version_compare( Theme_My_Login::VERSION, $plugin_data->new_version, '<' ) ) {
+			$transient->response[ $basename ] = $plugin_data;
+
+		// This is just fetching the plugin information
+		} else {
+			$transient->no_update[ $basename ] = $plugin_data;
+		}
+
+		$transient->last_checked = time();
+
+		return $transient;
 	}
 
 	/**
