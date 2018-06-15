@@ -22,17 +22,17 @@
  * @return string The action content.
  */
 function tml_shortcode( $atts = array() ) {
+	$atts = (array) $atts;
+
+	if ( isset( $atts['default_action'] ) ) {
+		$atts['action'] = $atts['default_action'];
+	}
 
 	$atts = shortcode_atts( array(
 		'action'      => '',
 		'show_links'  => null,
 		'redirect_to' => null,
 	), $atts );
-
-	if ( isset( $atts['default_action'] ) ) {
-		$atts['action'] = $atts['default_action'];
-	}
-	unset( $atts['default_action'] );
 
 	$content = '';
 
