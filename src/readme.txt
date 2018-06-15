@@ -92,6 +92,10 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 * Move User Moderation module to a commercial extension
 * Add option to allow auto-login after registration
 
+= 6.4.17 =
+* Fix the version check logic in the updater
+* Implement path to download 6.4.x releases only
+
 = 6.4.16 =
 * Require opt-in to update the plugin to 7
 
