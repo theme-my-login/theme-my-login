@@ -1,10 +1,9 @@
 === Theme My Login ===
 Contributors: jfarthing84
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EZLVANPT4A9SW
 Tags: widget, login, registration, theme, custom, log in, register, sidebar, gravatar, redirection, e-mail
 Requires at least: 4.5
 Tested up to: 4.9.6
-Stable tag: 6.4.16
+Stable tag: 6.4.17
 
 Themes the WordPress login pages according to your theme.
 
@@ -56,6 +55,10 @@ Please visit https://wordpress.org/support/plugin/theme-my-login.
 
 
 == Changelog ==
+
+= 6.4.17 =
+* Fix the version check logic in the updater
+* Implement path to download 6.4.x releases only
 
 = 6.4.16 =
 * Require opt-in to update the plugin to 7
