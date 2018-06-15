@@ -71,12 +71,12 @@ function tml_register_login_form() {
 		'priority' => 30,
 	) );
 
+	$redirect_to = tml_get_request_value( 'redirect_to' );
+
 	tml_add_form_field( 'login', 'redirect_to', array(
 		'type'     => 'hidden',
 		'value'    => apply_filters( 'login_redirect',
-			tml_get_request_value( 'redirect_to' ) ?: admin_url(),
-			tml_get_request_value( 'redirect_to' ),
-			null
+			! empty( $redirect_to ) ? $redirect_to : admin_url(), $redirect_to, null
 		),
 		'priority' => 30,
 	) );

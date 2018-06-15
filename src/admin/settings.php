@@ -129,7 +129,7 @@ function tml_admin_get_settings_fields() {
 						'username' => __( 'Username only', 'theme-my-login' ),
 						'email'    => __( 'Email only',    'theme-my-login' ),
 					),
-					'checked'   => get_site_option( 'tml_login_type', 'default' ) ?: 'default',
+					'checked'   => get_site_option( 'tml_login_type', 'default' ),
 				),
 			),
 		),
@@ -147,7 +147,7 @@ function tml_admin_get_settings_fields() {
 						'default'  => __( 'Default',    'theme-my-login' ),
 						'email'    => __( 'Email only', 'theme-my-login' ),
 					),
-					'checked'   => get_site_option( 'tml_registration_type', 'default' ) ?: 'default',
+					'checked'   => get_site_option( 'tml_registration_type', 'default' ),
 				),
 			),
 			// User passwords
@@ -184,7 +184,7 @@ function tml_admin_get_settings_fields() {
 				'sanitize_callback' => 'sanitize_text_field',
 				'args' => array(
 					'label_for'   => 'tml_login_slug',
-					'value'       => get_site_option( 'tml_login_slug', 'login' ) ?: 'login',
+					'value'       => get_site_option( 'tml_login_slug', 'login' ),
 					'input_class' => 'regular-text code',
 				),
 			),
@@ -195,7 +195,7 @@ function tml_admin_get_settings_fields() {
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
 					'label_for'   => 'tml_logout_slug',
-					'value'       => get_site_option( 'tml_logout_slug', 'logout' ) ?: 'logout',
+					'value'       => get_site_option( 'tml_logout_slug', 'logout' ),
 					'input_class' => 'regular-text code',
 				),
 			),
@@ -206,7 +206,7 @@ function tml_admin_get_settings_fields() {
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
 					'label_for'   => 'tml_register_slug',
-					'value'       => get_site_option( 'tml_register_slug', 'register' ) ?: 'register',
+					'value'       => get_site_option( 'tml_register_slug', 'register' ),
 					'input_class' => 'regular-text code',
 				),
 			),
@@ -217,7 +217,7 @@ function tml_admin_get_settings_fields() {
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
 					'label_for'   => 'tml_lostpassword_slug',
-					'value'       => get_site_option( 'tml_lostpassword_slug', 'lostpassword' ) ?: 'lostpassword',
+					'value'       => get_site_option( 'tml_lostpassword_slug', 'lostpassword' ),
 					'input_class' => 'regular-text code',
 				),
 			),
@@ -228,7 +228,7 @@ function tml_admin_get_settings_fields() {
 				'sanitize_callback' => 'tml_sanitize_slug',
 				'args' => array(
 					'label_for'   => 'tml_resetpass_slug',
-					'value'       => get_site_option( 'tml_resetpass_slug', 'resetpass' ) ?: 'resetpass',
+					'value'       => get_site_option( 'tml_resetpass_slug', 'resetpass' ),
 					'input_class' => 'regular-text code',
 				),
 			),
