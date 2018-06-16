@@ -108,7 +108,7 @@ final class Theme_My_Login {
 
 				$action->remove_callback_hook();
 
-				unset( $this->actions[ $action ] );
+				unset( $this->actions[ $action->get_name() ] );
 			}
 		}
 	}
