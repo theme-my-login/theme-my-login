@@ -342,14 +342,7 @@ function tml_login_handler() {
 
 	$errors = new WP_Error;
 
-	// Set a cookie now to see if they are supported by the browser.
-	$secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
-	if ( ! isset( $_COOKIE[ TEST_COOKIE ] ) ) {
-		setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure );
-		if ( SITECOOKIEPATH != COOKIEPATH ) {
-			setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
-		}
-	}
+	$secure_cookie = '';
 
 	// If the user wants ssl but the session is not ssl, force a secure cookie.
 	if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
@@ -362,6 +355,7 @@ function tml_login_handler() {
 
 		if ( $user ) {
 			if ( get_user_option( 'use_ssl', $user->ID ) ) {
+				$secure_cookie = true;
 				force_ssl_admin( true );
 			}
 		}
@@ -370,7 +364,7 @@ function tml_login_handler() {
 	if ( ! empty( $_REQUEST['redirect_to'] ) ) {
 		$redirect_to = $_REQUEST['redirect_to'];
 		// Redirect to https if user wants ssl
-		if ( force_ssl_admin() && false !== strpos( $redirect_to, 'wp-admin' ) ) {
+		if ( $secure_cookie && false !== strpos( $redirect_to, 'wp-admin' ) ) {
 			$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
 		}
 	} else {
@@ -381,13 +375,13 @@ function tml_login_handler() {
 
 	if ( isset( $_POST['log'] ) || isset( $_GET['testcookie'] ) ) {
 
-		$user = wp_signon( array(), force_ssl_admin() );
+		$user = wp_signon( array(), $secure_cookie );
 
 		$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
 
 		if ( ! is_wp_error( $user ) && empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 			$redirect_to = add_query_arg( array(
-				'testcookie' => 1,
+				'testcookie'  => 1,
 				'redirect_to' => $redirect_to
 			) );
 			wp_redirect( $redirect_to );
