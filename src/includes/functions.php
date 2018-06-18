@@ -203,6 +203,14 @@ function tml_enqueue_scripts() {
 		'action' => tml_is_action() ? tml_get_action()->get_name() : '',
 		'errors' => tml_get_errors()->get_error_codes(),
 	) );
+
+	if ( tml_is_action() ) {
+		/** This action is documented in wp-login.php */
+		do_action( 'login_enqueue_scripts' );
+
+		/** This action is documented in wp-login.php */
+		do_action( 'login_head' );
+	}
 }
 
 /**
