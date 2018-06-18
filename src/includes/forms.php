@@ -50,9 +50,8 @@ function tml_register_login_form() {
 		'priority' => 15
 	) );
 
-	tml_add_form_field( 'login', 'login_form_action', array(
-		'type'     => 'custom',
-		'content'  => tml_buffer_action_hook( 'login_form' ),
+	tml_add_form_field( 'login', 'login_form', array(
+		'type'     => 'action',
 		'priority' => 20,
 	) );
 
@@ -157,24 +156,29 @@ function tml_register_registration_form() {
 		) );
 	}
 
+	tml_add_form_field( 'register', 'register_form', array(
+		'type'     => 'action',
+		'priority' => 25,
+	) );
+
 	if ( ! tml_allow_user_passwords() ) {
 		tml_add_form_field( 'register', 'reg_passmail', array(
 			'type'     => 'custom',
 			'content'  => '<p id="reg_passmail">' . __( 'Registration confirmation will be emailed to you.' ) . '</p>',
-			'priority' => 25,
+			'priority' => 30,
 		) );
 	}
 
 	tml_add_form_field( 'register', 'submit', array(
 		'type'     => 'submit',
 		'value'    => __( 'Register' ),
-		'priority' => 30,
+		'priority' => 35,
 	) );
 
 	tml_add_form_field( 'register', 'redirect_to', array(
 		'type'     => 'hidden',
 		'value'    => apply_filters( 'registration_redirect', tml_get_request_value( 'redirect_to' ) ),
-		'priority' => 30,
+		'priority' => 35,
 	) );
 }
 
@@ -197,16 +201,21 @@ function tml_register_lost_password_form() {
 		'priority' => 10,
 	) );
 
+	tml_add_form_field( 'lostpassword', 'lostpassword_form', array(
+		'type'     => 'action',
+		'priority' => 15,
+	) );
+
 	tml_add_form_field( 'lostpassword', 'submit', array(
 		'type'     => 'submit',
 		'value'    => __( 'Get New Password' ),
-		'priority' => 30,
+		'priority' => 20,
 	) );
 
 	tml_add_form_field( 'lostpassword', 'redirect_to', array(
 		'type'     => 'hidden',
 		'value'    => apply_filters( 'lostpassword_redirect', tml_get_request_value( 'redirect_to' ) ),
-		'priority' => 30,
+		'priority' => 20,
 	) );
 }
 
@@ -250,10 +259,16 @@ function tml_register_password_reset_form() {
 		'priority' => 10,
 	) );
 
+	tml_add_form_field( 'resetpass', 'resetpass_form', array(
+		'type'        => 'action',
+		'priority'    => 15,
+		'render_args' => array( wp_get_current_user() )
+	) );
+
 	tml_add_form_field( 'resetpass', 'submit', array(
 		'type'     => 'submit',
 		'value'    => __( 'Reset Password' ),
-		'priority' => 30,
+		'priority' => 20,
 	) );
 
 	$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
@@ -263,7 +278,7 @@ function tml_register_password_reset_form() {
 		tml_add_form_field( 'resetpass', 'rp_key', array(
 			'type'     => 'hidden',
 			'value'    => $rp_key,
-			'priority' => 30,
+			'priority' => 20,
 		) );
 	}
 }

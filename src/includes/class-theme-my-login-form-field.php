@@ -94,6 +94,8 @@ class Theme_My_Login_Form_Field {
 	/**
 	 * The arguments used for rendering the field.
 	 *
+	 * Alternatively, if the field type is "action", this is used as the action arguments.
+	 *
 	 * @see Theme_My_Login_Form_Field::render()
 	 *
 	 * @var array
@@ -503,6 +505,10 @@ class Theme_My_Login_Form_Field {
 	 */
 	public function render( $args = array() ) {
 		$is_hidden = ( 'hidden' == $this->get_type() );
+
+		if ( 'action' == $this->get_type() ) {
+			return tml_buffer_action_hook( $this->get_name(), $this->render_args );
+		}
 
 		$defaults = wp_parse_args( $this->render_args, array(
 			'before'         => $is_hidden ? '' : '<div class="tml-field-wrap tml-%s-wrap">',

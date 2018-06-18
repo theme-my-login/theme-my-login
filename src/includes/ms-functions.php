@@ -16,7 +16,7 @@ function tml_ms_register_default_actions() {
 	tml_register_action( 'signup', array(
 		'title'             => '',
 		'slug'              => 'signup',
-		'handler'           => 'tml_ms_signup_handler',
+		'callback'          => 'tml_ms_signup_handler',
 		'network'           => true,
 		'show_on_forms'     => false,
 		'show_in_widget'    => false,
@@ -26,7 +26,7 @@ function tml_ms_register_default_actions() {
 	tml_register_action( 'activate', array(
 		'title'             => '',
 		'slug'              => 'activate',
-		'handler'           => 'tml_ms_activation_handler',
+		'callback'          => 'tml_ms_activation_handler',
 		'network'           => true,
 		'show_on_forms'     => false,
 		'show_in_widget'    => false,
@@ -70,6 +70,11 @@ function tml_ms_register_user_signup_form() {
 		'priority' => 5,
 	) );
 
+	tml_add_form_field( 'user_signup', 'signup_hidden_fields', array(
+		'type'        => 'action',
+		'render_args' => array( 'validate-user' ),
+	) );
+
 	if ( tml_is_default_registration_type() ) {
 		tml_add_form_field( 'user_signup', 'user_name', array(
 			'type'        => 'text',
@@ -104,6 +109,11 @@ function tml_ms_register_user_signup_form() {
 			'maxlength' => 200,
 		),
 		'priority'    => 15,
+	) );
+
+	tml_add_form_field( 'user_signup', 'signup_extra_fields', array(
+		'type'        => 'action',
+		'render_args' => array( tml_get_errors() ),
 	) );
 
 	$active_signup = tml_ms_signup_get_active_signup();
@@ -173,6 +183,11 @@ function tml_ms_register_blog_signup_form() {
 		'priority' => 5,
 	) );
 
+	tml_add_form_field( 'blog_signup', 'signup_hidden_fields', array(
+		'type'        => 'action',
+		'render_args' => array( 'validate-site' ),
+	) );
+
 	tml_ms_add_blog_signup_form_fields( 'blog_signup' );
 
 	tml_add_form_field( 'blog_signup', 'submit', array(
@@ -203,6 +218,11 @@ function tml_ms_register_another_blog_signup_form() {
 		'type'     => 'hidden',
 		'value'    => 'gimmeanotherblog',
 		'priority' => 5,
+	) );
+
+	tml_add_form_field( 'another_blog_signup', 'signup_hidden_fields', array(
+		'type'        => 'action',
+		'render_args' => array( 'create-another-site' ),
 	) );
 
 	tml_ms_add_blog_signup_form_fields( 'another_blog_signup' );
@@ -294,6 +314,11 @@ function tml_ms_add_blog_signup_form_fields( $form ) {
 		'render_args' => array(
 			'control_before' => __( 'Allow search engines to index this site.' ) . '<br style="clear:both" />',
 		),
+	) );
+
+	tml_add_form_field( $form, 'signup_blogform', array(
+		'type'        => 'action',
+		'render_args' => array( tml_get_errors() ),
 	) );
 }
 
