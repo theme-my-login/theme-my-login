@@ -325,6 +325,12 @@ function tml_action_handler() {
 
 	nocache_headers();
 
+	/** This action is documented in wp-login.php */
+	do_action( 'login_init' );
+
+	/** This action is documented in wp-login.php */
+	do_action( 'login_form_' . tml_get_action()->get_name() );
+
 	/**
 	 * Fires when a TML action is being requested.
 	 *
