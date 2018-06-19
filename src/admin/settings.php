@@ -565,6 +565,52 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 			'url'   => 'https://wordpress.org/support/plugin/theme-my-login',
 		);
 
+	// Licenses page
+	} elseif ( 'theme-my-login-licenses' == $plugin_page ) {
+		$help_tabs[] = array(
+			'id'      => 'theme-my-login-licenses-overview',
+			'title'   => __( 'Overview' ),
+			'content' => '<p>' . implode( '</p><p>', array(
+				__( 'When you purchase extensions for Theme My Login, you will enter your license keys on this page.', 'theme-my-login' ),
+				__( 'After you enter your license keys and click the Save Changes button at the bottom of the screen, you will see a new button next to each field with a license in it.', 'theme-my-login' ),
+				__( 'If you have not yet activated your license, this button will say "Activate". Click this button to activate your license.', 'theme-my-login' ),
+				__( 'If you have already activated your license, this button will say "Deactivate". Click this button to deactivate your license.', 'theme-my-login' ),
+			) ) . '</p>',
+		);
+
+		$sidebar_links[] = array(
+			'title' => __( 'Documentation on Installing Extensions', 'theme-my-login' ),
+			'url'   => 'https://docs.thememylogin.com/article/59-how-do-i-install-an-extension',
+		);
+		$sidebar_links[] = array(
+			'title' => __( 'Support Form', 'theme-my-login' ),
+			'url'   => 'https://thememylogin.com/support',
+		);
+
+	// Extensions page
+	} elseif ( 'theme-my-login-extensions' == $plugin_page ) {
+		$help_tabs[] = array(
+			'id'      => 'theme-my-login-extensions-overview',
+			'title'   => __( 'Overview' ),
+			'content' => '<p>' . implode( '</p><p>', array(
+				__( 'This page shows you all of the extensions available to purchase for Theme My Login.', 'theme-my-login' ),
+				__( 'Once you purchase an extension, you download it from your email receipt or your account page on our website. Then, you install it just like a normal WordPress plugin.', 'theme-my-login' ),
+			) ) . '</p>',
+		);
+
+		$sidebar_links[] = array(
+			'title' => __( 'Documentation on Installing Extensions', 'theme-my-login' ),
+			'url'   => 'https://docs.thememylogin.com/article/59-how-do-i-install-an-extension',
+		);
+		$sidebar_links[] = array(
+			'title' => __( 'Extensions Store', 'theme-my-login' ),
+			'url'   => 'https://thememylogin.com/extensions',
+		);
+		$sidebar_links[] = array(
+			'title' => __( 'Your Theme My Login Account', 'theme-my-login' ),
+			'url'   => 'https://thememylogin.com/your-account',
+		);
+
 	// Extension page
 	} elseif ( $extension = tml_get_extension( $plugin_page ) ) {
 		$settings_page = $extension->get_settings_page_args();
@@ -576,12 +622,14 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 		}
 	}
 
+	// Add the help tabs
 	if ( ! empty( $help_tabs ) ) {
 		foreach ( $help_tabs as $help_tab ) {
 			$screen->add_help_tab( $help_tab );
 		}
 	}
 
+	// Add the sidebar links
 	if ( ! empty( $sidebar_links ) ) {
 		$sidebar_content = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
 		foreach ( $sidebar_links as $sidebar_link ) {
