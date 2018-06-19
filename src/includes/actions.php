@@ -65,12 +65,13 @@ function tml_register_default_actions() {
 
 	// Confirm Action (Data Requests)
 	tml_register_action( 'confirmaction', array(
-		'title'             => __( 'Your Data Request', 'theme-my-login' ),
-		'slug'              => 'confirmaction',
-		'callback'          => 'tml_confirmaction_handler',
-		'show_on_forms'     => false,
-		'show_in_widget'    => false,
-		'show_in_nav_menus' => false,
+		'title'                 => __( 'Your Data Request', 'theme-my-login' ),
+		'slug'                  => 'confirmaction',
+		'callback'              => 'tml_confirmaction_handler',
+		'show_on_forms'         => false,
+		'show_in_widget'        => false,
+		'show_in_nav_menus'     => false,
+		'show_in_slug_settings' => false,
 	) );
 }
 

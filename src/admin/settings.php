@@ -113,127 +113,100 @@ function tml_admin_get_settings_sections() {
  * @return array The settings fields.
  */
 function tml_admin_get_settings_fields() {
-	return (array) apply_filters( 'tml_admin_get_settings_fields', array(
-		// Login
-		'tml_settings_login' => array(
-			// Login type
-			'tml_login_type' => array(
-				'title'             => __( 'Login Type', 'theme-my-login' ),
-				'callback'          => 'tml_admin_setting_callback_radio_group_field',
-				'sanitize_callback' => 'sanitize_text_field',
-				'args' => array(
-					'label_for' => 'tml_login_type',
-					'legend'    => __( 'Login Type', 'theme-my-login' ),
-					'options'   => array(
-						'default'  => __( 'Default',       'theme-my-login' ),
-						'username' => __( 'Username only', 'theme-my-login' ),
-						'email'    => __( 'Email only',    'theme-my-login' ),
-					),
-					'checked'   => get_site_option( 'tml_login_type', 'default' ),
+	$fields = array();
+
+	// Login
+	$fields['tml_settings_login'] = array(
+		// Login type
+		'tml_login_type' => array(
+			'title'             => __( 'Login Type', 'theme-my-login' ),
+			'callback'          => 'tml_admin_setting_callback_radio_group_field',
+			'sanitize_callback' => 'sanitize_text_field',
+			'args' => array(
+				'label_for' => 'tml_login_type',
+				'legend'    => __( 'Login Type', 'theme-my-login' ),
+				'options'   => array(
+					'default'  => __( 'Default',       'theme-my-login' ),
+					'username' => __( 'Username only', 'theme-my-login' ),
+					'email'    => __( 'Email only',    'theme-my-login' ),
 				),
+				'checked'   => get_site_option( 'tml_login_type', 'default' ),
 			),
 		),
-		// Registration
-		'tml_settings_registration' => array(
-			// Registration type
-			'tml_registration_type' => array(
-				'title'             => __( 'Registration Type', 'theme-my-login' ),
-				'callback'          => 'tml_admin_setting_callback_radio_group_field',
-				'sanitize_callback' => 'sanitize_text_field',
-				'args' => array(
-					'label_for' => 'tml_registration_type',
-					'legend'    => __( 'Registration Type', 'theme-my-login' ),
-					'options'   => array(
-						'default'  => __( 'Default',    'theme-my-login' ),
-						'email'    => __( 'Email only', 'theme-my-login' ),
-					),
-					'checked'   => get_site_option( 'tml_registration_type', 'default' ),
+	);
+
+	// Registration
+	$fields['tml_settings_registration'] = array(
+		// Registration type
+		'tml_registration_type' => array(
+			'title'             => __( 'Registration Type', 'theme-my-login' ),
+			'callback'          => 'tml_admin_setting_callback_radio_group_field',
+			'sanitize_callback' => 'sanitize_text_field',
+			'args' => array(
+				'label_for' => 'tml_registration_type',
+				'legend'    => __( 'Registration Type', 'theme-my-login' ),
+				'options'   => array(
+					'default'  => __( 'Default',    'theme-my-login' ),
+					'email'    => __( 'Email only', 'theme-my-login' ),
 				),
-			),
-			// User passwords
-			'tml_user_passwords' => array(
-				'title'             => __( 'Passwords', 'theme-my-login' ),
-				'callback'          => 'tml_admin_setting_callback_checkbox_field',
-				'sanitize_callback' => 'sanitize_text_field',
-				'args' => array(
-					'label_for' => 'tml_user_passwords',
-					'label'     => __( 'Allow users to set their own password', 'theme-my-login' ),
-					'value'     => '1',
-					'checked'   => get_site_option( 'tml_user_passwords' ),
-				),
-			),
-			// Auto-login
-			'tml_auto_login' => array(
-				'title'             => __( 'Auto-Login', 'theme-my-login' ),
-				'callback'          => 'tml_admin_setting_callback_checkbox_field',
-				'sanitize_callback' => 'sanitize_text_field',
-				'args' => array(
-					'label_for' => 'tml_auto_login',
-					'label'     => __( 'Automatically log in users after registration', 'theme-my-login' ),
-					'value'     => '1',
-					'checked'   => get_site_option( 'tml_auto_login' ),
-				),
+				'checked'   => get_site_option( 'tml_registration_type', 'default' ),
 			),
 		),
-		// Slugs
-		'tml_settings_slugs' => array(
-			// Login
-			'tml_login_slug' => array(
-				'title'             => __( 'Log In' ),
-				'callback'          => 'tml_admin_setting_callback_input_field',
-				'sanitize_callback' => 'sanitize_text_field',
-				'args' => array(
-					'label_for'   => 'tml_login_slug',
-					'value'       => get_site_option( 'tml_login_slug', 'login' ),
-					'input_class' => 'regular-text code',
-				),
-			),
-			// Logout
-			'tml_logout_slug' => array(
-				'title'             => __( 'Log Out' ),
-				'callback'          => 'tml_admin_setting_callback_input_field',
-				'sanitize_callback' => 'tml_sanitize_slug',
-				'args' => array(
-					'label_for'   => 'tml_logout_slug',
-					'value'       => get_site_option( 'tml_logout_slug', 'logout' ),
-					'input_class' => 'regular-text code',
-				),
-			),
-			// Register
-			'tml_register_slug' => array(
-				'title'             => __( 'Register' ),
-				'callback'          => 'tml_admin_setting_callback_input_field',
-				'sanitize_callback' => 'tml_sanitize_slug',
-				'args' => array(
-					'label_for'   => 'tml_register_slug',
-					'value'       => get_site_option( 'tml_register_slug', 'register' ),
-					'input_class' => 'regular-text code',
-				),
-			),
-			// Lost password
-			'tml_lostpassword_slug' => array(
-				'title'             => __( 'Lost Password' ),
-				'callback'          => 'tml_admin_setting_callback_input_field',
-				'sanitize_callback' => 'tml_sanitize_slug',
-				'args' => array(
-					'label_for'   => 'tml_lostpassword_slug',
-					'value'       => get_site_option( 'tml_lostpassword_slug', 'lostpassword' ),
-					'input_class' => 'regular-text code',
-				),
-			),
-			// Reset password
-			'tml_resetpass_slug' => array(
-				'title'             => __( 'Reset Password' ),
-				'callback'          => 'tml_admin_setting_callback_input_field',
-				'sanitize_callback' => 'tml_sanitize_slug',
-				'args' => array(
-					'label_for'   => 'tml_resetpass_slug',
-					'value'       => get_site_option( 'tml_resetpass_slug', 'resetpass' ),
-					'input_class' => 'regular-text code',
-				),
+		// User passwords
+		'tml_user_passwords' => array(
+			'title'             => __( 'Passwords', 'theme-my-login' ),
+			'callback'          => 'tml_admin_setting_callback_checkbox_field',
+			'sanitize_callback' => 'sanitize_text_field',
+			'args' => array(
+				'label_for' => 'tml_user_passwords',
+				'label'     => __( 'Allow users to set their own password', 'theme-my-login' ),
+				'value'     => '1',
+				'checked'   => get_site_option( 'tml_user_passwords' ),
 			),
 		),
-	) );
+		// Auto-login
+		'tml_auto_login' => array(
+			'title'             => __( 'Auto-Login', 'theme-my-login' ),
+			'callback'          => 'tml_admin_setting_callback_checkbox_field',
+			'sanitize_callback' => 'sanitize_text_field',
+			'args' => array(
+				'label_for' => 'tml_auto_login',
+				'label'     => __( 'Automatically log in users after registration', 'theme-my-login' ),
+				'value'     => '1',
+				'checked'   => get_site_option( 'tml_auto_login' ),
+			),
+		),
+	);
+
+	// Slugs
+	$fields['tml_settings_slugs'] = array();
+	foreach ( tml_get_actions() as $action ) {
+		if ( ! $action->show_in_slug_settings ) {
+			continue;
+		}
+
+		$slug_option = 'tml_' . $action->get_name() . '_slug';
+
+		$fields['tml_settings_slugs'][ $slug_option ] = array(
+			'title'             => $action->get_title(),
+			'callback'          => 'tml_admin_setting_callback_input_field',
+			'sanitize_callback' => 'sanitize_text_field',
+			'args' => array(
+				'label_for'   => $slug_option,
+				'value'       => get_site_option( $slug_option, $action->get_slug() ),
+				'input_class' => 'regular-text code',
+			),
+		);
+	}
+
+	/**
+	 * Filters the settings fields.
+	 *
+	 * @since 7.0
+	 *
+	 * @param array $fields The settings fields.
+	 */
+	return (array) apply_filters( 'tml_admin_get_settings_fields', $fields );
 }
 
 /**

@@ -78,6 +78,13 @@ class Theme_My_Login_Action {
 	public $show_nav_menu_item;
 
 	/**
+	 * Whether this action should be shown in the slug settings or not.
+	 *
+	 * @var bool
+	 */
+	public $show_in_slug_settings = true;
+
+	/**
 	 * Construct the instance.
 	 *
 	 * @since 7.0
@@ -86,13 +93,14 @@ class Theme_My_Login_Action {
 	 * @param array  $args {
 	 *     Optional. An array of arguments.
 	 *
-	 *     @type string      $title              The action title.
-	 *     @type string      $slug               The action slug.
-	 *     @type callable    $callback           The action callback to fire when accessed.
-	 *     @type bool|string $show_on_forms      Whether a link to the action should be shown on forms or not.
-	 *     @type bool        $show_in_widget     Whether this action should be selectable in the widget or not.
-	 *     @type bool        $show_in_nav_menus  Whether this action should be available for use in nav menus or not.
-	 *     @type bool        $show_nav_menu_item Whether to show an assigned nav menu item or not.
+	 *     @type string      $title                 The action title.
+	 *     @type string      $slug                  The action slug.
+	 *     @type callable    $callback              The action callback to fire when accessed.
+	 *     @type bool|string $show_on_forms         Whether a link to the action should be shown on forms or not.
+	 *     @type bool        $show_in_widget        Whether this action should be selectable in the widget or not.
+	 *     @type bool        $show_in_nav_menus     Whether this action should be available for use in nav menus or not.
+	 *     @type bool        $show_nav_menu_item    Whether to show an assigned nav menu item or not.
+	 *     @type bool        $show_in_slug_settings Whether this action should be shown in the slug settings or not.
 	 * }
 	 */
 	public function __construct( $name, $args = array() ) {
@@ -100,13 +108,14 @@ class Theme_My_Login_Action {
 		$this->set_name( $name );
 
 		$args = wp_parse_args( $args, array(
-			'title'             => '',
-			'slug'              => '',
-			'callback'          => '',
-			'network'           => false,
-			'show_on_forms'     => true,
-			'show_in_widget'    => true,
-			'show_in_nav_menus' => true,
+			'title'                 => '',
+			'slug'                  => '',
+			'callback'              => '',
+			'network'               => false,
+			'show_on_forms'         => true,
+			'show_in_widget'        => true,
+			'show_in_nav_menus'     => true,
+			'show_in_slug_settings' => true,
 		) );
 
 		if ( ! isset( $args['show_nav_menu_item'] ) ) {
@@ -117,11 +126,12 @@ class Theme_My_Login_Action {
 		$this->set_slug( $args['slug'] );
 		$this->set_callback( $args['callback'] );
 
-		$this->network            = (bool) $args['network'];
-		$this->show_on_forms      = $args['show_on_forms'];
-		$this->show_in_widget     = (bool) $args['show_in_widget'];
-		$this->show_in_nav_menus  = (bool) $args['show_in_nav_menus'];
-		$this->show_nav_menu_item = (bool) $args['show_nav_menu_item'];
+		$this->network               = (bool) $args['network'];
+		$this->show_on_forms         = $args['show_on_forms'];
+		$this->show_in_widget        = (bool) $args['show_in_widget'];
+		$this->show_in_nav_menus     = (bool) $args['show_in_nav_menus'];
+		$this->show_nav_menu_item    = (bool) $args['show_nav_menu_item'];
+		$this->show_in_slug_settings = (bool) $args['show_in_slug_settings'];
 	}
 
 	/**
