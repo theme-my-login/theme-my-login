@@ -530,6 +530,13 @@ function tml_admin_save_ms_settings() {
 	exit;
 }
 
+/**
+ * Add contextual help to settings pages.
+ *
+ * @since 7.0.5
+ *
+ * @param WP_Screen $srceen The current screen object.
+ */
 function tml_admin_add_settings_help_tabs( $screen ) {
 	global $plugin_page;
 
