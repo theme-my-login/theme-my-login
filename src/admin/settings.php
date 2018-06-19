@@ -195,6 +195,7 @@ function tml_admin_get_settings_fields() {
 				'label_for'   => $slug_option,
 				'value'       => get_site_option( $slug_option, $action->get_slug() ),
 				'input_class' => 'regular-text code',
+				'description' => sprintf( '<a href="%1$s">%1$s</a>', $action->get_url() ),
 			),
 		);
 	}
