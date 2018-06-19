@@ -99,7 +99,7 @@ function tml_admin_get_settings_sections() {
 		),
 		'tml_settings_slugs' => array(
 			'title'    => __( 'Slugs', 'theme-my-login' ),
-			'callback' => '__return_null',
+			'callback' => 'tml_admin_setting_callback_slugs_section',
 			'page'     => 'theme-my-login',
 		),
 	) );
@@ -208,6 +208,19 @@ function tml_admin_get_settings_fields() {
 	 * @param array $fields The settings fields.
 	 */
 	return (array) apply_filters( 'tml_admin_get_settings_fields', $fields );
+}
+
+/**
+ * Render the "Slugs" section.
+ *
+ * @since 7.0.5
+ */
+function tml_admin_setting_callback_slugs_section() {
+?>
+
+<p><?php esc_html_e( 'The slugs defined here will be used to generate the URL to the corresponding action. You can see this URL below the slug field. If you would like to use pages for these actions, simply make sure the slug for the action below matches the slug of the page you would like to use for that action.', 'theme-my-login' ); ?></p>
+
+<?php
 }
 
 /**
@@ -515,4 +528,61 @@ function tml_admin_save_ms_settings() {
 	$goback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
 	wp_redirect( $goback );
 	exit;
+}
+
+function tml_admin_add_settings_help_tabs( $screen ) {
+	global $plugin_page;
+
+	$help_tabs = $sidebar_links = array();
+
+	// Core page
+	if ( 'theme-my-login' == $plugin_page ) {
+		$help_tabs[] = array(
+			'id'      => 'theme-my-login-overview',
+			'title'   => __( 'Overview' ),
+			'content' => '<p>' . implode( '</p><p>', array(
+				__( 'Welcome to Theme My Login!', 'theme-my-login' ),
+				__( 'Below, you can configure how you would like users to register and log in to your site.', 'theme-my-login' ),
+				__( 'Additionally, you can change the slugs that are used to generate the URLs that represent specific actions.', 'theme-my-login' ),
+				__( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ),
+			) ) . '</p>',
+		);
+
+		$sidebar_links[] = array(
+			'title' => __( 'Documentation', 'theme-my-login' ),
+			'url'   => 'https://docs.thememylogin.com',
+		);
+
+		$sidebar_links[] = array(
+			'title' => __( 'Support Forum', 'theme-my-login' ),
+			'url'   => 'https://wordpress.org/support/plugin/theme-my-login',
+		);
+
+	// Extension page
+	} elseif ( $extension = tml_get_extension( $plugin_page ) ) {
+		$settings_page = $extension->get_settings_page_args();
+		if ( ! empty( $settings_page['help_tabs'] ) ) {
+			$help_tabs = $settings_page['help_tabs'];
+		}
+		if ( ! empty( $settings_page['help_sidebar_links'] ) ) {
+			$sidebar_links = $settings_page['help_sidebar_links'];
+		}
+	}
+
+	if ( ! empty( $help_tabs ) ) {
+		foreach ( $help_tabs as $help_tab ) {
+			$screen->add_help_tab( $help_tab );
+		}
+	}
+
+	if ( ! empty( $sidebar_links ) ) {
+		$sidebar_content = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
+		foreach ( $sidebar_links as $sidebar_link ) {
+			$sidebar_content .= sprintf( '<p><a href="%s">%s</a></p>',
+				$sidebar_link['url'],
+				$sidebar_link['title']
+			);
+		}
+		$screen->set_help_sidebar( $sidebar_content );
+	}
 }

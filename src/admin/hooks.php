@@ -24,6 +24,7 @@ if ( is_multisite() ) {
 	add_action( 'admin_menu', 'tml_admin_add_menu_items'    );
 	add_action( 'admin_init', 'tml_admin_register_settings' );
 }
+add_action( 'current_screen', 'tml_admin_add_settings_help_tabs' );
 
 // Update
 add_action( 'admin_init', 'tml_admin_update' );
