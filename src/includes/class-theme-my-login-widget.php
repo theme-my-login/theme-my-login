@@ -35,7 +35,19 @@ class Theme_My_Login_Widget extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		if ( ( is_user_logged_in() && 'login' != $instance['action'] ) || tml_is_action() ) {
+		$show_widget = ( is_user_logged_in() && 'login' != $instance['action'] ) || tml_is_action();
+
+		/**
+		 * Filters whether to show the widget or not.
+		 *
+		 * @since 7.0.5
+		 *
+		 * @param bool  $show_widget Whether to show the widget or not.
+		 * @param array $instance    The widget instance settings.
+		 */
+		$show_widget = apply_filters( 'tml_show_widget', $instance );
+
+		if ( ! $show_widget ) {
 			return;
 		}
 
@@ -110,7 +122,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 				 *
 				 * @since 7.0.5
 				 *
-				 * @param array $instance The widget instance options.
+				 * @param array $instance The widget instance settings.
 				 */
 				do_action( 'tml_widget_user_panel', $instance );
 				?>
