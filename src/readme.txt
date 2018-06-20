@@ -3,7 +3,7 @@ Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
 Tested up to: 4.9.6
-Stable tag: 7.0.4
+Stable tag: 7.0.5
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -58,6 +58,15 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.5 =
+* Allow custom actions to have custom slugs
+* Show the URL below each slug setting field
+* Add contextual help to plugin pages
+* Implement a "user panel" within the login widget
+* Add a filter to disable showing of the widget: `tml_show_widget`
+* Add a filter to change the avatar size in the "user_panel": `tml_widget_avatar_size`
+* Add a filter to change the links in the "user panel": `tml_widget_user_links`
 
 = 7.0.4 =
 * Fix a notice that appears when unregistering an action
