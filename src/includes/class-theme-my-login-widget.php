@@ -35,7 +35,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$show_widget = ( is_user_logged_in() && 'login' != $instance['action'] ) || tml_is_action();
+		$show_widget = ( is_user_logged_in() && 'login' != $instance['action'] ) || ! tml_is_action();
 
 		/**
 		 * Filters whether to show the widget or not.
@@ -45,7 +45,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 		 * @param bool  $show_widget Whether to show the widget or not.
 		 * @param array $instance    The widget instance settings.
 		 */
-		$show_widget = apply_filters( 'tml_show_widget', $instance );
+		$show_widget = apply_filters( 'tml_show_widget', $show_widget, $instance );
 
 		if ( ! $show_widget ) {
 			return;
