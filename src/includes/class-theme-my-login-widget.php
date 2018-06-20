@@ -35,15 +35,16 @@ class Theme_My_Login_Widget extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? tml_get_action_title( $instance['action'] ) : $instance['title'], $instance, $this->id_base );
+		if ( ( is_user_logged_in() && 'login' != $instance['action'] ) || tml_is_action() ) {
+			return;
+		}
 
 		if ( is_user_logged_in() ) {
-			return;
+			$title = _x( 'Welcome', 'Howdy' );
+		} else {
+			$title = tml_get_action_title( $instance['action'] );
 		}
-
-		if ( tml_is_action() ) {
-			return;
-		}
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $args['before_widget'];
 
@@ -51,11 +52,80 @@ class Theme_My_Login_Widget extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 
-		echo tml_shortcode( array(
-			'action'      => $instance['action'],
-			'show_links'  => $instance['show_links'],
-			'redirect_to' => $_SERVER['REQUEST_URI'],
-		) );
+		if ( is_user_logged_in() ) :
+			/**
+			 * Filters the size of the avatar shwon in the widget when logged in.
+			 *
+			 * @since 7.0.5
+			 *
+			 * @param int $avatar_size The size of the avatar shown in the widget when logged in.
+			 */
+			$avatar_size = apply_filters( 'tml_widget_avatar_size', 64 );
+
+			/**
+			 * Filters the links shown in the widget when logged in.
+			 *
+			 * @since 7.0.5
+			 *
+			 * @param array $user_links The links shown in the widget when logged in.
+			 */
+			$user_links = apply_filters( 'tml_widget_user_links', array(
+				'dashboard' => array(
+					'title' => __( 'Dashboard' ),
+					'url'   => admin_url(),
+				),
+				'profile'   => array(
+					'title' => __( 'Profile' ),
+					'url'   => admin_url( 'profile.php' ),
+				),
+				'logout'    => array(
+					'title' => __( 'Log Out' ),
+					'url'   => wp_logout_url(),
+				),
+			) );
+			?>
+
+			<div class="tml tml-user-panel">
+				<?php if ( ! empty( $avatar_size ) ) : ?>
+					<div class="tml-user-avatar"><?php echo get_avatar( get_current_user_id(), $avatar_size ); ?></div>
+				<?php endif; ?>
+
+				<?php if ( ! empty( $user_links ) ) : ?>
+					<ul class="tml-user-links">
+
+					<?php foreach ( $user_links as $name => $user_link ) : ?>
+
+						<li class="tml-user-link-<?php echo esc_attr( $name ); ?>">
+							<a href="<?php echo esc_url( $user_link['url'] ); ?>"><?php echo esc_html( $user_link['title'] ); ?></a>
+						</li>
+
+					<?php endforeach; ?>
+
+					</ul>
+				<?php endif; ?>
+
+				<?php
+				/**
+				 * Fires at the end of the logged in widget.
+				 *
+				 * @since 7.0.5
+				 *
+				 * @param array $instance The widget instance options.
+				 */
+				do_action( 'tml_widget_user_panel', $instance );
+				?>
+
+			</div>
+
+		<?php else :
+
+			echo tml_shortcode( array(
+				'action'      => $instance['action'],
+				'show_links'  => $instance['show_links'],
+				'redirect_to' => $_SERVER['REQUEST_URI'],
+			) );
+
+		endif;
 
 		echo $args['after_widget'];
 	}
@@ -68,7 +138,6 @@ class Theme_My_Login_Widget extends WP_Widget {
 	*/
 	public function form( $instance ) {
 		$instance = wp_parse_args( $instance, array(
-			'title'      => '',
 			'action'     => 'login',
 			'show_links' => true,
 		) );
@@ -77,12 +146,6 @@ class Theme_My_Login_Widget extends WP_Widget {
 			'show_in_widget' => true,
 		) );
 		?>
-
-		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
-			</label>
-		</p>
 
 		<p>
 			<label for="<?php echo $this->get_field_id( 'action' ); ?>"><?php _e( 'Action:' ); ?>
@@ -115,12 +178,10 @@ class Theme_My_Login_Widget extends WP_Widget {
 		$instance = $old_instance;
 
 		$new_instance = wp_parse_args( (array) $new_instance, array(
-			'title'      => '',
 			'action'     => 'login',
 			'show_links' => false,
 		) );
 
-		$instance['title']      = sanitize_text_field( $new_instance['title']  );
 		$instance['action']     = sanitize_text_field( $new_instance['action'] );
 		$instance['show_links'] = (bool) $new_instance['show_links'];
 
