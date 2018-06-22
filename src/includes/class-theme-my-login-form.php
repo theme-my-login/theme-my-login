@@ -551,8 +551,6 @@ class Theme_My_Login_Form {
 
 		$output .= "</form>\n";
 
-		$output .= $args['after'];
-
 		if ( $args['show_links'] ) {
 			$output .= $this->render_links();
 		}
@@ -560,6 +558,8 @@ class Theme_My_Login_Form {
 		if ( ! empty( $args['container'] ) ) {
 			$output .= '</' . $args['container'] . ">\n";
 		}
+
+		$output .= $args['after'];
 
 		return $output;
 	}
