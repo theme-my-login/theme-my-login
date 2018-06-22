@@ -57,6 +57,13 @@ abstract class Theme_My_Login_Extension {
 	protected $url;
 
 	/**
+	 * The extension homepage URL.
+	 *
+	 * @var string
+	 */
+	protected $homepage_url;
+
+	/**
 	 * The extension documentation URL.
 	 *
 	 * @var string
@@ -233,6 +240,17 @@ abstract class Theme_My_Login_Extension {
 	 */
 	public function get_url() {
 		return $this->url;
+	}
+
+	/**
+	 * Get the homepage URL.
+	 *
+	 * @since 7.0.6
+	 *
+	 * @return string The extension's homepage URL.
+	 */
+	public function get_homepage_url() {
+		return $this->homepage_url;
 	}
 
 	/**
