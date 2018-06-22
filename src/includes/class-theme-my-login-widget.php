@@ -35,6 +35,8 @@ class Theme_My_Login_Widget extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
+		$instance = wp_parse_args( $instance, $this->defaults() );
+
 		$show_widget = ( is_user_logged_in() && 'login' != $instance['action'] ) || ! tml_is_action();
 
 		/**
@@ -149,10 +151,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 	* @access public
 	*/
 	public function form( $instance ) {
-		$instance = wp_parse_args( $instance, array(
-			'action'     => 'login',
-			'show_links' => true,
-		) );
+		$instance = wp_parse_args( $instance, $this->defaults() );
 
 		$actions = wp_list_filter( tml_get_actions(), array(
 			'show_in_widget' => true,
@@ -189,15 +188,26 @@ class Theme_My_Login_Widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
-		$new_instance = wp_parse_args( (array) $new_instance, array(
-			'action'     => 'login',
-			'show_links' => false,
-		) );
+		$new_instance = wp_parse_args( (array) $new_instance, $this->defaults() );
 
 		$instance['action']     = sanitize_text_field( $new_instance['action'] );
 		$instance['show_links'] = (bool) $new_instance['show_links'];
 
 		return $instance;
+	}
+
+	/**
+	 * Get the default instance arguments.
+	 *
+	 * @since 7.0.6
+	 *
+	 * @return array The default instance arguments.
+	 */
+	public function defaults() {
+		return array(
+			'action' => 'login',
+			'show_links' => false,
+		);
 	}
 
 	/**
