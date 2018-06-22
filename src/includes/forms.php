@@ -68,12 +68,6 @@ function tml_register_login_form() {
 		'priority' => 30,
 	) );
 
-	tml_add_form_field( 'login', 'testcookie', array(
-		'type'     => 'hidden'	,
-		'value'    => 1,
-		'priority' => 30,
-	) );
-
 	$redirect_to = tml_get_request_value( 'redirect_to' );
 
 	tml_add_form_field( 'login', 'redirect_to', array(
@@ -81,6 +75,12 @@ function tml_register_login_form() {
 		'value'    => apply_filters( 'login_redirect',
 			! empty( $redirect_to ) ? $redirect_to : admin_url(), $redirect_to, null
 		),
+		'priority' => 30,
+	) );
+
+	tml_add_form_field( 'login', 'testcookie', array(
+		'type'     => 'hidden'	,
+		'value'    => 1,
 		'priority' => 30,
 	) );
 }
