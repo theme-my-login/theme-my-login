@@ -3,7 +3,7 @@ Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
 Tested up to: 4.9.6
-Stable tag: 7.0.5
+Stable tag: 7.0.6
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -58,6 +58,13 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.6 =
+* Fix a fatal error when removing form fields
+* Fix a 408/502 error when hosted with Namecheap
+* Fix notices in widget when upgrading from 6.4.x
+* Add default contextual help for extensions
+* Move `after` argument for forms to after the container
 
 = 7.0.5 =
 * Allow custom actions to have custom slugs
