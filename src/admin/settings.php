@@ -542,9 +542,13 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 
 	$help_tabs = $sidebar_links = array();
 
+	if ( ! theme_my_login_admin()->has_page( $plugin_page ) ) {
+		return;
+	}
+
 	// Core page
 	if ( 'theme-my-login' == $plugin_page ) {
-		$help_tabs[] = array(
+		$help_tabs['overview'] = array(
 			'id'      => 'theme-my-login-overview',
 			'title'   => __( 'Overview' ),
 			'content' => '<p>' . implode( '</p><p>', array(
@@ -555,19 +559,19 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 			) ) . '</p>',
 		);
 
-		$sidebar_links[] = array(
-			'title' => __( 'Documentation', 'theme-my-login' ),
+		$sidebar_links['documentation'] = array(
+			'title' => __( 'View Documentation', 'theme-my-login' ),
 			'url'   => 'https://docs.thememylogin.com',
 		);
 
-		$sidebar_links[] = array(
-			'title' => __( 'Support Forum', 'theme-my-login' ),
+		$sidebar_links['support'] = array(
+			'title' => __( 'Get Support', 'theme-my-login' ),
 			'url'   => 'https://wordpress.org/support/plugin/theme-my-login',
 		);
 
 	// Licenses page
 	} elseif ( 'theme-my-login-licenses' == $plugin_page ) {
-		$help_tabs[] = array(
+		$help_tabs['overview'] = array(
 			'id'      => 'theme-my-login-licenses-overview',
 			'title'   => __( 'Overview' ),
 			'content' => '<p>' . implode( '</p><p>', array(
@@ -578,18 +582,18 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 			) ) . '</p>',
 		);
 
-		$sidebar_links[] = array(
-			'title' => __( 'Documentation on Installing Extensions', 'theme-my-login' ),
+		$sidebar_links['documentation'] = array(
+			'title' => __( 'View Documentation', 'theme-my-login' ),
 			'url'   => 'https://docs.thememylogin.com/article/59-how-do-i-install-an-extension',
 		);
-		$sidebar_links[] = array(
-			'title' => __( 'Support Form', 'theme-my-login' ),
+		$sidebar_links['support'] = array(
+			'title' => __( 'Get Support', 'theme-my-login' ),
 			'url'   => 'https://thememylogin.com/support',
 		);
 
 	// Extensions page
 	} elseif ( 'theme-my-login-extensions' == $plugin_page ) {
-		$help_tabs[] = array(
+		$help_tabs['overview'] = array(
 			'id'      => 'theme-my-login-extensions-overview',
 			'title'   => __( 'Overview' ),
 			'content' => '<p>' . implode( '</p><p>', array(
@@ -598,27 +602,53 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 			) ) . '</p>',
 		);
 
-		$sidebar_links[] = array(
-			'title' => __( 'Documentation on Installing Extensions', 'theme-my-login' ),
+		$sidebar_links['documentation'] = array(
+			'title' => __( 'View Documentation', 'theme-my-login' ),
 			'url'   => 'https://docs.thememylogin.com/article/59-how-do-i-install-an-extension',
 		);
-		$sidebar_links[] = array(
-			'title' => __( 'Extensions Store', 'theme-my-login' ),
+		$sidebar_links['store'] = array(
+			'title' => __( 'Go to the Extensions Store', 'theme-my-login' ),
 			'url'   => 'https://thememylogin.com/extensions',
 		);
-		$sidebar_links[] = array(
-			'title' => __( 'Your Theme My Login Account', 'theme-my-login' ),
+		$sidebar_links['account'] = array(
+			'title' => __( 'View your Theme My Login account', 'theme-my-login' ),
 			'url'   => 'https://thememylogin.com/your-account',
 		);
 
 	// Extension page
 	} elseif ( $extension = tml_get_extension( $plugin_page ) ) {
+		$help_tabs['overview'] = array(
+			'id'      => $plugin_page . '-overview',
+			'title'   => __( 'Overview' ),
+			'content' => '<p>' . implode( '</p><p>', array(
+				sprintf(
+					__( 'On this page, you can configure the settings for the Theme My Login %s extension.', 'theme-my-login' ),
+					$extension->get_title()
+				),
+				__( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ),
+			) ) . '</p>',
+		);
+
+		if ( $documentation_url = $extension->get_documentation_url() ) {
+			$sidebar_links['documentation'] = array(
+				'title' => __( 'View Documentation', 'theme-my-login' ),
+				'url'   => $documentation_url,
+			);
+		}
+
+		if ( $support_url = $extension->get_support_url() ) {
+			$sidebar_links['support'] = array(
+				'title' => __( 'Get Support', 'theme-my-login' ),
+				'url'   => $support_url,
+			);
+		}
+
 		$settings_page = $extension->get_settings_page_args();
 		if ( ! empty( $settings_page['help_tabs'] ) ) {
-			$help_tabs = $settings_page['help_tabs'];
+			$help_tabs = array_merge( $help_tabs, $settings_page['help_tabs'] );
 		}
 		if ( ! empty( $settings_page['help_sidebar_links'] ) ) {
-			$sidebar_links = $settings_page['help_sidebar_links'];
+			$sidebar_links = array_merge( $sidebar_links, $settings_page['help_sidebar_links'] );
 		}
 	}
 
