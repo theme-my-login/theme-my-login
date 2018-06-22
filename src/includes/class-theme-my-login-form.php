@@ -300,11 +300,26 @@ class Theme_My_Login_Form {
 	 * @return array The form fields.
 	 */
 	public function get_fields() {
-		$fields = $this->fields;
+		$priorities    = array();
+		$sorted_fields = array();
 
-		uasort( $fields, 'tml_sort_form_fields' );
+		// Prioritize the fields
+		foreach( $this->fields as $field ) {
+			$priority = $field->get_priority();
+			if ( ! isset( $priorities[ $priority ] ) ) {
+				$priorities[ $priority ] = array();
+			}
+			$priorities[ $priority ][] = $field;
+		}
 
-		return $fields;
+		// Sort the fields
+		foreach ( $priorities as $priority => $fields ) {
+			foreach ( $fields as $field ) {
+				$sorted_fields[] = $field;
+			}
+		}
+
+		return $sorted_fields;
 	}
 
 	/**
