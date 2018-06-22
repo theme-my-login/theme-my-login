@@ -43,13 +43,6 @@ class Theme_My_Login_Form {
 	protected $fields = array();
 
 	/**
-	 * The form field priorities.
-	 *
-	 * @var array
-	 */
-	protected $priorities = array();
-
-	/**
 	 * The form attributes.
 	 *
 	 * @var array
@@ -266,15 +259,7 @@ class Theme_My_Login_Form {
 	 * @param TML_Form_Field $field The field object.
 	 */
 	public function add_field( Theme_My_Login_Form_Field $field ) {
-		$name = $field->get_name();
-
-		$this->fields[ $name ] = $field;
-
-		$priority = $field->get_priority();
-		if ( ! isset( $this->priorities[ $priority ] ) ) {
-			$this->priorities[ $priority ] = array();
-		}
-		$this->priorities[ $priority ][] = $name;
+		$this->fields[ $field->get_name() ] = $field;
 	}
 
 	/**
@@ -315,16 +300,11 @@ class Theme_My_Login_Form {
 	 * @return array The form fields.
 	 */
 	public function get_fields() {
-		ksort( $this->priorities );
+		$fields = $this->fields;
 
-		$sorted_fields = array();
-		foreach ( $this->priorities as $priority => $fields ) {
-			foreach ( $fields as $field ) {
-				$sorted_fields[] = $this->get_field( $field );
-			}
-		}
+		uasort( $fields, 'tml_sort_form_fields' );
 
-		return $sorted_fields;
+		return $fields;
 	}
 
 	/**
