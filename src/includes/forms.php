@@ -449,7 +449,7 @@ function tml_get_form_fields( $form ) {
  */
 function tml_sort_form_fields( $a, $b ) {
 	if ( $a->get_priority() == $b->get_priority() ) {
-		return 0;
+		return 1;
 	}
 	return ( $a->get_priority() < $b->get_priority() ) ? -1 : 1;
 }
