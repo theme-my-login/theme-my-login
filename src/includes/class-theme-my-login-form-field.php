@@ -152,14 +152,18 @@ class Theme_My_Login_Form_Field {
 		if ( ! empty( $args['class'] ) ) {
 			$this->add_attribute( 'class', $args['class'] );
 		} elseif ( 'hidden' != $this->get_type() ) {
-			if ( in_array( $this->get_type(), array( 'button', 'submit', 'reset' ) ) ) {
+			if ( in_array( $args['type'], array( 'button', 'submit', 'reset' ) ) ) {
 				$class = 'tml-button';
-			} elseif ( in_array( $this->get_type(), array( 'checkbox', 'radio', 'radio-group' ) ) ) {
+			} elseif ( in_array( $args['type'], array( 'checkbox', 'radio', 'radio-group' ) ) ) {
 				$class = 'tml-checkbox';
 			} else {
 				$class = 'tml-field';
 			}
 			$this->add_attribute( 'class', $class );
+		}
+
+		if ( 'checkbox' == $args['type'] && ! empty( $args['checked'] ) ) {
+			$this->add_attribute( 'checked', 'checked' );
 		}
 
 		foreach ( (array) $args['attributes'] as $key => $value ) {
