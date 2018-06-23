@@ -59,6 +59,7 @@ function tml_register_login_form() {
 		'type'     => 'checkbox',
 		'label'    => __( 'Remember Me' ),
 		'value'    => 'forever',
+		'id'       => 'rememberme',
 		'priority' => 25,
 	) );
 
