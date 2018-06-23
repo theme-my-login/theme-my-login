@@ -312,12 +312,15 @@ class Theme_My_Login_Form {
 			$priorities[ $priority ][] = $field;
 		}
 
+		ksort( $priorities );
+
 		// Sort the fields
 		foreach ( $priorities as $priority => $fields ) {
 			foreach ( $fields as $field ) {
 				$sorted_fields[] = $field;
 			}
 		}
+		unset( $priorities );
 
 		return $sorted_fields;
 	}
