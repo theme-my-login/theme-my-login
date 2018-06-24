@@ -532,13 +532,13 @@ function tml_validate_new_user_password( $errors = null ) {
 	}
 	if ( tml_allow_user_passwords() ) {
 		if ( empty( $_POST['user_pass1'] ) || empty( $_POST['user_pass2'] ) ) {
-			$errors->add( 'empty_password', __( '<strong>ERROR</strong>: Please enter a password.' ) );
+			$errors->add( 'empty_password', __( '<strong>ERROR</strong>: Please enter a password.', 'theme-my-login' ) );
 
 		} elseif ( false !== strpos( stripslashes( $_POST['user_pass1'] ), "\\" ) ) {
-			$errors->add( 'password_backslash', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ) );
+			$errors->add( 'password_backslash', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".', 'theme-my-login' ) );
 
 		} elseif ( $_POST['user_pass1'] !== $_POST['user_pass2'] ) {
-			$errors->add( 'password_mismatch', __( '<strong>ERROR</strong>: Please enter the same password in both password fields.' ) );
+			$errors->add( 'password_mismatch', __( '<strong>ERROR</strong>: Please enter the same password in both password fields.', 'theme-my-login' ) );
 		}
 	}
 	return $errors;
