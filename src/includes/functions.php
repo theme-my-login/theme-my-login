@@ -699,6 +699,61 @@ function tml_handle_auto_login( $user_id ) {
 }
 
 /**
+ * Send the new user notifications.
+ *
+ * @since 7.0.7
+ */
+function tml_send_new_user_notifications( $user_id, $notify = 'both' ) {
+
+	/**
+	 * Filters whether to send the new user notification or not.
+	 *
+	 * @since 7.0.7
+	 *
+	 * @param bool $send_user_notification Whether to send the new user notification or not.
+	 */
+	$send_user_notification = (bool) apply_filters( 'tml_send_new_user_notification', true );
+
+	/**
+	 * Filters whether to send the new user admin notification or not.
+	 *
+	 * @since 7.0.7
+	 *
+	 * @param bool $send_admin_notification Whether to send the new user admin notification or not.
+	 */
+	$send_admin_notification = (bool) apply_filters( 'tml_send_new_user_admin_notification', true );
+
+	// Bail if both are disabled
+	if ( ! ( $send_user_notification || $send_admin_notification ) ) {
+		return;
+	}
+
+	// Set to both if empty
+	if ( empty( $notify ) ) {
+		$notify = 'admin';
+
+	// Set to admin if set to both and user is disabled
+	} elseif ( 'both' == $notify ) {
+		if ( ! $send_user_notification ) {
+			$notify = 'admin';
+		} elseif ( ! $send_admin_notification ) {
+			$notify = 'user';
+		}
+	}
+
+	// Bail if type is admin and it is disabled
+	if ( 'admin' == $notify && ! $send_admin_notification ) {
+		return;
+
+	// Bail if type is user and it is disabled
+	} elseif ( 'user' == $notify && ! $send_user_notification ) {
+		return;
+	}
+
+	wp_new_user_notification( $user_id, null, $notify );
+}
+
+/**
  * Add an error.
  *
  * @since 7.0

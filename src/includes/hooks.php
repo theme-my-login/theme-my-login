@@ -35,7 +35,13 @@ add_action( 'wp_enqueue_scripts', 'tml_enqueue_scripts', 10 );
 
 // Registration
 add_action( 'register_new_user', 'tml_set_new_user_password' );
-add_action( 'register_new_user', 'tml_handle_auto_login' );
+add_action( 'register_new_user', 'tml_handle_auto_login'     );
+
+add_action( 'register_new_user',      'tml_send_new_user_notifications' );
+add_action( 'edit_user_created_user', 'tml_send_new_user_notifications' );
+
+remove_action( 'register_new_user',      'wp_send_new_user_notifications' );
+remove_action( 'edit_user_created_user', 'wp_send_new_user_notifications' );
 
 // Passwords
 add_action( 'retrieved_password_key', 'tml_retrieve_password_notification', 10, 2 );
