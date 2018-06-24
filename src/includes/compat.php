@@ -120,7 +120,37 @@ function tml_retrieve_password_notification( $user, $key ) {
 	 */
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user->user_login, $user );
 
-	if ( $message && ! wp_mail( $user->user_email, wp_specialchars_decode( $title ), $message ) ) {
+	$retrieve_password_email = array(
+		'to'      => $user->user_email,
+		'subject' => $title,
+		'message' => $message,
+		'headers' => '',
+	);
+
+	/**
+	 * Filters the contents of the password retrieval email.
+	 *
+	 * @since 7.0.6
+	 *
+	 * @param array   $retrieve_password_email {
+	 *     Used to build wp_mail().
+	 *
+	 *     @type string $to      The recipient of the email.
+	 *     @type string $subject The subject of the email.
+	 *     @type string $message The body of the email.
+	 *     @type string $headers The headers of the email.
+	 * }
+	 * @param WP_User $user     The user object..
+	 * @param string  $blogname The site title.
+	 */
+	$retrieve_password_email = apply_filters( 'tml_retrieve_password_email', $retrieve_password_email, $user, $blogname );
+
+	if ( $retrieve_password_email['message'] && ! wp_mail(
+		$retrieve_password_email['to'],
+		wp_specialchars_decode( sprintf( $retrieve_password_email['subject'], $blogname ) ),
+		$retrieve_password_email['message'],
+		$retrieve_password_email['headers']
+	) ) {
 		wp_die( __( 'The email could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function.' ) );
 	}
 }
