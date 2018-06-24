@@ -136,7 +136,7 @@ function tml_register_registration_form() {
 
 		tml_add_form_field( 'register', 'user_pass2', array(
 			'type'       => 'password',
-			'label'      => __( 'Confirm Password' ),
+			'label'      => __( 'Confirm Password', 'theme-my-login' ),
 			'id'         => 'pass2',
 			'attributes' => array(
 				'autocomplete' => 'off',
