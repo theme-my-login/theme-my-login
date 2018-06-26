@@ -24,7 +24,9 @@ function tml_admin_get_extensions_feed( $args = array() ) {
 
 	$url = add_query_arg( $args, THEME_MY_LOGIN_EXTENSIONS_API_URL );
 
-	$response = wp_remote_get( $url );
+	$response = wp_remote_get( $url, array(
+		'timeout' => 30,
+	) );
 	if ( is_wp_error( $response ) ) {
 		return $response;
 	}
