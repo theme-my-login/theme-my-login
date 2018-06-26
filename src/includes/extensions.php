@@ -282,7 +282,7 @@ function tml_extension_api_call( $url, $args = array() ) {
 	) );
 
 	$response = wp_remote_post( $url, array(
-		'timeout'   => 15,
+		'timeout'   => 30,
 		'sslverify' => true,
 		'body'      => $args,
 	) );
