@@ -121,9 +121,10 @@ function tml_admin_add_menu_items() {
 *
 * @since 7.0
 */
-function tml_admin_enqueue_scripts() {
+function tml_admin_enqueue_style_and_scripts() {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
+	wp_enqueue_style( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/styles/theme-my-login-admin$suffix.css", array(), THEME_MY_LOGIN_VERSION );
 	wp_enqueue_script( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/scripts/theme-my-login-admin$suffix.js", array( 'jquery', 'postbox' ), THEME_MY_LOGIN_VERSION );
 }
 
