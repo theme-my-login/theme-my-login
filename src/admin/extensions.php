@@ -154,3 +154,33 @@ function tml_admin_handle_extension_licenses() {
 		}
 	}
 }
+
+/**
+ * Check that all of the licenses are valid.
+ *
+ * @since 7.0.8
+ */
+function tml_admin_check_extension_licenses() {
+	global $plugin_page;
+
+	if ( tml_is_post_request() ) {
+		return;
+	}
+
+	if ( 'theme-my-login-licenses' != $plugin_page ) {
+		return;
+	}
+
+	foreach ( tml_get_extensions() as $extension ) {
+		if ( empty( $extension->get_license_key() ) ) {
+			continue;
+		}
+		if ( 'valid' != $extension->get_license_status() ) {
+			continue;
+		}
+		$status = tml_check_extension_license( $extension );
+		if ( ! is_wp_error( $status ) ) {
+			$extension->set_license_status( $status );
+		}
+	}
+}

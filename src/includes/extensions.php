@@ -254,6 +254,34 @@ function tml_deactivate_extension_license( $extension ) {
 }
 
 /**
+ * Check an extenstion's license status.
+ *
+ * @since 7.0.8
+ *
+ * @param string|Theme_My_Login_Extension $extension The extension name or object.
+ * @return bool|string|WP_Error The license status on success, false if the
+ *                              extension doesn't exist or WP_Error on failure.
+ */
+function tml_check_extension_license( $extension ) {
+	if ( ! $extension = tml_get_extension( $extension ) ) {
+		return false;
+	}
+
+	$response = tml_extension_api_call( $extension->get_store_url(), array(
+		'edd_action' => 'check_license',
+		'license'    => $extension->get_license_key(),
+		'item_id'    => $extension->get_item_id(),
+		'url'        => home_url(),
+	) );
+
+	if ( empty( $response ) ) {
+		return new WP_Error( 'http_error', __( 'An error occurred, please try again.', 'theme-my-login' ) );
+	}
+
+	return $response->license;
+}
+
+/**
  * Make an API call to an extension's store.
  *
  * @since 7.0
