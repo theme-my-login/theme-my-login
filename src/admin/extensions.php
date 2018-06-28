@@ -22,25 +22,34 @@ function tml_admin_get_extensions_feed( $args = array() ) {
 		'number' => 12,
 	) );
 
-	$url = add_query_arg( $args, THEME_MY_LOGIN_EXTENSIONS_API_URL );
+	$transient_key = 'tml_extensions_feed-' . md5( http_build_query( $args ) );
 
-	$response = wp_remote_get( $url, array(
-		'timeout' => 30,
-	) );
-	if ( is_wp_error( $response ) ) {
-		return $response;
+	$feed = get_site_transient( $transient_key );
+	if ( false === $feed ) {
+		$url = add_query_arg( $args, THEME_MY_LOGIN_EXTENSIONS_API_URL );
+
+		$response = wp_remote_get( $url, array(
+			'timeout' => 30,
+		) );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		$code    = wp_remote_retrieve_response_code( $response );
+		$message = wp_remote_retrieve_response_message( $response );
+
+		if ( '200' != $code ) {
+			return new WP_Error( 'http_error_' . $code, $message );
+		}
+
+		$response = json_decode( wp_remote_retrieve_body( $response ) );
+
+		$feed = $response->products;
+
+		set_site_transient( $transient_key, $feed, DAY_IN_SECONDS / 2 );
 	}
 
-	$code    = wp_remote_retrieve_response_code( $response );
-	$message = wp_remote_retrieve_response_message( $response );
-
-	if ( '200' != $code ) {
-		return new WP_Error( 'http_error_' . $code, $message );
-	}
-
-	$response = json_decode( wp_remote_retrieve_body( $response ) );
-
-	return $response->products;
+	return $feed;
 }
 
 /**

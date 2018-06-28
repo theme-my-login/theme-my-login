@@ -11,6 +11,9 @@
 add_action( 'admin_enqueue_scripts', 'tml_admin_enqueue_scripts' );
 add_action( 'admin_notices',         'tml_admin_notices'         );
 
+// AJAX
+add_action( 'wp_ajax_tml-dismiss-notice', 'tml_admin_ajax_dismiss_notice' );
+
 // Extensions
 add_action( 'admin_init',         'tml_admin_handle_extension_licenses' );
 add_action( 'admin_print_styles', 'tml_admin_extensions_styles'         );

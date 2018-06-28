@@ -122,10 +122,6 @@ function tml_admin_add_menu_items() {
 * @since 7.0
 */
 function tml_admin_enqueue_scripts() {
-	if ( ! tml_admin_is_plugin_page() ) {
-		return;
-	}
-
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 	wp_enqueue_script( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/scripts/theme-my-login-admin$suffix.js", array( 'jquery', 'postbox' ), THEME_MY_LOGIN_VERSION );
@@ -150,6 +146,46 @@ function tml_admin_notices() {
 
 		<?php
 	}
+
+	$response = tml_admin_get_extensions_feed();
+	if ( ! empty( $response ) && ! is_wp_error( $response ) ) {
+		$extension = reset( $response );
+
+		$notice_key = 'new_extension-' . $extension->info->slug;
+
+		if ( ! in_array( $notice_key, get_site_option( '_tml_dismissed_notices', array() ) ) ) : ?>
+
+		<div class="notice notice-info tml-notice is-dismissible" data-notice="<?php echo $notice_key; ?>">
+			<?php echo implode( "\n", array(
+				'<p>' . __( 'A new <strong>Theme My Login</strong> extension is available!', 'theme-my-login' ) . '</p>',
+				'<p>' . sprintf( '<strong>%s</strong>: %s',
+					$extension->info->title,
+					$extension->info->excerpt
+				) . '</p>',
+				'<p>' . sprintf( '<a class="button button-primary" href="%s">%s</a>',
+					$extension->info->link,
+					__( 'Get This Extension', 'theme-my-login' )
+				) . '</p>',
+			) ); ?>
+		</div>
+
+		<?php endif;
+	}
+}
+
+/**
+ * Handle saving of notice dismissals.
+ *
+ * @since 7.0.8
+ */
+function tml_admin_ajax_dismiss_notice() {
+	if ( empty( $_POST['notice'] ) ) {
+		return;
+	}
+	$dismissed_notices = get_site_option( '_tml_dismissed_notices', array() );
+	$dismissed_notices[] = sanitize_key( $_POST['notice'] );
+	update_site_option( '_tml_dismissed_notices', $dismissed_notices );
+	wp_send_json_success();
 }
 
 /**

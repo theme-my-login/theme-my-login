@@ -1,5 +1,7 @@
 ( function( $ ) {
-	$( initMetaBoxes );
+	if ( $( '#tml-settings' ).length ) {
+		$( initMetaBoxes );
+	}
 
 	function initMetaBoxes() {
 		var metaboxes = $( '.postbox' );
