@@ -97,6 +97,7 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 		add_meta_box( 'new_user',       __( 'New User',          'theme-my-login' ), array( $this, 'new_user_meta_box' ),       'tml_page_' . $this->options_key, 'normal' );
 		add_meta_box( 'new_user_admin', __( 'New User Admin',    'theme-my-login' ), array( $this, 'new_user_admin_meta_box' ), 'tml_page_' . $this->options_key, 'normal' );
 		add_meta_box( 'retrieve_pass',  __( 'Retrieve Password', 'theme-my-login' ), array( $this, 'retrieve_pass_meta_box' ),  'tml_page_' . $this->options_key, 'normal' );
+		add_meta_box( 'pass_change', __( 'Notice of Password Change', 'theme-my-login' ), array( $this, 'pass_change_meta_box' ),  'tml_page_' . $this->options_key, 'normal' );
 		add_meta_box( 'reset_pass',     __( 'Reset Password',    'theme-my-login' ), array( $this, 'reset_pass_meta_box' ),     'tml_page_' . $this->options_key, 'normal' );
 
 		// Check for User Moderation module
@@ -309,6 +310,53 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 				<td>
 					<p class="description"><?php _e( 'Available Variables', 'theme-my-login' ); ?>: %blogname%, %siteurl%, %reseturl%, %user_login%, %user_email%, %user_ip%</p>
 					<textarea name="<?php echo $this->options_key; ?>[retrieve_pass][message]" id="<?php echo $this->options_key; ?>_retrieve_pass_message" class="large-text" rows="10"><?php echo $this->get_option( array( 'retrieve_pass', 'message' ) ); ?></textarea>
+				</td>
+			</tr>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Renders Notice of Password Change settings section
+	 *
+	 * This is the callback for add_meta_box()
+	 *
+	 * @since 6.3
+	 * @access public
+	 */
+	public function pass_change_meta_box() {
+		?>
+		<p class="description">
+			<?php _e( 'This e-mail will be sent to a user after their password has been changed.', 'theme-my-login' ); ?>
+			<?php _e( 'If any field is left empty, the default will be used instead.', 'theme-my-login' ); ?>
+		</p>
+		<table class="form-table">
+			<tr valign="top">
+				<th scope="row"><label for="<?php echo $this->options_key; ?>_pass_change_mail_from_name"><?php _e( 'From Name', 'theme-my-login' ); ?></label></th>
+				<td><input name="<?php echo $this->options_key; ?>[pass_change][mail_from_name]" type="text" id="<?php echo $this->options_key; ?>_pass_change_mail_from_name" value="<?php echo $this->get_option( array( 'pass_change', 'mail_from_name' ) ); ?>" class="regular-text" /></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="<?php echo $this->options_key; ?>_pass_change_mail_from"><?php _e( 'From E-mail', 'theme-my-login' ); ?></label></th>
+				<td><input name="<?php echo $this->options_key; ?>[pass_change][mail_from]" type="text" id="<?php echo $this->options_key; ?>_pass_change_mail_from" value="<?php echo $this->get_option( array( 'pass_change', 'mail_from' ) ); ?>" class="regular-text" /></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="<?php echo $this->options_key; ?>_pass_change_mail_content_type"><?php _e( 'E-mail Format', 'theme-my-login' ); ?></label></th>
+				<td>
+					<select name="<?php echo $this->options_key; ?>[pass_change][mail_content_type]" id="<?php echo $this->options_key; ?>_pass_change_mail_content_type">
+						<option value="plain"<?php selected( $this->get_option( array( 'pass_change', 'mail_content_type' ) ), 'plain' ); ?>><?php _e( 'Plain Text', 'theme-my-login' ); ?></option>
+						<option value="html"<?php  selected( $this->get_option( array( 'pass_change', 'mail_content_type' ) ), 'html' ); ?>><?php  _e( 'HTML', 'theme-my-login' ); ?></option>
+					</select>
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="<?php echo $this->options_key; ?>_pass_change_title"><?php _e( 'Subject', 'theme-my-login' ); ?></label></th>
+				<td><input name="<?php echo $this->options_key; ?>[pass_change][title]" type="text" id="<?php echo $this->options_key; ?>_pass_change_title" value="<?php echo $this->get_option( array( 'pass_change', 'title' ) ); ?>" class="large-text" /></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="<?php echo $this->options_key; ?>_pass_change_message"><?php _e( 'Message', 'theme-my-login' ); ?></label></th>
+				<td>
+					<p class="description"><?php _e( 'Available Variables', 'theme-my-login' ); ?>: %blogname%, %siteurl%, %user_login%, %user_email%, %user_ip%</p>
+					<textarea name="<?php echo $this->options_key; ?>[pass_change][message]" id="<?php echo $this->options_key; ?>_pass_change_message" class="large-text" rows="10"><?php echo $this->get_option( array( 'pass_change', 'message' ) ); ?></textarea>
 				</td>
 			</tr>
 		</table>
@@ -610,4 +658,3 @@ class Theme_My_Login_Custom_Email_Admin extends Theme_My_Login_Abstract {
 Theme_My_Login_Custom_Email_Admin::get_object();
 
 endif;
-

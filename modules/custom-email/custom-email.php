@@ -92,6 +92,13 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 				'title' => '',
 				'message' => ''
 			),
+			'pass_change' => array(
+ 				'mail_from' => '',
+ 				'mail_from_name' => '',
+ 				'mail_content_type' => '',
+ 				'title' => '',
+ 				'message' => ''
+ 			),
 			'reset_pass' => array(
 				'admin_mail_to' => '',
 				'admin_mail_from' => '',
@@ -113,6 +120,7 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 		add_filter( 'wp_mail_from',         array( $this, 'mail_from_filter'         ) );
 		add_filter( 'wp_mail_from_name',    array( $this, 'mail_from_name_filter'    ) );
 		add_filter( 'wp_mail_content_type', array( $this, 'mail_content_type_filter' ) );
+		add_filter( 'password_change_email',array( $this, 'apply_pass_change_filter' ), 10, 3 );
 
 		add_action( 'retrieve_password',         array( $this, 'apply_retrieve_pass_filters'  ) );
 		add_action( 'password_reset',            array( $this, 'apply_password_reset_filters' ) );
@@ -167,6 +175,35 @@ class Theme_My_Login_Custom_Email extends Theme_My_Login_Abstract {
 		);
 		add_filter( 'retrieve_password_title',   array( $this, 'retrieve_pass_title_filter'   ), 10, 3 );
 		add_filter( 'retrieve_password_message', array( $this, 'retrieve_pass_message_filter' ), 10, 4 );
+	}
+
+	/**
+	 * Applies all change password mail filters
+	 *
+	 * Callback for "password_change_email" hook in Theme_My_Login::password_change_email()
+	 *
+	 * @see Theme_My_Login::password_change_email()
+	 * @since 6.0
+	 * @access public
+	 */
+	public function apply_pass_change_filter( $pass_change_email, $user, $userdata ) {
+		 $this->set_mail_headers(
+			 $this->get_option( array( 'pass_change', 'mail_from'         ) ),
+			 $this->get_option( array( 'pass_change', 'mail_from_name'    ) ),
+			 $this->get_option( array( 'pass_change', 'mail_content_type' ) )
+		 );
+
+		$_title = $this->get_option( array( 'pass_change', 'title' ) );
+		if ( ! empty ( $_title ) ) {
+			$pass_change_email['subject'] = Theme_My_Login_Common::replace_vars( $_title, $user['ID'] );
+		}
+
+		$_message = $this->get_option( array( 'pass_change', 'message' ) );
+		if ( ! empty( $_message ) ) {
+			$pass_change_email['message'] = Theme_My_Login_Common::replace_vars( $_message, $user['ID'] );
+		}
+
+		return $pass_change_email;
 	}
 
 	/**
@@ -935,4 +972,3 @@ endif;
 
 if ( is_admin() )
 	include_once( dirname( __FILE__ ) . '/admin/custom-email-admin.php' );
-
