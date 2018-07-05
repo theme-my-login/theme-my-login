@@ -373,6 +373,7 @@ function tml_form_exists( $form ) {
  * @param array {
  *     Optional. An array of arguments for registering a form field.
  * }
+ * @return Theme_My_Login_Form_Field The field object.
  */
 function tml_add_form_field( $form, $field, $args = array() ) {
 
@@ -384,7 +385,7 @@ function tml_add_form_field( $form, $field, $args = array() ) {
 		$field = new Theme_My_Login_Form_Field( $form, $field, $args );
 	}
 
-	$form->add_field( $field );
+	return $form->add_field( $field );
 }
 
 /**

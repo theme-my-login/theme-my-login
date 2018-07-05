@@ -259,7 +259,10 @@ class Theme_My_Login_Form {
 	 * @param TML_Form_Field $field The field object.
 	 */
 	public function add_field( Theme_My_Login_Form_Field $field ) {
+
 		$this->fields[ $field->get_name() ] = $field;
+
+		return $field;
 	}
 
 	/**
