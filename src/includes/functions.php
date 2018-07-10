@@ -270,11 +270,6 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 		return $url;
 	}
 
-	// Bail if currently in /wp-admin
-	if ( is_admin() && did_action( 'admin_init' ) ) {
-		return $url;
-	}
-
 	// Bail if currently customizing
 	if ( is_customize_preview() ) {
 		return $url;
@@ -293,6 +288,15 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 	$query = array();
 	if ( ! empty( $parsed_url['query'] ) ) {
 		parse_str( htmlspecialchars_decode( $parsed_url['query'] ), $query );
+	}
+
+	/**
+	 * Bail if the URL is an interim-login URL
+	 *
+	 * @see https://core.trac.wordpress.org/ticket/31821
+	 */
+	if ( isset( $query['interim-login'] ) ) {
+		return $url;
 	}
 
 	// Determine the action
