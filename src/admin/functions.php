@@ -126,6 +126,12 @@ function tml_admin_enqueue_style_and_scripts() {
 
 	wp_enqueue_style( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/styles/theme-my-login-admin$suffix.css", array(), THEME_MY_LOGIN_VERSION );
 	wp_enqueue_script( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/scripts/theme-my-login-admin$suffix.js", array( 'jquery', 'postbox' ), THEME_MY_LOGIN_VERSION );
+	wp_localize_script( 'theme-my-login-admin', 'tmlAdmin', array(
+		'interimLoginUrl' => site_url( add_query_arg( array(
+			'interim-login' => 1,
+			'wp_lang'       => get_user_locale(),
+		), 'wp-login.php' ), 'login' ),
+	) );
 }
 
 /**
