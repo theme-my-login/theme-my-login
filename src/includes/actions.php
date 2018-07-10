@@ -389,7 +389,7 @@ function tml_login_handler() {
 		if ( ! is_wp_error( $user ) && empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 			$redirect_to = add_query_arg( array(
 				'testcookie'  => 1,
-				'redirect_to' => $redirect_to
+				'redirect_to' => urlencode( $redirect_to ),
 			) );
 			wp_redirect( $redirect_to );
 			exit;
