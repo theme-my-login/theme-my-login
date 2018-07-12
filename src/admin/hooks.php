@@ -35,3 +35,6 @@ add_action( 'admin_init', 'tml_admin_update' );
 // Nav menus
 add_action( 'admin_head-nav-menus.php', 'tml_admin_add_nav_menu_meta_box',       10 );
 add_filter( 'wp_edit_nav_menu_walker',  'tml_admin_filter_edit_nav_menu_walker', 99 );
+
+// Deactivation
+add_action( 'admin_init', 'tml_admin_deactivation_survey' );
