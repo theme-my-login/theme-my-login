@@ -2,8 +2,8 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
-Tested up to: 4.9.6
-Stable tag: 7.0.7
+Tested up to: 4.9.7
+Stable tag: 7.0.8
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -59,11 +59,19 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.0.8 =
+* Fix slow-loading extensions page
+* Add dismissible notice of latest available extension
+* Fix "stuck" license status by verifying when visiting the licenses page
+* Ensure a form field object is returned when adding a form field
+* Fix testcookie step causing a 403 error
+* Fix links not being changed in emails sent from the Dashboard
+
 = 7.0.7 =
 * Fix sorting of form fields
 * Fix "Remember Me" not being clickable
 * Add "checked" property to form fields to allow for easy checking of checkboxes
-* Add plugin textdomain to strings not found in front-end core transalations
+* Add plugin textdomain to strings not found in front-end core translations
 * Add `tml_send_new_user_notification` filter
 * Add `tml_send_new_user_admin_notification` filter
 * Add `tml_retrieve_password_email` filter
