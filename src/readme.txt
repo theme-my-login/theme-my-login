@@ -3,7 +3,7 @@ Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
 Tested up to: 4.9.7
-Stable tag: 7.0.8
+Stable tag: 7.0.9
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -46,7 +46,7 @@ Boost your user experience even more with add-on plugins from our [extensions ca
 
 = Where can I find documentation? =
 
-Documentation can be found on our [documentation site](http://docs.thememylogin.com).
+Documentation can be found on our [documentation site](https://docs.thememylogin.com).
 
 = Where can I find support? =
 
@@ -58,6 +58,12 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.9 =
+* Fix fatal error on PHP versions less than 5.5
+* Apply `tml_get_action_tile` filter at the object level
+* Apply `tml_get_action_slug` filter at the object level
+* Apply `tml_get_action_url` filter at the object level
 
 = 7.0.8 =
 * Fix slow-loading extensions page
