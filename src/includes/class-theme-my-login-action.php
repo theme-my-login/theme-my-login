@@ -164,7 +164,15 @@ class Theme_My_Login_Action {
 	 * @return string The action title.
 	 */
 	public function get_title() {
-		return $this->title;
+		/**
+		 * Filter the action title.
+		 *
+		 * @since 7.0
+		 *
+		 * @param string $title The action title.
+		 * @param string $name  The action name.
+		 */
+		return apply_filters( 'tml_get_action_title', $this->title, $this->get_name() );
 	}
 
 	/**
@@ -230,7 +238,15 @@ class Theme_My_Login_Action {
 	 * @return string The action slug.
 	 */
 	public function get_slug() {
-		return $this->slug;
+		/**
+		 * Filter the action slug.
+		 *
+		 * @since 7.0
+		 *
+		 * @param string $slug The action slug.
+		 * @param string $name The action name.
+		 */
+		return apply_filters( 'tml_get_action_slug', $this->slug, $this->get_name() );
 	}
 
 	/**
@@ -271,6 +287,17 @@ class Theme_My_Login_Action {
 			$url = user_trailingslashit( $url );
 			$url = add_query_arg( 'action', $this->name, $url );
 		}
-		return $url;
+
+		/**
+		 * Filter the action URL.
+		 *
+		 * @since 7.0
+		 *
+		 * @param string $url     The action URL.
+		 * @param string $name    The action name.
+		 * @param string $scheme  The URL scheme.
+		 * @param bool   $network Whether to retrieve the URL for the current network or current blog.
+		 */
+		return apply_filters( 'tml_get_action_url', $url, $this->get_name(), $scheme, $network );
 	}
 }

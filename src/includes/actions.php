@@ -206,22 +206,10 @@ function tml_is_action( $action = '' ) {
  * @return string The action title.
  */
 function tml_get_action_title( $action = '' ) {
-
 	if ( ! $action = tml_get_action( $action ) ) {
 		return;
 	}
-
-	$title = $action->get_title();
-
-	/**
-	 * Filter the action title.
-	 *
-	 * @since 7.0
-	 *
-	 * @param string $title The action title.
-	 * @param string $name  The action name.
-	 */
-	return apply_filters( 'tml_get_action_title', $title, $action->get_name() );
+	return $action->get_title();
 }
 
 /**
@@ -233,22 +221,10 @@ function tml_get_action_title( $action = '' ) {
  * @return string The action slug.
  */
 function tml_get_action_slug( $action = '' ) {
-
 	if ( ! $action = tml_get_action( $action ) ) {
 		return;
 	}
-
-	$slug = $action->get_slug();
-
-	/**
-	 * Filter the action slug.
-	 *
-	 * @since 7.0
-	 *
-	 * @param string $slug The action slug.
-	 * @param string $name The action name.
-	 */
-	return apply_filters( 'tml_get_action_slug', $slug, $action->get_name() );
+	return $action->get_slug();
 }
 
 /**
@@ -262,24 +238,10 @@ function tml_get_action_slug( $action = '' ) {
  * @return string The action URL.
  */
 function tml_get_action_url( $action = '', $scheme = 'login', $network = null ) {
-
 	if ( ! $action = tml_get_action( $action ) ) {
 		return;
 	}
-
-	$url = $action->get_url( $scheme, $network );
-
-	/**
-	 * Filter the action URL.
-	 *
-	 * @since 7.0
-	 *
-	 * @param string $url     The action URL.
-	 * @param string $name    The action name.
-	 * @param string $scheme  The URL scheme.
-	 * @param bool   $network Whether to retrieve the URL for the current network or current blog.
-	 */
-	return apply_filters( 'tml_get_action_url', $url, $action->get_name(), $scheme, $network );
+	return $action->get_url( $scheme, $network );
 }
 
 /**
