@@ -172,7 +172,7 @@ function tml_admin_check_extension_licenses() {
 	}
 
 	foreach ( tml_get_extensions() as $extension ) {
-		if ( empty( $extension->get_license_key() ) ) {
+		if ( ! $extension->get_license_key() ) {
 			continue;
 		}
 		if ( 'valid' != $extension->get_license_status() ) {
