@@ -19,6 +19,41 @@ function theme_my_login() {
 }
 
 /**
+ * Parse the request.
+ *
+ * @since 7.0.10
+ *
+ * @param $wp WP The WordPress object.
+ */
+function tml_parse_request( $wp ) {
+
+	if ( ! isset( $wp->query_vars['action'] ) ) {
+		return;
+	}
+
+	$action = $wp->query_vars['action'];
+
+	// Fix some alias actions
+	if ( 'retrievepassword' == $action ) {
+		$wp->set_query_var( 'action', 'lostpassword' );
+	} elseif ( 'rp' == $action ) {
+		$wp->set_query_var( 'action', 'resetpass' );
+	}
+
+	// Ensure that the permalink action is passed
+	if ( ! empty( $wp->did_permalink ) && false === strpos( $wp->matched_query, "action=$action" ) ) {
+
+		// Get the action from the matched query
+		preg_match( '/action=([^&]+)/', $wp->matched_query, $matches );
+
+		// Set the proper action
+		if ( ! empty( $matches ) ) {
+			$wp->set_query_var( 'action', $matches[1] );
+		}
+	}
+}
+
+/**
  * Parse the query.
  *
  * @since 7.0

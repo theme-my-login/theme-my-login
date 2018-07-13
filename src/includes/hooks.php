@@ -22,6 +22,10 @@ add_action( 'init', 'tml_add_rewrite_rules' );
 // Widgets
 add_action( 'widgets_init', 'Theme_My_Login_Widget::register' );
 
+
+// Request
+add_action( 'parse_request', 'tml_parse_request' );
+
 // Query
 add_action( 'parse_query', 'tml_parse_query' );
 

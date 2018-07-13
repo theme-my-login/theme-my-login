@@ -119,14 +119,15 @@ function tml_unregister_action( $action ) {
  * @return Theme_My_Login_Action|bool The action object if it exists or false otherwise.
  */
 function tml_get_action( $action = '' ) {
+	global $wp;
 
 	if ( $action instanceof Theme_My_Login_Action ) {
 		return $action;
 	}
 
 	if ( empty( $action ) ) {
-		if ( ! $action = get_query_var( 'action' ) ) {
-			$action = tml_get_request_value( 'action' );
+		if ( ! empty( $wp->query_vars['action'] ) ) {
+			$action = $wp->query_vars['action'];
 		}
 	}
 
