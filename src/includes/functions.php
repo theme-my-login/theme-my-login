@@ -32,16 +32,22 @@ function tml_parse_query( $wp_query ) {
 		return;
 	}
 
+	// Bail if not home
+	if ( ! $wp_query->is_home || $wp_query->is_posts_page ) {
+		return;
+	}
+
 	// Bail if not handling a TML action
 	if ( ! tml_is_action() ) {
 		return;
 	}
 
 	// Tell WordPress that this is a page
-	$wp_query->is_page     = true;
-	$wp_query->is_singular = true;
-	$wp_query->is_single   = false;
-	$wp_query->is_home     = false;
+	$wp_query->is_tml_action = true;
+	$wp_query->is_page       = true;
+	$wp_query->is_singular   = true;
+	$wp_query->is_single     = false;
+	$wp_query->is_home       = false;
 
 	// No need to calculate found rows
 	$wp_query->set( 'no_found_rows', true );
@@ -66,8 +72,8 @@ function tml_the_posts( $posts, $wp_query ) {
 		return $posts;
 	}
 
-	// Bail if not handling a TML action
-	if ( ! tml_is_action() ) {
+	// Bail if not a TML action
+	if ( ! $wp_query->is_tml_action ) {
 		return $posts;
 	}
 
@@ -219,9 +225,6 @@ function tml_enqueue_scripts() {
  * @since 7.0
  */
 function tml_add_rewrite_tags() {
-	if ( ! tml_use_permalinks() ) {
-		return;
-	}
 	add_rewrite_tag( '%action%', '([^/]+)' );
 }
 
