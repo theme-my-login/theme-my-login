@@ -142,6 +142,11 @@ function tml_admin_enqueue_style_and_scripts() {
 function tml_admin_notices() {
 	global $plugin_page;
 
+	// Bail if the user cannot activate plugins
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		return;
+	}
+
 	$is_pre_7 = ( $previous_version = tml_get_previous_version() ) && version_compare( $previous_version, '7.0', '<' );
 
 	if ( 'theme-my-login-extensions' == $plugin_page && $is_pre_7 ) {
