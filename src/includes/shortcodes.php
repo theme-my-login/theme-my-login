@@ -32,7 +32,7 @@ function tml_shortcode( $atts = array() ) {
 		'action'      => '',
 		'show_links'  => null,
 		'redirect_to' => null,
-	), $atts );
+	), $atts, 'theme-my-login' );
 
 	$content = '';
 
