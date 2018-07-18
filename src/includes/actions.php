@@ -288,6 +288,20 @@ function tml_action_handler() {
 
 	nocache_headers();
 
+	// Set a test cookie to test if cookies are enabled
+	$secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
+	setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure );
+	if ( SITECOOKIEPATH != COOKIEPATH ) {
+		setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
+	}
+
+	// Add the testcookie field to the login form
+	tml_add_form_field( 'login', 'testcookie', array(
+		'type'     => 'hidden'	,
+		'value'    => 1,
+		'priority' => 30,
+	) );
+
 	/** This action is documented in wp-login.php */
 	do_action( 'login_init' );
 
@@ -342,64 +356,50 @@ function tml_login_handler() {
 
 	$reauth = empty( $_REQUEST['reauth'] ) ? false : true;
 
-	if ( isset( $_POST['log'] ) || isset( $_GET['testcookie'] ) ) {
+	$user = wp_signon( array(), $secure_cookie );
 
-		$user = wp_signon( array(), $secure_cookie );
+	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
+		if ( headers_sent() ) {
+			$user = new WP_Error( 'test_cookie', sprintf(
+					__( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
+					__( 'https://codex.wordpress.org/Cookies' ),
+					__( 'https://wordpress.org/support/' )
+				)
+			);
+		} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
+			// If cookies are disabled we can't log in even with a valid user+pass
+			$user = new WP_Error( 'test_cookie', sprintf(
+					__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
+					__( 'https://codex.wordpress.org/Cookies' )
+				)
+			);
+		}
+	}
 
-		$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
+	$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
 
-		if ( ! is_wp_error( $user ) && empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
-			$redirect_to = add_query_arg( array(
-				'testcookie'  => 1,
-				'redirect_to' => urlencode( $redirect_to ),
-			) );
+	if ( ! is_wp_error( $user ) && ! $reauth ) {
+
+		if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
+
+			// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
+			if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) ) {
+				$redirect_to = user_admin_url();
+
+			} elseif ( is_multisite() && ! $user->has_cap( 'read' ) ) {
+				$redirect_to = get_dashboard_url( $user->ID );
+
+			} elseif ( ! $user->has_cap( 'edit_posts' ) ) {
+				$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
+			}
+
 			wp_redirect( $redirect_to );
 			exit;
 		}
 
-		if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
-			if ( headers_sent() ) {
-				$user = new WP_Error( 'test_cookie', sprintf(
-						__( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
-						__( 'https://codex.wordpress.org/Cookies' ),
-						__( 'https://wordpress.org/support/' )
-					)
-				);
-			} elseif ( isset( $_GET['testcookie'] ) ) {
-				// If cookies are disabled we can't log in even with a valid user+pass
-				$user = new WP_Error( 'test_cookie', sprintf(
-						__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
-						__( 'https://codex.wordpress.org/Cookies' )
-					)
-				);
-			}
-		} else {
-			$user = wp_get_current_user();
-		}
-
-		if ( ! is_wp_error( $user ) && ! $reauth ) {
-
-			if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
-
-				// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
-				if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) ) {
-					$redirect_to = user_admin_url();
-
-				} elseif ( is_multisite() && ! $user->has_cap( 'read' ) ) {
-					$redirect_to = get_dashboard_url( $user->ID );
-
-				} elseif ( ! $user->has_cap( 'edit_posts' ) ) {
-					$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
-				}
-
-				wp_redirect( $redirect_to );
-				exit;
-			}
-
-			wp_safe_redirect( $redirect_to );
-			exit;
-		}
-
+		wp_safe_redirect( $redirect_to );
+		exit;
+	} else {
 		$errors = $user;
 	}
 

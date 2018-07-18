@@ -78,12 +78,6 @@ function tml_register_login_form() {
 		),
 		'priority' => 30,
 	) );
-
-	tml_add_form_field( 'login', 'testcookie', array(
-		'type'     => 'hidden'	,
-		'value'    => 1,
-		'priority' => 30,
-	) );
 }
 
 /**
