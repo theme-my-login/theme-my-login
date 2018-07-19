@@ -440,6 +440,21 @@ function tml_filter_get_edit_post_link( $link, $post_id ) {
 }
 
 /**
+ * Filter the comments.
+ *
+ * @since 7.0.10
+ *
+ * @param array $comments The comments.
+ * @return array The comments.
+ */
+function tml_filter_comments_array( $comments ) {
+	if ( tml_is_action() ) {
+		return array();
+	}
+	return $comments;
+}
+
+/**
  * Add TML action type to the Customizer menu editor.
  *
  * @since 7.0

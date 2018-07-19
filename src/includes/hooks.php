@@ -65,6 +65,7 @@ add_filter( 'the_posts',          'tml_the_posts',                 10, 2 );
 add_filter( 'page_template',      'tml_page_template',             10, 3 );
 add_filter( 'body_class',         'tml_body_class',                10, 2 );
 add_filter( 'get_edit_post_link', 'tml_filter_get_edit_post_link', 10, 2 );
+add_filter( 'comments_array',     'tml_filter_comments_array',     10, 1 );
 
 // URLs
 add_filter( 'site_url',         'tml_filter_site_url',   10, 3 );
