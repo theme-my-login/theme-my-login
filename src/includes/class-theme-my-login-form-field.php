@@ -557,6 +557,7 @@ class Theme_My_Login_Form_Field {
 
 		switch ( $this->get_type() ) {
 			case 'custom' :
+				$output .= $label;
 				$output .= $this->get_content();
 				break;
 
