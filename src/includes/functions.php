@@ -35,9 +35,9 @@ function tml_parse_request( $wp ) {
 
 	// Fix some alias actions
 	if ( 'retrievepassword' == $action ) {
-		$wp->set_query_var( 'action', 'lostpassword' );
+		$action = 'lostpassword';
 	} elseif ( 'rp' == $action ) {
-		$wp->set_query_var( 'action', 'resetpass' );
+		$action = 'resetpass';
 	}
 
 	// Ensure that the permalink action is passed
@@ -45,11 +45,19 @@ function tml_parse_request( $wp ) {
 
 		// Get the action from the matched query
 		preg_match( '/action=([^&]+)/', $wp->matched_query, $matches );
-
-		// Set the proper action
 		if ( ! empty( $matches ) ) {
-			$wp->set_query_var( 'action', $matches[1] );
+			$action = $matches[1];
 		}
+	}
+
+	// Default the action to login if an action is set and it's not a TML action
+	if ( ! empty( $action ) && ! tml_action_exists( $action ) ) {
+		$action = 'login';
+	}
+
+	// Set the proper action
+	if ( $action != $wp->query_vars['action'] ) {
+		$wp->set_query_var( 'action', $action );
 	}
 }
 

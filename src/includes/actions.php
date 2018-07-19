@@ -307,7 +307,7 @@ function tml_action_handler() {
 	do_action( 'login_init' );
 
 	/** This action is documented in wp-login.php */
-	do_action( 'login_form_' . tml_get_action()->get_name() );
+	do_action( 'login_form_' . tml_get_request_value( 'action' ) );
 
 	/**
 	 * Fires when a TML action is being requested.
