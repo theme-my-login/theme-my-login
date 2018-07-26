@@ -283,9 +283,7 @@ class Theme_My_Login_Action {
 			$path = user_trailingslashit( $this->get_slug() );
 			$url  = $function( $path, $scheme );
 		} else {
-			$url = $function( '', $scheme );
-			$url = user_trailingslashit( $url );
-			$url = add_query_arg( 'action', $this->name, $url );
+			$url = $function( '?action=' . $this->get_name(), $scheme );
 		}
 
 		/**
