@@ -1,10 +1,9 @@
 ( function( $ ) {
-	if ( $( '#tml-settings' ).length ) {
-		$( initMetaBoxes );
-	}
+
+	$( initMetaBoxes );
 
 	function initMetaBoxes() {
-		var metaboxes = $( '.postbox' );
+		var metaboxes = $( '#tml-settings .postbox' );
 
 		if ( metaboxes.length ) {
 			// Make metaboxes toggleable
