@@ -357,14 +357,17 @@ function tml_admin_deactivation_survey() {
 	// Handle form submission
 	if ( tml_is_post_request() ) {
 		if ( $comments = tml_get_request_value( 'comments', 'post' ) ) {
-			$message  = wp_unslash( $comments ) . "\r\n\r\n";
-			$message .= implode( "\r\n", array(
-				'WP Version: '  . $wp_version,
-				'TML Version: ' . THEME_MY_LOGIN_VERSION,
-				'PHP Version: ' . phpversion(),
-				'Multisite: '   . ( is_multisite() ? 'Yes' : 'No' ),
-			) );
-			@wp_mail( 'deactivations@thememylogin.com', 'Deactivation Survey', $message );
+			$words = explode( ' ', trim( $comments ) );
+			if ( count( $words ) > 5 ) {
+				$message  = wp_unslash( $comments ) . "\r\n\r\n";
+				$message .= implode( "\r\n", array(
+					'WP Version: '  . $wp_version,
+					'TML Version: ' . THEME_MY_LOGIN_VERSION,
+					'PHP Version: ' . phpversion(),
+					'Multisite: '   . ( is_multisite() ? 'Yes' : 'No' ),
+				) );
+				@wp_mail( 'deactivations@thememylogin.com', 'Deactivation Survey', $message );
+			}
 		}
 		wp_redirect( add_query_arg( 'skip_survey', 1 ) );
 		exit;
