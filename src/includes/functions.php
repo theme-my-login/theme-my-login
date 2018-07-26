@@ -646,12 +646,13 @@ function tml_set_user_login( $sanitized_user_login ) {
  *
  * @since 7.0.1
  *
- * @param string $url The registration redirect URL.
+ * @param string  $url  The registration redirect URL.
+ * @param WP_User $user The user object.
  * @return string The registration redirect URL.
  */
-function tml_registration_redirect( $url ) {
+function tml_registration_redirect( $url, $user ) {
 	if ( tml_allow_auto_login() ) {
-		$url = home_url();
+		$url = apply_filters( 'login_redirect', home_url(), tml_get_request_value( 'redirect_to' ), $user );
 	}
 	return $url;
 }

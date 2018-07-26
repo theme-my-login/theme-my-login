@@ -491,13 +491,24 @@ function tml_registration_handler() {
 	if ( tml_is_post_request() ) {
 		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
 		$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
-		$errors = register_new_user( $user_login, $user_email );
-		if ( ! is_wp_error( $errors ) ) {
+		$user_id = register_new_user( $user_login, $user_email );
+		if ( ! is_wp_error( $user_id ) ) {
 			$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url( 'wp-login.php?checkemail=registered' );
+
+			/**
+			 * Filter the registration redirect.
+			 *
+			 * @since 7.0.10
+			 *
+			 * @param string $redirect_to The registration redirect.
+			 * @param WP_User $user       The user object.
+			 */
+			$redirect_to = apply_filters( 'tml_registration_redirect', $redirect_to, get_userdata( $user_id ) );
+
 			wp_safe_redirect( $redirect_to );
 			exit;
 		} else {
-			tml_set_errors( $errors );
+			tml_set_errors( $user_id );
 		}
 	}
 }
