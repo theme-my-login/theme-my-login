@@ -2,8 +2,8 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
-Tested up to: 4.9.7
-Stable tag: 7.0.9
+Tested up to: 4.9.8
+Stable tag: 7.0.10
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -58,6 +58,18 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.10 =
+* Fix admin notices displaying for non-privileged users
+* Reinstate default testcookie method
+* Don't allow TML actions to stomp on other content
+* Don't allow TML actions to stomp on other TML actions
+* Allow non-TML actions to be handled
+* Include labels for custom fields if present
+* Hide comments on TML pages
+* Fix generation of non-pretty action links
+* Apply `login_redirect` filter to auto-login registration redirect
+* Fix new user notification being sent when unchecked upon creating a user
 
 = 7.0.9 =
 * Fix fatal error on PHP versions less than 5.5
