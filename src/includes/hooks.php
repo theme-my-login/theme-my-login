@@ -42,8 +42,8 @@ add_action( 'pre_user_login',    'tml_set_user_login'        );
 add_action( 'register_new_user', 'tml_set_new_user_password' );
 add_action( 'register_new_user', 'tml_handle_auto_login'     );
 
-add_action( 'register_new_user',      'tml_send_new_user_notifications' );
-add_action( 'edit_user_created_user', 'tml_send_new_user_notifications' );
+add_action( 'register_new_user',      'tml_send_new_user_notifications', 10, 1 );
+add_action( 'edit_user_created_user', 'tml_send_new_user_notifications', 10, 2 );
 
 remove_action( 'register_new_user',      'wp_send_new_user_notifications' );
 remove_action( 'edit_user_created_user', 'wp_send_new_user_notifications' );
