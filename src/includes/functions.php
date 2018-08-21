@@ -399,11 +399,6 @@ function tml_filter_site_url( $url, $path, $scheme ) {
  */
 function tml_filter_logout_url( $url, $redirect ) {
 
-	// Bail if not using permalinks
-	if ( ! tml_use_permalinks() ) {
-		return $url;
-	}
-
 	// Bail if logout action doesn't exist for some reason
 	if ( ! tml_action_exists( 'logout' ) ) {
 		return $url;
@@ -419,6 +414,33 @@ function tml_filter_logout_url( $url, $redirect ) {
 
 	// Add the nonce
 	$url = wp_nonce_url( $url, 'log-out' );
+
+	return $url;
+}
+
+/**
+ * Filter the result of wp_lostpassword_url().
+ *
+ * @since 7.0.11
+ *
+ * @param string $url      The URL.
+ * @param string $redirect The redirect.
+ * @return string The lostpassword URL.
+ */
+function tml_filter_lostpassword_url( $url, $redirect ) {
+
+	// Bail if logout action doesn't exist for some reason
+	if ( ! tml_action_exists( 'lostpassword' ) ) {
+		return $url;
+	}
+
+	// Get the lostpassword URL
+	$url = tml_get_action_url( 'lostpassword' );
+
+	// Add the redirect query argument if needed
+	if ( ! empty( $redirect ) ) {
+		$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $url );
+	}
 
 	return $url;
 }

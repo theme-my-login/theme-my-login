@@ -69,9 +69,10 @@ add_filter( 'get_edit_post_link', 'tml_filter_get_edit_post_link', 10, 2 );
 add_filter( 'comments_array',     'tml_filter_comments_array',     10, 1 );
 
 // URLs
-add_filter( 'site_url',         'tml_filter_site_url',   10, 3 );
-add_filter( 'network_site_url', 'tml_filter_site_url',   10, 3 );
-add_filter( 'logout_url',       'tml_filter_logout_url', 10, 2 );
+add_filter( 'site_url',         'tml_filter_site_url',         10, 3 );
+add_filter( 'network_site_url', 'tml_filter_site_url',         10, 3 );
+add_filter( 'logout_url',       'tml_filter_logout_url',       10, 2 );
+add_filter( 'lostpassword_url', 'tml_filter_lostpassword_url', 10, 2 );
 
 // Authentication
 add_filter( 'authenticate', 'tml_enforce_login_type', 20, 3 );
