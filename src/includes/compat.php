@@ -140,14 +140,14 @@ function tml_retrieve_password_notification( $user, $key ) {
 	 *     @type string $message The body of the email.
 	 *     @type string $headers The headers of the email.
 	 * }
-	 * @param WP_User $user     The user object..
-	 * @param string  $blogname The site title.
+	 * @param WP_User $user      The user object..
+	 * @param string  $site_name The site title.
 	 */
-	$retrieve_password_email = apply_filters( 'tml_retrieve_password_email', $retrieve_password_email, $user, $blogname );
+	$retrieve_password_email = apply_filters( 'tml_retrieve_password_email', $retrieve_password_email, $user, $site_name );
 
 	if ( $retrieve_password_email['message'] && ! wp_mail(
 		$retrieve_password_email['to'],
-		wp_specialchars_decode( sprintf( $retrieve_password_email['subject'], $blogname ) ),
+		wp_specialchars_decode( sprintf( $retrieve_password_email['subject'], $site_name ) ),
 		$retrieve_password_email['message'],
 		$retrieve_password_email['headers']
 	) ) {
