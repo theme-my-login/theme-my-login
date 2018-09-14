@@ -233,9 +233,11 @@ function tml_body_class( $classes ) {
  * @since 7.0
  */
 function tml_enqueue_styles() {
-	$suffix = SCRIPT_DEBUG ? '' : '.min';
+	if ( tml_is_action() ) {
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
 
-	wp_enqueue_style( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/styles/theme-my-login$suffix.css", array(), THEME_MY_LOGIN_VERSION );
+		wp_enqueue_style( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/styles/theme-my-login$suffix.css", array(), THEME_MY_LOGIN_VERSION );
+	}
 }
 
 /**
@@ -245,15 +247,15 @@ function tml_enqueue_styles() {
  *
  */
 function tml_enqueue_scripts() {
-	$suffix = SCRIPT_DEBUG ? '' : '.min';
-
-	wp_enqueue_script( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/scripts/theme-my-login$suffix.js", array( 'jquery', 'password-strength-meter' ), THEME_MY_LOGIN_VERSION );
-	wp_localize_script( 'theme-my-login', 'themeMyLogin', array(
-		'action' => tml_is_action() ? tml_get_action()->get_name() : '',
-		'errors' => tml_get_errors()->get_error_codes(),
-	) );
-
 	if ( tml_is_action() ) {
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
+
+		wp_enqueue_script( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/scripts/theme-my-login$suffix.js", array( 'jquery', 'password-strength-meter' ), THEME_MY_LOGIN_VERSION );
+		wp_localize_script( 'theme-my-login', 'themeMyLogin', array(
+			'action' => tml_is_action() ? tml_get_action()->get_name() : '',
+			'errors' => tml_get_errors()->get_error_codes(),
+		) );
+
 		/** This action is documented in wp-login.php */
 		do_action( 'login_enqueue_scripts' );
 
