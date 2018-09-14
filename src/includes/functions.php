@@ -233,11 +233,9 @@ function tml_body_class( $classes ) {
  * @since 7.0
  */
 function tml_enqueue_styles() {
-	if ( tml_is_action() ) {
-		$suffix = SCRIPT_DEBUG ? '' : '.min';
+	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
-		wp_enqueue_style( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/styles/theme-my-login$suffix.css", array(), THEME_MY_LOGIN_VERSION );
-	}
+	wp_enqueue_style( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/styles/theme-my-login$suffix.css", array(), THEME_MY_LOGIN_VERSION );
 }
 
 /**
