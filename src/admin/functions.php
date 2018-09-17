@@ -142,6 +142,13 @@ function tml_admin_enqueue_style_and_scripts() {
 function tml_admin_notices() {
 	global $plugin_page;
 
+	$screen = get_current_screen();
+
+	// Bail if not on Dashboard or a TML page
+	if ( 'dashboard' != $screen->id && 'theme-my-login' != $screen->parent_base ) {
+		return;
+	}
+
 	// Bail if the user cannot activate plugins
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		return;
