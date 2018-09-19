@@ -50,9 +50,9 @@ function tml_parse_request( $wp ) {
 		}
 	}
 
-	// Default the action to login if an action is set and it's not a TML action
-	if ( ! empty( $action ) && ! tml_action_exists( $action ) ) {
-		$action = 'login';
+	// Bail if not a TML action
+	if ( ! tml_action_exists( $action ) ) {
+		return;
 	}
 
 	// Set the proper action
