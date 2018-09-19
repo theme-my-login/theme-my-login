@@ -2,8 +2,8 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
-Tested up to: 4.9.8
-Stable tag: 7.0.10
+Tested up to: 4.9.9
+Stable tag: 7.0.11
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -58,6 +58,15 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.11 =
+* Ensure that actions use their own page
+* Ensure the lostpassword action uses a TML link
+* Fix undefined variable notice when recovering password
+* Fix password strength meter script loading on every request
+* Only show TML notices on the Dashboard or TML pages
+* Fix undefined variable notices when handling an action
+* Fix stomping of other plugins actions
 
 = 7.0.10 =
 * Fix admin notices displaying for non-privileged users
