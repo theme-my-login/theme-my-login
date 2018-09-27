@@ -12,8 +12,10 @@
 	.tml-label {
 		display: block;
 		margin: 0.5em 0;
+	}
 
-		.tml-checkbox + & {
+	.tml-checkbox {
+		+ .tml-label {
 			display: inline;
 		}
 	}
