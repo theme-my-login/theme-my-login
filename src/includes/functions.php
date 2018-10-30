@@ -619,9 +619,14 @@ function tml_nav_menu_css_class( $classes, $item ) {
  * @return WP_Error The registration errors.
  */
 function tml_validate_new_user_password( $errors = null ) {
+	if ( ! tml_is_action( 'register' ) ) {
+		return $errors;
+	}
+
 	if ( empty( $errors ) ) {
 		$errors = new WP_Error();
 	}
+
 	if ( tml_allow_user_passwords() ) {
 		if ( empty( $_POST['user_pass1'] ) || empty( $_POST['user_pass2'] ) ) {
 			$errors->add( 'empty_password', __( '<strong>ERROR</strong>: Please enter a password.', 'theme-my-login' ) );
@@ -633,6 +638,7 @@ function tml_validate_new_user_password( $errors = null ) {
 			$errors->add( 'password_mismatch', __( '<strong>ERROR</strong>: Please enter the same password in both password fields.', 'theme-my-login' ) );
 		}
 	}
+
 	return $errors;
 }
 
