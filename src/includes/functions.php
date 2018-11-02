@@ -286,11 +286,11 @@ function tml_add_rewrite_rules() {
 		return;
 	}
 	foreach ( tml_get_actions() as $action ) {
-		add_rewrite_rule(
-			tml_get_action_slug( $action ) . '/?$',
-			'index.php?action=' . $action->get_name(),
-			'top'
-		);
+		$url = 'index.php?action=' . $action->get_name();
+		if ( $page = tml_action_has_page( $action ) ) {
+			$url .= '&pagename=' . $page->post_name;
+		}
+		add_rewrite_rule( tml_get_action_slug( $action ) . '/?$', $url, 'top' );
 	}
 }
 
