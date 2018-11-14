@@ -338,7 +338,10 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 	// Parse the query
 	$query = array();
 	if ( ! empty( $parsed_url['query'] ) ) {
-		parse_str( htmlspecialchars_decode( $parsed_url['query'] ), $query );
+		parse_str( $parsed_url['query'], $query );
+
+		// Encode the query args
+		$query = array_map( 'rawurlencode', $query );
 	}
 
 	/**
