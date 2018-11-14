@@ -297,7 +297,14 @@ function tml_action_handler() {
 				$action = 'resetpass';
 			}
 
+			// Get the action URL
 			if ( $url = tml_get_action_url( $action ) ) {
+				// Add the query string to the URL
+				if ( $query = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ) ) {
+					parse_str( $query, $args );
+					unset( $args['action'] );
+					$url = add_query_arg( array_map( 'rawurlencode', $args ), $url );
+				}
 				wp_redirect( $url );
 				exit;
 			}
