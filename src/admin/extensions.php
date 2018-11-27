@@ -184,3 +184,29 @@ function tml_admin_check_extension_licenses() {
 		}
 	}
 }
+
+/**
+ * Add the extension update messages.
+ *
+ * @since 7.0.12
+ */
+function tml_admin_add_extension_update_messages() {
+	foreach ( tml_get_extensions() as $extension ) {
+		$file = plugin_basename( $extension->get_file() );
+		add_action( "in_plugin_update_message-$file", 'tml_admin_extension_update_message', 10, 2 );
+	}
+}
+
+/**
+ * Display the extension update message.
+ *
+ * @since 7.0.12
+ */
+function tml_admin_extension_update_message( $data, $response ) {
+	if ( empty( $response->package ) ) {
+		echo ' ' . sprintf(
+			'<em>In order to enable automatic updates, please enter and activate your <a href="%1$s">license key</a>.',
+			admin_url( 'admin.php?page=theme-my-login-licenses' )
+		);
+	}
+}

@@ -15,8 +15,9 @@ add_action( 'admin_notices',              'tml_admin_notices'             );
 add_action( 'wp_ajax_tml-dismiss-notice', 'tml_admin_ajax_dismiss_notice' );
 
 // Extensions
-add_action( 'admin_init', 'tml_admin_handle_extension_licenses' );
-add_action( 'admin_init', 'tml_admin_check_extension_licenses'  );
+add_action( 'admin_init', 'tml_admin_handle_extension_licenses'     );
+add_action( 'admin_init', 'tml_admin_check_extension_licenses'      );
+add_action( 'admin_init', 'tml_admin_add_extension_update_messages' );
 
 // Settings
 if ( is_multisite() ) {
