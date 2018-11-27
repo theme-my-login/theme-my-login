@@ -192,8 +192,7 @@ function tml_admin_check_extension_licenses() {
  */
 function tml_admin_add_extension_update_messages() {
 	foreach ( tml_get_extensions() as $extension ) {
-		$file = plugin_basename( $extension->get_file() );
-		add_action( "in_plugin_update_message-$file", 'tml_admin_extension_update_message', 10, 2 );
+		add_action( 'in_plugin_update_message-' . $extension->get_basename(), 'tml_admin_extension_update_message', 10, 2 );
 	}
 }
 
