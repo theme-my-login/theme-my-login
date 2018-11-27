@@ -399,3 +399,30 @@ function tml_admin_deactivation_survey() {
 		<?php wp_die( ob_get_clean(), __( 'Deactivating Theme My Login', 'theme-my-login' ) );
 	}
 }
+
+/**
+ * Filter the plugin action links.
+ *
+ * @since 7.0.12
+ *
+ * @param array  $actions The plugin action links.
+ * @param string $file    The path to the plugin file.
+ * @param array  $data    The plugin data.
+ * @param string $context The plugin context.
+ * @return array The plugin action links.
+ */
+function tml_admin_filter_plugin_action_links( $actions, $file, $data, $context ) {
+
+	if ( 'theme-my-login/theme-my-login.php' == $file ) {
+		$actions['settings'] = sprintf( '<a href="%1$s">%2$s</a>',
+			admin_url( 'admin.php?page=theme-my-login' ),
+			__( 'Settings' )
+		);
+		$actions['extensions'] = sprintf( '<a href="%1$s">%2$s</a>',
+			admin_url( 'admin.php?page=theme-my-login-extensions' ),
+			__( 'Extensions', 'theme-my-login' )
+		);
+	}
+
+	return $actions;
+}
