@@ -288,7 +288,7 @@ function tml_add_rewrite_rules() {
 	foreach ( tml_get_actions() as $action ) {
 		$url = 'index.php?action=' . $action->get_name();
 		if ( $page = tml_action_has_page( $action ) ) {
-			$url .= '&pagename=' . $page->post_name;
+			$url .= '&pagename=' . get_page_uri( $page );
 		}
 		add_rewrite_rule( tml_get_action_slug( $action ) . '/?$', $url, 'top' );
 	}
