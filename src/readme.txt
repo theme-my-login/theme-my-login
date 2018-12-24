@@ -2,8 +2,8 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
-Tested up to: 4.9.9
-Stable tag: 7.0.11
+Tested up to: 5.0.2
+Stable tag: 7.0.12
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -58,6 +58,18 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.12 =
+* Ensure that styles are more likely to be applied
+* Ensure checkbox labels are inline
+* Ensure password errors are only applied on register action
+* Pass page slug for rewrites if a matching page exists
+* Ensure query args are encoded when rewriting URLs
+* Ensure query args are passed for actions redirected from login
+* Add license activation notice to extension update messages
+* Add action links to plugins screen
+* Ensure PHP 5.2 support for development
+* Ensure hierarchical slugs work properly
 
 = 7.0.11 =
 * Ensure that actions use their own page
