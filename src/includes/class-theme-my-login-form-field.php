@@ -521,6 +521,17 @@ class Theme_My_Login_Form_Field {
 			'control_after'  => '',
 		) );
 
+		/**
+		 * Fires before a form field is rendered.
+		 *
+		 * @since 7.0.13
+		 *
+		 * @param string                    $form_name  The form name.
+		 * @param string                    $field_name The field name.
+		 * @param Theme_My_Login_Form_Field $field      The field object.
+		 */
+		do_action( 'tml_render_form_field', $this->form->get_name(), $this->name, $this );
+
 		$args = wp_parse_args( $args, $defaults );
 
 		$output = '';
