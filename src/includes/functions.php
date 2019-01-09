@@ -950,21 +950,15 @@ function tml_set_data( $name, $value = '' ) {
  * @return mixed The requested value.
  */
 function tml_get_request_value( $key, $type = 'any' ) {
-
-	$value = '';
 	$type  = strtoupper( $type );
-
-	$types = array( 'POST', 'GET', 'REQUEST' );
-	if ( in_array( $type, $types ) ) {
-		$types = array( $type );
-	}
-
-	foreach ( $types as $type ) {
-		$type = '_' . $type;
-		if ( ! empty( $GLOBALS[ $type ] ) && array_key_exists( $key, $GLOBALS[ $type ] ) ) {
-			$value = $GLOBALS[ $type ][ $key ];
-			break;
-		}
+	if ( 'POST' == $type && array_key_exists( $key, $_POST ) ) {
+		$value = $_POST[ $key ];
+	} elseif ( 'GET' == $type && array_key_exists( $key, $_GET ) ) {
+		$value = $_GET[ $key ];
+	} elseif ( array_key_exists( $key, $_REQUEST ) ) {
+		$value = $_REQUEST[ $key ];
+	} else {
+		$value = '';
 	}
 
 	if ( is_string( $value ) ) {
