@@ -568,6 +568,17 @@ class Theme_My_Login_Form {
 			$output .= ">\n";
 		}
 
+		/**
+		 * Filter the content before the form.
+		 *
+		 * @since 7.0.13
+		 *
+		 * @param string              $output The output.
+		 * @param string              $name   The form name.
+		 * @param Theme_My_Login_Form $form   The form object.
+		 */
+		$output .= apply_filters( 'tml_before_form', $output, $this->name, $this );
+
 		$output .= $this->render_errors();
 
 		$output .= '<form name="' . esc_attr( $this->get_name() ) . '" action="' . esc_url( $this->get_action() ) . '" method="' . esc_attr( $this->get_method() ) . '"';
@@ -581,6 +592,17 @@ class Theme_My_Login_Form {
 		}
 
 		$output .= "</form>\n";
+
+		/**
+		 * Filter the content after the form.
+		 *
+		 * @since 7.0.13
+		 *
+		 * @param string              $output The output.
+		 * @param string              $name   The form name.
+		 * @param Theme_My_Login_Form $form   The form object.
+		 */
+		$output .= apply_filters( 'tml_after_form', $output, $this->name, $this );
 
 		if ( $args['show_links'] ) {
 			$output .= $this->render_links();
