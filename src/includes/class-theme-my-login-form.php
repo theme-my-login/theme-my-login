@@ -577,7 +577,7 @@ class Theme_My_Login_Form {
 		 * @param string              $name   The form name.
 		 * @param Theme_My_Login_Form $form   The form object.
 		 */
-		$output .= apply_filters( 'tml_before_form', $output, $this->name, $this );
+		$output = apply_filters( 'tml_before_form', $output, $this->name, $this );
 
 		$output .= $this->render_errors();
 
@@ -602,7 +602,7 @@ class Theme_My_Login_Form {
 		 * @param string              $name   The form name.
 		 * @param Theme_My_Login_Form $form   The form object.
 		 */
-		$output .= apply_filters( 'tml_after_form', $output, $this->name, $this );
+		$output = apply_filters( 'tml_after_form', $output, $this->name, $this );
 
 		if ( $args['show_links'] ) {
 			$output .= $this->render_links();

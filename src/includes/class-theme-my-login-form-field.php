@@ -550,7 +550,7 @@ class Theme_My_Login_Form_Field {
 		 * @param string                    $field_name The field name
 		 * @param Theme_My_Login_Form_Field $field      The form object.
 		 */
-		$output .= apply_filters( 'tml_before_form_field', $output, $this->form->get_name(), $this->name, $this );
+		$output = apply_filters( 'tml_before_form_field', $output, $this->form->get_name(), $this->name, $this );
 
 		$attributes = '';
 		foreach ( $this->get_attributes() as $key => $value ) {
@@ -659,7 +659,7 @@ class Theme_My_Login_Form_Field {
 		 * @param string                    $field_name The field name
 		 * @param Theme_My_Login_Form_Field $field      The form object.
 		 */
-		$output .= apply_filters( 'tml_after_form_field', $output, $this->form->get_name(), $this->name, $this );
+		$output = apply_filters( 'tml_after_form_field', $output, $this->form->get_name(), $this->name, $this );
 
 		if ( ! empty( $args['after'] ) ) {
 			$output .= $args['after'] . "\n";
