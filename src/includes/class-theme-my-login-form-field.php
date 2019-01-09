@@ -540,6 +540,18 @@ class Theme_My_Login_Form_Field {
 			$output .= sprintf( $args['before'], $this->get_name() ) . "\n";
 		}
 
+		/**
+		 * Filter the content before the field.
+		 *
+		 * @since 7.0.13
+		 *
+		 * @param string                    $output     The output.
+		 * @param string                    $form_name  The form name.
+		 * @param string                    $field_name The field name
+		 * @param Theme_My_Login_Form_Field $field      The form object.
+		 */
+		$output .= apply_filters( 'tml_before_form_field', $output, $this->form->get_name(), $this->name, $this );
+
 		$attributes = '';
 		foreach ( $this->get_attributes() as $key => $value ) {
 			$attributes .= ' ' . $key . '="' . esc_attr( $value ) . '"';
@@ -636,6 +648,18 @@ class Theme_My_Login_Form_Field {
 		if ( $this->get_description() ) {
 			$output .= '<span class="tml-description">' . $this->get_description() . "</span>\n";
 		}
+
+		/**
+		 * Filter the content after the field.
+		 *
+		 * @since 7.0.13
+		 *
+		 * @param string                    $output     The output.
+		 * @param string                    $form_name  The form name.
+		 * @param string                    $field_name The field name
+		 * @param Theme_My_Login_Form_Field $field      The form object.
+		 */
+		$output .= apply_filters( 'tml_after_form_field', $output, $this->form->get_name(), $this->name, $this );
 
 		if ( ! empty( $args['after'] ) ) {
 			$output .= $args['after'] . "\n";
