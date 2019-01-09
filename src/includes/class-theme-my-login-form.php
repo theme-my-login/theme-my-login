@@ -543,6 +543,16 @@ class Theme_My_Login_Form {
 			'show_links'      => true,
 		) );
 
+		/**
+		 * Fires before rendering a form.
+		 *
+		 * @since 7.0.13
+		 *
+		 * @param string              $name The form name.
+		 * @param Theme_My_Login_Form $form The form object.
+		 */
+		do_action( 'tml_render_form', $this->name, $this );
+
 		$args = wp_parse_args( $args, $defaults );
 
 		$output = $args['before'];
