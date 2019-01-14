@@ -40,9 +40,6 @@ add_action( 'admin_init', 'tml_admin_update' );
 // Nav menus
 add_action( 'admin_head-nav-menus.php', 'tml_admin_add_nav_menu_meta_box', 10 );
 
-// Deactivation
-add_action( 'admin_init', 'tml_admin_deactivation_survey' );
-
 /**
  * Add filters
  */
