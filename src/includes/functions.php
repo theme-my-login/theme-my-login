@@ -261,10 +261,24 @@ function tml_enqueue_scripts() {
 	if ( tml_is_action() ) {
 		/** This action is documented in wp-login.php */
 		do_action( 'login_enqueue_scripts' );
-
-		/** This action is documented in wp-login.php */
-		do_action( 'login_head' );
 	}
+}
+
+/**
+ * Do the login_head action hook.
+ *
+ * @since 7.0.13
+ */
+function tml_do_login_head() {
+	if ( ! tml_is_action() ) {
+		return;
+	}
+
+	// This is already attached to "wp_head"
+	remove_action( 'login_head', 'wp_print_head_scripts', 9 );
+
+	/** This action is documented in wp-login.php */
+	do_action( 'login_head' );
 }
 
 /**
