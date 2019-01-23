@@ -252,7 +252,7 @@ function tml_enqueue_scripts() {
 		$dependencies[] = 'password-strength-meter';
 	}
 
-	wp_enqueue_script( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/scripts/theme-my-login$suffix.js", $dependencies, THEME_MY_LOGIN_VERSION );
+	wp_enqueue_script( 'theme-my-login', THEME_MY_LOGIN_URL . "assets/scripts/theme-my-login$suffix.js", $dependencies, THEME_MY_LOGIN_VERSION, true );
 	wp_localize_script( 'theme-my-login', 'themeMyLogin', array(
 		'action' => tml_is_action() ? tml_get_action()->get_name() : '',
 		'errors' => tml_get_errors()->get_error_codes(),
