@@ -84,8 +84,10 @@ if ( tml_is_username_login_type() ) {
 }
 
 // Registration
-add_filter( 'registration_errors',       'tml_validate_new_user_password', 10, 1 );
-add_filter( 'tml_registration_redirect', 'tml_registration_redirect',      10, 2 );
+if ( ! tml_is_wp_login() ) {
+	add_filter( 'registration_errors', 'tml_validate_new_user_password', 10 );
+}
+add_filter( 'tml_registration_redirect', 'tml_registration_redirect', 10, 2 );
 
 // Notifications
 add_filter( 'wp_new_user_notification_email', 'tml_add_password_notice_to_new_user_notification_email' );

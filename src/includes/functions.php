@@ -636,9 +636,6 @@ function tml_nav_menu_css_class( $classes, $item ) {
  * @return WP_Error The registration errors.
  */
 function tml_validate_new_user_password( $errors = null ) {
-	if ( ! tml_is_action( 'register' ) ) {
-		return $errors;
-	}
 
 	if ( empty( $errors ) ) {
 		$errors = new WP_Error();
