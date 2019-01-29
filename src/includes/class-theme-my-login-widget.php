@@ -54,7 +54,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 		}
 
 		if ( is_user_logged_in() ) {
-			$title = _x( 'Welcome', 'Howdy' );
+			$title = _x( 'Welcome', 'Howdy', 'theme-my-login' );
 		} else {
 			$title = tml_get_action_title( $instance['action'] );
 		}
@@ -89,7 +89,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 					'url'   => admin_url(),
 				),
 				'profile'   => array(
-					'title' => __( 'Profile' ),
+					'title' => __( 'Profile', 'theme-my-login' ),
 					'url'   => admin_url( 'profile.php' ),
 				),
 				'logout'    => array(
