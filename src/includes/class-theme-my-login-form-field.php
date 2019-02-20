@@ -334,7 +334,13 @@ class Theme_My_Login_Form_Field {
 	 * @return string The field content.
 	 */
 	public function get_content() {
-		return $this->content;
+		/**
+		 * Filters the form field content.
+		 *
+		 * @param string                    $content The field content.
+		 * @param Theme_My_Login_Form_Field $field   The field object.
+		 */
+		return apply_filters( 'tml_get_form_field_content', $this->content, $this );
 	}
 
 	/**
