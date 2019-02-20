@@ -78,6 +78,13 @@ class Theme_My_Login_Form_Field {
 	protected $attributes = array();
 
 	/**
+	 * The field classes.
+	 *
+	 * @var array
+	 */
+	protected $classes = array();
+
+	/**
 	 * The field's parent form.
 	 *
 	 * @var Theme_My_Login_Form
@@ -150,7 +157,7 @@ class Theme_My_Login_Form_Field {
 		}
 
 		if ( ! empty( $args['class'] ) ) {
-			$this->add_attribute( 'class', $args['class'] );
+			$this->add_class( $args['class'] );
 		} elseif ( 'hidden' != $this->get_type() ) {
 			if ( in_array( $args['type'], array( 'button', 'submit', 'reset' ) ) ) {
 				$class = 'tml-button';
@@ -159,7 +166,7 @@ class Theme_My_Login_Form_Field {
 			} else {
 				$class = 'tml-field';
 			}
-			$this->add_attribute( 'class', $class );
+			$this->add_class( $class );
 		}
 
 		if ( 'checkbox' == $args['type'] && ! empty( $args['checked'] ) ) {
@@ -484,6 +491,58 @@ class Theme_My_Login_Form_Field {
 	}
 
 	/**
+	 * Add a class.
+	 *
+	 * @since 7.0.13
+	 *
+	 * @param array|string $class The class or an array of classes.
+	 */
+	public function add_class( $class ) {
+		if ( ! is_array( $class ) ) {
+			$class = explode( ' ', $class );
+		}
+		$this->classes = array_unique( array_merge( $this->classes, $class ) );
+	}
+
+	/**
+	 * Remove a class.
+	 *
+	 * @since 7.0.13
+	 *
+	 * @param string $class The class.
+	 */
+	public function remove_class( $class ) {
+		$classes = array_flip( $this->classes );
+		if ( isset( $classes[ $class ] ) ) {
+			unset( $classes[ $class ] );
+			$this->classes = array_keys( $classes );
+		}
+	}
+
+	/**
+	 * Determine if the field has a given class.
+	 *
+	 * @since 7.0.13
+	 *
+	 * @param string $class The class.
+	 * @return bool True if the field has the given class, false if not.
+	 */
+	public function has_class( $class ) {
+		return in_array( $class, $this->classes );
+	}
+
+	/**
+	 * Get all classes.
+	 *
+	 * @since 7.0.13
+	 *
+	 * @return array The field classes.
+	 */
+	public function get_classes() {
+		return $this->classes;
+	}
+
+	/**
 	 * Set the priority.
 	 *
 	 * @since 7.0
@@ -567,6 +626,9 @@ class Theme_My_Login_Form_Field {
 		$attributes = '';
 		foreach ( $this->get_attributes() as $key => $value ) {
 			$attributes .= ' ' . $key . '="' . esc_attr( $value ) . '"';
+		}
+		if ( $classes = $this->get_classes() ) {
+			$attributes .= ' class="' . implode( ' ', $classes ) . '"';
 		}
 
 		$label = '';
