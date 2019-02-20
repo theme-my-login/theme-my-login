@@ -334,13 +334,19 @@ class Theme_My_Login_Form_Field {
 	 * @return string The field content.
 	 */
 	public function get_content() {
+		if ( is_callable( $this->content ) ) {
+			$content = call_user_func_array( $this->content, array( $this ) );
+		} else {
+			$content = $this->content;
+		}
+
 		/**
 		 * Filters the form field content.
 		 *
 		 * @param string                    $content The field content.
 		 * @param Theme_My_Login_Form_Field $field   The field object.
 		 */
-		return apply_filters( 'tml_get_form_field_content', $this->content, $this );
+		return apply_filters( 'tml_get_form_field_content', $content, $this );
 	}
 
 	/**
@@ -348,7 +354,7 @@ class Theme_My_Login_Form_Field {
 	 *
 	 * @since 7.0
 	 *
-	 * @param string $content The field content.
+	 * @param string $content The field content or a callable function to generate it.
 	 */
 	public function set_content( $content = '' ) {
 		$this->content = $content;
