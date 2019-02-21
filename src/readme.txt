@@ -2,8 +2,8 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
-Tested up to: 5.0.2
-Stable tag: 7.0.12
+Tested up to: 5.1
+Stable tag: 7.0.13
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -29,12 +29,12 @@ Ever wished that your WordPress login page matched the rest of your site? Your w
 
 Boost your user experience even more with add-on plugins from our [extensions catalog](https://thememylogin.com/extensions). Some of our extensions include:
 
-* [Moderation](https://thememylogin.com/extensions/moderation) allows you to moderate your users by requiring them to confirm their email or by requiring admin approval.
-* [Notifications](https://thememylogin.com/extensions/notification) allows you to send customized notification for many different actions that take place within your site.
-* [Profiles](https://thememylogin.com/extensions/profiles) lets your users edit their profile from the frontend of your site.
-* [reCAPTCHA](https://thememylogin.com/extensions/recaptcha) enables Google reCAPTCHA support for your registration and login forms.
 * [Redirection](https://thememylogin.com/extensions/redirection) allows you to redirect your users on login, logout and registration based on their role.
-* [Security](https://thememylogin.com/extensions/security) empowers you to secure you website and your users by offering brute-force protection via login throttling by IP address.
+* [Restrictions](https://thememylogin.com/extensions/restrictions) allows you to restrict posts/pages, widgets and nav menu items based on a users login status and/or role.
+* [Profiles](https://thememylogin.com/extensions/profiles) lets your users edit their profile from the frontend of your site.
+* [Moderation](https://thememylogin.com/extensions/moderation) allows you to moderate your users by requiring them to confirm their email or by requiring admin approval.
+* [reCAPTCHA](https://thememylogin.com/extensions/recaptcha) enables Google reCAPTCHA support for your registration and login forms.
+* [Social](https://thememylogin.com/extensions/social) allows you to allow your users to log in to your site using their favorite social providers.
 
 == Installation ==
 
@@ -58,6 +58,22 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.13 =
+* Ensure proper retrieval of request parameters in all server configuration scenarios
+* Ensure scripts and styles are loaded in the proper order on TML actions
+* Ensure TML scripts are loaded in the footer
+* Ensure password errors are only displayed where appropriate
+* Ensure all strings not found in frontend core translation are translatable
+* Implement callable usage of custom form field content
+* Implement methods for manipulation of form field classes
+* Add `tml_render_form` action hook
+* Add `tml_render_form_field` action hook
+* Add `tml_before_form` filter
+* Add `tml_after_form` filter
+* Add `tml_before_form_field` filter
+* Add `tml_after_form_field` filter
+* Add `tml_get_form_field_content` filter
 
 = 7.0.12 =
 * Ensure that styles are more likely to be applied
