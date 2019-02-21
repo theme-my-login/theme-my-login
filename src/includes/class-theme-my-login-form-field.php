@@ -368,28 +368,6 @@ class Theme_My_Login_Form_Field {
 	}
 
 	/**
-	 * Get the wrap flag.
-	 *
-	 * @since 7.0
-	 *
-	 * @return bool The wrap flag.
-	 */
-	public function get_wrap() {
-		return $this->wrap;
-	}
-
-	/**
-	 * Set the wrap flag.
-	 *
-	 * @since 7.0
-	 *
-	 * @param bool $wrap Whether to wrap the field or not.
-	 */
-	public function set_wrap( $wrap = true ) {
-		$this->wrap = (bool) $wrap;
-	}
-
-	/**
 	 * Get the field options.
 	 *
 	 * @since 7.0
