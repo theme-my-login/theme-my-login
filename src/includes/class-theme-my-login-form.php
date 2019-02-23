@@ -90,8 +90,9 @@ class Theme_My_Login_Form {
 		$this->set_name( $name );
 
 		$args = wp_parse_args( $args, array(
-			'action' => '',
-			'method' => 'post',
+			'action'     => '',
+			'method'     => 'post',
+			'attributes' => array(),
 		) );
 
 		$this->set_action( $args['action'] );
@@ -107,6 +108,10 @@ class Theme_My_Login_Form {
 					'url'  => $action->get_url(),
 				) );
 			}
+		}
+
+		foreach ( (array) $args['attributes'] as $key => $value ) {
+			$this->add_attribute( $key, $value );
 		}
 
 		if ( ! empty( $args['render_args'] ) ) {
