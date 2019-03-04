@@ -40,7 +40,7 @@ function tml_retrieve_password() {
 	}
 
 	if ( ! $user_data ) {
-		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: Invalid username or email.' ) );
+		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: Invalid username or email.', 'theme-my-login' ) );
 		return $errors;
 	}
 
