@@ -458,7 +458,9 @@ function tml_admin_setting_callback_license_key_field( $args ) {
 function tml_admin_settings_page() {
 	global $title, $plugin_page;
 
-	tml_flush_rewrite_rules();
+	if ( 'theme-my-login' == $plugin_page ) {
+		tml_flush_rewrite_rules();
+	}
 
 	settings_errors();
 ?>
