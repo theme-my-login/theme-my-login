@@ -68,7 +68,7 @@ function tml_admin_register_settings() {
 
 				// Add the field
 				if ( ! empty( $field['callback'] ) && ! empty( $field['title'] ) ) {
-					add_settings_field( $field_id, $field['title'], $field['callback'], $page, $section_id, $field['args'] );
+					add_settings_field( $field_id, $field['title'], $field['callback'], $page, $section_id, isset( $field['args'] ) ? $field['args'] : array() );
 				}
 
 				// Register the setting
