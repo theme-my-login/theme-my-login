@@ -77,6 +77,10 @@ if ( is_multisite() ) {
 	require THEME_MY_LOGIN_PATH . 'includes/ms-hooks.php';
 }
 
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	require THEME_MY_LOGIN_PATH . 'includes/commands.php';
+}
+
 /**
  * Load custom functions file.
  */
