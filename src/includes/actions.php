@@ -433,6 +433,10 @@ function tml_login_handler() {
 		$errors = new WP_Error;
 	}
 
+	if ( empty( $_POST ) && $errors->get_error_codes() === array( 'empty_username', 'empty_password' ) ) {
+		$errors = new WP_Error;
+	}
+
 	// Some parts of this script use the main login form to display a message
 	if ( isset( $_GET['loggedout'] ) && true == $_GET['loggedout'] ) {
 		$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
