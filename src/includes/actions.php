@@ -387,7 +387,7 @@ function tml_login_handler() {
 		if ( headers_sent() ) {
 			$user = new WP_Error( 'test_cookie', sprintf(
 					__( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
-					__( 'https://codex.wordpress.org/Cookies' ),
+					__( 'https://wordpress.org/support/article/cookies' ),
 					__( 'https://wordpress.org/support/' )
 				)
 			);
@@ -395,7 +395,7 @@ function tml_login_handler() {
 			// If cookies are disabled we can't log in even with a valid user+pass
 			$user = new WP_Error( 'test_cookie', sprintf(
 					__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
-					__( 'https://codex.wordpress.org/Cookies' )
+					__( 'https://wordpress.org/support/article/cookies#enable-cookies-your-browser' )
 				)
 			);
 		}
