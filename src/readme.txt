@@ -2,8 +2,8 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
-Tested up to: 5.1
-Stable tag: 7.0.13
+Tested up to: 5.2.1
+Stable tag: 7.0.14
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -58,6 +58,17 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.14 =
+* Fix login page error on on WP 5.2+
+* Implement caching for remote extension data to speed up plugins screen
+* Implement a CLI command for adding TML actions as nav menu items
+* Ensure password recovery error messages match core
+* Fix notice if a settings field isn't passed with an `args` parameter
+* Fix permalinks being flushed on all TML admin pages
+* Allow form attributes to be set in the form constructor
+* Add `tml_activate_extension` action hook
+* Add `tml_deactivate_extension` action hook
 
 = 7.0.13 =
 * Ensure proper retrieval of request parameters in all server configuration scenarios
