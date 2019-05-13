@@ -399,6 +399,15 @@ abstract class Theme_My_Login_Extension {
 	 */
 	public function activate() {
 		/**
+		 * Fires when an extension is being activated.
+		 *
+		 * @since 7.0.14
+		 *
+		 * @param string $name The extension name.
+		 */
+		do_action( 'tml_activate_extension', $this->get_name() );
+
+		/**
 		 * Fires when the extension is being activated.
 		 *
 		 * @since 7.0
@@ -412,6 +421,15 @@ abstract class Theme_My_Login_Extension {
 	 * @since 7.0
 	 */
 	public function deactivate() {
+		/**
+		 * Fires when the extension is being deactivated.
+		 *
+		 * @since 7.0.14
+		 *
+		 * @param string $slug The extension name.
+		 */
+		do_action( 'tml_deactivate_extension', $this->get_name() );
+
 		/**
 		 * Fires when the extension is being deactivated.
 		 *

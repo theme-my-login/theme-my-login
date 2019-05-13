@@ -109,11 +109,9 @@ function tml_add_extension_data_to_plugins_api( $result = false, $action = '', $
 		return $result;
 	}
 
-	if ( $result = tml_extension_api_call( $extension->get_store_url(), array(
-		'license' => $extension->get_license_key(),
-		'item_id' => $extension->get_item_id(),
-		'slug'    => $extension->get_name(),
-	) ) ) {
+	$extension_data = tml_get_extension_data();
+	if ( isset( $extension_data[ $extension->get_name() ] ) ) {
+		$result = $extension_data[ $extension->get_name() ];
 		if ( ! empty( $result->new_version ) ) {
 			$result->version = $result->new_version;
 		}
@@ -135,31 +133,29 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 		$transient = (object) array();
 	}
 
+	$extension_data = tml_get_extension_data();
+
 	foreach ( tml_get_extensions() as $extension ) {
-		$response = tml_extension_api_call( $extension->get_store_url(), array(
-			'license' => $extension->get_license_key(),
-			'item_id' => $extension->get_item_id(),
-			'slug'    => $extension->get_name(),
-		) );
-
-		if ( is_object( $response ) ) {
-			$basename = $extension->get_basename();
-
-			if ( empty( $response->plugin ) ) {
-				$response->plugin = $basename;
-			}
-
-			// This is a valid update
-			if ( ! empty( $response->new_version ) && version_compare( $extension->get_version(), $response->new_version, '<' ) ) {
-				$transient->response[ $basename ] = $response;
-
-			// This is just fetching the plugin information
-			} else {
-				$transient->no_update[ $basename ] = $response;
-			}
-
-			$transient->last_checked = time();
+		if ( ! isset( $extension_data[ $extension->get_name() ] ) ) {
+			continue;
 		}
+
+		$data = $extension_data[ $extension->get_name() ];
+
+		if ( empty( $data->plugin ) ) {
+			$data->plugin = $extension->get_basename();
+		}
+
+		// This is a valid update
+		if ( ! empty( $data->new_version ) && version_compare( $extension->get_version(), $data->new_version, '<' ) ) {
+			$transient->response[ $data->plugin ] = $data;
+
+		// This is just fetching the plugin information
+		} else {
+			$transient->no_update[ $data->plugin ] = $data;
+		}
+
+		$transient->last_checked = time();
 	}
 
 	return $transient;
@@ -333,4 +329,34 @@ function tml_extension_api_call( $url, $args = array() ) {
 	}
 
 	return $response;
+}
+
+/**
+ * Get all extension data.
+ *
+ * @since 7.0.14
+ *
+ * @return array An array of objects containing extension data.
+ */
+function tml_get_extension_data( $refresh = false ) {
+	$extension_data = get_site_transient( 'tml_extension_data' );
+	if ( ! is_array( $extension_data ) ) {
+		$extension_data = array();
+	}
+
+	if ( empty( $extension_data ) || $refresh ) {
+		foreach ( tml_get_extensions() as $extension ) {
+			$data = tml_extension_api_call( $extension->get_store_url(), array(
+				'license' => $extension->get_license_key(),
+				'item_id' => $extension->get_item_id(),
+				'slug'    => $extension->get_name(),
+			) );
+			if ( $data ) {
+				$extension_data[ $extension->get_name() ] = $data;
+			}
+		}
+		set_site_transient( 'tml_extension_data', $extension_data, DAY_IN_SECONDS / 2 );
+	}
+
+	return $extension_data;
 }
