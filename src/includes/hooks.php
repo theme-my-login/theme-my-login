@@ -54,11 +54,9 @@ add_action( 'retrieved_password_key', 'tml_retrieve_password_notification', 10, 
 
 // Activation
 add_action( 'tml_activate', 'tml_flush_rewrite_rules' );
-add_action( 'tml_activate_extension', 'tml_get_extension_data' );
 
 // Deactivation
 add_action( 'tml_deactivate', 'tml_flush_rewrite_rules' );
-add_action( 'tml_deactivate_extension', 'tml_get_extension_data' );
 
 /**
  * Add Filters
