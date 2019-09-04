@@ -19,7 +19,7 @@ abstract class Theme_My_Login_Extension {
 	 *
 	 * @var string
 	 */
-	protected $name = 'theme-my-login-extension';
+	protected $name = 'tml-extension';
 
 	/**
 	 * The extension title.
@@ -180,7 +180,7 @@ abstract class Theme_My_Login_Extension {
 		if ( isset( $this->slug ) ) {
 			return $this->slug;
 		}
-		return str_replace( 'theme-my-login-', '', $this->name );
+		return str_replace( array( 'theme-my-login-', 'tml-' ), '', $this->name );
 	}
 
 	/**
