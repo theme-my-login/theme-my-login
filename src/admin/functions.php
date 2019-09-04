@@ -30,10 +30,10 @@ function tml_admin_is_plugin_page( $page = '' ) {
 	global $plugin_page;
 
 	if ( ! empty( $page ) ) {
-		return ( "theme-my-login-$page" == $plugin_page );
+		return ( "theme-my-login-$page" == $plugin_page ) || ( "tml-$page" == $plugin_page );
 	}
 
-	return ( strpos( $plugin_page, 'theme-my-login' ) === 0 );
+	return ( strpos( $plugin_page, 'theme-my-login' ) === 0 ) || ( strpos( $plugin_page, 'tml-' ) === 0 );
 }
 
 /**
