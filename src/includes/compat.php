@@ -68,7 +68,7 @@ function tml_retrieve_password() {
  * @since 7.0
  *
  * @param WP_User $user The user object.
- * @param string $key   The password reset key.
+ * @param string  $key  The password reset key.
  */
 function tml_retrieve_password_notification( $user, $key ) {
 	if ( is_multisite() ) {

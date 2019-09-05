@@ -283,12 +283,10 @@ function tml_register_password_reset_form() {
  *
  * @since 7.0
  *
- * @param string|Theme_My_Login_Form $form The form name or object.
- * @param array                      $args {
- *     Optional. An array of arguments for registering a form.
+ * @see Theme_My_Login::register_form()
  *
- *     @type bool $show_links Whether to show links to other actions or not.
- * }
+ * @param string|Theme_My_Login_Form $form The form name or object.
+ * @param array                      $args Optional. An array of arguments for registering a form.
  * @return Theme_My_Login_Form The form object.
  */
 function tml_register_form( $form, $args = array() ) {
@@ -362,11 +360,11 @@ function tml_form_exists( $form ) {
  *
  * @since 7.0
  *
+ * @see Theme_My_Login_Form::add_field()
+ *
  * @param string|Theme_My_Login_Form       $form  The form name or object.
  * @param string|Theme_My_Login_Form_Field $field The field name or object.
- * @param array {
- *     Optional. An array of arguments for registering a form field.
- * }
+ * @param array                            $args  Optional. An array of arguments for registering a form field.
  * @return Theme_My_Login_Form_Field The field object.
  */
 function tml_add_form_field( $form, $field, $args = array() ) {
@@ -387,7 +385,7 @@ function tml_add_form_field( $form, $field, $args = array() ) {
  *
  * @since 7.0
  *
- * @param string|Theme_My_Login_Form $form The form name or object.
+ * @param string|Theme_My_Login_Form       $form  The form name or object.
  * @param string|Theme_My_Login_Form_Field $field The field name or object.
  */
 function tml_remove_form_field( $form, $field ) {

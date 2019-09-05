@@ -228,7 +228,7 @@ function tml_body_class( $classes ) {
 }
 
 /**
- * Enqueue TML's styles.
+ * Enqueue styles for TML.
  *
  * @since 7.0
  */
@@ -239,7 +239,7 @@ function tml_enqueue_styles() {
 }
 
 /**
- * Enqueue TML's scripts.
+ * Enqueue scripts for TML.
  *
  * @since 7.0
  *
@@ -284,7 +284,7 @@ function tml_enqueue_scripts() {
 }
 
 /**
- * Do the login_head action hook.
+ * Do the `login_head` action hook.
  *
  * @since 7.0.13
  */
@@ -301,7 +301,7 @@ function tml_do_login_head() {
 }
 
 /**
- * Add TML's rewrite tags.
+ * Add rewrite tags for TML.
  *
  * @since 7.0
  */
@@ -310,7 +310,7 @@ function tml_add_rewrite_tags() {
 }
 
 /**
- * Add TML's rewrite rules.
+ * Add rewrite rules for TML.
  *
  * @since 7.0
  */
@@ -337,9 +337,12 @@ function tml_flush_rewrite_rules() {
 }
 
 /**
- * Filter the result of get_site_url().
+ * Filter the site URL.
  *
  * @since 7.0
+ *
+ * @see site_url()
+ * @see network_site_url()
  *
  * @param string $url    The URL.
  * @param string $path   The path.
@@ -430,9 +433,11 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 }
 
 /**
- * Filter the result of wp_logout_url().
+ * Filter the logout URL.
  *
  * @since 7.0
+ *
+ * @see wp_logout_url()
  *
  * @param string $url      The URL.
  * @param string $redirect The redirect.
@@ -460,9 +465,11 @@ function tml_filter_logout_url( $url, $redirect ) {
 }
 
 /**
- * Filter the result of wp_lostpassword_url().
+ * Filter the lost password URL.
  *
  * @since 7.0.11
+ *
+ * @see wp_lostpassword_url()
  *
  * @param string $url      The URL.
  * @param string $redirect The redirect.
@@ -487,9 +494,11 @@ function tml_filter_lostpassword_url( $url, $redirect ) {
 }
 
 /**
- * Filter the result of get_edit_post_link().
+ * Filter the post edit link.
  *
  * @since 7.0
+ *
+ * @see get_edit_post_link()
  *
  * @param string $link    The edit post link.
  * @param int    $post_id The post ID.
@@ -647,7 +656,7 @@ function tml_nav_menu_css_class( $classes, $item ) {
 }
 
 /**
- * Validate a new user's password.
+ * Validate the password of a new user.
  *
  * @since 7.0
  *
@@ -792,7 +801,7 @@ function tml_enforce_login_type( $user, $username, $password ) {
 }
 
 /**
- * Set the new user password.
+ * Set the password of a new user.
  *
  * @since 7.0
  *
@@ -940,7 +949,6 @@ function tml_has_errors() {
 	if ( ! $form = tml_get_form() ) {
 		return false;
 	}
-
 	return $form->has_errors();
 }
 

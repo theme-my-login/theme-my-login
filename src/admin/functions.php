@@ -43,14 +43,14 @@ function tml_admin_is_plugin_page( $page = '' ) {
  *
  * @see Theme_My_Login_Admin::add_menu_item()
  *
- * @param array|Theme_My_Login_Extension $args
+ * @param array $args An array of arguments for adding an admin page.
  */
 function tml_admin_add_menu_item( $args = array() ) {
 	theme_my_login_admin()->add_menu_item( $args );
 }
 
 /**
- * Register the admin menus.
+ * Register the admin pages.
  *
  * @since 7.0
  */
@@ -61,10 +61,8 @@ function tml_admin_add_menu_items() {
 		return;
 	}
 
-	$tml_admin = theme_my_login_admin();
-
 	// Add the main menu item
-	$tml_admin->add_menu_item( array(
+	tml_admin_add_menu_item( array(
 		'page_title'  => esc_html__( 'Theme My Login Settings', 'theme-my-login' ),
 		'menu_title'  => esc_html__( 'Theme My Login',          'theme-my-login' ),
 		'menu_slug'   => 'theme-my-login',
@@ -75,7 +73,7 @@ function tml_admin_add_menu_items() {
 	) );
 
 	// Add the submenu item
-	$tml_admin->add_menu_item( array(
+	tml_admin_add_menu_item( array(
 		'page_title'  => esc_html__( 'Theme My Login Settings', 'theme-my-login' ),
 		'menu_title'  => esc_html__( 'General',                 'theme-my-login' ),
 		'menu_slug'   => 'theme-my-login',
@@ -88,7 +86,7 @@ function tml_admin_add_menu_items() {
 	foreach ( tml_get_extensions() as $extension ) {
 		$args = $extension->get_settings_page_args();
 		if ( ! empty( $args ) ) {
-			$tml_admin->add_menu_item( $args );
+			tml_admin_add_menu_item( $args );
 		}
 		if ( $extension->get_license_key_option() ) {
 			$has_licenses = true;
@@ -97,7 +95,7 @@ function tml_admin_add_menu_items() {
 
 	if ( $has_licenses ) {
 		// Add the licenses menu item
-		$tml_admin->add_menu_item( array(
+		tml_admin_add_menu_item( array(
 			'page_title'  => esc_html__( 'Theme My Login Licenses', 'theme-my-login' ),
 			'menu_title'  => esc_html__( 'Licenses',                'theme-my-login' ),
 			'menu_slug'   => 'theme-my-login-licenses',
@@ -107,7 +105,7 @@ function tml_admin_add_menu_items() {
 	}
 
 	// Add the extensions menu item
-	$tml_admin->add_menu_item( array(
+	tml_admin_add_menu_item( array(
 		'page_title'  => esc_html__( 'Theme My Login Extensions', 'theme-my-login' ),
 		'menu_title'  => esc_html__( 'Extensions',                'theme-my-login' ),
 		'menu_slug'   => 'theme-my-login-extensions',
@@ -125,6 +123,7 @@ function tml_admin_enqueue_style_and_scripts() {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 	wp_enqueue_style( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/styles/theme-my-login-admin$suffix.css", array(), THEME_MY_LOGIN_VERSION );
+
 	wp_enqueue_script( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/scripts/theme-my-login-admin$suffix.js", array( 'jquery', 'postbox' ), THEME_MY_LOGIN_VERSION );
 	wp_localize_script( 'theme-my-login-admin', 'tmlAdmin', array(
 		'interimLoginUrl' => site_url( add_query_arg( array(
@@ -345,7 +344,6 @@ function tml_admin_filter_edit_nav_menu_walker( $walker )  {
  * @return array The plugin action links.
  */
 function tml_admin_filter_plugin_action_links( $actions, $file, $data, $context ) {
-
 	if ( 'theme-my-login/theme-my-login.php' == $file ) {
 		$actions['settings'] = sprintf( '<a href="%1$s">%2$s</a>',
 			admin_url( 'admin.php?page=theme-my-login' ),
@@ -356,6 +354,5 @@ function tml_admin_filter_plugin_action_links( $actions, $file, $data, $context 
 			__( 'Extensions', 'theme-my-login' )
 		);
 	}
-
 	return $actions;
 }

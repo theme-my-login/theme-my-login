@@ -15,7 +15,7 @@
 function tml_admin_register_settings() {
 
 	$settings = array(
-		'theme-my-login' =>array(
+		'theme-my-login' => array(
 			'sections' => tml_admin_get_settings_sections(),
 			'fields'   => tml_admin_get_settings_fields(),
 		),
@@ -86,6 +86,13 @@ function tml_admin_register_settings() {
  * @return array The settings sections.
  */
 function tml_admin_get_settings_sections() {
+	/**
+	 * Filters the settings sections.
+	 *
+	 * @since 7.0
+	 *
+	 * @param array $sections The settings sections.
+	 */
 	return (array) apply_filters( 'tml_admin_get_settings_sections', array(
 		'tml_settings_login' => array(
 			'title'    => __( 'Log In' ),
@@ -224,9 +231,19 @@ function tml_admin_setting_callback_slugs_section() {
 }
 
 /**
- * Render a text setting field.
+ * Render an input setting field.
  *
  * @since 7.0
+ *
+ * @param array $args {
+ *     Optional. An array of arguments for rendering an input.
+ *
+ *     @type string $label_for   The input name/ID.
+ *     @type string $value       The input value.
+ *     @type string $description A short description of the input.
+ *     @type string $input_type  The type of input. Default is "text".
+ *     @type string $input_class The input class. Default is "regular-text".
+ * }
  */
 function tml_admin_setting_callback_input_field( $args ) {
 	$args = wp_parse_args( $args, array(
@@ -251,6 +268,16 @@ function tml_admin_setting_callback_input_field( $args ) {
  * Render a checkbox setting field.
  *
  * @since 7.0
+ *
+ * @param array $args {
+ *     Optional. An array of arguments for rendering a checkbox.
+ *
+ *     @type string $label_for   The checkbox name/ID.
+ *     @type stirng $label       The checkbox label text.
+ *     @type string $value       The checkbox value.
+ *     @type bool   $checked     Whether the checkbox is checked or not.
+ *     @type string $description A short description of the checkbox.
+ * }
  */
 function tml_admin_setting_callback_checkbox_field( $args ) {
 	$args = wp_parse_args( $args, array(
@@ -272,12 +299,16 @@ function tml_admin_setting_callback_checkbox_field( $args ) {
 }
 
 /**
- * Render a radio group setting field.
+ * Render a checkbox group setting field.
  *
  * @since 7.0
  *
  * @param array $args {
- *     Optional. An array of arguments.
+ *     Optional. An array of arguments for rendering a checkbox group.
+ *
+ *     @type string $legend      The legend text.
+ *     @type array  $options     An array of options for the checkbox group.
+ *     @type string $description A short description of the checkbox group.
  * }
  */
 function tml_admin_setting_callback_checkbox_group_field( $args ) {
@@ -317,7 +348,12 @@ function tml_admin_setting_callback_checkbox_group_field( $args ) {
  * @since 7.0
  *
  * @param array $args {
- *     Optional. An array of arguments.
+ *     Optional. An array of arguments for rendering a dropdown.
+ *
+ *     @type string $label_for   The dropdown name/ID.
+ *     @type array  $options     An array of options for the dropdown.
+ *     @type string $selected    The value of the selected option.
+ *     @type string $description A short description of the dropdown.
  * }
  */
 function tml_admin_setting_callback_dropdown_field( $args ) {
@@ -356,7 +392,13 @@ function tml_admin_setting_callback_dropdown_field( $args ) {
  * @since 7.0
  *
  * @param array $args {
- *     Optional. An array of arguments.
+ *     Optional. An array of arguments for rendering a radio group.
+ *
+ *     @type string $label_for   The radio button name/ID.
+ *     @type string $legend      The legend text.
+ *     @type array  $options     An array of options for the radio group.
+ *     @type string $checked     The value of the checked option.
+ *     @type string $description A short description of the radio group.
  * }
  */
 function tml_admin_setting_callback_radio_group_field( $args ) {
@@ -399,6 +441,9 @@ function tml_admin_setting_callback_radio_group_field( $args ) {
  *
  * @param array $args {
  *     Optional. An array of arguments.
+ *
+ *     @type string                          $label_for The key field name/ID.
+ *     @type string|Theme_My_Login_Extention $extension The extension name or object.
  * }
  */
 function tml_admin_setting_callback_license_key_field( $args ) {

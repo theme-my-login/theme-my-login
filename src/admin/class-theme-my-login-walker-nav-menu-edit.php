@@ -1,7 +1,7 @@
 <?php
 
 /**
- * TML Restrictions Nav Menu Edit Walker
+ * Theme My Login Nav Menu Edit Walker
  *
  * @package Theme_My_Login_Restrictions
  * @subpackage Walker

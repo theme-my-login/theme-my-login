@@ -81,8 +81,9 @@ class Theme_My_Login_Form {
 	 * @param array  $args {
 	 *     Optional. An array of arguments.
 	 *
-	 *     @type string $action The form action. Default empty.
-	 *     @type string $method The form method. Default 'post'.
+	 *     @type string $action     The form action. Default empty.
+	 *     @type string $method     The form method. Default 'post'.
+	 *     @type array  $attributes The form attributes. Default empty array.
 	 * }
 	 */
 	public function __construct( $name, $args = array() ) {
@@ -535,6 +536,7 @@ class Theme_My_Login_Form {
 	 *     @type string $container_id    The form container ID.
 	 *     @type string $before          The content to render before the form.
 	 *     @type string $after           The content to render after the form.
+	 *     @type bool   $show_links      Whether to show the links or not.
 	 * }
 	 * @return string The form markup.
 	 */

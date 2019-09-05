@@ -422,7 +422,7 @@ abstract class Theme_My_Login_Extension {
 	 */
 	public function deactivate() {
 		/**
-		 * Fires when the extension is being deactivated.
+		 * Fires when an extension is being deactivated.
 		 *
 		 * @since 7.0.14
 		 *

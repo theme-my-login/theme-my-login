@@ -47,7 +47,7 @@ final class Theme_My_Login_Admin {
 	 *
 	 * @since 7.0
 	 *
-	 * @param array|Theme_My_Login_Extension $args {
+	 * @param array $args {
 	 *     Optional. An array of arguments for adding an admin page.
 	 *
 	 *     @param string   $page_title  Required. The page title.
@@ -100,7 +100,7 @@ final class Theme_My_Login_Admin {
 	}
 
 	/**
-	 * Determine if a speficic plugin page is a TML page.
+	 * Determine if a specific admin page has been added.
 	 *
 	 * @since 7.0
 	 *

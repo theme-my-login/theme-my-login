@@ -85,14 +85,14 @@ class Theme_My_Login_Form_Field {
 	protected $classes = array();
 
 	/**
-	 * The field's parent form.
+	 * The parent form of the field.
 	 *
 	 * @var Theme_My_Login_Form
 	 */
 	protected $form;
 
 	/**
-	 * The field's priority within the form.
+	 * The priority of the field within the form.
 	 *
 	 * @var int
 	 */
@@ -396,22 +396,22 @@ class Theme_My_Login_Form_Field {
 	}
 
 	/**
-	 * Get the field's parent form.
+	 * Get the parent form of the field.
 	 *
 	 * @since 7.0
 	 *
-	 * @return Theme_My_Login_Form The field's parent form.
+	 * @return Theme_My_Login_Form The parent form of the field.
 	 */
 	public function get_form() {
 		return $this->form;
 	}
 
 	/**
-	 * Set the field's parent form.
+	 * Set the parent form of the field.
 	 *
 	 * @since 7.0
 	 *
-	 * @param Theme_My_Login_Form $form The field's parent form.
+	 * @param Theme_My_Login_Form $form The parent form of the field.
 	 */
 	public function set_form( Theme_My_Login_Form $form ) {
 		$this->form = $form;
@@ -422,7 +422,7 @@ class Theme_My_Login_Form_Field {
 	 *
 	 * @since 7.0
 	 *
-	 * @param string $key The attribute key.
+	 * @param string $key   The attribute key.
 	 * @param string $value The attribute value.
 	 */
 	public function add_attribute( $key, $value = null ) {
@@ -521,7 +521,7 @@ class Theme_My_Login_Form_Field {
 	}
 
 	/**
-	 * Set the priority.
+	 * Set the priority of the field.
 	 *
 	 * @since 7.0
 	 *
@@ -532,7 +532,7 @@ class Theme_My_Login_Form_Field {
 	}
 
 	/**
-	 * Get the priority.
+	 * Get the priority of the field.
 	 *
 	 * @since 7.0
 	 *

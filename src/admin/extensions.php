@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Theme MY Login Extensions Admin
+ * Theme My Login Extensions Admin
  *
  * @package Theme_My_Login
  * @subpackage Administration
@@ -48,7 +48,6 @@ function tml_admin_get_extensions_feed( $args = array() ) {
 
 		set_site_transient( $transient_key, $feed, DAY_IN_SECONDS / 2 );
 	}
-
 	return $feed;
 }
 
@@ -104,7 +103,6 @@ function tml_admin_extensions_page() {
 	<div class="tml-view-all-extensions-wrap">
 		<a class="tml-view-all-extensions-link" href="<?php echo THEME_MY_LOGIN_EXTENSIONS_URL; ?>"><?php esc_html_e( 'View All Extensions', 'theme-my-login' ); ?></a>
 	</div>
-
 </div>
 
 <?php

@@ -13,7 +13,7 @@
  * @since 7.0
  *
  * @param string|Theme_My_Login_Extension $extension The extension name or object.
- * @param array                        $args {
+ * @param array                           $args {
  *     Optional. An array of arguments for registering an extension.
  * }
  * @return Theme_My_Login_Extension The extension object.
@@ -82,7 +82,7 @@ function tml_extension_exists( $extension ) {
 	 *
 	 * @since 7.0
 	 *
-	 * @param bool   $exists Whether the extension exists or not.
+	 * @param bool   $exists    Whether the extension exists or not.
 	 * @param string $extension The extension name.
 	 */
 	return apply_filters( 'tml_extension_exists', $exists, $extension );
@@ -254,7 +254,7 @@ function tml_deactivate_extension_license( $extension ) {
 }
 
 /**
- * Check an extenstion's license status.
+ * Check the status of an extension license.
  *
  * @since 7.0.8
  *
@@ -282,7 +282,7 @@ function tml_check_extension_license( $extension ) {
 }
 
 /**
- * Make an API call to an extension's store.
+ * Make an API call the store of an extension.
  *
  * @since 7.0
  *
@@ -294,7 +294,7 @@ function tml_check_extension_license( $extension ) {
  *     @param string $license    The extension license key.
  *     @param int    $item_id    The extension item ID.
  *     @param string $slug       The extension slug.
- *     @param string $url
+ *     @param string $url        The client WP URL.
  *     @param bool   $beta       Whether to include beta versions or not.
  * }
  * @return object|false The response object or false on failure.

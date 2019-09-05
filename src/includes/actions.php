@@ -80,10 +80,10 @@ function tml_register_default_actions() {
  *
  * @since 7.0
  *
+ * @see Theme_My_Login::register_action()
+ *
  * @param string|Theme_My_Login_Action $action The action name or object.
- * @param array                        $args {
- *     Optional. An array of arguments for registering an action.
- * }
+ * @param array                        $args   Optional. An array of arguments for registering an action.
  * @return Theme_My_Login_Action The action object.
  */
 function tml_register_action( $action, $args = array() ) {
@@ -322,7 +322,7 @@ function tml_action_handler() {
 
 	// Add the testcookie field to the login form
 	tml_add_form_field( 'login', 'testcookie', array(
-		'type'     => 'hidden'	,
+		'type'     => 'hidden',
 		'value'    => 1,
 		'priority' => 30,
 	) );
@@ -400,7 +400,7 @@ function tml_login_handler() {
 			);
 		}
 	}
-
+	/** This filter is documented in wp-login.php */
 	$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
 
 	if ( ! is_wp_error( $user ) && ! $reauth ) {
@@ -464,6 +464,7 @@ function tml_login_handler() {
 		$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
 	}
 
+	/** This filter is documented in wp-login.php */
 	$errors = apply_filters( 'wp_login_errors', $errors, $redirect_to );
 
 	tml_set_errors( $errors );
@@ -494,7 +495,9 @@ function tml_logout_handler() {
 		$requested_redirect_to = '';
 	}
 
+	/** This filter is documented in wp-login.php */
 	$redirect_to = apply_filters( 'logout_redirect', $redirect_to, $requested_redirect_to, $user );
+
 	wp_safe_redirect( $redirect_to );
 	exit;
 }
@@ -507,7 +510,10 @@ function tml_logout_handler() {
 function tml_registration_handler() {
 
 	if ( is_multisite() ) {
-		wp_redirect( apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) ) );
+		/** This filter is documented in wp-login.php */
+		$signup_location = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
+
+		wp_redirect( $signup_location );
 		exit;
 	}
 
@@ -611,6 +617,7 @@ function tml_password_reset_handler() {
 		$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
 	}
 
+	/** This action is documented in wp-login.php */
 	do_action( 'validate_password_reset', $errors, $user );
 
 	if ( ( ! $errors->get_error_code() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {

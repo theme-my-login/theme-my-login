@@ -304,7 +304,7 @@ final class Theme_My_Login {
 	 *
 	 * @since 7.0
 	 *
-	 * @param string $name The property name.
+	 * @param string $name    The property name.
 	 * @param mixed  $default The value to return if the property is not set.
 	 * @return mixed The property value or $default if not set.
 	 */
