@@ -2,8 +2,8 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 4.6
-Tested up to: 5.2.1
-Stable tag: 7.0.14
+Tested up to: 5.2.4
+Stable tag: 7.0.15
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
@@ -58,6 +58,11 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.0.15 =
+* Fix extension update issues caused by caching
+* Add `tml_script_dependencies` filter
+* Add `tml_script_data` filter
 
 = 7.0.14 =
 * Fix login page error on on WP 5.2+
