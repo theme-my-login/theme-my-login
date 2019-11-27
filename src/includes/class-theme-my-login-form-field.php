@@ -657,7 +657,7 @@ class Theme_My_Login_Form_Field {
 						$option .= ' checked="checked"';
 					}
 					$option .= '>' . "\n";
-					$option .= '<label class="tml-label" for="' . $id . '">' . esc_html( $label ) . "</label>\n";
+					$option .= '<label class="tml-label" for="' . $id . '">' . $label . "</label>\n";
 
 					$options[] = $option;
 				}
