@@ -377,7 +377,7 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 		parse_str( $parsed_url['query'], $query );
 
 		// Encode the query args
-		$query = array_map( 'rawurlencode', $query );
+		$query = tml_array_map_recursive( 'rawurlencode', $query );
 	}
 
 	/**
@@ -1039,4 +1039,24 @@ function tml_is_get_request() {
  */
 function tml_is_post_request() {
 	return 'POST' === strtoupper( $_SERVER['REQUEST_METHOD'] );
+}
+
+/**
+ * Map a user defined callback to an array recursively.
+ *
+ * @since 7.0.16
+ *
+ * @param string $callback The name of the callback.
+ * @param array  $array    The array to be mapped.
+ * @return array The resulting array.
+ */
+function tml_array_map_recursive( $callback, $array ) {
+	foreach ( $array as $key => $value ) {
+		if ( is_array( $value ) ) {
+			$array[ $key ] = tml_array_map_recursive( $callback, $value );
+		} else {
+			$array[ $key ] = call_user_func( $callback, $value );
+		}
+	}
+	return $array;
 }
