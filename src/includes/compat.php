@@ -154,3 +154,31 @@ function tml_retrieve_password_notification( $user, $key ) {
 		wp_die( __( 'The email could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function.' ) );
 	}
 }
+
+/**
+ * Retrieve a user locale.
+ *
+ * @todo Require WP 4.7
+ *
+ * @param int|WP_User $user_id The user ID or object.
+ * @return string The locale of the user.
+ */
+if ( ! function_exists( 'get_user_locale' ) ) :
+	function get_user_locale( $user_id = 0 ) {
+		$user = false;
+		if ( 0 === $user_id && function_exists( 'wp_get_current_user' ) ) {
+			$user = wp_get_current_user();
+		} elseif ( $user_id instanceof WP_User ) {
+			$user = $user_id;
+		} elseif ( $user_id && is_numeric( $user_id ) ) {
+			$user = get_user_by( 'id', $user_id );
+		}
+
+		if ( ! $user ) {
+			return get_locale();
+		}
+
+		$locale = $user->locale;
+		return $locale ? $locale : get_locale();
+	}
+endif;
