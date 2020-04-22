@@ -46,6 +46,3 @@ add_action( 'admin_head-nav-menus.php', 'tml_admin_add_nav_menu_meta_box', 10 );
 
 // General
 add_filter( 'plugin_action_links', 'tml_admin_filter_plugin_action_links', 10, 4 );
-
-// Nav menus
-add_filter( 'wp_edit_nav_menu_walker',  'tml_admin_filter_edit_nav_menu_walker', 99 );
