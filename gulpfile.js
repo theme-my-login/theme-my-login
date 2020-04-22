@@ -1,30 +1,38 @@
 var gulp = require('gulp'),
-	sass = require('gulp-sass'),
-	clean = require('gulp-clean'),
-	concat = require('gulp-concat'),
-	rename = require('gulp-rename'),
-	uglify = require('gulp-uglify'),
-	cleanCSS = require('gulp-clean-css'),
-	imagemin = require('gulp-imagemin'),
-	runSequence = require('run-sequence'),
-	autoprefixer = require('gulp-autoprefixer');
+	gulpSass = require('gulp-sass'),
+	gulpClean = require('gulp-clean'),
+	gulpConcat = require('gulp-concat'),
+	gulpRename = require('gulp-rename'),
+	gulpUglify = require('gulp-uglify'),
+	gulpCleanCSS = require('gulp-clean-css'),
+	gulpImagemin = require('gulp-imagemin'),
+	gulpAutoprefixer = require('gulp-autoprefixer');
+
+// Clean
+function clean() {
+	return gulp.src('build', {
+		allowEmpty: true,
+		read: false
+	})
+	.pipe(gulpClean());
+}
 
 // Copy
-gulp.task('copy', function() {
+function copy() {
 	return gulp.src([
 		'src/**',
 		'!src/assets/**/*',
 		'!src/admin/assets/**/*'
 	])
 	.pipe(gulp.dest('build'));
-});
+}
 
 // Styles
-gulp.task('styles', function() {
+function styles() {
 	return gulp.src([
 		'src/assets/styles/**/*.scss'
 	])
-	.pipe(sass({
+	.pipe(gulpSass({
 		includePaths: [
 			'node_modules'
 		],
@@ -32,21 +40,21 @@ gulp.task('styles', function() {
 		indentWidth: 1,
 		outputStyle: 'expanded'
 	}))
-	.pipe(autoprefixer())
+	.pipe(gulpAutoprefixer())
 	.pipe(gulp.dest('build/assets/styles'))
-	.pipe(cleanCSS())
-	.pipe(rename({
+	.pipe(gulpCleanCSS())
+	.pipe(gulpRename({
 		extname: '.min.css'
 	}))
 	.pipe(gulp.dest('build/assets/styles'));
-});
+}
 
 // Admin styles
-gulp.task('admin-styles', function() {
+function adminStyles() {
 	return gulp.src([
 		'src/admin/assets/styles/**/*.scss'
 	])
-	.pipe(sass({
+	.pipe(gulpSass({
 		includePaths: [
 			'node_modules'
 		],
@@ -54,93 +62,95 @@ gulp.task('admin-styles', function() {
 		indentWidth: 1,
 		outputStyle: 'expanded'
 	}))
-	.pipe(autoprefixer())
+	.pipe(gulpAutoprefixer())
 	.pipe(gulp.dest('build/admin/assets/styles'))
-	.pipe(cleanCSS())
-	.pipe(rename({
+	.pipe(gulpCleanCSS())
+	.pipe(gulpRename({
 		extname: '.min.css'
 	}))
 	.pipe(gulp.dest('build/admin/assets/styles'));
-});
+}
 
 // Scripts
-gulp.task('scripts', function() {
+function scripts() {
 	return gulp.src([
 		'src/assets/scripts/*.js'
 	])
-	.pipe(concat('theme-my-login.js'))
+	.pipe(gulpConcat('theme-my-login.js'))
 	.pipe(gulp.dest('build/assets/scripts'))
-	.pipe(uglify())
-	.pipe(rename({
+	.pipe(gulpUglify())
+	.pipe(gulpRename({
 		extname: '.min.js'
 	}))
 	.pipe(gulp.dest('build/assets/scripts'));
-});
+}
 
 // Admin scripts
-gulp.task('admin-scripts', function() {
+function adminScripts() {
 	return gulp.src([
 		'src/admin/assets/scripts/*.js'
 	])
-	.pipe(concat('theme-my-login-admin.js'))
+	.pipe(gulpConcat('theme-my-login-admin.js'))
 	.pipe(gulp.dest('build/admin/assets/scripts'))
-	.pipe(uglify())
-	.pipe(rename({
+	.pipe(gulpUglify())
+	.pipe(gulpRename({
 		extname: '.min.js'
 	}))
 	.pipe(gulp.dest('build/admin/assets/scripts'));
-});
+}
 
 // Images
-gulp.task('images', function() {
+function images() {
 	return gulp.src([
 		'src/assets/images/**/*'
 	])
-	.pipe(imagemin([
-		imagemin.gifsicle({interlaced: true}),
-		imagemin.jpegtran({progressive: true}),
-		imagemin.svgo({
+	.pipe(gulpImagemin([
+		gulpImagemin.gifsicle({interlaced: true}),
+		gulpImagemin.mozjpeg({quality: 75, progressive: true}),
+		gulpImagemin.optipng({optimizationLevel: 5}),
+		gulpImagemin.svgo({
 			plugins: [
 				{removeViewBox: true},
-				{cleanupIDs: false},
+				{cleanupIDs: false}
 			]
 		})
 	]))
 	.pipe(gulp.dest('build/assets/images'));
-});
+}
 
 // Admin images
-gulp.task('admin-images', function() {
+function adminImages() {
 	return gulp.src([
 		'src/admin/assets/images/**/*'
 	])
-	.pipe(imagemin([
-		imagemin.gifsicle({interlaced: true}),
-		imagemin.jpegtran({progressive: true}),
-		imagemin.svgo({
+	.pipe(gulpImagemin([
+		gulpImagemin.gifsicle({interlaced: true}),
+		gulpImagemin.mozjpeg({quality: 75, progressive: true}),
+		gulpImagemin.optipng({optimizationLevel: 5}),
+		gulpImagemin.svgo({
 			plugins: [
 				{removeViewBox: true},
-				{cleanupIDs: false},
+				{cleanupIDs: false}
 			]
 		})
 	]))
 	.pipe(gulp.dest('build/admin/assets/images'));
-});
+}
 
 // Watch
-gulp.task('watch', function() {
+exports.watch = function() {
 	// Assets
-	gulp.watch('src/assets/styles/**/*.scss', ['styles']);
-	gulp.watch('src/assets/scripts/*.js', ['scripts']);
-	gulp.watch('src/assets/images/**/*', ['images']);
+	gulp.watch('src/assets/styles/**/*.scss', {usePolling: true}, styles);
+	gulp.watch('src/assets/scripts/*.js', {usePolling: true}, scripts);
+	gulp.watch('src/assets/images/**/*', {usePolling: true}, images);
 
 	// Admin assets
-	gulp.watch('src/admin/assets/styles/**/*.scss', ['admin-styles']);
-	gulp.watch('src/admin/assets/scripts/*.js', ['admin-scripts']);
-	gulp.watch('src/admin/assets/images/**/*', ['admin-images']);
+	gulp.watch('src/admin/assets/styles/**/*.scss', {usePolling: true}, adminStyles);
+	gulp.watch('src/admin/assets/scripts/*.js', {usePolling: true}, adminScripts);
+	gulp.watch('src/admin/assets/images/**/*', {usePolling: true}, adminImages);
 
 	// All other files
-	gulp.watch(['src/**/*', '!src/assets/**/*', '!src/admin/assets/**/*'], function(obj) {
+	gulp.watch(['src/**/*', '!src/assets/**/*', '!src/admin/assets/**/*'], {usePolling: true}, function(obj) {
 		if (obj.type === 'changed') {
 			return gulp.src(obj.path, {
 				base: 'src/',
@@ -148,24 +158,12 @@ gulp.task('watch', function() {
 			.pipe(gulp.dest('build'));
 		}
 	});
-});
+}
 
-// Clean
-gulp.task('clean', function() {
-	return gulp.src('build', {
-		read: false
-	})
-	.pipe(clean());
-});
-
-// Build
-gulp.task('build', function(callback) {
-	runSequence('clean', 'copy',
-		['styles', 'scripts', 'images'],
-		['admin-styles', 'admin-scripts', 'admin-images'],
-		callback
-	);
-});
-
-// Default
-gulp.task('default', ['build']);
+// Default (Build)
+exports.default = gulp.series(
+	clean,
+	copy,
+	gulp.parallel(styles, scripts, images),
+	gulp.parallel(adminStyles, adminScripts, adminImages)
+);
