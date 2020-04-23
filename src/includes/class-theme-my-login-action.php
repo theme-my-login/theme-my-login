@@ -43,6 +43,13 @@ class Theme_My_Login_Action {
 	protected $callback;
 
 	/**
+	 * The AJAX action handler.
+	 *
+	 * @var callable
+	 */
+	protected $ajax_callback;
+
+	/**
 	 * Whether this action is a network action or not.
 	 *
 	 * @var bool
@@ -96,6 +103,7 @@ class Theme_My_Login_Action {
 	 *     @type string      $title                 The action title.
 	 *     @type string      $slug                  The action slug.
 	 *     @type callable    $callback              The action callback to fire when accessed.
+	 *     @type callable    $ajax_callback         The action callback to fire when accessed via AJAX.
 	 *     @type bool|string $show_on_forms         Whether a link to the action should be shown on forms or not.
 	 *     @type bool        $show_in_widget        Whether this action should be selectable in the widget or not.
 	 *     @type bool        $show_in_nav_menus     Whether this action should be available for use in nav menus or not.
@@ -111,6 +119,7 @@ class Theme_My_Login_Action {
 			'title'                 => '',
 			'slug'                  => '',
 			'callback'              => '',
+			'ajax_callback'         => '',
 			'network'               => false,
 			'show_on_forms'         => true,
 			'show_in_widget'        => true,
@@ -125,6 +134,7 @@ class Theme_My_Login_Action {
 		$this->set_title( $args['title'] );
 		$this->set_slug( $args['slug'] );
 		$this->set_callback( $args['callback'] );
+		$this->set_ajax_callback( $args['ajax_callback'] );
 
 		$this->network               = (bool) $args['network'];
 		$this->show_on_forms         = $args['show_on_forms'];
@@ -227,6 +237,50 @@ class Theme_My_Login_Action {
 	public function remove_callback_hook() {
 		if ( $callback = $this->get_callback() ) {
 			remove_action( 'tml_action_' . $this->get_name(), $callback, 15 );
+		}
+	}
+
+	/**
+	 * Get the action AJAX callback.
+	 *
+	 * @since 7.1
+	 *
+	 * @return callable The action AJAX callback.
+	 */
+	public function get_ajax_callback() {
+		return $this->ajax_callback;
+	}
+
+	/**
+	 * Set the action AJAX callback.
+	 *
+	 * @since 7.1
+	 *
+	 * @param callable $ajax_callback The action callback.
+	 */
+	public function set_ajax_callback( $ajax_callback ) {
+		$this->ajax_callback = $ajax_callback;
+	}
+
+	/**
+	 * Adds the AJAX callback to the proper hook.
+	 *
+	 * @since 7.1
+	 */
+	public function add_ajax_callback_hook() {
+		if ( $ajax_callback = $this->get_ajax_callback() ) {
+			add_action( 'tml_action_ajax_' . $this->get_name(), $ajax_callback, 15 );
+		}
+	}
+
+	/**
+	 * Removes the AJAX callback from the proper hook.
+	 *
+	 * @since 7.1
+	 */
+	public function remove_ajax_callback_hook() {
+		if ( $ajax_callback = $this->get_ajax_callback() ) {
+			remove_action( 'tml_action_ajax_' . $this->get_name(), $ajax_callback, 15 );
 		}
 	}
 

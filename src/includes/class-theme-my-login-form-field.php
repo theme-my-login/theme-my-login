@@ -689,6 +689,13 @@ class Theme_My_Login_Form_Field {
 				$output .= $args['control_after'];
 				break;
 
+			case 'button' :
+			case 'submit' :
+				$output .= $args['control_before'];
+				$output .= '<button name="' . $this->get_name() . '" type="' . $this->get_type() . '"' . $attributes . '>' . $this->get_value() . "</button>\n";
+				$output .= $args['control_after'];
+				break;
+
 			default :
 				$output .= $label;
 				$output .= $error;

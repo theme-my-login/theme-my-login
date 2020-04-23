@@ -31,7 +31,10 @@ function tml_register_default_forms() {
 function tml_register_login_form() {
 
 	tml_register_form( 'login', array(
-		'action' => tml_get_action_url( 'login' ),
+		'action'     => tml_get_action_url( 'login' ),
+		'attributes' => array(
+			'data-ajax' => 1,
+		),
 	) );
 
 	tml_add_form_field( 'login', 'log', array(
@@ -94,6 +97,7 @@ function tml_register_registration_form() {
 		'action'     => tml_get_action_url( 'register' ),
 		'attributes' => array(
 			'novalidate' => 'novalidate',
+			'data-ajax' => 1,
 		),
 	) );
 
@@ -194,7 +198,10 @@ function tml_register_registration_form() {
 function tml_register_lost_password_form() {
 
 	tml_register_form( 'lostpassword', array(
-		'action' => tml_get_action_url( 'lostpassword' ),
+		'action'     => tml_get_action_url( 'lostpassword' ),
+		'attributes' => array(
+			'data-ajax' => 1,
+		),
 	) );
 
 	tml_add_form_field( 'lostpassword', 'user_login', array(

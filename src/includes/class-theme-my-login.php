@@ -76,6 +76,7 @@ final class Theme_My_Login {
 		$this->actions[ $action->get_name() ] = $action;
 
 		$action->add_callback_hook();
+		$action->add_ajax_callback_hook();
 
 		/**
 		 * Fires after registering an action.

@@ -1051,6 +1051,78 @@ function tml_is_post_request() {
 }
 
 /**
+ * Determine if the current request is an AJAX request.
+ *
+ * @since 7.1
+ *
+ * @return bool
+ */
+function tml_is_ajax_request() {
+	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+		return false;
+	} elseif ( 'xmlhttprequest' != strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+/**
+ * Send an AJAX success response.
+ *
+ * @since 7.1
+ *
+ * @param mixed $data Data to send with the response.
+ */
+function tml_send_ajax_success( $data = null ) {
+	/**
+	 * Filters the AJAX success data.
+	 *
+	 * @since 7.1
+	 *
+	 * @param mixed $data The AJAX success data.
+	 */
+	$data = apply_filters( 'tml_ajax_success_data', $data );
+
+	wp_send_json_success( $data );
+}
+
+/**
+ * Send an AJAX error response.
+ *
+ * @since 7.1
+ *
+ * @param mixed $data Data to send with the response.
+ */
+function tml_send_ajax_error( $data = null ) {
+	/**
+	 * Filters the AJAX error data.
+	 *
+	 * @since 7.1
+	 *
+	 * @param mixed $data The AJAX error data.
+	 */
+	$data = apply_filters( 'tml_ajax_error_data', $data );
+
+	wp_send_json_error( $data );
+}
+
+/**
+ * Validate a URL for redirection.
+ *
+ * @since 7.1
+ *
+ * @param string $url The URL to validate.
+ * @return string The validated URL.
+ */
+function tml_validate_redirect( $url ) {
+	return wp_validate_redirect( wp_sanitize_redirect( $url ),
+		/** This filter is documented in wp-includes/pluggable.php */
+		apply_filters( 'wp_safe_redirect_fallback', admin_url(), 302 )
+	);
+}
+
+/**
  * Map a user defined callback to an array recursively.
  *
  * @since 7.0.16

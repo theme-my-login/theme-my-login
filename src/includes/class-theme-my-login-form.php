@@ -586,7 +586,7 @@ class Theme_My_Login_Form {
 		 */
 		$output = apply_filters( 'tml_before_form', $output, $this->name, $this );
 
-		$output .= $this->render_errors();
+		$output .= '<div class="tml-alerts">' . $this->render_errors() . '</div>';
 
 		$output .= '<form name="' . esc_attr( $this->get_name() ) . '" action="' . esc_url( $this->get_action() ) . '" method="' . esc_attr( $this->get_method() ) . '"';
 		foreach ( $this->get_attributes() as $key => $value ) {
