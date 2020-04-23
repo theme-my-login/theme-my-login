@@ -14,6 +14,15 @@
  */
 function tml_register_default_actions() {
 
+	// Dashboard
+	tml_register_action( 'dashboard', array(
+		'title'              => __( 'Dashboard' ),
+		'slug'               => 'dashboard',
+		'callback'           => 'tml_dashboard_handler',
+		'show_on_forms'      => false,
+		'show_nav_menu_item' => is_user_logged_in(),
+	) );
+
 	// Login
 	tml_register_action( 'login', array(
 		'title'              => __( 'Log In' ),
@@ -342,11 +351,28 @@ function tml_action_handler() {
 }
 
 /**
+ * Handle the 'dashboard' action.
+ *
+ * @since 7.1
+ */
+function tml_dashboard_handler() {
+	if ( ! is_user_logged_in() ) {
+		wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
+		exit;
+	}
+}
+
+/**
  * Handle the 'login' action.
  *
  * @since 7.0
  */
 function tml_login_handler() {
+
+	if ( is_user_logged_in() ) {
+		wp_redirect( tml_get_action_url( 'dashboard' ) );
+		exit;
+	}
 
 	$errors = new WP_Error;
 
@@ -415,7 +441,7 @@ function tml_login_handler() {
 				$redirect_to = get_dashboard_url( $user->ID );
 
 			} elseif ( ! $user->has_cap( 'edit_posts' ) ) {
-				$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
+				$redirect_to = tml_get_action_url( 'dashboard' );
 			}
 
 			wp_redirect( $redirect_to );
@@ -516,7 +542,10 @@ function tml_logout_handler() {
  */
 function tml_registration_handler() {
 
-	if ( is_multisite() ) {
+	if ( is_user_logged_in() ) {
+		wp_redirect( tml_get_action_url( 'dashboard' ) );
+		exit;
+	} elseif ( is_multisite() ) {
 		/** This filter is documented in wp-login.php */
 		$signup_location = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
 

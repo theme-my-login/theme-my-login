@@ -61,6 +61,45 @@ function tml_shortcode( $atts = array() ) {
 
 	} elseif ( 'confirmaction' == $action->get_name() && isset( $_GET['request_id'] ) ) {
 		$content = _wp_privacy_account_request_confirmed_message( $_GET['request_id'] );
+
+	} elseif ( 'dashboard' == $action->get_name() ) {
+		$content = '<div class="tml-dashboard">';
+
+		$content .= '<div class="tml-dashboard-avatar">' . get_avatar( get_current_user_id() ) . '</div>';
+
+		$content .= '<p class="tml-dashboard-greeting">' . sprintf( __( 'Howdy, %s' ), wp_get_current_user()->display_name ) . '</p>';
+
+		/**
+		 * Filter the dashboard links.
+		 *
+		 * @since 7.1
+		 *
+		 * @param array $links The dashboard links.
+		 */
+		$links = apply_filters( 'tml_dashboard_links', array_filter( array(
+			'site_admin' => current_user_can( 'edit_posts' ) ? array(
+				'title'  => __( 'Site Admin' ),
+				'url'    => admin_url(),
+			) : false,
+			'profile'    => array(
+				'title'  => __( 'Edit My Profile' ),
+				'url'    => admin_url( 'profile.php' ),
+			),
+			'logout'     => array(
+				'title'  => __( 'Log Out' ),
+				'url'    => wp_logout_url(),
+			),
+		) ) );
+
+		if ( ! empty( $links ) ) {
+			$content .= '<ul class="tml-dashboard-links">';
+			foreach ( $links as $link ) {
+				$content .= '<li><a href="' . esc_url( $link['url'] ) . '">' . esc_html( $link['title'] ) . '</a></li>';
+			}
+			$content .= '</ul>';
+		}
+
+		$content .= '</div>';
 	}
 
 	/**

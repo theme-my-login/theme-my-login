@@ -83,20 +83,24 @@ class Theme_My_Login_Widget extends WP_Widget {
 			 *
 			 * @param array $user_links The links shown in the widget when logged in.
 			 */
-			$user_links = apply_filters( 'tml_widget_user_links', array(
-				'dashboard' => array(
-					'title' => __( 'Dashboard' ),
-					'url'   => admin_url(),
+			$user_links = apply_filters( 'tml_widget_user_links', array_filter( array(
+				'site_admin' => current_user_can( 'edit_posts' ) ? array(
+					'title'  => __( 'Site Admin' ),
+					'url'    => admin_url(),
+				) : false,
+				'dashboard'  => array(
+					'title'  => __( 'Dashboard' ),
+					'url'    => tml_get_action_url( 'dashboard' ),
 				),
-				'profile'   => array(
-					'title' => __( 'Profile', 'theme-my-login' ),
-					'url'   => admin_url( 'profile.php' ),
+				'profile'    => array(
+					'title'  => __( 'Edit My Profile' ),
+					'url'    => admin_url( 'profile.php' ),
 				),
-				'logout'    => array(
-					'title' => __( 'Log Out' ),
-					'url'   => wp_logout_url(),
+				'logout'     => array(
+					'title'  => __( 'Log Out' ),
+					'url'    => wp_logout_url(),
 				),
-			) );
+			) ) );
 			?>
 
 			<div class="tml tml-user-panel">
