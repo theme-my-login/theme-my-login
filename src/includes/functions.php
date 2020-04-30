@@ -296,6 +296,9 @@ function tml_do_login_head() {
 	// This is already attached to "wp_head"
 	remove_action( 'login_head', 'wp_print_head_scripts', 9 );
 
+	// Don't index TML actions
+	add_action( 'login_head', 'wp_sensitive_page_meta' );
+
 	/** This action is documented in wp-login.php */
 	do_action( 'login_head' );
 }
