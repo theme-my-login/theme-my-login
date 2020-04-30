@@ -572,6 +572,9 @@ function tml_lost_password_handler() {
 			tml_add_error( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.' ) );
 		}
 	}
+
+	/** This filter is documented in wp-login.php */
+	do_action( 'lost_password', $errors );
 }
 
 /**
