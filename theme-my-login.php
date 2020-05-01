@@ -19,8 +19,8 @@ Text Domain: theme-my-login
 Network: true
 */
 
-if ( ! file_exists( dirname( __FILE__ ) . '/build/theme-my-login.php' ) || defined( 'TML_LOAD_SOURCE' ) ) {
-	include dirname( __FILE__ ) . '/src/theme-my-login.php';
+if ( ! file_exists( __DIR__ . '/build/theme-my-login.php' ) || defined( 'TML_LOAD_SOURCE' ) ) {
+	include __DIR__ . '/src/theme-my-login.php';
 } else {
-	include dirname( __FILE__ ) . '/build/theme-my-login.php';
+	include __DIR__ . '/build/theme-my-login.php';
 }

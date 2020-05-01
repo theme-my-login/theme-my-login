@@ -18,29 +18,30 @@
  * @return True on success, WP_Error on error.
  */
 function tml_retrieve_password() {
-	$errors = new WP_Error();
+	$errors    = new WP_Error();
+	$user_data = false;
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
-		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.' ) );
+		$errors->add( 'empty_username', __( '<strong>Error</strong>: Enter a username or email address.' ) );
 	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) ) {
-			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
+			$errors->add( 'invalid_email', __( '<strong>Error</strong>: There is no account with that username or email address.' ) );
 		}
 	} else {
-		$login     = trim( $_POST['user_login'] );
+		$login     = trim( wp_unslash( $_POST['user_login'] ) );
 		$user_data = get_user_by( 'login', $login );
 	}
 
 	/** This action is documented in wp-login.php */
-	do_action( 'lostpassword_post', $errors );
+	do_action( 'lostpassword_post', $errors, $user_data );
 
 	if ( $errors->get_error_code() ) {
 		return $errors;
 	}
 
 	if ( ! $user_data ) {
-		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
+		$errors->add( 'invalidcombo', __( '<strong>Error</strong>: There is no account with that username or email address.' ) );
 		return $errors;
 	}
 
@@ -151,7 +152,10 @@ function tml_retrieve_password_notification( $user, $key ) {
 		$retrieve_password_email['message'],
 		$retrieve_password_email['headers']
 	) ) {
-		wp_die( __( 'The email could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function.' ) );
+		wp_die( sprintf(
+			__( '<strong>Error</strong>: The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
+			esc_url( __( 'https://wordpress.org/support/article/resetting-your-password/' ) )
+		) );
 	}
 }
 

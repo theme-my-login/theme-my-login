@@ -354,7 +354,7 @@ function tml_login_handler() {
 
 	// If the user wants ssl but the session is not ssl, force a secure cookie.
 	if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
-		$user_name = sanitize_user( $_POST['log'] );
+		$user_name = sanitize_user( wp_unslash( $_POST['log'] ) );
 		$user      = get_user_by( 'login', $user_name );
 
 		if ( ! $user && strpos( $user_name, '@' ) ) {
@@ -386,15 +386,15 @@ function tml_login_handler() {
 	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 		if ( headers_sent() ) {
 			$user = new WP_Error( 'test_cookie', sprintf(
-					__( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
-					__( 'https://wordpress.org/support/article/cookies' ),
-					__( 'https://wordpress.org/support/' )
+					__( '<strong>Error</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
+					__( 'https://wordpress.org/support/article/cookies/' ),
+					__( 'https://wordpress.org/support/forums/' )
 				)
 			);
 		} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
 			// If cookies are disabled we can't log in even with a valid user+pass
 			$user = new WP_Error( 'test_cookie', sprintf(
-					__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
+					__( '<strong>Error</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
 					__( 'https://wordpress.org/support/article/cookies#enable-cookies-your-browser' )
 				)
 			);
@@ -405,7 +405,7 @@ function tml_login_handler() {
 
 	if ( ! is_wp_error( $user ) && ! $reauth ) {
 
-		if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
+		if ( ( empty( $redirect_to ) || 'wp-admin/' == $redirect_to || admin_url() == $redirect_to ) ) {
 
 			// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
 			if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) ) {
@@ -489,9 +489,16 @@ function tml_logout_handler() {
 	wp_logout();
 
 	if ( ! empty( $_REQUEST['redirect_to'] ) ) {
-		$redirect_to = $requested_redirect_to = $_REQUEST['redirect_to'];
+		$redirect_to           = $_REQUEST['redirect_to'];
+		$requested_redirect_to = $redirect_to;
 	} else {
-		$redirect_to = site_url( 'wp-login.php?loggedout=true' );
+		$redirect_to           = add_query_arg(
+			array(
+				'loggedout' => 'true',
+				'wp_lang'   => get_user_locale( $user ),
+			),
+			wp_login_url()
+		);
 		$requested_redirect_to = '';
 	}
 
@@ -523,8 +530,8 @@ function tml_registration_handler() {
 	}
 
 	if ( tml_is_post_request() ) {
-		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
-		$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
+		$user_login = tml_get_request_value( 'user_login', 'post' );
+		$user_email = tml_get_request_value( 'user_email', 'post' );
 		$user_id = register_new_user( $user_login, $user_email );
 		if ( ! is_wp_error( $user_id ) ) {
 			$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url( 'wp-login.php?checkemail=registered' );
@@ -574,7 +581,7 @@ function tml_lost_password_handler() {
 	}
 
 	/** This filter is documented in wp-login.php */
-	do_action( 'lost_password', $errors );
+	do_action( 'lost_password', tml_get_errors() );
 }
 
 /**

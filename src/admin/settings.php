@@ -549,7 +549,7 @@ function tml_admin_save_ms_settings() {
 	$whitelist_options = apply_filters( 'whitelist_options', array() );
 
 	if ( ! isset( $whitelist_options[ $option_page ] ) ) {
-		wp_die( __( '<strong>ERROR</strong>: options page not found.' ) );
+		wp_die( __( '<strong>Error</strong>: Options page not found.' ) );
 	}
 
 	foreach ( $whitelist_options[ $option_page ] as $option ) {
