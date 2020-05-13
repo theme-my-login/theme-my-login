@@ -150,13 +150,12 @@ exports.watch = function() {
 	gulp.watch('src/admin/assets/images/**/*', {usePolling: true}, adminImages);
 
 	// All other files
-	gulp.watch(['src/**/*', '!src/assets/**/*', '!src/admin/assets/**/*'], {usePolling: true}, function(obj) {
-		if (obj.type === 'changed') {
-			return gulp.src(obj.path, {
-				base: 'src/',
-			})
-			.pipe(gulp.dest('build'));
-		}
+	gulp.watch(['src/**/*', '!src/assets/**/*', '!src/admin/assets/**/*']).on('change', function(path) {
+		console.log(`Copying '${path}'`);
+		return gulp.src(path, {
+			base: 'src/'
+		})
+		.pipe(gulp.dest('build'));
 	});
 }
 
