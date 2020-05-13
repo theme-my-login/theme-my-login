@@ -193,27 +193,29 @@ function tml_activate_extension_license( $extension ) {
 		switch ( $response->error ) {
 			case 'expired' :
 				$message = sprintf(
-					__( 'Your license key expired on %s.', 'theme_my_login' ),
+					__( 'Your license key expired on %s.', 'theme-my-login' ),
 					date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
 				);
 				break;
 
-			case 'revoked' :
+			case 'disabled' :
 				$message = __( 'Your license key has been disabled.', 'theme-my-login' );
 				break;
 
 			case 'missing' :
+			case 'missing_url' :
+			case 'key_mismatch' :
+			case 'invalid_item_id' :
 			case 'item_name_mismatch' :
 				$message = __( 'Invalid license.', 'theme-my-login' );
 				break;
 
-			case 'invalid' :
-			case 'site_inactive' :
-				$message = __( 'Your license is not active for this URL.', 'theme-my-login' );
+			case 'no_activations_left' :
+				$message = __( 'Your license key has reached its activation limit.', 'theme-my-login' );
 				break;
 
-			case 'no_activations_left':
-				$message = __( 'Your license key has reached its activation limit.', 'theme-my-login' );
+			case 'license_not_activable' :
+				$message = __( 'You are attempting to activate a bundle license. Please use the license that corresponds to the individual extension you are attemtping to activate.', 'theme-my-login' );
 				break;
 
 			default :
@@ -248,6 +250,13 @@ function tml_deactivate_extension_license( $extension ) {
 
 	if ( empty( $response ) ) {
 		return new WP_Error( 'http_error', __( 'An error occurred, please try again.', 'theme-my-login' ) );
+	}
+
+	if ( false === $response->success ) {
+		return new WP_Error( 'deactivation_failed', sprintf(
+			__( 'Unable to deactivate license. Please deactivate it on <a href="%1$s" target="_blank">our site</a>.', 'theme-my-login' ),
+			'https://thememylogin.com/your-account/?action=license-keys'
+		) );
 	}
 
 	return $response->license;

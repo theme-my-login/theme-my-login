@@ -40,6 +40,10 @@ add_action( 'admin_init', 'tml_admin_update' );
 // Nav menus
 add_action( 'admin_head-nav-menus.php', 'tml_admin_add_nav_menu_meta_box', 10 );
 
+// AJAX
+add_action( 'wp_ajax_tml-activate-extension-license',   'tml_admin_ajax_activate_extension_license' );
+add_action( 'wp_ajax_tml-deactivate-extension-license', 'tml_admin_ajax_deactivate_extension_license' );
+
 /**
  * Add filters
  */

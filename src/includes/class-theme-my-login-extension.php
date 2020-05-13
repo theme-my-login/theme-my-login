@@ -327,6 +327,17 @@ abstract class Theme_My_Login_Extension {
 	}
 
 	/**
+	 * Set the license key for the extension.
+	 *
+	 * @since 7.1
+	 *
+	 * @param string $key The license key.
+	 */
+	public function set_license_key( $key = '' ) {
+		update_site_option( $this->license_key_option, $key );
+	}
+
+	/**
 	 * Get the name of the license status option for the extension.
 	 *
 	 * @since 7.0

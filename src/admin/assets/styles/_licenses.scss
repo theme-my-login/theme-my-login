@@ -1,0 +1,26 @@
+#tml-settings {
+	input[type="text"] {
+		&.tml-license-valid {
+			background-color: #b5e1b9;
+			border-color: #46b450;
+		}
+		&.tml-license-invalid {
+			background-color: #f1adad;
+			border-color: #dc3232;
+		}
+	}
+
+	p {
+		&.tml-license-valid {
+			color: #46b450;
+		}
+		&.tml-license-invalid {
+			color: #dc3232;
+		}
+	}
+
+	.spinner {
+		float: none;
+		margin-top: 0;
+	}
+}

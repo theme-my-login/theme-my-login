@@ -154,6 +154,53 @@ function tml_admin_handle_extension_licenses() {
 }
 
 /**
+ * Handle AJAX activation of extension licenses.
+ *
+ * @since 7.1
+ */
+function tml_admin_ajax_activate_extension_license() {
+	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
+		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
+	}
+
+	$extension->set_license_key( tml_get_request_value( 'key', 'post' ) );
+
+	$response = tml_activate_extension_license( $extension );
+
+	if ( is_wp_error( $response ) ) {
+		$extension->set_license_key();
+		$extension->set_license_status();
+
+		tml_send_ajax_error( $response->get_error_message() );
+	}
+
+	$extension->set_license_status( $response );
+
+	tml_send_ajax_success( __( 'Active', 'theme-my-login' ) );
+}
+
+/**
+ * Handle AJAX deactivation of extension licenses.
+ *
+ * @since 7.1
+ */
+function tml_admin_ajax_deactivate_extension_license() {
+	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
+		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
+	}
+
+	$response = tml_deactivate_extension_license( $extension );
+
+	if ( is_wp_error( $response ) ) {
+		tml_send_ajax_error( $response->get_error_message() );
+	}
+
+	$extension->set_license_status();
+
+	tml_send_ajax_success( __( 'Inactive', 'theme-my-login' ) );
+}
+
+/**
  * Check that all of the licenses are valid.
  *
  * @since 7.0.8

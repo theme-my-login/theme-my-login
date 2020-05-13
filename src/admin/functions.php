@@ -126,6 +126,7 @@ function tml_admin_enqueue_style_and_scripts() {
 
 	wp_enqueue_script( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/scripts/theme-my-login-admin$suffix.js", array( 'jquery', 'postbox' ), THEME_MY_LOGIN_VERSION );
 	wp_localize_script( 'theme-my-login-admin', 'tmlAdmin', array(
+		'ajaxUrl'         => admin_url( 'admin-ajax.php' ),
 		'interimLoginUrl' => site_url( add_query_arg( array(
 			'interim-login' => 1,
 			'wp_lang'       => get_user_locale(),
