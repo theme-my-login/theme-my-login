@@ -479,6 +479,12 @@ function tml_filter_logout_url( $url, $redirect ) {
  * @return string The lostpassword URL.
  */
 function tml_filter_lostpassword_url( $url, $redirect ) {
+	global $pagenow;
+
+	// Bail if currently visiting wp-login.php
+	if ( 'wp-login.php' == $pagenow ) {
+		return $url;
+	}
 
 	// Bail if logout action doesn't exist for some reason
 	if ( ! tml_action_exists( 'lostpassword' ) ) {
