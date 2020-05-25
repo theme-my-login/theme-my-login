@@ -396,11 +396,6 @@ function tml_dashboard_handler() {
  */
 function tml_login_handler() {
 
-	if ( is_user_logged_in() ) {
-		wp_redirect( tml_get_action_url( 'dashboard' ) );
-		exit;
-	}
-
 	$errors = new WP_Error;
 
 	$secure_cookie = '';
@@ -468,7 +463,11 @@ function tml_login_handler() {
 				$redirect_to = get_dashboard_url( $user->ID );
 
 			} elseif ( ! $user->has_cap( 'edit_posts' ) ) {
-				$redirect_to = tml_get_action_url( 'dashboard' );
+				if ( tml_action_exists( 'dashboard' ) ) {
+					$redirect_to = tml_get_action_url( 'dashboard' );
+				} else {
+					$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
+				}
 			}
 
 			if ( tml_is_ajax_request() ) {
@@ -587,10 +586,7 @@ function tml_logout_handler() {
  */
 function tml_registration_handler() {
 
-	if ( is_user_logged_in() ) {
-		wp_redirect( tml_get_action_url( 'dashboard' ) );
-		exit;
-	} elseif ( is_multisite() ) {
+	if ( is_multisite() ) {
 		/** This filter is documented in wp-login.php */
 		$signup_location = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
 
