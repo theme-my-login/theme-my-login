@@ -271,11 +271,26 @@ function tml_action_has_page( $action = '' ) {
 		return false;
 	}
 
-	if ( ! $page = get_page_by_path( tml_get_action_slug( $action ) ) ) {
-		return false;
+	$pages = wp_cache_get( 'tml_pages' );
+	if ( false === $pages ) {
+		$pages = get_posts( [
+			'post_name__in'          => array_map( 'tml_get_action_slug', tml_get_actions() ),
+			'post_type'              => 'page',
+			'nopaging'               => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+		] );
+
+		if ( ! empty( $pages ) ) {
+			wp_cache_set( 'tml_pages', $pages );
+		}
 	}
 
-	return $page;
+	if ( $pages = wp_list_filter( $pages, [ 'post_name' => $action->get_slug() ] ) ) {
+		return reset( $pages );
+	}
+
+	return false;
 }
 
 /**
