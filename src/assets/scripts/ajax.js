@@ -35,6 +35,11 @@
 			} else {
 				notices.hide().html( response.data.errors ).fadeIn();
 			}
+		} )
+		.fail( function( jqXHR, textStatus, errorThrown ) {
+			if ( jqXHR.responseJSON.data.errors ) {
+				notices.hide().html( jqXHR.responseJSON.data.errors ).fadeIn();
+			}
 		} );
 	} );
 } )( jQuery );
