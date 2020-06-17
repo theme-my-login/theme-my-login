@@ -32,9 +32,9 @@ function tml_register_login_form() {
 
 	tml_register_form( 'login', array(
 		'action'     => tml_get_action_url( 'login' ),
-		'attributes' => array(
-			'data-ajax' => 1,
-		),
+		'attributes' => array_filter( array(
+			'data-ajax' => tml_use_ajax() ? 1 : 0,
+		) ),
 	) );
 
 	tml_add_form_field( 'login', 'log', array(
@@ -95,10 +95,10 @@ function tml_register_registration_form() {
 
 	tml_register_form( 'register', array(
 		'action'     => tml_get_action_url( 'register' ),
-		'attributes' => array(
+		'attributes' => array_filter( array(
 			'novalidate' => 'novalidate',
-			'data-ajax' => 1,
-		),
+			'data-ajax' => tml_use_ajax() ? 1 : 0,
+		) ),
 	) );
 
 	if ( tml_is_default_registration_type() ) {
@@ -199,9 +199,9 @@ function tml_register_lost_password_form() {
 
 	tml_register_form( 'lostpassword', array(
 		'action'     => tml_get_action_url( 'lostpassword' ),
-		'attributes' => array(
-			'data-ajax' => 1,
-		),
+		'attributes' => array_filter( array(
+			'data-ajax' => tml_use_ajax() ? 1 : 0,
+		) ),
 	) );
 
 	tml_add_form_field( 'lostpassword', 'user_login', array(

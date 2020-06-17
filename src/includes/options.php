@@ -61,6 +61,26 @@ function tml_use_permalinks() {
 }
 
 /**
+ * Determine if forms should use AJAX or not.
+ *
+ * @since 7.1.1
+ *
+ * @return bool Whether forms should use AJAX or not.
+ */
+function tml_use_ajax() {
+	$use_ajax = get_site_option( 'tml_ajax', 1 );
+
+	/**
+	 * Filter whether forms should use AJAX or not.
+	 *
+	 * @since 7.1.1
+	 *
+	 * @param bool $enable_ajax Whether forms should use AJAX or not.
+	 */
+	return (bool) apply_filters( 'tml_use_ajax', $use_ajax );
+}
+
+/**
  * Get the login type.
  *
  * @since 7.0

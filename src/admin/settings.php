@@ -94,6 +94,11 @@ function tml_admin_get_settings_sections() {
 	 * @param array $sections The settings sections.
 	 */
 	return (array) apply_filters( 'tml_admin_get_settings_sections', array(
+		'tml_settings_general' => array(
+			'title'    => __( 'General', 'theme-my-login' ),
+			'callback' => '__return_null',
+			'page'     => 'theme-my-login',
+		),
 		'tml_settings_login' => array(
 			'title'    => __( 'Log In' ),
 			'callback' => '__return_null',
@@ -121,6 +126,22 @@ function tml_admin_get_settings_sections() {
  */
 function tml_admin_get_settings_fields() {
 	$fields = array();
+
+	// General
+	$fields['tml_settings_general'] = array(
+		// AJAX
+		'tml_ajax' => array(
+			'title'             => __( 'AJAX', 'theme-my-login' ),
+			'callback'          => 'tml_admin_setting_callback_checkbox_field',
+			'sanitize_callback' => 'sanitize_text_field',
+			'args' => array(
+				'label_for' => 'tml_ajax',
+				'label'     => __( 'Enable AJAX requests', 'theme-my-login' ),
+				'value'     => '1',
+				'checked'   => get_site_option( 'tml_ajax', '1' ),
+			),
+		),
+	);
 
 	// Login
 	$fields['tml_settings_login'] = array(
