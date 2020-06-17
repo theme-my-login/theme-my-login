@@ -1058,13 +1058,7 @@ function tml_is_post_request() {
  * @return bool
  */
 function tml_is_ajax_request() {
-	if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
-		return false;
-	} elseif ( 'xmlhttprequest' != strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
-		return false;
-	} else {
-		return true;
-	}
+	return (bool) tml_get_request_value( 'ajax' );
 }
 
 /**

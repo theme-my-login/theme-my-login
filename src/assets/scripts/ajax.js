@@ -15,7 +15,7 @@
 		submit.prop( 'disabled', true );
 
 		$.ajax( {
-			data: form.serialize(),
+			data: form.serialize() + '&ajax=1',
 			method: form.attr( 'method' ) || 'get',
 			url: form.attr( 'action' )
 		} )
