@@ -22,7 +22,7 @@ function tml_retrieve_password() {
 	$user_data = false;
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
-		$errors->add( 'empty_username', __( '<strong>Error</strong>: Enter a username or email address.' ) );
+		$errors->add( 'empty_username', __( '<strong>Error</strong>: Please enter a username or email address.' ) );
 	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) ) {
@@ -35,6 +35,9 @@ function tml_retrieve_password() {
 
 	/** This action is documented in wp-login.php */
 	do_action( 'lostpassword_post', $errors, $user_data );
+
+	/** This filter is documented in wp-login.php */
+	$errors = apply_filters( 'lostpassword_errors', $errors, $user_data );
 
 	if ( $errors->get_error_code() ) {
 		return $errors;

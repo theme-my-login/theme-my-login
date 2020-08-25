@@ -509,16 +509,13 @@ function tml_login_handler() {
 		$errors->add( 'registerdisabled', __( 'User registration is currently not allowed.' ) );
 
 	} elseif ( isset( $_GET['checkemail'] ) && 'confirm' == $_GET['checkemail'] ) {
-		$errors->add( 'confirm', __( 'Check your email for the confirmation link.' ), 'message' );
-
-	} elseif ( isset( $_GET['checkemail'] ) && 'newpass' == $_GET['checkemail'] ) {
-		$errors->add( 'newpass', __( 'Check your email for your new password.' ), 'message' );
+		$errors->add( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), wp_login_url() ) , 'message' );
 
 	} elseif ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
 		if ( tml_allow_user_passwords() ) {
 			$errors->add( 'registered', __( 'Registration complete. You may now log in.', 'theme-my-login' ), 'message' );
 		} else {
-			$errors->add( 'registered', __( 'Registration complete. Please check your email.' ), 'message' );
+			$errors->add( 'registered', sprintf( __( 'Registration complete. Please check your email, then visit the <a href="%s">login page</a>.' ), wp_login_url() ), 'message' );
 		}
 
 	} elseif ( isset( $_GET['resetpass'] ) && 'complete' == $_GET['resetpass'] ) {
