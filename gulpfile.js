@@ -159,6 +159,9 @@ exports.watch = function() {
 	});
 }
 
+// Export Clean
+exports.clean = clean;
+
 // Default (Build)
 exports.default = gulp.series(
 	clean,
