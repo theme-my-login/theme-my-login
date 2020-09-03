@@ -583,19 +583,22 @@ function tml_admin_save_ms_settings() {
 		return;
 	}
 
-	/* This filter is documented in wp-admin/options.php */
+	/** This filter is documented in wp-admin/options.php */
 	$whitelist_options = apply_filters( 'whitelist_options', array() );
 
-	if ( ! isset( $whitelist_options[ $option_page ] ) ) {
+	/* This filter is documented in wp-admin/options.php */
+	$allowed_options = apply_filters( 'allowed_options', $whitelist_options );
+
+	if ( ! isset( $allowed_options[ $option_page ] ) ) {
 		wp_die(
 			sprintf(
 				__( '<strong>Error</strong>: Options page %s not found in the options whitelist.' ),
-				'<code>' . esc_html( $options_page ) . '</code>'
+				'<code>' . esc_html( $option_page ) . '</code>'
 			)
 		);
 	}
 
-	foreach ( $whitelist_options[ $option_page ] as $option ) {
+	foreach ( $allowed_options[ $option_page ] as $option ) {
 		$option = trim( $option );
 		$value  = null;
 		if ( isset( $_POST[ $option ] ) ) {
