@@ -68,7 +68,7 @@ function tml_use_permalinks() {
  * @return bool Whether forms should use AJAX or not.
  */
 function tml_use_ajax() {
-	$use_ajax = get_site_option( 'tml_ajax', 1 );
+	$use_ajax = get_site_option( 'tml_ajax', false );
 
 	/**
 	 * Filter whether forms should use AJAX or not.

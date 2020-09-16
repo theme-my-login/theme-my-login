@@ -138,7 +138,7 @@ function tml_admin_get_settings_fields() {
 				'label_for' => 'tml_ajax',
 				'label'     => __( 'Enable AJAX requests', 'theme-my-login' ),
 				'value'     => '1',
-				'checked'   => get_site_option( 'tml_ajax', '1' ),
+				'checked'   => get_site_option( 'tml_ajax', '0' ),
 			),
 		),
 	);
