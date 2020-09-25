@@ -16,7 +16,7 @@ function tml_register_default_actions() {
 
 	// Dashboard
 	tml_register_action( 'dashboard', array(
-		'title'              => __( 'Dashboard' ),
+		'title'              => __( 'Dashboard', 'theme-my-login'),
 		'slug'               => 'dashboard',
 		'callback'           => 'tml_dashboard_handler',
 		'show_on_forms'      => false,
@@ -25,7 +25,7 @@ function tml_register_default_actions() {
 
 	// Login
 	tml_register_action( 'login', array(
-		'title'              => __( 'Log In' ),
+		'title'              => __( 'Log In', 'theme-my-login'),
 		'slug'               => 'login',
 		'callback'           => 'tml_login_handler',
 		'ajax_callback'      => 'tml_login_handler',
@@ -35,7 +35,7 @@ function tml_register_default_actions() {
 
 	// Logout
 	tml_register_action( 'logout', array(
-		'title'              => __( 'Log Out' ),
+		'title'              => __( 'Log Out', 'theme-my-login'),
 		'slug'               => 'logout',
 		'callback'           => 'tml_logout_handler',
 		'show_on_forms'      => false,
@@ -45,7 +45,7 @@ function tml_register_default_actions() {
 
 	// Register
 	tml_register_action( 'register', array(
-		'title'              => __( 'Register' ),
+		'title'              => __( 'Register', 'theme-my-login'),
 		'slug'               => 'register',
 		'callback'           => 'tml_registration_handler',
 		'ajax_callback'      => 'tml_registration_handler',
@@ -55,18 +55,18 @@ function tml_register_default_actions() {
 
 	// Lost Password
 	tml_register_action( 'lostpassword', array(
-		'title'             => __( 'Lost Password' ),
+		'title'             => __( 'Lost Password', 'theme-my-login'),
 		'slug'              => 'lostpassword',
 		'callback'          => 'tml_lost_password_handler',
 		'ajax_callback'     => 'tml_lost_password_handler',
 		'network'           => true,
-		'show_on_forms'     => __( 'Lost your password?' ),
+		'show_on_forms'     => __( 'Lost your password?', 'theme-my-login'),
 		'show_in_nav_menus' => false,
 	) );
 
 	// Reset Password
 	tml_register_action( 'resetpass', array(
-		'title'             => __( 'Reset Password' ),
+		'title'             => __( 'Reset Password', 'theme-my-login'),
 		'slug'              => 'resetpass',
 		'callback'          => 'tml_password_reset_handler',
 		'network'           => true,
@@ -434,16 +434,16 @@ function tml_login_handler() {
 	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 		if ( headers_sent() ) {
 			$user = new WP_Error( 'test_cookie', sprintf(
-					__( '<strong>Error</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
-					__( 'https://wordpress.org/support/article/cookies/' ),
-					__( 'https://wordpress.org/support/forums/' )
+					__( '<strong>Error</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.', 'theme-my-login'),
+					__( 'https://wordpress.org/support/article/cookies/', 'theme-my-login'),
+					__( 'https://wordpress.org/support/forums/', 'theme-my-login')
 				)
 			);
 		} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
 			// If cookies are disabled we can't log in even with a valid user+pass
 			$user = new WP_Error( 'test_cookie', sprintf(
-					__( '<strong>Error</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
-					__( 'https://wordpress.org/support/article/cookies#enable-cookies-your-browser' )
+					__( '<strong>Error</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.', 'theme-my-login'),
+					__( 'https://wordpress.org/support/article/cookies#enable-cookies-your-browser', 'theme-my-login')
 				)
 			);
 		}
@@ -503,26 +503,26 @@ function tml_login_handler() {
 
 	// Some parts of this script use the main login form to display a message
 	if ( isset( $_GET['loggedout'] ) && true == $_GET['loggedout'] ) {
-		$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
+		$errors->add( 'loggedout', __( 'You are now logged out.', 'theme-my-login'), 'message' );
 
 	} elseif ( isset( $_GET['registration'] ) && 'disabled' == $_GET['registration'] ) {
-		$errors->add( 'registerdisabled', __( 'User registration is currently not allowed.' ) );
+		$errors->add( 'registerdisabled', __( 'User registration is currently not allowed.', 'theme-my-login') );
 
 	} elseif ( isset( $_GET['checkemail'] ) && 'confirm' == $_GET['checkemail'] ) {
-		$errors->add( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), wp_login_url() ) , 'message' );
+		$errors->add( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.', 'theme-my-login'), wp_login_url() ) , 'message' );
 
 	} elseif ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
 		if ( tml_allow_user_passwords() ) {
 			$errors->add( 'registered', __( 'Registration complete. You may now log in.', 'theme-my-login' ), 'message' );
 		} else {
-			$errors->add( 'registered', sprintf( __( 'Registration complete. Please check your email, then visit the <a href="%s">login page</a>.' ), wp_login_url() ), 'message' );
+			$errors->add( 'registered', sprintf( __( 'Registration complete. Please check your email, then visit the <a href="%s">login page</a>.', 'theme-my-login'), wp_login_url() ), 'message' );
 		}
 
 	} elseif ( isset( $_GET['resetpass'] ) && 'complete' == $_GET['resetpass'] ) {
-		$errors->add( 'password_reset', __( 'Your password has been reset.' ), 'message' );
+		$errors->add( 'password_reset', __( 'Your password has been reset.', 'theme-my-login'), 'message' );
 
 	} elseif ( strpos( $redirect_to, 'about.php?updated' ) ) {
-		$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
+		$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.', 'theme-my-login'), 'message' );
 	}
 
 	/** This filter is documented in wp-login.php */
@@ -593,7 +593,7 @@ function tml_registration_handler() {
 
 	if ( ! get_option( 'users_can_register' ) ) {
 		if ( tml_is_ajax_request() ) {
-			tml_add_error( 'registerdisabled', __( 'User registration is currently not allowed.' ) );
+			tml_add_error( 'registerdisabled', __( 'User registration is currently not allowed.', 'theme-my-login') );
 			tml_send_ajax_error( array(
 				'errors' => tml_get_form()->render_errors(),
 			) );
@@ -650,7 +650,7 @@ function tml_lost_password_handler() {
 		$errors = tml_retrieve_password();
 		if ( ! is_wp_error( $errors ) ) {
 			if ( tml_is_ajax_request() ) {
-				tml_add_error( 'confirm', __( 'Check your email for the confirmation link.' ), 'message' );
+				tml_add_error( 'confirm', __( 'Check your email for the confirmation link.', 'theme-my-login'), 'message' );
 				tml_send_ajax_success( array(
 					'notice' => tml_get_form()->render_errors(),
 				) );
@@ -671,9 +671,9 @@ function tml_lost_password_handler() {
 
 	if ( isset( $_REQUEST['error'] ) ) {
 		if ( 'invalidkey' == $_REQUEST['error'] ) {
-			tml_add_error( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new link below.' ) );
+			tml_add_error( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new link below.', 'theme-my-login') );
 		} elseif ( 'expiredkey' == $_REQUEST['error'] ) {
-			tml_add_error( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.' ) );
+			tml_add_error( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.', 'theme-my-login') );
 		}
 	}
 
@@ -721,7 +721,7 @@ function tml_password_reset_handler() {
 	$errors = new WP_Error;
 
 	if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
-		$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
+		$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.', 'theme-my-login') );
 	}
 
 	/** This action is documented in wp-login.php */
@@ -744,11 +744,11 @@ function tml_password_reset_handler() {
  */
 function tml_confirmaction_handler() {
 	if ( ! isset( $_GET['request_id'] ) ) {
-		wp_die( __( 'Missing request ID.' ) );
+		wp_die( __( 'Missing request ID.', 'theme-my-login') );
 	}
 
 	if ( ! isset( $_GET['confirm_key'] ) ) {
-		wp_die( __( 'Missing confirm key.' ) );
+		wp_die( __( 'Missing confirm key.', 'theme-my-login') );
 	}
 
 	$request_id = (int) $_GET['request_id'];
