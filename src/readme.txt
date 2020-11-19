@@ -2,7 +2,7 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 5.4
-Tested up to: 5.4.2
+Tested up to: 5.5.4
 Stable tag: trunk
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
@@ -58,6 +58,13 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.1.2 =
+* Fix site crashing on Bluehost
+* Add requester IP address to password reset emails
+* Fix multisite settings for WP 5.5+
+* Default AJAX requests to off
+* Bring wp-login.php duplicated code up to date
 
 = 7.1.1 =
 * Implement option to enable/disable AJAX
