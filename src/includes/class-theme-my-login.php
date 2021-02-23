@@ -360,20 +360,6 @@ final class Theme_My_Login {
 	}
 
 	/**
-	 * Don't allow cloning.
-	 *
-	 * @since 7.0
-	 */
-	private function __clone() {}
-
-	/**
-	 * Don't allow unserialization.
-	 *
-	 * @since 7.0
-	 */
-	private function __wakeup() {}
-
-	/**
 	 * Handle some deprecated methods that other plugins use.
 	 *
 	 * @since 7.0.1

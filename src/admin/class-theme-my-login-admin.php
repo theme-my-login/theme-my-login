@@ -141,18 +141,4 @@ final class Theme_My_Login_Admin {
 		 */
 		do_action( 'tml_admin_init', $this );
 	}
-
-	/**
-	 * Don't allow cloning.
-	 *
-	 * @since 7.0
-	 */
-	private function __clone() {}
-
-	/**
-	 * Don't allow unserialization.
-	 *
-	 * @since 7.0
-	 */
-	private function __wakeup() {}
 }
