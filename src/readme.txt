@@ -2,7 +2,7 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
 Requires at least: 5.4
-Tested up to: 5.5.4
+Tested up to: 5.7
 Stable tag: trunk
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
@@ -58,6 +58,12 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 
 == Changelog ==
+
+= 7.1.3 =
+* Fix PHP 8 notices
+* Fix wp_sensitive_page_meta() deprecated notice in WP 5.7+
+* Update password reset button text for WP 5.7+
+* Add `lostpassword_user_data` filter
 
 = 7.1.2 =
 * Fix site crashing on Bluehost

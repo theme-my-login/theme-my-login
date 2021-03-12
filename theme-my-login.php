@@ -10,7 +10,7 @@
 Plugin Name: Theme My Login
 Plugin URI: https://thememylogin.com
 Description: Creates an alternate login, registration and password recovery experience within your theme.
-Version: 7.1.2
+Version: 7.1.3
 Author: Theme My Login
 Author URI: https://thememylogin.com
 License: GPLv2
