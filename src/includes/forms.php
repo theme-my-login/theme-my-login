@@ -290,7 +290,7 @@ function tml_register_password_reset_form() {
 
 	tml_add_form_field( 'resetpass', 'submit', array(
 		'type'     => 'submit',
-		'value'    => __( 'Reset Password' ),
+		'value'    => __( 'Save Password' ),
 		'priority' => 20,
 	) );
 
