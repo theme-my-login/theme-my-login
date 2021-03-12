@@ -33,6 +33,9 @@ function tml_retrieve_password() {
 		$user_data = get_user_by( 'login', $login );
 	}
 
+	/** Tis filter is documented in wp-login.php */
+	$user_data = apply_filters( 'lostpassword_user_data', $user_data, $errors );
+
 	/** This action is documented in wp-login.php */
 	do_action( 'lostpassword_post', $errors, $user_data );
 
