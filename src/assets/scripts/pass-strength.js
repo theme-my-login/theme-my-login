@@ -4,13 +4,13 @@
 			result = $( '#pass-strength-result' ),
 			strength;
 
-		result.removeClass('short bad good strong');
-		if ( ! pass1 ) {
-			result.html( '&nbsp;' );
+		result.removeClass('short bad good strong empty');
+		if ( ! pass1 || '' === pass1.trim() ) {
+			result.addClass('empty').html( '&nbsp;' );
 			return;
 		}
 
-		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass1 );
+		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputDisallowedList(), pass1 );
 
 		switch ( strength ) {
 			case -1:
