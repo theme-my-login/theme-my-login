@@ -409,8 +409,17 @@ function tml_ms_signup_handler() {
 	}
 
 	if ( ! is_main_site() ) {
-		wp_redirect( network_site_url( 'wp-signup.php' ) );
-		exit;
+		/**
+		 * Filter whether to redirect subsite signup to network signup or not.
+		 *
+		 * @since 7.1.4
+		 *
+		 * @param bool $redirect Whether to redirect or not. Default true.
+		 */
+		if ( apply_filters( 'tml_redirect_subsite_to_network_signup', true ) ) {
+			wp_redirect( network_site_url( 'wp-signup.php' ) );
+			exit;
+		}
 	}
 
 	$active_signup = tml_ms_signup_get_active_signup();
