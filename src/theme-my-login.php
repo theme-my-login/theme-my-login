@@ -66,7 +66,6 @@ require THEME_MY_LOGIN_PATH . 'includes/class-theme-my-login-widget.php';
 require THEME_MY_LOGIN_PATH . 'includes/actions.php';
 require THEME_MY_LOGIN_PATH . 'includes/forms.php';
 require THEME_MY_LOGIN_PATH . 'includes/extensions.php';
-require THEME_MY_LOGIN_PATH . 'includes/compat.php';
 require THEME_MY_LOGIN_PATH . 'includes/functions.php';
 require THEME_MY_LOGIN_PATH . 'includes/options.php';
 require THEME_MY_LOGIN_PATH . 'includes/shortcodes.php';

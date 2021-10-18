@@ -647,7 +647,7 @@ function tml_registration_handler() {
 function tml_lost_password_handler() {
 
 	if ( tml_is_post_request() ) {
-		$errors = tml_retrieve_password();
+		$errors = retrieve_password();
 		if ( ! is_wp_error( $errors ) ) {
 			if ( tml_is_ajax_request() ) {
 				tml_add_error( 'confirm', __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), 'message' );

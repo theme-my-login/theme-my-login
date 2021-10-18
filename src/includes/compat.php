@@ -6,6 +6,8 @@
  * Note I proposed a patch that, if accepted, would negate the need for this file.
  * @link https://core.trac.wordpress.org/ticket/31039
  *
+ * @deprecated This file will be removed in a future version of the plugin.
+ *
  * @package Theme_My_Login
  * @subpackage Compatibility
  */

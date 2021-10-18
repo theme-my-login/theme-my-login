@@ -48,9 +48,6 @@ add_action( 'edit_user_created_user', 'tml_send_new_user_notifications', 10, 2 )
 remove_action( 'register_new_user',      'wp_send_new_user_notifications' );
 remove_action( 'edit_user_created_user', 'wp_send_new_user_notifications' );
 
-// Passwords
-add_action( 'retrieved_password_key', 'tml_retrieve_password_notification', 10, 2 );
-
 // Activation
 add_action( 'tml_activate', 'tml_flush_rewrite_rules' );
 
