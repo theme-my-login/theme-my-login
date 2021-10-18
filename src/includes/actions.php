@@ -506,7 +506,7 @@ function tml_login_handler() {
 		$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
 
 	} elseif ( isset( $_GET['registration'] ) && 'disabled' == $_GET['registration'] ) {
-		$errors->add( 'registerdisabled', __( 'User registration is currently not allowed.' ) );
+		$errors->add( 'registerdisabled', __( '<strong>Error</strong>: User registration is currently not allowed.' ) );
 
 	} elseif ( isset( $_GET['checkemail'] ) && 'confirm' == $_GET['checkemail'] ) {
 		$errors->add( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), wp_login_url() ) , 'message' );
@@ -593,7 +593,7 @@ function tml_registration_handler() {
 
 	if ( ! get_option( 'users_can_register' ) ) {
 		if ( tml_is_ajax_request() ) {
-			tml_add_error( 'registerdisabled', __( 'User registration is currently not allowed.' ) );
+			tml_add_error( 'registerdisabled', __( '<strong>Error</strong>: User registration is currently not allowed.' ) );
 			tml_send_ajax_error( array(
 				'errors' => tml_get_form()->render_errors(),
 			) );
@@ -650,7 +650,7 @@ function tml_lost_password_handler() {
 		$errors = tml_retrieve_password();
 		if ( ! is_wp_error( $errors ) ) {
 			if ( tml_is_ajax_request() ) {
-				tml_add_error( 'confirm', __( 'Check your email for the confirmation link.' ), 'message' );
+				tml_add_error( 'confirm', __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), 'message' );
 				tml_send_ajax_success( array(
 					'notice' => tml_get_form()->render_errors(),
 				) );
@@ -671,9 +671,9 @@ function tml_lost_password_handler() {
 
 	if ( isset( $_REQUEST['error'] ) ) {
 		if ( 'invalidkey' == $_REQUEST['error'] ) {
-			tml_add_error( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new link below.' ) );
+			tml_add_error( 'invalidkey', __( '<strong>Error</strong>: Your password reset link appears to be invalid. Please request a new link below.' ) );
 		} elseif ( 'expiredkey' == $_REQUEST['error'] ) {
-			tml_add_error( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.' ) );
+			tml_add_error( 'expiredkey', __( '<strong>Error</strong>: Your password reset link has expired. Please request a new link below.' ) );
 		}
 	}
 
@@ -721,7 +721,7 @@ function tml_password_reset_handler() {
 	$errors = new WP_Error;
 
 	if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
-		$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.' ) );
+		$errors->add( 'password_reset_mismatch', __( '<strong>Error</strong>: The passwords do not match.' ) );
 	}
 
 	/** This action is documented in wp-login.php */
