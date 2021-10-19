@@ -116,7 +116,7 @@ class Theme_My_Login_Form {
 		}
 
 		if ( ! empty( $args['render_args'] ) ) {
-			$this->render_args = $args['render_args'];
+			$this->render_args = (array) $args['render_args'];
 		}
 	}
 
@@ -524,7 +524,30 @@ class Theme_My_Login_Form {
 	}
 
 	/**
-	 * Render the form.
+	 * Render the form element.
+	 *
+	 * @since 7.1.4
+	 *
+	 * @return string The form markup.
+	 */
+	public function render_form() {
+		$output = '<form name="' . esc_attr( $this->get_name() ) . '" action="' . esc_url( $this->get_action() ) . '" method="' . esc_attr( $this->get_method() ) . '"';
+		foreach ( $this->get_attributes() as $key => $value ) {
+			$output .= ' ' . $key . '="' . esc_attr( $value ) . '"';
+		}
+		$output .= ">\n";
+
+		foreach ( $this->get_fields() as $field ) {
+			$output .= $field->render() . "\n";
+		}
+
+		$output .= "</form>\n";
+
+		return $output;
+	}
+
+	/**
+	 * Render the entire form with notices and links.
 	 *
 	 * @since 7.0
 	 *
@@ -548,6 +571,7 @@ class Theme_My_Login_Form {
 			'before'          => '',
 			'after'           => '',
 			'show_links'      => true,
+			'show_form'       => true,
 		) );
 
 		/**
@@ -588,17 +612,9 @@ class Theme_My_Login_Form {
 
 		$output .= '<div class="tml-alerts">' . $this->render_errors() . '</div>';
 
-		$output .= '<form name="' . esc_attr( $this->get_name() ) . '" action="' . esc_url( $this->get_action() ) . '" method="' . esc_attr( $this->get_method() ) . '"';
-		foreach ( $this->get_attributes() as $key => $value ) {
-			$output .= ' ' . $key . '="' . esc_attr( $value ) . '"';
+		if ( $args['show_form'] ) {
+			$output .= $this->render_form();
 		}
-		$output .= ">\n";
-
-		foreach ( $this->get_fields() as $field ) {
-			$output .= $field->render() . "\n";
-		}
-
-		$output .= "</form>\n";
 
 		/**
 		 * Filter the content after the form.

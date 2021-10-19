@@ -35,6 +35,10 @@ function tml_register_login_form() {
 		'attributes' => array_filter( array(
 			'data-ajax' => tml_use_ajax() ? 1 : 0,
 		) ),
+		'render_args' => isset( $_GET['checkemail'] ) ? array(
+			'show_form'  => false,
+			'show_links' => false,
+		) : array(),
 	) );
 
 	tml_add_form_field( 'login', 'log', array(

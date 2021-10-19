@@ -25,7 +25,7 @@ function tml_register_default_actions() {
 
 	// Login
 	tml_register_action( 'login', array(
-		'title'              => __( 'Log In' ),
+		'title'              => isset( $_GET['checkemail'] ) ? __( 'Check your email' ) : __( 'Log In' ),
 		'slug'               => 'login',
 		'callback'           => 'tml_login_handler',
 		'ajax_callback'      => 'tml_login_handler',
