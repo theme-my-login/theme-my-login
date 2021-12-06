@@ -59,6 +59,13 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.4 =
+* Hide form for "check your email" step of password reset
+* Use retrieve_password() from WP core and deprecate compat.php
+* Update strings to match core
+* Add a filter to allow disabling network signup redirect
+* Fix deprecated notice in password strength meter
+
 = 7.1.3 =
 * Fix PHP 8 notices
 * Fix wp_sensitive_page_meta() deprecated notice in WP 5.7+
