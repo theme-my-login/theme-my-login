@@ -93,7 +93,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 					'url'    => tml_get_action_url( 'dashboard' ),
 				),
 				'profile'    => array(
-					'title'  => __( 'Edit My Profile' ),
+					'title'  => __( 'Edit Profile' ),
 					'url'    => admin_url( 'profile.php' ),
 				),
 				'logout'     => array(

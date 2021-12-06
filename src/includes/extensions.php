@@ -332,7 +332,10 @@ function tml_extension_api_call( $url, $args = array() ) {
 			return false;
 		}
 
-		$response = json_decode( wp_remote_retrieve_body( $response ) );
+		$response = json_decode( wp_remote_retrieve_body( $response ), true );
+		if ( is_array( $response ) ) {
+			$response = (object) $response;
+		}
 
 		if ( is_object( $response ) ) {
 			if ( isset( $response->sections ) ) {

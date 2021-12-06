@@ -82,7 +82,7 @@ function tml_shortcode( $atts = array() ) {
 				'url'    => admin_url(),
 			) : false,
 			'profile'    => array(
-				'title'  => __( 'Edit My Profile' ),
+				'title'  => __( 'Edit Profile' ),
 				'url'    => admin_url( 'profile.php' ),
 			),
 			'logout'     => array(
