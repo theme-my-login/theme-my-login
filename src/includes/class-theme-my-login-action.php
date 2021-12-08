@@ -327,6 +327,8 @@ class Theme_My_Login_Action {
 	 * @return string The action URL.
 	 */
 	public function get_url( $scheme = 'login', $network = null ) {
+		global $wp_rewrite;
+
 		if ( null === $network ) {
 			$network = $this->network;
 		}
@@ -334,7 +336,11 @@ class Theme_My_Login_Action {
 		$function = $network ? 'network_home_url' : 'home_url';
 
 		if ( tml_use_permalinks() ) {
-			$path = user_trailingslashit( $this->get_slug() );
+			$path = user_trailingslashit( str_replace(
+				'%pagename%',
+				$this->get_slug(),
+				$wp_rewrite->get_page_permastruct()
+			) );
 			$url  = $function( $path, $scheme );
 		} else {
 			$url = $function( '?action=' . $this->get_name(), $scheme );
