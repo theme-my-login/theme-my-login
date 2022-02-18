@@ -650,7 +650,7 @@ function tml_lost_password_handler() {
 		$errors = retrieve_password();
 		if ( ! is_wp_error( $errors ) ) {
 			if ( tml_is_ajax_request() ) {
-				tml_add_error( 'confirm', __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), 'message' );
+				tml_add_error( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), wp_login_url() ), 'message' );
 				tml_send_ajax_success( array(
 					'notice' => tml_get_form()->render_errors(),
 				) );
