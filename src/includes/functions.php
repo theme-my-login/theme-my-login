@@ -828,11 +828,11 @@ function tml_set_new_user_password( $user_id ) {
 		return;
 	}
 
-	if ( ! $password = tml_get_request_value( 'user_pass1', 'post' ) ) {
+	if ( empty( $_POST['user_pass1'] ) ) {
 		return;
 	}
 
-	wp_set_password( $password, $user_id );
+	wp_set_password( $_POST['user_pass1'], $user_id );
 	update_user_option( $user_id, 'default_password_nag', false, true );
 }
 
