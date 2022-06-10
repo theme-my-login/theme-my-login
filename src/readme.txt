@@ -59,6 +59,12 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.5 =
+* Tested up to 6.0.1
+* Use raw $_POST value when setting custom user passwords
+* Fix the login link on AJAX lost password form confirmation
+* Implement fix for PATHINFO permalinks
+
 = 7.1.4 =
 * Hide form for "check your email" step of password reset
 * Use retrieve_password() from WP core and deprecate compat.php
