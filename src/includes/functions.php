@@ -811,7 +811,7 @@ function tml_get_username_label( $action = '' ) {
  */
 function tml_enforce_login_type( $user, $username, $password ) {
 	if ( tml_is_email_login_type() && null == $user ) {
-		return new WP_Error( 'invalid_email', __( '<strong>Error</strong>: Invalid email address.' ) );
+		return new WP_Error( 'invalid_email', __( 'Unknown email address. Check again or try your username.' ) );
 	}
 	return $user;
 }
