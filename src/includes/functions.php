@@ -311,6 +311,20 @@ function tml_do_login_head() {
 }
 
 /**
+ * Do the `login_footer` action hook.
+ *
+ * @since 7.1.6
+ */
+function tml_do_login_footer() {
+	if ( ! tml_is_action() ) {
+		return;
+	}
+
+	/** This action is documented in wp-login.php */
+	do_action( 'login_footer' );
+}
+
+/**
  * Add rewrite tags for TML.
  *
  * @since 7.0
