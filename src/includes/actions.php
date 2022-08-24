@@ -358,7 +358,7 @@ function tml_action_handler() {
 	do_action( 'login_init' );
 
 	/** This action is documented in wp-login.php */
-	do_action( 'login_form_' . tml_get_request_value( 'action' ) );
+	do_action( 'login_form_' . tml_get_action()->get_name() );
 
 	if ( tml_is_ajax_request() ) {
 		/**
