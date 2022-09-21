@@ -280,10 +280,7 @@ function tml_action_has_page( $action = '' ) {
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
 		] );
-
-		if ( ! empty( $pages ) ) {
-			wp_cache_set( 'tml_pages', $pages );
-		}
+		wp_cache_set( 'tml_pages', $pages );
 	}
 
 	if ( $pages = wp_list_filter( $pages, [ 'post_name' => $action->get_slug() ] ) ) {
