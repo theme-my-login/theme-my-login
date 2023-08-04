@@ -59,6 +59,13 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.6 =
+* Tested up to 6.3
+* Ensure action page match check query is only ran once
+* Fix `login_form_{$action}` action hook
+* Add the `login_footer` action hook
+* Update invalid email error message
+
 = 7.1.5 =
 * Tested up to 6.0.1
 * Use raw $_POST value when setting custom user passwords
