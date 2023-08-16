@@ -172,6 +172,11 @@ function tml_remove_default_actions_and_filters() {
  * @return string The page template path.
  */
 function tml_page_template( $template = 'page.php' ) {
+	// Don't stomp on block themes
+	if ( ABSPATH . WPINC . '/template-canvas.php' == $template) {
+		return $template;
+	}
+
 	if ( ! $action = tml_get_action() ) {
 		return $template;
 	}
