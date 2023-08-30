@@ -174,7 +174,7 @@ function tml_admin_notices() {
 
 		if ( ! in_array( $notice_key, get_site_option( '_tml_dismissed_notices', array() ) ) ) : ?>
 
-		<div class="notice notice-info tml-notice is-dismissible" data-notice="<?php echo $notice_key; ?>">
+		<div class="notice notice-info tml-notice is-dismissible" data-notice="<?php echo $notice_key; ?>" data-nonce="<?php echo wp_create_nonce( $notice_key ); ?>">
 			<?php echo implode( "\n", array(
 				'<p>' . __( 'A new <strong>Theme My Login</strong> extension is available!', 'theme-my-login' ) . '</p>',
 				'<p>' . sprintf( '<strong>%s</strong>: %s',
@@ -198,8 +198,11 @@ function tml_admin_notices() {
  * @since 7.0.8
  */
 function tml_admin_ajax_dismiss_notice() {
-	if ( empty( $_POST['notice'] ) ) {
-		return;
+	if ( empty( $_POST['nonce'] ) || empty( $_POST['notice'] ) || ! wp_verify_nonce( $_POST['nonce'], $_POST['notice'] ) ) {
+		wp_send_json_error( null, 400 );
+	}
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		wp_send_json_error( null, 403 );
 	}
 	$dismissed_notices = get_site_option( '_tml_dismissed_notices', array() );
 	$dismissed_notices[] = sanitize_key( $_POST['notice'] );
