@@ -94,7 +94,7 @@ add_filter( 'customize_nav_menu_available_item_types', 'tml_filter_customize_nav
 add_filter( 'customize_nav_menu_available_items',      'tml_filter_customize_nav_menu_available_items',      10, 4 );
 
 // Nav menus
-add_filter( 'wp_setup_nav_menu_item', 'tml_setup_nav_menu_item'       );
+add_filter( 'wp_setup_nav_menu_item', 'tml_setup_nav_menu_item', 0, 1 );
 add_filter( 'nav_menu_css_class',     'tml_nav_menu_css_class', 10, 2 );
 
 // Extensions
