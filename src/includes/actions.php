@@ -688,7 +688,7 @@ function tml_password_reset_handler() {
 	list( $rp_path ) = explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 
-	if ( isset( $_GET['key'] ) ) {
+	if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
 		$value = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
 		setcookie( $rp_cookie, $value, 0, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
 		wp_safe_redirect( remove_query_arg( array( 'key', 'login' ) ) );
@@ -717,14 +717,24 @@ function tml_password_reset_handler() {
 
 	$errors = new WP_Error;
 
-	if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
+	// Check if password is one or all empty spaces.
+	if ( ! empty( $_POST['pass1'] ) ) {
+		$_POST['pass1'] = trim( $_POST['pass1'] );
+
+		if ( empty( $_POST['pass1'] ) ) {
+			$errors->add( 'password_reset_empty_space', __( 'The password cannot be a space or all spaces.' ) );
+		}
+	}
+
+	// Check if password fields do not match.
+	if ( ! empty( $_POST['pass1'] ) && trim( $_POST['pass2'] ) !== $_POST['pass1'] ) {
 		$errors->add( 'password_reset_mismatch', __( '<strong>Error:</strong> The passwords do not match.' ) );
 	}
 
 	/** This action is documented in wp-login.php */
 	do_action( 'validate_password_reset', $errors, $user );
 
-	if ( ( ! $errors->get_error_code() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
+	if ( ( ! $errors->has_errors() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 		reset_password( $user, $_POST['pass1'] );
 		setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
 		wp_redirect( site_url( 'wp-login.php?resetpass=complete' ) );
