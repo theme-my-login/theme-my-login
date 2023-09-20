@@ -24,11 +24,11 @@ function tml_retrieve_password() {
 	$user_data = false;
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
-		$errors->add( 'empty_username', __( '<strong>Error</strong>: Please enter a username or email address.' ) );
+		$errors->add( 'empty_username', __( '<strong>Error:</strong> Please enter a username or email address.' ) );
 	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) ) {
-			$errors->add( 'invalid_email', __( '<strong>Error</strong>: There is no account with that username or email address.' ) );
+			$errors->add( 'invalid_email', __( '<strong>Error:</strong> There is no account with that username or email address.' ) );
 		}
 	} else {
 		$login     = trim( wp_unslash( $_POST['user_login'] ) );
@@ -49,7 +49,7 @@ function tml_retrieve_password() {
 	}
 
 	if ( ! $user_data ) {
-		$errors->add( 'invalidcombo', __( '<strong>Error</strong>: There is no account with that username or email address.' ) );
+		$errors->add( 'invalidcombo', __( '<strong>Error:</strong> There is no account with that username or email address.' ) );
 		return $errors;
 	}
 
@@ -170,8 +170,8 @@ function tml_retrieve_password_notification( $user, $key ) {
 		$retrieve_password_email['headers']
 	) ) {
 		wp_die( sprintf(
-			__( '<strong>Error</strong>: The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
-			esc_url( __( 'https://wordpress.org/support/article/resetting-your-password/' ) )
+			__( '<strong>Error:</strong> The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
+			esc_url( __( 'https://wordpress.org/documentation/article/reset-your-password/' ) )
 		) );
 	}
 }

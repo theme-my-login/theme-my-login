@@ -592,7 +592,7 @@ function tml_admin_save_ms_settings() {
 	if ( ! isset( $allowed_options[ $option_page ] ) ) {
 		wp_die(
 			sprintf(
-				__( '<strong>Error</strong>: Options page %s not found in the options whitelist.' ),
+				__( '<strong>Error:</strong> The %s options page is not in the allowed options list.' ),
 				'<code>' . esc_html( $option_page ) . '</code>'
 			)
 		);
