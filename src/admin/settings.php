@@ -552,7 +552,10 @@ function tml_admin_settings_page() {
 	<h1><?php echo esc_html( $title ) ?></h1>
 	<hr class="wp-header-end">
 
-	<form id="tml-settings" action="<?php echo is_network_admin() ? '' : 'options.php'; ?>" method="post">
+	<form id="tml-settings" action="<?php echo is_network_admin()
+		? 'edit.php?action=theme-my-login'
+		: 'options.php';
+	?>" method="post">
 
 		<?php settings_fields( $plugin_page ); ?>
 

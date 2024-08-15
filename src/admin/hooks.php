@@ -25,9 +25,9 @@ add_action( 'admin_init', 'tml_admin_add_extension_update_messages' );
 
 // Settings
 if ( is_multisite() ) {
-	add_action( 'network_admin_menu', 'tml_admin_add_menu_items'    );
-	add_action( 'admin_init',         'tml_admin_register_settings' );
-	add_action( 'admin_init',         'tml_admin_save_ms_settings'  );
+	add_action( 'network_admin_menu',                'tml_admin_add_menu_items'    );
+	add_action( 'admin_init',                        'tml_admin_register_settings' );
+	add_action( 'network_admin_edit_theme-my-login', 'tml_admin_save_ms_settings'  );
 } else {
 	add_action( 'admin_menu', 'tml_admin_add_menu_items'    );
 	add_action( 'admin_init', 'tml_admin_register_settings' );
