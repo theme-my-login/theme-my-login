@@ -576,6 +576,8 @@ function tml_admin_save_ms_settings() {
 		return;
 	}
 
+	check_admin_referer( 'theme-my-login-options' );
+
 	$action      = isset( $_REQUEST['action']      ) ? $_REQUEST['action']      : '';
 	$option_page = isset( $_REQUEST['option_page'] ) ? $_REQUEST['option_page'] : '';
 
