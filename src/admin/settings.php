@@ -222,7 +222,11 @@ function tml_admin_get_settings_fields() {
 			'args' => array(
 				'label_for'   => $slug_option,
 				'value'       => get_site_option( $slug_option, $action->get_slug() ),
-				'input_class' => 'regular-text code',
+				'attributes'  => array(
+					'checked' => true,
+					'class' => 'regular-text code',
+					'required' => true,
+				),
 				'description' => sprintf( '<a href="%1$s">%1$s</a>', $action->get_url() ),
 			),
 		);
@@ -262,6 +266,7 @@ function tml_admin_setting_callback_slugs_section() {
  *     @type string $label_for   The input name/ID.
  *     @type string $value       The input value.
  *     @type string $description A short description of the input.
+ *     @type array  $attributes  An array of HTML attributes for the input.
  *     @type string $input_type  The type of input. Default is "text".
  *     @type string $input_class The input class. Default is "regular-text".
  * }
@@ -271,12 +276,33 @@ function tml_admin_setting_callback_input_field( $args ) {
 		'label_for'   => '',
 		'value'       => '',
 		'description' => '',
+		'attributes'  => array(),
 		'input_type'  => 'text',
 		'input_class' => 'regular-text',
 	) );
+
+	$attributes = is_array( $args['attributes'] ) ? array_filter( $args['attributes'] ) : array();
+
+	isset( $args['label_for'] ) && $attributes['name'] = $args['label_for'];
+	isset( $args['label_for'] ) && $attributes['id'] = $args['label_for'];
+	isset( $args['value'] ) && $attributes['value'] = $args['value'];
+	isset( $args['input_type'] ) && empty( $attributes['type'] ) && $attributes['type'] = $args['input_type'];
+	isset( $args['input_class'] ) && empty( $attributes['class'] ) && $attributes['class'] = $args['input_class'];
+
+	$attributes = array_map( function ( $key ) use ( $attributes ) {
+		return is_bool( $attributes[ $key ] ) ? $key : "{$key}={$attributes[ $key ]}";
+	}, array_keys( $attributes ) );
+
+	usort( $attributes, function ( $a, $b ) {
+		$x = strpos( $a, '=' ) === false;
+		$y = strpos( $b, '=' ) === false;
+		if ( $x && !$y ) return 1;
+		if ( $y && !$x ) return -1;
+		return strcmp( $a, $b );
+	} );
 ?>
 
-	<input type="<?php echo esc_attr( $args['input_type'] ); ?>" name="<?php echo esc_attr( $args['label_for'] ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>" class="<?php echo esc_attr( $args['input_class'] ); ?>" />
+	<input <?php echo implode( ' ', $attributes ); ?>/>
 
 	<?php if ( ! empty( $args['description'] ) ) : ?>
 		<p class="description"><?php echo $args['description']; ?></p>
