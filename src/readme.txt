@@ -59,6 +59,10 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.9 =
+* Fix multisite settings save regression caused by 7.1.8
+* Mark slug settings fields as required
+
 = 7.1.8 =
 * Tested up to 6.6.1
 * Add nonce check to multisite settings page
