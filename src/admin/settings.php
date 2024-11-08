@@ -605,14 +605,14 @@ function tml_admin_save_ms_settings() {
 		return;
 	}
 
-	check_admin_referer( 'theme-my-login-options' );
-
 	$action      = isset( $_REQUEST['action']      ) ? $_REQUEST['action']      : '';
 	$option_page = isset( $_REQUEST['option_page'] ) ? $_REQUEST['option_page'] : '';
 
 	if ( ! theme_my_login_admin()->has_page( $option_page ) ) {
 		return;
 	}
+
+	check_admin_referer( $option_page . '-options' );
 
 	/** This filter is documented in wp-admin/options.php */
 	$whitelist_options = apply_filters( 'whitelist_options', array() );
