@@ -290,7 +290,7 @@ function tml_admin_setting_callback_input_field( $args ) {
 	isset( $args['input_class'] ) && empty( $attributes['class'] ) && $attributes['class'] = $args['input_class'];
 
 	$attributes = array_map( function ( $key ) use ( $attributes ) {
-		return is_bool( $attributes[ $key ] ) ? $key : "{$key}={$attributes[ $key ]}";
+		return is_bool( $attributes[ $key ] ) ? $key : "{$key}='{$attributes[ $key ]}'";
 	}, array_keys( $attributes ) );
 
 	usort( $attributes, function ( $a, $b ) {
