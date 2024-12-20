@@ -59,6 +59,11 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.10 =
+* Tested up to 6.7.1
+* Ensure settings attributes are properly wrapped in quotes
+* Fix nonce check when saving multisite settings
+
 = 7.1.9 =
 * Fix multisite settings save regression caused by 7.1.8
 * Mark slug settings fields as required
