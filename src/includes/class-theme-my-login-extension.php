@@ -22,11 +22,11 @@ abstract class Theme_My_Login_Extension {
 	protected $name = 'tml-extension';
 
 	/**
-	 * The extension title.
+	 * The extension slug.
 	 *
 	 * @var string
 	 */
-	protected $title;
+	protected $slug;
 
 	/**
 	 * The extension version.
@@ -117,7 +117,6 @@ abstract class Theme_My_Login_Extension {
 		$this->path = plugin_dir_path( $file );
 		$this->url  = plugin_dir_url( $file );
 
-		$this->set_properties();
 		$this->include_files();
 		$this->add_actions();
 		$this->add_filters();
@@ -129,13 +128,6 @@ abstract class Theme_My_Login_Extension {
 			$this->update();
 		}
 	}
-
-	/**
-	 * Set class properties.
-	 *
-	 * @since 7.0
-	 */
-	protected function set_properties() {}
 
 	/**
 	 * Include the extension files.
@@ -190,9 +182,7 @@ abstract class Theme_My_Login_Extension {
 	 *
 	 * @return string The extension title.
 	 */
-	public function get_title() {
-		return $this->title;
-	}
+	abstract public function get_title();
 
 	/**
 	 * Get the extension version.
