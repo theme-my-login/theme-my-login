@@ -206,6 +206,12 @@ function tml_register_lost_password_form() {
 		) ),
 	) );
 
+	tml_add_form_field( 'lostpassword', 'message', array(
+		'type' => 'custom',
+		'content' => '<p class="tml-message">' . __('Please enter your username or email address. You will receive an email message with instructions on how to reset your password.') . '</p>',
+		'priority' => 10,
+	) );
+
 	tml_add_form_field( 'lostpassword', 'user_login', array(
 		'type'       => 'text',
 		'label'      => tml_get_username_label( 'lostpassword' ),
