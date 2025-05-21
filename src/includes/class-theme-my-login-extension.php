@@ -182,7 +182,9 @@ abstract class Theme_My_Login_Extension {
 	 *
 	 * @return string The extension title.
 	 */
-	abstract public function get_title();
+	public function get_title() {
+		return ucfirst( str_replace( 'tml-', '', $this->name ) );
+	}
 
 	/**
 	 * Get the extension version.
