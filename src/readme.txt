@@ -59,6 +59,9 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.12 =
+* Revert converting get_title() to abstract on TML extension class
+
 = 7.1.11 =
 * Reinstate missing message on lostpassword form
 * Convert get_title() to an abstract function on TML extension class
