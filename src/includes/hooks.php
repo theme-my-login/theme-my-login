@@ -35,8 +35,8 @@ add_action( 'wp', 'tml_remove_default_actions_and_filters' );
 add_action( 'template_redirect',  'tml_action_handler',   0 );
 add_action( 'wp_enqueue_scripts', 'tml_enqueue_styles',  10 );
 add_action( 'wp_enqueue_scripts', 'tml_enqueue_scripts', 10 );
-add_action( 'wp_head',            'tml_do_login_head',   10 );
-add_action( 'wp_footer',          'tml_do_login_footer', 10 );
+add_action( 'wp_head',            'tml_do_login_head',   100 );
+add_action( 'wp_footer',          'tml_do_login_footer', 100 );
 
 // Registration
 add_action( 'pre_user_login',    'tml_set_user_login'        );
