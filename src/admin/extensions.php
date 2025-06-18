@@ -119,6 +119,8 @@ function tml_admin_handle_extension_licenses() {
 		return;
 	}
 
+	check_admin_referer( 'theme-my-login-licenses-options' );
+
 	// Loop through all extensions
 	foreach ( tml_get_extensions() as $extension ) {
 
