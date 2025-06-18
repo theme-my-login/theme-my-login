@@ -121,6 +121,10 @@ function tml_admin_handle_extension_licenses() {
 
 	check_admin_referer( 'theme-my-login-licenses-options' );
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
+	}
+
 	// Loop through all extensions
 	foreach ( tml_get_extensions() as $extension ) {
 
@@ -165,6 +169,10 @@ function tml_admin_ajax_activate_extension_license() {
 		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
 	}
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		tml_send_ajax_error( __( 'Sorry, you are not allowed to manage options for this site.' ) );
+	}
+
 	$extension->set_license_key( tml_get_request_value( 'key', 'post' ) );
 
 	$response = tml_activate_extension_license( $extension );
@@ -189,6 +197,10 @@ function tml_admin_ajax_activate_extension_license() {
 function tml_admin_ajax_deactivate_extension_license() {
 	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
 		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
+	}
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		tml_send_ajax_error( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 	}
 
 	$response = tml_deactivate_extension_license( $extension );
