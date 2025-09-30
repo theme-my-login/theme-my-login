@@ -59,6 +59,9 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.14 =
+* Ensure license nonce check only occurs on licenses page
+
 = 7.1.13 =
 * Check for proper permission when managing licenses
 * Check for nonce when managing license keys
