@@ -119,6 +119,10 @@ function tml_admin_handle_extension_licenses() {
 		return;
 	}
 
+	if ( tml_get_request_value('option_page') !== 'theme-my-login-licenses' ) {
+		return;
+	}
+
 	check_admin_referer( 'theme-my-login-licenses-options' );
 
 	if ( ! current_user_can( 'manage_options' ) ) {
