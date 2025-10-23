@@ -271,7 +271,7 @@ function tml_action_has_page( $action = '' ) {
 		return false;
 	}
 
-	$pages = wp_cache_get( 'tml_pages' );
+	$pages = wp_cache_get( 'pages', 'theme-my-login' );
 	if ( false === $pages ) {
 		$pages = get_posts( [
 			'post_name__in'          => array_map( 'tml_get_action_slug', tml_get_actions() ),
@@ -280,7 +280,7 @@ function tml_action_has_page( $action = '' ) {
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
 		] );
-		wp_cache_set( 'tml_pages', $pages );
+		wp_cache_set( 'pages', $pages, 'theme-my-login' );
 	}
 
 	if ( $pages = wp_list_filter( $pages, [ 'post_name' => $action->get_slug() ] ) ) {
