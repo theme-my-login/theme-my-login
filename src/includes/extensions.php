@@ -114,7 +114,7 @@ function tml_add_extension_data_to_plugins_api( $result = false, $action = '', $
 		'item_id' => $extension->get_item_id(),
 		'slug'    => $extension->get_name(),
 	) ) ) {
-		if ( ! empty( $result->new_version ) ) {
+		if ( empty( $result->version ) && ! empty( $result->new_version ) ) {
 			$result->version = $result->new_version;
 		}
 	}
@@ -145,17 +145,32 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 		if ( is_object( $response ) ) {
 			$basename = $extension->get_basename();
 
-			if ( empty( $response->plugin ) ) {
-				$response->plugin = $basename;
+			$update = (object) array(
+				'slug'             => $extension->get_name(),
+				'plugin'           => $basename,
+				'new_version'      => isset( $response->new_version )      ? $response->new_version      : ( isset( $response->version )       ? $response->version       : '' ),
+				'url'              => isset( $response->url )              ? $response->url              : ( isset( $response->homepage )      ? $response->homepage      : '' ),
+				'package'          => isset( $response->package )          ? $response->package          : ( isset( $response->download_link ) ? $response->download_link : '' ),
+				'icons'            => isset( $response->icons )            ? $response->icons            : array(),
+				'banners'          => isset( $response->banners )          ? $response->banners          : array(),
+				'banners_rtl'      => isset( $response->banners_rtl )      ? $response->banners_rtl      : array(),
+				'requires'         => isset( $response->requires )         ? $response->requires         : '',
+				'tested'           => isset( $response->tested )           ? $response->tested           : '',
+				'requires_php'     => isset( $response->requires_php )     ? $response->requires_php     : '',
+				'requires_plugins' => isset( $response->requires_plugins ) ? $response->requires_plugins : array(),
+			);
+
+			if ( ! empty( $response->upgrade_notice ) ) {
+				$update->upgrade_notice = $response->upgrade_notice;
 			}
 
 			// This is a valid update
-			if ( ! empty( $response->new_version ) && version_compare( $extension->get_version(), $response->new_version, '<' ) ) {
-				$transient->response[ $basename ] = $response;
+			if ( ! empty( $update->new_version ) && version_compare( $extension->get_version(), $update->new_version, '<' ) ) {
+				$transient->response[ $basename ] = $update;
 
 			// This is just fetching the plugin information
 			} else {
-				$transient->no_update[ $basename ] = $response;
+				$transient->no_update[ $basename ] = $update;
 			}
 
 			$transient->last_checked = time();
