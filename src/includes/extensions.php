@@ -359,6 +359,9 @@ function tml_extension_api_call( $url, $args = array() ) {
 			if ( isset( $response->banners ) ) {
 				$response->banners = maybe_unserialize( $response->banners );
 			}
+			if ( isset( $response->icons ) ) {
+				$response->icons = maybe_unserialize( $response->icons );
+			}
 		} else {
 			$response = false;
 		}
