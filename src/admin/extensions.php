@@ -169,6 +169,10 @@ function tml_admin_handle_extension_licenses() {
  * @since 7.1
  */
 function tml_admin_ajax_activate_extension_license() {
+	if ( ! check_ajax_referer( 'theme-my-login-licenses-options', '_wpnonce', false ) ) {
+		tml_send_ajax_error( __( 'Security check failed. Please refresh the page and try again.', 'theme-my-login' ) );
+	}
+
 	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
 		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
 	}
@@ -199,6 +203,10 @@ function tml_admin_ajax_activate_extension_license() {
  * @since 7.1
  */
 function tml_admin_ajax_deactivate_extension_license() {
+	if ( ! check_ajax_referer( 'theme-my-login-licenses-options', '_wpnonce', false ) ) {
+		tml_send_ajax_error( __( 'Security check failed. Please refresh the page and try again.', 'theme-my-login' ) );
+	}
+
 	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
 		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
 	}
