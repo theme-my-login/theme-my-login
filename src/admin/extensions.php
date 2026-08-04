@@ -170,7 +170,7 @@ function tml_admin_handle_extension_licenses() {
  */
 function tml_admin_ajax_activate_extension_license() {
 	if ( ! check_ajax_referer( 'theme-my-login-licenses-options', '_wpnonce', false ) ) {
-		tml_send_ajax_error( __( 'Security check failed. Please refresh the page and try again.', 'theme-my-login' ) );
+		tml_send_ajax_error( __( 'There was an authentication problem. Please reload and try again.' ) );
 	}
 
 	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
@@ -204,7 +204,7 @@ function tml_admin_ajax_activate_extension_license() {
  */
 function tml_admin_ajax_deactivate_extension_license() {
 	if ( ! check_ajax_referer( 'theme-my-login-licenses-options', '_wpnonce', false ) ) {
-		tml_send_ajax_error( __( 'Security check failed. Please refresh the page and try again.', 'theme-my-login' ) );
+		tml_send_ajax_error( __( 'There was an authentication problem. Please reload and try again.' ) );
 	}
 
 	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
