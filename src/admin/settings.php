@@ -290,7 +290,7 @@ function tml_admin_setting_callback_input_field( $args ) {
 	isset( $args['input_class'] ) && empty( $attributes['class'] ) && $attributes['class'] = $args['input_class'];
 
 	$attributes = array_map( function ( $key ) use ( $attributes ) {
-		return is_bool( $attributes[ $key ] ) ? $key : "{$key}='{$attributes[ $key ]}'";
+		return is_bool( $attributes[ $key ] ) ? esc_attr( $key ) : sprintf( "%s='%s'", esc_attr( $key ), esc_attr( $attributes[ $key ] ) );
 	}, array_keys( $attributes ) );
 
 	usort( $attributes, function ( $a, $b ) {
@@ -639,6 +639,10 @@ function tml_admin_save_ms_settings() {
 			}
 			$value = wp_unslash( $value );
 		}
+
+		// update_site_option() skips sanitize_option(), unlike update_option() — apply it explicitly.
+		$value = sanitize_option( $option, $value );
+
 		update_site_option( $option, $value );
 	}
 
