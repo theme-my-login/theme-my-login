@@ -605,10 +605,9 @@ function tml_admin_save_ms_settings() {
 		return;
 	}
 
-	$action      = isset( $_REQUEST['action']      ) ? $_REQUEST['action']      : '';
-	$option_page = isset( $_REQUEST['option_page'] ) ? $_REQUEST['option_page'] : '';
+	$option_page = ! empty( $_REQUEST['option_page'] ) ? $_REQUEST['option_page'] : '';
 
-	if ( ! theme_my_login_admin()->has_page( $option_page ) ) {
+	if ( empty( $option_page) || ! theme_my_login_admin()->has_page( $option_page ) ) {
 		return;
 	}
 
@@ -670,7 +669,7 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 
 	$help_tabs = $sidebar_links = array();
 
-	if ( ! theme_my_login_admin()->has_page( $plugin_page ) ) {
+	if ( empty( $plugin_page ) || ! theme_my_login_admin()->has_page( $plugin_page ) ) {
 		return;
 	}
 
