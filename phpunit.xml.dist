@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	colors="true"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	beStrictAboutOutputDuringTests="true"
+>
+	<testsuites>
+		<testsuite name="theme-my-login">
+			<directory suffix=".php">./tests</directory>
+			<exclude>./tests/multisite</exclude>
+		</testsuite>
+	</testsuites>
+	<coverage>
+		<include>
+			<directory suffix=".php">./src</directory>
+		</include>
+	</coverage>
+	<php>
+		<env name="WP_PHPUNIT__TESTS_CONFIG" value="tests/wp-tests-config.php" force="true" />
+	</php>
+</phpunit>

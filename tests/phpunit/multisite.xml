@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Multisite variant of ../../phpunit.xml.dist. Run with:
+	vendor/bin/phpunit -c tests/phpunit/multisite.xml
+
+	Credential-free like phpunit.xml.dist — DB creds come from real shell
+	environment variables (WP_TESTS_DB_*), the same ones the gitignored
+	local phpunit.xml / CI already export, since PHP's getenv() picks up
+	real process environment regardless of which phpunit.xml is active.
+-->
+<phpunit
+	bootstrap="../bootstrap.php"
+	colors="true"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	beStrictAboutOutputDuringTests="true"
+>
+	<testsuites>
+		<testsuite name="theme-my-login-multisite">
+			<directory suffix=".php">../multisite</directory>
+		</testsuite>
+	</testsuites>
+	<coverage>
+		<include>
+			<directory suffix=".php">../../src</directory>
+		</include>
+	</coverage>
+	<php>
+		<env name="WP_PHPUNIT__TESTS_CONFIG" value="tests/wp-tests-config.php" force="true" />
+		<env name="WP_TESTS_MULTISITE" value="1" force="true" />
+	</php>
+</phpunit>

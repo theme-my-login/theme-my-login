@@ -4,3 +4,5 @@ vendor/
 npm-debug.log
 .DS_Store
 .svn/
+.phpunit.result.cache
+phpunit.xml

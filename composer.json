@@ -1,0 +1,23 @@
+{
+    "name": "theme-my-login/theme-my-login-dev",
+    "description": "Dev dependencies for running the Theme My Login test suite. Not shipped with the plugin.",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "private": true,
+    "require-dev": {
+        "php": ">=7.4",
+        "phpunit/phpunit": "^9.6",
+        "yoast/phpunit-polyfills": "^2.0",
+        "wp-phpunit/wp-phpunit": "^7.0",
+        "roots/wordpress-no-content": "^7.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:strict": "WP_TESTS_STRICT_DEPRECATIONS=1 php -d error_reporting=-1 vendor/bin/phpunit --fail-on-risky"
+    }
+}
