@@ -685,7 +685,7 @@ class Theme_My_Login_Form_Field {
 			case 'textarea' :
 				$output .= $label;
 				$output .= $args['control_before'];
-				$output .= '<textarea name="' . $this->get_name() . '"' . $attributes . '>' . $this->get_value() . "</textarea>\n";
+				$output .= '<textarea name="' . $this->get_name() . '"' . $attributes . '>' . esc_textarea( $this->get_value() ) . "</textarea>\n";
 				$output .= $args['control_after'];
 				break;
 

@@ -34,6 +34,16 @@ class Test_Form_Field extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'value="jane&quot;doe"', $output );
 	}
 
+	public function test_textarea_field_escapes_its_value() {
+		$output = $this->field( 'bio', array(
+			'type'  => 'textarea',
+			'value' => '</textarea><script>alert(1)</script>',
+		) )->render();
+
+		$this->assertStringContainsString( '&lt;/textarea&gt;&lt;script&gt;alert(1)&lt;/script&gt;', $output );
+		$this->assertStringNotContainsString( '<script>', $output );
+	}
+
 	public function test_label_is_linked_to_the_field_id() {
 		$output = $this->field( 'user_login', array(
 			'label' => 'Username',
