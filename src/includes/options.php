@@ -15,7 +15,8 @@
  * @return string|bool The installed TML version.
  */
 function tml_get_installed_version() {
-	if ( $options = get_option( 'theme_my_login' ) ) {
+	$options = get_option( 'theme_my_login' );
+	if ( $options ) {
 		if ( isset( $options['version'] ) ) {
 			return $options['version'];
 		}
@@ -45,7 +46,7 @@ function tml_use_permalinks() {
 	global $wp_rewrite;
 
 	if ( ! $wp_rewrite instanceof WP_Rewrite ) {
-		$wp_rewrite = new WP_Rewrite;
+		$wp_rewrite = new WP_Rewrite(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- lazily instantiates the same global WP core itself sets unconditionally at bootstrap (`$GLOBALS['wp_rewrite'] = new WP_Rewrite();` in wp-settings.php), for callers that may run before that point.
 	}
 
 	$use_permalinks = $wp_rewrite->using_permalinks() && get_site_option( 'tml_use_permalinks', true );
@@ -108,7 +109,7 @@ function tml_get_login_type() {
  * @return bool Whether using the default login type or not.
  */
 function tml_is_default_login_type() {
-	return 'default' == tml_get_login_type();
+	return 'default' === tml_get_login_type();
 }
 
 /**
@@ -119,7 +120,7 @@ function tml_is_default_login_type() {
  * @return bool Whether using the email login type or not.
  */
 function tml_is_email_login_type() {
-	return 'email' == tml_get_login_type();
+	return 'email' === tml_get_login_type();
 }
 
 /**
@@ -130,7 +131,7 @@ function tml_is_email_login_type() {
  * @return bool Whether using the username login type or not.
  */
 function tml_is_username_login_type() {
-	return 'username' == tml_get_login_type();
+	return 'username' === tml_get_login_type();
 }
 
 /**
@@ -161,7 +162,7 @@ function tml_get_registration_type() {
  * @return bool Whether using the default registration type or not.
  */
 function tml_is_default_registration_type() {
-	return 'default' == tml_get_registration_type();
+	return 'default' === tml_get_registration_type();
 }
 
 /**
@@ -172,7 +173,7 @@ function tml_is_default_registration_type() {
  * @return bool Whether using the email registration type or not.
  */
 function tml_is_email_registration_type() {
-	return 'email' == tml_get_registration_type();
+	return 'email' === tml_get_registration_type();
 }
 
 /**

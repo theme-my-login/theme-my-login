@@ -34,9 +34,9 @@ function tml_parse_request( $wp ) {
 	$action = $wp->query_vars['action'];
 
 	// Fix some alias actions
-	if ( 'retrievepassword' == $action ) {
+	if ( 'retrievepassword' === $action ) {
 		$action = 'lostpassword';
-	} elseif ( 'rp' == $action ) {
+	} elseif ( 'rp' === $action ) {
 		$action = 'resetpass';
 	}
 
@@ -56,7 +56,7 @@ function tml_parse_request( $wp ) {
 	}
 
 	// Set the proper action
-	if ( $action != $wp->query_vars['action'] ) {
+	if ( $action !== $wp->query_vars['action'] ) {
 		$wp->set_query_var( 'action', $action );
 	}
 }
@@ -120,7 +120,8 @@ function tml_the_posts( $posts, $wp_query ) {
 		return $posts;
 	}
 
-	if ( ! $post = tml_action_has_page() ) {
+	$post = tml_action_has_page();
+	if ( ! $post ) {
 		// Fake a post
 		$post = array(
 			'ID'             => 0,
@@ -150,14 +151,14 @@ function tml_remove_default_actions_and_filters() {
 	}
 
 	// Remove actions
-	remove_action( 'wp_head', 'feed_links',                       2 );
-	remove_action( 'wp_head', 'feed_links_extra',                 3 );
-	remove_action( 'wp_head', 'rsd_link',                        10 );
-	remove_action( 'wp_head', 'wlwmanifest_link',                10 );
-	remove_action( 'wp_head', 'parent_post_rel_link',            10 );
-	remove_action( 'wp_head', 'start_post_rel_link',             10 );
+	remove_action( 'wp_head', 'feed_links', 2 );
+	remove_action( 'wp_head', 'feed_links_extra', 3 );
+	remove_action( 'wp_head', 'rsd_link', 10 );
+	remove_action( 'wp_head', 'wlwmanifest_link', 10 );
+	remove_action( 'wp_head', 'parent_post_rel_link', 10 );
+	remove_action( 'wp_head', 'start_post_rel_link', 10 );
 	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
-	remove_action( 'wp_head', 'rel_canonical',                   10 );
+	remove_action( 'wp_head', 'rel_canonical', 10 );
 
 	// Remove filters
 	remove_filter( 'template_redirect', 'redirect_canonical' );
@@ -173,11 +174,12 @@ function tml_remove_default_actions_and_filters() {
  */
 function tml_page_template( $template = 'page.php' ) {
 	// Don't stomp on block themes
-	if ( ABSPATH . WPINC . '/template-canvas.php' == $template) {
+	if ( ABSPATH . WPINC . '/template-canvas.php' === $template ) {
 		return $template;
 	}
 
-	if ( ! $action = tml_get_action() ) {
+	$action = tml_get_action();
+	if ( ! $action ) {
 		return $template;
 	}
 
@@ -209,7 +211,8 @@ function tml_page_template( $template = 'page.php' ) {
 	 */
 	$templates = apply_filters( 'tml_page_templates', $templates );
 
-	if ( $tml_template = locate_template( $templates ) ) {
+	$tml_template = locate_template( $templates );
+	if ( $tml_template ) {
 		return $tml_template;
 	}
 
@@ -225,7 +228,8 @@ function tml_page_template( $template = 'page.php' ) {
  * @return array The body classes.
  */
 function tml_body_class( $classes ) {
-	if ( $action = tml_get_action() ) {
+	$action = tml_get_action();
+	if ( $action ) {
 		$classes[] = 'tml-action';
 		$classes[] = 'tml-action-' . $action->get_name();
 	}
@@ -275,10 +279,13 @@ function tml_enqueue_scripts() {
 	 *
 	 * @param array $data The main TML script data.
 	 */
-	$data = apply_filters( 'tml_script_data', array(
-		'action' => tml_is_action() ? tml_get_action()->get_name() : '',
-		'errors' => tml_get_errors()->get_error_codes(),
-	) );
+	$data = apply_filters(
+		'tml_script_data',
+		array(
+			'action' => tml_is_action() ? tml_get_action()->get_name() : '',
+			'errors' => tml_get_errors()->get_error_codes(),
+		)
+	);
 
 	wp_localize_script( 'theme-my-login', 'themeMyLogin', $data );
 
@@ -348,8 +355,9 @@ function tml_add_rewrite_rules() {
 		return;
 	}
 	foreach ( tml_get_actions() as $action ) {
-		$url = 'index.php?action=' . $action->get_name();
-		if ( $page = tml_action_has_page( $action ) ) {
+		$url  = 'index.php?action=' . $action->get_name();
+		$page = tml_action_has_page( $action );
+		if ( $page ) {
 			$url .= '&pagename=' . get_page_uri( $page );
 		}
 		add_rewrite_rule( tml_get_action_slug( $action ) . '/?$', $url, 'top' );
@@ -382,7 +390,7 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 	global $pagenow;
 
 	// Bail if currently visiting wp-login.php
-	if ( 'wp-login.php' == $pagenow ) {
+	if ( 'wp-login.php' === $pagenow ) {
 		return $url;
 	}
 
@@ -392,7 +400,7 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 	}
 
 	// Parse the URL
-	$parsed_url = parse_url( $url );
+	$parsed_url = wp_parse_url( $url );
 
 	// Determine the path
 	$path = '';
@@ -420,14 +428,14 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 
 	// Determine the action
 	switch ( $path ) {
-		case 'wp-login.php' :
+		case 'wp-login.php':
 			// Determine the action
 			$action = isset( $query['action'] ) ? $query['action'] : 'login';
 
 			// Fix some alias actions
-			if ( 'retrievepassword' == $action ) {
+			if ( 'retrievepassword' === $action ) {
 				$action = 'lostpassword';
-			} elseif ( 'rp' == $action ) {
+			} elseif ( 'rp' === $action ) {
 				$action = 'resetpass';
 			}
 
@@ -435,15 +443,15 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 			unset( $query['action'] );
 			break;
 
-		case 'wp-signup.php' :
+		case 'wp-signup.php':
 			$action = 'signup';
 			break;
 
-		case 'wp-activate.php' :
+		case 'wp-activate.php':
 			$action = 'activate';
 			break;
 
-		default :
+		default:
 			return $url;
 	}
 
@@ -453,7 +461,8 @@ function tml_filter_site_url( $url, $path, $scheme ) {
 	}
 
 	// Get the URL
-	$url = tml_get_action_url( $action, $scheme, 'network_site_url' == current_filter() );
+	$is_network = ( 'network_site_url' === current_filter() );
+	$url        = tml_get_action_url( $action, $scheme, $is_network );
 
 	// Add the query
 	$url = add_query_arg( $query, $url );
@@ -484,7 +493,7 @@ function tml_filter_logout_url( $url, $redirect ) {
 
 	// Add the redirect query argument if needed
 	if ( ! empty( $redirect ) ) {
-		$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $url );
+		$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $url ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.urlencode_urlencode -- matches wp_logout_url()'s own encoding of the redirect_to arg.
 	}
 
 	// Add the nonce
@@ -508,7 +517,7 @@ function tml_filter_lostpassword_url( $url, $redirect ) {
 	global $pagenow;
 
 	// Bail if currently visiting wp-login.php
-	if ( 'wp-login.php' == $pagenow ) {
+	if ( 'wp-login.php' === $pagenow ) {
 		return $url;
 	}
 
@@ -522,7 +531,7 @@ function tml_filter_lostpassword_url( $url, $redirect ) {
 
 	// Add the redirect query argument if needed
 	if ( ! empty( $redirect ) ) {
-		$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $url );
+		$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $url ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.urlencode_urlencode -- matches wp_lostpassword_url()'s own encoding of the redirect_to arg.
 	}
 
 	return $url;
@@ -572,7 +581,7 @@ function tml_filter_comments_array( $comments ) {
 function tml_filter_customize_nav_menu_available_item_types( $item_types ) {
 	$item_types[] = array(
 		'title'      => __( 'Theme My Login Actions', 'theme-my-login' ),
-		'type_label' => __( 'Theme My Login Action',  'theme-my-login' ),
+		'type_label' => __( 'Theme My Login Action', 'theme-my-login' ),
 		'type'       => 'tml_action',
 		'object'     => 'tml_action',
 	);
@@ -590,8 +599,8 @@ function tml_filter_customize_nav_menu_available_item_types( $item_types ) {
  * @param int    $page   The current page.
  * @return array The available items.
  */
-function tml_filter_customize_nav_menu_available_items( $items, $type, $object, $page ) {
-	if ( 'tml_action' == $type && 0 == $page ) {
+function tml_filter_customize_nav_menu_available_items( $items, $type, $object, $page ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.objectFound -- matches the customize_nav_menu_available_items filter's documented parameter name.
+	if ( 'tml_action' === $type && 0 === $page ) {
 		foreach ( tml_get_actions() as $action ) {
 			if ( ! $action->show_in_nav_menus ) {
 				continue;
@@ -639,15 +648,16 @@ function tml_setup_nav_menu_item( $menu_item ) {
 			'xfn'              => '',
 		);
 
-	// Existing menu item
-	} elseif ( 'tml_action' == $menu_item->type ) {
+		// Existing menu item
+	} elseif ( 'tml_action' === $menu_item->type ) {
 		$menu_item->object_id  = $menu_item->ID;
 		$menu_item->type_label = __( 'TML Action', 'theme-my-login' );
-		if ( ! $action = tml_get_action( $menu_item->object ) ) {
+		$action                = tml_get_action( $menu_item->object );
+		if ( ! $action ) {
 			$menu_item->_invalid = true;
 		} else {
 			$menu_item->url = $action->get_url();
-			if ( 'logout' == $menu_item->object ) {
+			if ( 'logout' === $menu_item->object ) {
 				$menu_item->url = wp_nonce_url( $menu_item->url, 'log-out' );
 			}
 			if ( ! is_admin() && ! $action->show_nav_menu_item ) {
@@ -655,11 +665,12 @@ function tml_setup_nav_menu_item( $menu_item ) {
 			}
 		}
 
-	// Legacy menu item
-	} elseif ( 'page' == $menu_item->object ) {
-		$slug = get_post_field( 'post_name', $menu_item->object_id );
-		if ( $action = tml_get_action( $slug ) ) {
-			if ( 'logout' == $action->get_name() ) {
+		// Legacy menu item
+	} elseif ( 'page' === $menu_item->object ) {
+		$slug   = get_post_field( 'post_name', $menu_item->object_id );
+		$action = tml_get_action( $slug );
+		if ( $action ) {
+			if ( 'logout' === $action->get_name() ) {
 				$menu_item->url = wp_nonce_url( $action->get_url(), 'log-out' );
 			}
 			if ( ! is_admin() && ! $action->show_nav_menu_item ) {
@@ -681,7 +692,7 @@ function tml_setup_nav_menu_item( $menu_item ) {
  * @return array The nav menu item classes.
  */
 function tml_nav_menu_css_class( $classes, $item ) {
-	if ( 'tml_action' == $item->type ) {
+	if ( 'tml_action' === $item->type ) {
 		if ( tml_is_action( $item->object ) ) {
 			$classes[] = 'current-menu-item';
 			$classes[] = 'current_page_item';
@@ -699,6 +710,7 @@ function tml_nav_menu_css_class( $classes, $item ) {
  * @return WP_Error The registration errors.
  */
 function tml_validate_new_user_password( $errors = null ) {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- mirrors WP core's own registration password validation (register_new_user()), which has no nonce of its own.
 
 	if ( empty( $errors ) ) {
 		$errors = new WP_Error();
@@ -708,13 +720,14 @@ function tml_validate_new_user_password( $errors = null ) {
 		if ( empty( $_POST['user_pass1'] ) || empty( $_POST['user_pass2'] ) ) {
 			$errors->add( 'empty_password', __( '<strong>Error:</strong> Please enter a password.', 'theme-my-login' ) );
 
-		} elseif ( false !== strpos( stripslashes( $_POST['user_pass1'] ), "\\" ) ) {
+		} elseif ( false !== strpos( stripslashes( $_POST['user_pass1'] ), '\\' ) ) {
 			$errors->add( 'password_backslash', __( '<strong>Error:</strong> Passwords may not contain the character "\\".', 'theme-my-login' ) );
 
 		} elseif ( $_POST['user_pass1'] !== $_POST['user_pass2'] ) {
 			$errors->add( 'password_mismatch', __( '<strong>Error:</strong> Passwords don&#8217;t match. Please enter the same password in both password fields.', 'theme-my-login' ) );
 		}
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	return $errors;
 }
@@ -743,11 +756,13 @@ function tml_add_password_notice_to_new_user_notification_email( $email ) {
  * @return string The sanitized user login.
  */
 function tml_set_user_login( $sanitized_user_login ) {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- mirrors WP core's own registration processing (register_new_user()), which has no nonce of its own.
 	if ( tml_is_email_registration_type() && tml_is_post_request() ) {
-		if ( isset( $_POST['user_login'] ) && sanitize_user( $_POST['user_login'] ) == $sanitized_user_login && isset( $_POST['user_email'] ) ) {
+		if ( isset( $_POST['user_login'] ) && sanitize_user( $_POST['user_login'] ) === $sanitized_user_login && isset( $_POST['user_email'] ) ) {
 			$sanitized_user_login = sanitize_user( $_POST['user_email'] );
 		}
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	return $sanitized_user_login;
 }
 
@@ -798,6 +813,7 @@ function tml_get_username_label( $action = '' ) {
 		$action = tml_get_action();
 	}
 
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these labels intentionally reuse WP core's translated strings verbatim, not TML-specific strings.
 	switch ( $action ) {
 		case 'register':
 			$label = __( 'Username' );
@@ -814,6 +830,7 @@ function tml_get_username_label( $action = '' ) {
 				$label = __( 'Username or Email Address' );
 			}
 	}
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 
 	return apply_filters( 'tml_get_username_label', $label, $action );
 }
@@ -828,9 +845,9 @@ function tml_get_username_label( $action = '' ) {
  * @param string                $password
  * @return null|WP_User|WP_Error
  */
-function tml_enforce_login_type( $user, $username, $password ) {
-	if ( tml_is_email_login_type() && null == $user ) {
-		return new WP_Error( 'invalid_email', __( 'Unknown email address. Check again or try your username.' ) );
+function tml_enforce_login_type( $user, $username, $password ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $username/$password are unused but required by the authenticate filter signature.
+	if ( tml_is_email_login_type() && null === $user ) {
+		return new WP_Error( 'invalid_email', __( 'Unknown email address. Check again or try your username.' ) ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string verbatim (see wp-includes/user.php), not a TML-specific string.
 	}
 	return $user;
 }
@@ -847,11 +864,13 @@ function tml_set_new_user_password( $user_id ) {
 		return;
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- mirrors WP core's own registration password handling (register_new_user()), which has no nonce of its own.
 	if ( empty( $_POST['user_pass1'] ) ) {
 		return;
 	}
 
 	wp_set_password( $_POST['user_pass1'], $user_id );
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	update_user_option( $user_id, 'default_password_nag', false, true );
 }
 
@@ -867,7 +886,7 @@ function tml_handle_auto_login( $user_id ) {
 		return;
 	}
 
-	if ( 'wpmu_activate_blog' == current_filter() ) {
+	if ( 'wpmu_activate_blog' === current_filter() ) {
 		$user_id = func_get_arg( 1 );
 	}
 
@@ -908,8 +927,8 @@ function tml_send_new_user_notifications( $user_id, $notify = 'both' ) {
 	if ( empty( $notify ) ) {
 		$notify = 'admin';
 
-	// Set to admin if set to both and user is disabled
-	} elseif ( 'both' == $notify ) {
+		// Set to admin if set to both and user is disabled
+	} elseif ( 'both' === $notify ) {
 		if ( ! $send_user_notification ) {
 			$notify = 'admin';
 		} elseif ( ! $send_admin_notification ) {
@@ -918,11 +937,11 @@ function tml_send_new_user_notifications( $user_id, $notify = 'both' ) {
 	}
 
 	// Bail if type is admin and it is disabled
-	if ( 'admin' == $notify && ! $send_admin_notification ) {
+	if ( 'admin' === $notify && ! $send_admin_notification ) {
 		return;
 
-	// Bail if type is user and it is disabled
-	} elseif ( 'user' == $notify && ! $send_user_notification ) {
+		// Bail if type is user and it is disabled
+	} elseif ( 'user' === $notify && ! $send_user_notification ) {
 		return;
 	}
 
@@ -939,7 +958,8 @@ function tml_send_new_user_notifications( $user_id, $notify = 'both' ) {
  * @param string $severity The error severity.
  */
 function tml_add_error( $code, $message, $data = '' ) {
-	if ( ! $form = tml_get_form() ) {
+	$form = tml_get_form();
+	if ( ! $form ) {
 		return;
 	}
 	$form->add_error( $code, $message, $data );
@@ -953,8 +973,9 @@ function tml_add_error( $code, $message, $data = '' ) {
  * @return WP_Error
  */
 function tml_get_errors() {
-	if ( ! $form = tml_get_form() ) {
-		return new WP_Error;
+	$form = tml_get_form();
+	if ( ! $form ) {
+		return new WP_Error();
 	}
 	return $form->get_errors();
 }
@@ -967,7 +988,8 @@ function tml_get_errors() {
  * @param WP_Error $errors The errors.
  */
 function tml_set_errors( WP_Error $errors ) {
-	if ( ! $form = tml_get_form() ) {
+	$form = tml_get_form();
+	if ( ! $form ) {
 		return;
 	}
 	$form->set_errors( $errors );
@@ -981,7 +1003,8 @@ function tml_set_errors( WP_Error $errors ) {
  * @return bool
  */
 function tml_has_errors() {
-	if ( ! $form = tml_get_form() ) {
+	$form = tml_get_form();
+	if ( ! $form ) {
 		return false;
 	}
 	return $form->has_errors();
@@ -996,7 +1019,7 @@ function tml_has_errors() {
  * @param mixed  $default The value to return if the property is not set.
  * @return mixed The property value or $default if not set.
  */
-function tml_get_data( $name, $default = false ) {
+function tml_get_data( $name, $default = false ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.defaultFound -- public API parameter name, renaming risks breaking PHP 8 named-argument callers.
 	return theme_my_login()->get_data( $name, $default );
 }
 
@@ -1023,16 +1046,18 @@ function tml_set_data( $name, $value = '' ) {
  * @return mixed The requested value.
  */
 function tml_get_request_value( $key, $type = 'any' ) {
-	$type  = strtoupper( $type );
-	if ( 'POST' == $type && array_key_exists( $key, $_POST ) ) {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- generic request-value accessor used in both nonce-protected and read-only contexts; verification is the caller's responsibility.
+	$type = strtoupper( $type );
+	if ( 'POST' === $type && array_key_exists( $key, $_POST ) ) {
 		$value = $_POST[ $key ];
-	} elseif ( 'GET' == $type && array_key_exists( $key, $_GET ) ) {
+	} elseif ( 'GET' === $type && array_key_exists( $key, $_GET ) ) {
 		$value = $_GET[ $key ];
 	} elseif ( array_key_exists( $key, $_REQUEST ) ) {
 		$value = $_REQUEST[ $key ];
 	} else {
 		$value = '';
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing
 
 	if ( is_string( $value ) ) {
 		$value = wp_unslash( $value );
@@ -1051,7 +1076,7 @@ function tml_get_request_value( $key, $type = 'any' ) {
 function tml_is_wp_login() {
 	global $pagenow;
 
-	return ( 'wp-login.php' == $pagenow );
+	return ( 'wp-login.php' === $pagenow );
 }
 
 /**
@@ -1136,7 +1161,8 @@ function tml_send_ajax_error( $data = null ) {
  * @return string The validated URL.
  */
 function tml_validate_redirect( $url ) {
-	return wp_validate_redirect( wp_sanitize_redirect( $url ),
+	return wp_validate_redirect(
+		wp_sanitize_redirect( $url ),
 		/** This filter is documented in wp-includes/pluggable.php */
 		apply_filters( 'wp_safe_redirect_fallback', admin_url(), 302 )
 	);
@@ -1151,7 +1177,7 @@ function tml_validate_redirect( $url ) {
  * @param array  $array    The array to be mapped.
  * @return array The resulting array.
  */
-function tml_array_map_recursive( $callback, $array ) {
+function tml_array_map_recursive( $callback, $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound -- public API parameter name, renaming risks breaking PHP 8 named-argument callers.
 	foreach ( $array as $key => $value ) {
 		if ( is_array( $value ) ) {
 			$array[ $key ] = tml_array_map_recursive( $callback, $value );

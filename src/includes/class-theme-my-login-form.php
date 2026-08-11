@@ -90,24 +90,30 @@ class Theme_My_Login_Form {
 
 		$this->set_name( $name );
 
-		$args = wp_parse_args( $args, array(
-			'action'     => '',
-			'method'     => 'post',
-			'attributes' => array(),
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'action'     => '',
+				'method'     => 'post',
+				'attributes' => array(),
+			)
+		);
 
 		$this->set_action( $args['action'] );
 		$this->set_method( $args['method'] );
 
-		$this->errors = new WP_Error;
+		$this->errors = new WP_Error();
 
 		// Add the default links
 		foreach ( tml_get_actions() as $action ) {
-			if ( $action->show_on_forms && $action->get_name() != $this->get_name() ) {
-				$this->add_link( $action->get_name(), array(
-					'text' => true === $action->show_on_forms ? $action->get_title() : $action->show_on_forms,
-					'url'  => $action->get_url(),
-				) );
+			if ( $action->show_on_forms && $action->get_name() !== $this->get_name() ) {
+				$this->add_link(
+					$action->get_name(),
+					array(
+						'text' => true === $action->show_on_forms ? $action->get_title() : $action->show_on_forms,
+						'url'  => $action->get_url(),
+					)
+				);
 			}
 		}
 
@@ -200,7 +206,7 @@ class Theme_My_Login_Form {
 	 */
 	public function set_method( $method ) {
 		$method = strtolower( $method );
-		if ( ! in_array( $method, array( 'get', 'post' ) ) ) {
+		if ( ! in_array( $method, array( 'get', 'post' ), true ) ) {
 			$method = 'post';
 		}
 		$this->method = $method;
@@ -313,7 +319,7 @@ class Theme_My_Login_Form {
 		$sorted_fields = array();
 
 		// Prioritize the fields
-		foreach( $this->fields as $field ) {
+		foreach ( $this->fields as $field ) {
 			$priority = $field->get_priority();
 			if ( ! isset( $priorities[ $priority ] ) ) {
 				$priorities[ $priority ] = array();
@@ -401,7 +407,7 @@ class Theme_My_Login_Form {
 			$severity = $this->errors->get_error_data( $code );
 
 			foreach ( $this->errors->get_error_messages( $code ) as $error ) {
-				if ( 'message' == $severity ) {
+				if ( 'message' === $severity ) {
 					$messages[] = $error;
 				} else {
 					$errors[] = $error;
@@ -412,13 +418,15 @@ class Theme_My_Login_Form {
 		$output = '';
 
 		if ( ! empty( $errors ) ) {
-			$output .= sprintf( '<ul class="tml-errors"><li class="tml-error">%s</li></ul>',
+			$output .= sprintf(
+				'<ul class="tml-errors"><li class="tml-error">%s</li></ul>',
 				apply_filters( 'login_errors', implode( "</li>\n<li class=\"tml-error\">", $errors ) )
 			);
 		}
 
 		if ( ! empty( $messages ) ) {
-			$output .= sprintf( '<ul class="tml-messages"><li class="tml-message">%s</li></ul>',
+			$output .= sprintf(
+				'<ul class="tml-messages"><li class="tml-message">%s</li></ul>',
 				apply_filters( 'login_messages', implode( "</li>\n<li class=\"tml-message\">", $messages ) )
 			);
 		}
@@ -440,10 +448,13 @@ class Theme_My_Login_Form {
 	 * }
 	 */
 	public function add_link( $link, $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'text' => '',
-			'url'  => '',
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'text' => '',
+				'url'  => '',
+			)
+		);
 
 		$link = sanitize_key( $link );
 
@@ -504,14 +515,16 @@ class Theme_My_Login_Form {
 	 */
 	public function render_links() {
 
-		if ( ! $links = $this->get_links() ) {
+		$links = $this->get_links();
+		if ( ! $links ) {
 			return;
 		}
 
 		$output = '<ul class="tml-links">';
 
 		foreach ( $links as $name => $link ) {
-			$output .= sprintf( '<li class="tml-%s-link"><a href="%s">%s</a></li>',
+			$output .= sprintf(
+				'<li class="tml-%s-link"><a href="%s">%s</a></li>',
 				esc_attr( $name ),
 				esc_url( $link['url'] ),
 				esc_html( $link['text'] )
@@ -564,15 +577,18 @@ class Theme_My_Login_Form {
 	 * @return string The form markup.
 	 */
 	public function render( $args = array() ) {
-		$defaults = wp_parse_args( $this->render_args, array(
-			'container'       => 'div',
-			'container_class' => 'tml tml-%s',
-			'container_id'    => '',
-			'before'          => '',
-			'after'           => '',
-			'show_links'      => true,
-			'show_form'       => true,
-		) );
+		$defaults = wp_parse_args(
+			$this->render_args,
+			array(
+				'container'       => 'div',
+				'container_class' => 'tml tml-%s',
+				'container_id'    => '',
+				'before'          => '',
+				'after'           => '',
+				'show_links'      => true,
+				'show_form'       => true,
+			)
+		);
 
 		/**
 		 * Fires before rendering a form.

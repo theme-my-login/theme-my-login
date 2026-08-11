@@ -19,11 +19,15 @@ class Theme_My_Login_Widget extends WP_Widget {
 	 *
 	 * @since 6.0
 	 */
-	public function  __construct() {
-		parent::__construct( 'theme-my-login', __( 'Theme My Login', 'theme-my-login' ), array(
-			'classname'   => 'widget_theme_my_login',
-			'description' => __( 'A login form for your site.', 'theme-my-login' ),
-		) );
+	public function __construct() {
+		parent::__construct(
+			'theme-my-login',
+			__( 'Theme My Login', 'theme-my-login' ),
+			array(
+				'classname'   => 'widget_theme_my_login',
+				'description' => __( 'A login form for your site.', 'theme-my-login' ),
+			)
+		);
 	}
 
 	/**
@@ -37,7 +41,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$instance = wp_parse_args( $instance, $this->defaults() );
 
-		$show_widget = ( is_user_logged_in() && 'login' != $instance['action'] ) || ! tml_is_action();
+		$show_widget = ( is_user_logged_in() && 'login' !== $instance['action'] ) || ! tml_is_action();
 
 		/**
 		 * Filters whether to show the widget or not.
@@ -60,9 +64,11 @@ class Theme_My_Login_Widget extends WP_Widget {
 		}
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- before_widget/before_title/after_title come from the theme's register_sidebar() args, not request data; matches how every WP core bundled widget outputs them.
 		echo $args['before_widget'];
 
 		if ( $title ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- matches WP core's own widget convention of not escaping widget_title-filtered output (see e.g. WP_Widget_Pages::widget()); before_title/after_title are theme-provided wrapper markup.
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 
@@ -83,24 +89,31 @@ class Theme_My_Login_Widget extends WP_Widget {
 			 *
 			 * @param array $user_links The links shown in the widget when logged in.
 			 */
-			$user_links = apply_filters( 'tml_widget_user_links', array_filter( array(
-				'site_admin' => current_user_can( 'edit_posts' ) ? array(
-					'title'  => __( 'Site Admin' ),
-					'url'    => admin_url(),
-				) : false,
-				'dashboard'  => array(
-					'title'  => __( 'Dashboard' ),
-					'url'    => tml_get_action_url( 'dashboard' ),
-				),
-				'profile'    => array(
-					'title'  => __( 'Edit Profile' ),
-					'url'    => admin_url( 'profile.php' ),
-				),
-				'logout'     => array(
-					'title'  => __( 'Log Out' ),
-					'url'    => wp_logout_url(),
-				),
-			) ) );
+			// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these labels intentionally reuse WP core's translated strings ("Site Admin"/"Dashboard"/"Edit Profile"/"Log Out" all exist verbatim in wp-admin/wp-includes), not TML-specific strings.
+			$user_links = apply_filters(
+				'tml_widget_user_links',
+				array_filter(
+					array(
+						'site_admin' => current_user_can( 'edit_posts' ) ? array(
+							'title' => __( 'Site Admin' ),
+							'url'   => admin_url(),
+						) : false,
+						'dashboard'  => array(
+							'title' => __( 'Dashboard' ),
+							'url'   => tml_get_action_url( 'dashboard' ),
+						),
+						'profile'    => array(
+							'title' => __( 'Edit Profile' ),
+							'url'   => admin_url( 'profile.php' ),
+						),
+						'logout'     => array(
+							'title' => __( 'Log Out' ),
+							'url'   => wp_logout_url(),
+						),
+					)
+				)
+			);
+			// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 			?>
 
 			<div class="tml tml-user-panel">
@@ -135,16 +148,21 @@ class Theme_My_Login_Widget extends WP_Widget {
 
 			</div>
 
-		<?php else :
+			<?php
+		else :
 
-			echo tml_shortcode( array(
-				'action'      => $instance['action'],
-				'show_links'  => $instance['show_links'],
-				'redirect_to' => $_SERVER['REQUEST_URI'],
-			) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- tml_shortcode() builds its own safely-escaped markup internally (see includes/shortcodes.php).
+			echo tml_shortcode(
+				array(
+					'action'      => $instance['action'],
+					'show_links'  => $instance['show_links'],
+					'redirect_to' => $_SERVER['REQUEST_URI'],
+				)
+			);
 
 		endif;
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- after_widget comes from the theme's register_sidebar() args, not request data; matches how every WP core bundled widget outputs it.
 		echo $args['after_widget'];
 	}
 
@@ -157,14 +175,17 @@ class Theme_My_Login_Widget extends WP_Widget {
 	public function form( $instance ) {
 		$instance = wp_parse_args( $instance, $this->defaults() );
 
-		$actions = wp_list_filter( tml_get_actions(), array(
-			'show_in_widget' => true,
-		) );
+		$actions = wp_list_filter(
+			tml_get_actions(),
+			array(
+				'show_in_widget' => true,
+			)
+		);
 		?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'action' ); ?>"><?php _e( 'Action:' ); ?>
-				<select class="widefat" id="<?php echo $this->get_field_id( 'action' ); ?>" name="<?php echo $this->get_field_name( 'action' ); ?>">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'action' ) ); ?>"><?php esc_html_e( 'Action' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reuses WP core's translated "Action" string verbatim, not a TML-specific string. ?>
+				<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'action' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'action' ) ); ?>">
 					<?php foreach ( $actions as $action ) : ?>
 						<option value="<?php echo esc_attr( $action->get_name() ); ?>"<?php selected( $action->get_name(), $instance['action'] ); ?>><?php echo esc_html( $action->get_title() ); ?></option>
 					<?php endforeach; ?>
@@ -173,8 +194,8 @@ class Theme_My_Login_Widget extends WP_Widget {
 		</p>
 
 		<p>
-			<input class="checkbox" id="<?php echo $this->get_field_id( 'show_links' ); ?>" name="<?php echo $this->get_field_name( 'show_links' ); ?>" type="checkbox" value="1"<?php checked( ! empty( $instance['show_links'] ) ); ?> />
-			<label for="<?php echo $this->get_field_id( 'show_links' ); ?>"><?php _e( 'Show action links?', 'theme-my-login' ); ?></label>
+			<input class="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_links' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_links' ) ); ?>" type="checkbox" value="1"<?php checked( ! empty( $instance['show_links'] ) ); ?> />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'show_links' ) ); ?>"><?php esc_html_e( 'Show action links?', 'theme-my-login' ); ?></label>
 		</p>
 
 		<?php
@@ -209,7 +230,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 	 */
 	public function defaults() {
 		return array(
-			'action' => 'login',
+			'action'     => 'login',
 			'show_links' => false,
 		);
 	}

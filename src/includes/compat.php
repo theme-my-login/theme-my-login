@@ -20,6 +20,8 @@
  * @return True on success, WP_Error on error.
  */
 function tml_retrieve_password() {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- mirrors wp-includes/user.php's retrieve_password(), a public unauthenticated form with no nonce.
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these messages intentionally reuse WP core's translated strings verbatim (see wp-includes/user.php's retrieve_password()), not TML-specific strings.
 	$errors    = new WP_Error();
 	$user_data = false;
 
@@ -34,6 +36,7 @@ function tml_retrieve_password() {
 		$login     = trim( wp_unslash( $_POST['user_login'] ) );
 		$user_data = get_user_by( 'login', $login );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	/** Tis filter is documented in wp-login.php */
 	$user_data = apply_filters( 'lostpassword_user_data', $user_data, $errors );
@@ -52,6 +55,7 @@ function tml_retrieve_password() {
 		$errors->add( 'invalidcombo', __( '<strong>Error:</strong> There is no account with that username or email address.' ) );
 		return $errors;
 	}
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 
 	$key = get_password_reset_key( $user_data );
 	if ( is_wp_error( $key ) ) {
@@ -90,10 +94,9 @@ function tml_retrieve_password_notification( $user, $key ) {
 		$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
-	$message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
-	/* translators: %s: site name */
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- these messages intentionally reuse WP core's translated strings verbatim (see wp-includes/user.php's retrieve_password_notification email), not TML-specific strings; no translators comments since they never enter TML's own .pot.
+	$message  = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
 	$message .= sprintf( __( 'Site Name: %s' ), $site_name ) . "\r\n\r\n";
-	/* translators: %s: user login */
 	$message .= sprintf( __( 'Username: %s' ), $user->user_login ) . "\r\n\r\n";
 	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
 	$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
@@ -102,14 +105,13 @@ function tml_retrieve_password_notification( $user, $key ) {
 	$requester_ip = $_SERVER['REMOTE_ADDR'];
 	if ( $requester_ip ) {
 		$message .= sprintf(
-			/* translators: %s: IP address of password reset requester. */
 			__( 'This password reset request originated from the IP address %s.' ),
 			$requester_ip
 		) . "\r\n";
 	}
 
-	/* translators: Password reset email subject. %s: Site name */
 	$title = sprintf( __( '[%s] Password Reset' ), $site_name );
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
 	/**
 	 * Filters the subject of the password reset email.
@@ -169,9 +171,13 @@ function tml_retrieve_password_notification( $user, $key ) {
 		$retrieve_password_email['message'],
 		$retrieve_password_email['headers']
 	) ) {
-		wp_die( sprintf(
-			__( '<strong>Error:</strong> The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
-			esc_url( __( 'https://wordpress.org/documentation/article/reset-your-password/' ) )
-		) );
+		// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment, WordPress.Security.EscapeOutput.OutputNotEscaped -- reusing WP core's translated strings verbatim (see wp-includes/user.php); no translators comment since this never enters TML's own .pot; the dynamic URL is already esc_url()'d.
+		wp_die(
+			sprintf(
+				__( '<strong>Error:</strong> The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
+				esc_url( __( 'https://wordpress.org/documentation/article/reset-your-password/' ) )
+			)
+			// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment, WordPress.Security.EscapeOutput.OutputNotEscaped
+		);
 	}
 }

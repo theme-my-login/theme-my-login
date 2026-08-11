@@ -13,25 +13,31 @@
  * @since 7.0
  */
 function tml_ms_register_default_actions() {
-	tml_register_action( 'signup', array(
-		'title'             => '',
-		'slug'              => 'signup',
-		'callback'          => 'tml_ms_signup_handler',
-		'network'           => true,
-		'show_on_forms'     => false,
-		'show_in_widget'    => false,
-		'show_in_nav_menus' => false,
-	) );
+	tml_register_action(
+		'signup',
+		array(
+			'title'             => '',
+			'slug'              => 'signup',
+			'callback'          => 'tml_ms_signup_handler',
+			'network'           => true,
+			'show_on_forms'     => false,
+			'show_in_widget'    => false,
+			'show_in_nav_menus' => false,
+		)
+	);
 
-	tml_register_action( 'activate', array(
-		'title'             => '',
-		'slug'              => 'activate',
-		'callback'          => 'tml_ms_activation_handler',
-		'network'           => true,
-		'show_on_forms'     => false,
-		'show_in_widget'    => false,
-		'show_in_nav_menus' => false,
-	) );
+	tml_register_action(
+		'activate',
+		array(
+			'title'             => '',
+			'slug'              => 'activate',
+			'callback'          => 'tml_ms_activation_handler',
+			'network'           => true,
+			'show_on_forms'     => false,
+			'show_in_widget'    => false,
+			'show_in_nav_menus' => false,
+		)
+	);
 }
 
 /**
@@ -53,103 +59,148 @@ function tml_ms_register_default_forms() {
  */
 function tml_ms_register_user_signup_form() {
 
-	tml_register_form( 'user_signup', array(
-		'action'      => tml_get_action_url( 'signup' ),
-		'attributes'  => array(
-			'id'         => 'setupform',
-			'novalidate' => 'novalidate',
-		),
-		'render_args' => array(
-			'show_links' => false,
-		),
-	) );
+	tml_register_form(
+		'user_signup',
+		array(
+			'action'      => tml_get_action_url( 'signup' ),
+			'attributes'  => array(
+				'id'         => 'setupform',
+				'novalidate' => 'novalidate',
+			),
+			'render_args' => array(
+				'show_links' => false,
+			),
+		)
+	);
 
-	tml_add_form_field( 'user_signup', 'stage', array(
-		'type'     => 'hidden',
-		'value'    => 'validate-user-signup',
-		'priority' => 5,
-	) );
+	tml_add_form_field(
+		'user_signup',
+		'stage',
+		array(
+			'type'     => 'hidden',
+			'value'    => 'validate-user-signup',
+			'priority' => 5,
+		)
+	);
 
-	tml_add_form_field( 'user_signup', 'signup_hidden_fields', array(
-		'type'        => 'action',
-		'render_args' => array( 'validate-user' ),
-	) );
+	tml_add_form_field(
+		'user_signup',
+		'signup_hidden_fields',
+		array(
+			'type'        => 'action',
+			'render_args' => array( 'validate-user' ),
+		)
+	);
 
 	if ( tml_is_default_registration_type() ) {
-		tml_add_form_field( 'user_signup', 'user_name', array(
-			'type'        => 'text',
-			'label'       => __( 'Username:' ),
-			'description' => __( '(Must be at least 4 characters, letters and numbers only.)' ),
-			'value'       => '',
-			'id'          => 'user_name',
-			'attributes'  => array(
-				'autocapitalize' => 'none',
-				'autocorrect'    => 'off',
-				'maxlength'      => 60,
-			),
-			'priority'    => 10,
-		) );
+		tml_add_form_field(
+			'user_signup',
+			'user_name',
+			array(
+				'type'        => 'text',
+				'label'       => __( 'Username:' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Username:" string (see wp-signup.php), not a TML-specific string.
+				'description' => __( '(Must be at least 4 characters, lowercase letters and numbers only.)' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
+				'value'       => '',
+				'id'          => 'user_name',
+				'attributes'  => array(
+					'autocapitalize' => 'none',
+					'autocorrect'    => 'off',
+					'maxlength'      => 60,
+				),
+				'priority'    => 10,
+			)
+		);
 	} else {
-		tml_add_form_field( 'user_signup', 'user_name', array(
-			'type'     => 'hidden',
-			'label'    => '',
-			'value'    => 'user' . md5( microtime() ),
-			'id'       => 'user_name',
-			'priority' => 10,
-		) );
+		tml_add_form_field(
+			'user_signup',
+			'user_name',
+			array(
+				'type'     => 'hidden',
+				'label'    => '',
+				'value'    => 'user' . md5( microtime() ),
+				'id'       => 'user_name',
+				'priority' => 10,
+			)
+		);
 	}
 
-	tml_add_form_field( 'user_signup', 'user_email', array(
-		'type'        => 'email',
-		'label'       => __( 'Email&nbsp;Address:' ),
-		'description' => __( 'We send your registration email to this address. (Double-check your email address before continuing.)' ),
-		'value'       => '',
-		'id'          => 'user_email',
-		'attributes'  => array(
-			'maxlength' => 200,
-		),
-		'priority'    => 15,
-	) );
+	tml_add_form_field(
+		'user_signup',
+		'user_email',
+		array(
+			'type'        => 'email',
+			'label'       => __( 'Email&nbsp;Address:' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Email&nbsp;Address:" string (see wp-signup.php), not a TML-specific string.
+			'description' => __( 'Your registration email is sent to this address. (Double-check your email address before continuing.)' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
+			'value'       => '',
+			'id'          => 'user_email',
+			'attributes'  => array(
+				'maxlength' => 200,
+			),
+			'priority'    => 15,
+		)
+	);
 
-	tml_add_form_field( 'user_signup', 'signup_extra_fields', array(
-		'type'        => 'action',
-		'render_args' => array( tml_get_errors() ),
-	) );
+	tml_add_form_field(
+		'user_signup',
+		'signup_extra_fields',
+		array(
+			'type'        => 'action',
+			'render_args' => array( tml_get_errors() ),
+		)
+	);
 
 	$active_signup = tml_ms_signup_get_active_signup();
 
-	if ( 'blog' == $active_signup ) {
-		tml_add_form_field( 'user_signup', 'signup_for', array(
-			'type'     => 'hidden',
-			'value'    => 'blog',
-			'id'       => 'signupblog',
-			'priority' => 20,
-		) );
-	} elseif ( 'user' == $active_signup ) {
-		tml_add_form_field( 'user_signup', 'signup_for', array(
-			'type'     => 'hidden',
-			'value'    => 'user',
-			'id'       => 'signupuser',
-			'priority' => 20,
-		) );
+	if ( 'blog' === $active_signup ) {
+		tml_add_form_field(
+			'user_signup',
+			'signup_for',
+			array(
+				'type'     => 'hidden',
+				'value'    => 'blog',
+				'id'       => 'signupblog',
+				'priority' => 20,
+			)
+		);
+	} elseif ( 'user' === $active_signup ) {
+		tml_add_form_field(
+			'user_signup',
+			'signup_for',
+			array(
+				'type'     => 'hidden',
+				'value'    => 'user',
+				'id'       => 'signupuser',
+				'priority' => 20,
+			)
+		);
 	} else {
-		tml_add_form_field( 'user_signup', 'signup_for', array(
-			'type'     => 'radio-group',
-			'options'  => array(
-				'blog' => __( 'Gimme a site!' ),
-				'user' => __( 'Just a username, please.' ),
-			),
-			'value'    => isset( $_POST['signup_for'] ) ? $_POST['signup_for'] : 'blog',
-			'priority' => 20,
-		) );
+		tml_add_form_field(
+			'user_signup',
+			'signup_for',
+			array(
+				'type'     => 'radio-group',
+				// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated wp-signup.php strings verbatim, not TML-specific strings.
+				'options'  => array(
+					'blog' => __( 'Gimme a site!' ),
+					'user' => __( 'Just a username, please.' ),
+				),
+				// phpcs:enable WordPress.WP.I18n.MissingArgDomain
+				'value'    => isset( $_POST['signup_for'] ) ? $_POST['signup_for'] : 'blog', // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only: pre-fills the field's default selection, not processed/acted on.
+				'priority' => 20,
+			)
+		);
 	}
 
-	tml_add_form_field( 'user_signup', 'submit', array(
-		'type'     => 'submit',
-		'name'     => 'submit',
-		'value'    => __( 'Next' ),
-		'priority' => 25,
-	) );
+	tml_add_form_field(
+		'user_signup',
+		'submit',
+		array(
+			'type'     => 'submit',
+			'name'     => 'submit',
+			'value'    => __( 'Next' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Next" string (see wp-signup.php), not a TML-specific string.
+			'priority' => 25,
+		)
+	);
 }
 
 /**
@@ -159,42 +210,65 @@ function tml_ms_register_user_signup_form() {
  */
 function tml_ms_register_blog_signup_form() {
 
-	tml_register_form( 'blog_signup', array(
-		'action'      => tml_get_action_url( 'signup' ),
-		'attributes'  => array(
-			'id' => 'setupform',
-		),
-		'render_args' => array(
-			'show_links' => false,
+	tml_register_form(
+		'blog_signup',
+		array(
+			'action'      => tml_get_action_url( 'signup' ),
+			'attributes'  => array(
+				'id' => 'setupform',
+			),
+			'render_args' => array(
+				'show_links' => false,
+			),
 		)
-	) );
+	);
 
-	tml_add_form_field( 'blog_signup', 'stage', array(
-		'type'     => 'hidden',
-		'value'    => 'validate-blog-signup',
-		'priority' => 5,
-	) );
-	tml_add_form_field( 'blog_signup', 'user_name', array(
-		'type'     => 'hidden',
-		'priority' => 5,
-	) );
-	tml_add_form_field( 'blog_signup', 'user_email', array(
-		'type'     => 'hidden',
-		'priority' => 5,
-	) );
+	tml_add_form_field(
+		'blog_signup',
+		'stage',
+		array(
+			'type'     => 'hidden',
+			'value'    => 'validate-blog-signup',
+			'priority' => 5,
+		)
+	);
+	tml_add_form_field(
+		'blog_signup',
+		'user_name',
+		array(
+			'type'     => 'hidden',
+			'priority' => 5,
+		)
+	);
+	tml_add_form_field(
+		'blog_signup',
+		'user_email',
+		array(
+			'type'     => 'hidden',
+			'priority' => 5,
+		)
+	);
 
-	tml_add_form_field( 'blog_signup', 'signup_hidden_fields', array(
-		'type'        => 'action',
-		'render_args' => array( 'validate-site' ),
-	) );
+	tml_add_form_field(
+		'blog_signup',
+		'signup_hidden_fields',
+		array(
+			'type'        => 'action',
+			'render_args' => array( 'validate-site' ),
+		)
+	);
 
 	tml_ms_add_blog_signup_form_fields( 'blog_signup' );
 
-	tml_add_form_field( 'blog_signup', 'submit', array(
-		'type'     => 'submit',
-		'value'    => __( 'Signup' ),
-		'priority' => 30,
-	) );
+	tml_add_form_field(
+		'blog_signup',
+		'submit',
+		array(
+			'type'     => 'submit',
+			'value'    => __( 'Sign up' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
+			'priority' => 30,
+		)
+	);
 }
 
 /**
@@ -204,34 +278,49 @@ function tml_ms_register_blog_signup_form() {
  */
 function tml_ms_register_another_blog_signup_form() {
 
-	tml_register_form( 'another_blog_signup', array(
-		'action'      => tml_get_action_url( 'signup' ),
-		'attributes'  => array(
-			'id' => 'setupform',
-		),
-		'render_args' => array(
-			'show_links' => false,
+	tml_register_form(
+		'another_blog_signup',
+		array(
+			'action'      => tml_get_action_url( 'signup' ),
+			'attributes'  => array(
+				'id' => 'setupform',
+			),
+			'render_args' => array(
+				'show_links' => false,
+			),
 		)
-	) );
+	);
 
-	tml_add_form_field( 'another_blog_signup', 'stage', array(
-		'type'     => 'hidden',
-		'value'    => 'gimmeanotherblog',
-		'priority' => 5,
-	) );
+	tml_add_form_field(
+		'another_blog_signup',
+		'stage',
+		array(
+			'type'     => 'hidden',
+			'value'    => 'gimmeanotherblog',
+			'priority' => 5,
+		)
+	);
 
-	tml_add_form_field( 'another_blog_signup', 'signup_hidden_fields', array(
-		'type'        => 'action',
-		'render_args' => array( 'create-another-site' ),
-	) );
+	tml_add_form_field(
+		'another_blog_signup',
+		'signup_hidden_fields',
+		array(
+			'type'        => 'action',
+			'render_args' => array( 'create-another-site' ),
+		)
+	);
 
 	tml_ms_add_blog_signup_form_fields( 'another_blog_signup' );
 
-	tml_add_form_field( 'another_blog_signup', 'submit', array(
-		'type'     => 'submit',
-		'value'    => __( 'Create Site' ),
-		'priority' => 30,
-	) );
+	tml_add_form_field(
+		'another_blog_signup',
+		'submit',
+		array(
+			'type'     => 'submit',
+			'value'    => __( 'Create Site' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Create Site" string (see wp-signup.php), not a TML-specific string.
+			'priority' => 30,
+		)
+	);
 }
 
 /**
@@ -244,82 +333,114 @@ function tml_ms_register_another_blog_signup_form() {
 function tml_ms_add_blog_signup_form_fields( $form ) {
 	$current_network = get_network();
 
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- these messages intentionally reuse WP core's translated wp-signup.php strings verbatim, not TML-specific strings; no translators comments since they never enter TML's own .pot.
 	if ( ! is_subdomain_install() ) {
 		$control_after = '<br />';
 		if ( ! is_user_logged_in() ) {
 			$control_after .= '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), $current_network->domain . $current_network->path . __( 'sitename' ) ) . '</strong>) ';
 			$control_after .= __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 		}
+		// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
-		tml_add_form_field( $form, 'blogname', array(
-			'type'        => 'text',
-			'label'       => __( 'Site Name: '),
-			'value'       => '',
-			'id'          => 'blogname',
-			'attributes'  => array(
-				'maxlength' => 60,
-			),
-			'priority'    => 10,
-			'render_args' => array(
-				'control_before' => '<span class="prefix_address">' . $current_network->domain . $current_network->path . '</span>',
-				'control_after'  => $control_after,
-			),
-		) );
+		tml_add_form_field(
+			$form,
+			'blogname',
+			array(
+				'type'        => 'text',
+				'label'       => __( 'Site Name (subdirectory only):' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
+				'value'       => '',
+				'id'          => 'blogname',
+				'attributes'  => array(
+					'maxlength' => 60,
+				),
+				'priority'    => 10,
+				'render_args' => array(
+					'control_before' => '<span class="prefix_address">' . $current_network->domain . $current_network->path . '</span>',
+					'control_after'  => $control_after,
+				),
+			)
+		);
 	} else {
-		$control_after = '<span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_network->domain ) ) . '</span><br />';
+		// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- these messages intentionally reuse WP core's translated wp-signup.php strings verbatim, not TML-specific strings; no translators comments since they never enter TML's own .pot.
+		$site_domain   = preg_replace( '|^www\.|', '', $current_network->domain );
+		$control_after = '<span class="suffix_address">.' . $site_domain . '</span><br />';
 		if ( ! is_user_logged_in() ) {
 			$control_after .= '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), __( 'domain' ) . '.' . $site_domain . $current_network->path ) . '</strong>) ';
 			$control_after .= __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 		}
+		// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
-		tml_add_form_field( $form, 'blogname', array(
-			'type'        => 'text',
-			'label'       => __( 'Site Domain:' ),
-			'value'       => '',
-			'id'          => 'blogname',
-			'attributes'  => array(
-				'maxlength' => 60,
+		tml_add_form_field(
+			$form,
+			'blogname',
+			array(
+				'type'        => 'text',
+				'label'       => __( 'Site Domain (subdomain only):' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
+				'value'       => '',
+				'id'          => 'blogname',
+				'attributes'  => array(
+					'maxlength' => 60,
+				),
+				'priority'    => 10,
+				'render_args' => array(
+					'control_after' => $control_after,
+				),
+			)
+		);
+	}
+
+	tml_add_form_field(
+		$form,
+		'blog_title',
+		array(
+			'type'     => 'text',
+			'label'    => __( 'Site Title:' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Site Title:" string (see wp-signup.php), not a TML-specific string.
+			'id'       => 'blog_title',
+			'priority' => 15,
+		)
+	);
+
+	$language_field = tml_ms_render_blog_signup_language_field();
+	if ( $language_field ) {
+		tml_add_form_field(
+			$form,
+			'site_language',
+			array(
+				'type'     => 'custom',
+				'content'  => $language_field,
+				'priority' => 20,
+			)
+		);
+	}
+
+	tml_add_form_field(
+		$form,
+		'blog_public',
+		array(
+			'type'        => 'radio-group',
+			// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these labels intentionally reuse WP core's translated wp-signup.php strings verbatim, not TML-specific strings.
+			'label'       => __( 'Privacy:' ),
+			'value'       => isset( $_POST['blog_public'] ) && '0' === $_POST['blog_public'] ? 0 : 1, // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only: pre-fills the field's default selection, not processed/acted on.
+			'options'     => array(
+				'1' => __( 'Yes' ),
+				'0' => __( 'No' ),
 			),
-			'priority'    => 10,
+			'priority'    => 25,
 			'render_args' => array(
-				'control_after' => $control_after,
+				'control_before' => __( 'Allow search engines to index this site.' ) . '<br style="clear:both" />',
 			),
-		) );
-	}
+			// phpcs:enable WordPress.WP.I18n.MissingArgDomain
+		)
+	);
 
-	tml_add_form_field( $form, 'blog_title', array(
-		'type'     => 'text',
-		'label'    => __( 'Site Title:' ),
-		'id'       => 'blog_title',
-		'priority' => 15,
-	) );
-
-	if ( $language_field = tml_ms_render_blog_signup_language_field() ) {
-		tml_add_form_field( $form, 'site_language', array(
-			'type'     => 'custom',
-			'content'  => $language_field,
-			'priority' => 20,
-		) );
-	}
-
-	tml_add_form_field( $form, 'blog_public', array(
-		'type'        => 'radio-group',
-		'label'       => __( 'Privacy:' ),
-		'value'       => isset( $_POST['blog_public'] ) && 0 == $_POST['blog_public'] ? 0 : 1,
-		'options'     => array(
-			'1' => __( 'Yes' ),
-			'0' => __( 'No'  ),
-		),
-		'priority'    => 25,
-		'render_args' => array(
-			'control_before' => __( 'Allow search engines to index this site.' ) . '<br style="clear:both" />',
-		),
-	) );
-
-	tml_add_form_field( $form, 'signup_blogform', array(
-		'type'        => 'action',
-		'render_args' => array( tml_get_errors() ),
-	) );
+	tml_add_form_field(
+		$form,
+		'signup_blogform',
+		array(
+			'type'        => 'action',
+			'render_args' => array( tml_get_errors() ),
+		)
+	);
 }
 
 /**
@@ -329,66 +450,95 @@ function tml_ms_add_blog_signup_form_fields( $form ) {
  */
 function tml_ms_register_activation_form() {
 
-	tml_register_form( 'activate', array(
-		'action'      => tml_get_action_url( 'activate' ),
-		'attributes'  => array(
-			'id'         => 'activateform',
-			'novalidate' => 'novalidate',
-		),
-		'render_args' => array(
-			'show_links' => false,
-		),
-	) );
+	tml_register_form(
+		'activate',
+		array(
+			'action'      => tml_get_action_url( 'activate' ),
+			'attributes'  => array(
+				'id'         => 'activateform',
+				'novalidate' => 'novalidate',
+			),
+			'render_args' => array(
+				'show_links' => false,
+			),
+		)
+	);
 
 	$key = tml_get_request_value( 'key' );
 
-	tml_add_form_field( 'activate', 'key', array(
-		'type'     => tml_allow_user_passwords() && $key ? 'hidden' : 'text',
-		'label'    => tml_allow_user_passwords() && $key ? ''       : __( 'Activation Key:' ),
-		'value'    => $key,
-		'id'       => 'key',
-		'priority' => 5,
-	) );
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these labels intentionally reuse WP core's translated wp-activate.php/wp-login.php/user-new.php strings verbatim, not TML-specific strings.
+	tml_add_form_field(
+		'activate',
+		'key',
+		array(
+			'type'     => tml_allow_user_passwords() && $key ? 'hidden' : 'text',
+			'label'    => tml_allow_user_passwords() && $key ? '' : __( 'Activation Key:' ),
+			'value'    => $key,
+			'id'       => 'key',
+			'priority' => 5,
+		)
+	);
 
 	if ( tml_allow_user_passwords() && $key ) {
-		tml_add_form_field( 'activate', 'user_pass1', array(
-			'type'       => 'password',
-			'label'      => __( 'Password' ),
-			'id'         => 'pass1',
-			'attributes' => array(
-				'autocomplete' => 'off',
-			),
-			'priority'   => 10,
-		) );
+		tml_add_form_field(
+			'activate',
+			'user_pass1',
+			array(
+				'type'       => 'password',
+				'label'      => __( 'Password' ),
+				'id'         => 'pass1',
+				'attributes' => array(
+					'autocomplete' => 'off',
+				),
+				'priority'   => 10,
+			)
+		);
 
-		tml_add_form_field( 'activate', 'user_pass2', array(
-			'type'       => 'password',
-			'label'      => __( 'Confirm Password' ),
-			'id'         => 'pass2',
-			'attributes' => array(
-				'autocomplete' => 'off',
-			),
-			'priority'   => 10,
-		) );
+		tml_add_form_field(
+			'activate',
+			'user_pass2',
+			array(
+				'type'       => 'password',
+				'label'      => __( 'Confirm Password' ),
+				'id'         => 'pass2',
+				'attributes' => array(
+					'autocomplete' => 'off',
+				),
+				'priority'   => 10,
+			)
+		);
 
-		tml_add_form_field( 'activate', 'indicator', array(
-			'type'     => 'custom',
-			'content'  => '<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite">' . __( 'Strength indicator' ) . '</div>',
-			'priority' => 10,
-		) );
+		tml_add_form_field(
+			'activate',
+			'indicator',
+			array(
+				'type'     => 'custom',
+				'content'  => '<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite">' . __( 'Strength indicator' ) . '</div>',
+				'priority' => 10,
+			)
+		);
 
-		tml_add_form_field( 'activate', 'indicator_hint', array(
-			'type'     => 'custom',
-			'content'  => '<p class="description indicator-hint">' . wp_get_password_hint() . '</p>',
-			'priority' => 10,
-		) );
+		tml_add_form_field(
+			'activate',
+			'indicator_hint',
+			array(
+				'type'     => 'custom',
+				'content'  => '<p class="description indicator-hint">' . wp_get_password_hint() . '</p>',
+				'priority' => 10,
+			)
+		);
 	}
 
-	tml_add_form_field( 'activate', 'submit', array(
-		'type'     => 'submit',
-		'value'    => __( 'Activate' ),
-		'priority' => 15,
-	) );
+	tml_add_form_field(
+		'activate',
+		'submit',
+		array(
+			'type'     => 'submit',
+			'value'    => __( 'Activate' ),
+			'priority' => 15,
+		)
+	);
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 }
 
 /**
@@ -397,14 +547,15 @@ function tml_ms_register_activation_form() {
  * @since 7.0
  */
 function tml_ms_signup_handler() {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- mirrors wp-signup.php's own signup-processing, which is a public unauthenticated form with no nonce.
 
-	if ( is_array( get_site_option( 'illegal_names' ) ) && isset( $_GET['new'] ) && in_array( $_GET['new'], get_site_option( 'illegal_names' ) ) ) {
-		wp_redirect( network_home_url() );
+	if ( is_array( get_site_option( 'illegal_names' ) ) && isset( $_GET['new'] ) && in_array( $_GET['new'], get_site_option( 'illegal_names' ), true ) ) {
+		wp_redirect( network_home_url() ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- target is always network_home_url(), not user-controlled; matches wp-signup.php's own use of plain wp_redirect() here.
 		exit;
 	}
 
 	if ( ! is_multisite() ) {
-		wp_redirect( wp_registration_url() );
+		wp_redirect( wp_registration_url() ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- target is always wp_registration_url(), not user-controlled; matches wp-signup.php's own use of plain wp_redirect() here.
 		exit;
 	}
 
@@ -417,7 +568,7 @@ function tml_ms_signup_handler() {
 		 * @param bool $redirect Whether to redirect or not. Default true.
 		 */
 		if ( apply_filters( 'tml_redirect_subsite_to_network_signup', true ) ) {
-			wp_redirect( network_site_url( 'wp-signup.php' ) );
+			wp_redirect( network_site_url( 'wp-signup.php' ) ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- target is always network_site_url( 'wp-signup.php' ), not user-controlled; matches wp-signup.php's own use of plain wp_redirect() here.
 			exit;
 		}
 	}
@@ -429,7 +580,10 @@ function tml_ms_signup_handler() {
 	$stage = isset( $_POST['stage'] ) ? $_POST['stage'] : 'default';
 	switch ( $stage ) {
 		case 'validate-user-signup':
-			if ( $active_signup == 'all' || $_POST['signup_for'] == 'blog' && $active_signup == 'blog' || $_POST['signup_for'] == 'user' && $active_signup == 'user' ) {
+			if ( 'all' === $active_signup
+				|| ( 'blog' === $_POST['signup_for'] && 'blog' === $active_signup )
+				|| ( 'user' === $_POST['signup_for'] && 'user' === $active_signup )
+			) {
 				$result     = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
 				$user_name  = $result['user_name'];
 				$user_email = $result['user_email'];
@@ -442,7 +596,7 @@ function tml_ms_signup_handler() {
 					return;
 				}
 
-				if ( 'blog' == $_POST['signup_for'] ) {
+				if ( 'blog' === $_POST['signup_for'] ) {
 					tml_set_data( 'signup_form', 'blog' );
 					return;
 				}
@@ -453,7 +607,7 @@ function tml_ms_signup_handler() {
 			break;
 
 		case 'validate-blog-signup':
-			if ( $active_signup == 'all' || $active_signup == 'blog' ) {
+			if ( 'all' === $active_signup || 'blog' === $active_signup ) {
 				$user_result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
 				$user_name   = $user_result['user_name'];
 				$user_email  = $user_result['user_email'];
@@ -462,7 +616,7 @@ function tml_ms_signup_handler() {
 				tml_set_data( 'signup_user_result', $user_result );
 
 				if ( $user_errors->get_error_code() ) {
-					tml_set_data( 'signup_form'. 'user' );
+					tml_set_data( 'signup_form', 'user' );
 					return;
 				}
 
@@ -489,7 +643,7 @@ function tml_ms_signup_handler() {
 				// Handle the language setting for the new site.
 				if ( ! empty( $_POST['site_language'] ) ) {
 					$languages = tml_ms_signup_get_available_languages();
-					if ( in_array( $_POST['site_language'], $languages ) ) {
+					if ( in_array( $_POST['site_language'], $languages, true ) ) {
 						$language = wp_unslash( sanitize_text_field( $_POST['site_language'] ) );
 						if ( $language ) {
 							$signup_meta['WPLANG'] = $language;
@@ -536,7 +690,7 @@ function tml_ms_signup_handler() {
 
 				$languages = tml_ms_signup_get_available_languages();
 
-				if ( in_array( $_POST['site_language'], $languages ) ) {
+				if ( in_array( $_POST['site_language'], $languages, true ) ) {
 					$language = wp_unslash( sanitize_text_field( $_POST['site_language'] ) );
 
 					if ( $language ) {
@@ -561,6 +715,7 @@ function tml_ms_signup_handler() {
 			do_action( 'preprocess_signup_form' );
 			break;
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 }
 
 /**
@@ -573,8 +728,8 @@ function tml_ms_signup_handler() {
  * @param array  $atts    The shortcode attributes.
  * @return string The signup content if $action is 'signup' or the original content otherwise.
  */
-function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $atts = array() ) {
-	if ( 'signup' != $action ) {
+function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $atts = array() ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- kept for API/documented-signature consistency with the other shortcode-filter callbacks in this file.
+	if ( 'signup' !== $action ) {
 		return $content;
 	}
 
@@ -582,6 +737,7 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 
 	$active_signup = tml_ms_signup_get_active_signup();
 
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment, WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- these messages intentionally reuse WP core's translated wp-signup.php strings verbatim, not TML-specific strings, and this whole block is read-only rendering of the current signup stage/fields mirroring wp-signup.php's own unauthenticated signup form output, which has no nonce. (A single combined disable is used instead of nesting separate ones per sniff, since nested phpcs:disable/enable pairs for different sniff codes have been observed to corrupt phpcs's suppression tracking for the rest of the file.)
 	if ( current_user_can( 'manage_network' ) ) {
 		$content .= '<div class="tml-messages">' . __( 'Greetings Network Administrator!' ) . ' ';
 		switch ( $active_signup ) {
@@ -610,9 +766,9 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 
 	$newblogname = isset( $_GET['new'] ) ? strtolower( preg_replace( '/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'] ) ) : null;
 
-	if ( $active_signup == 'none' ) {
+	if ( 'none' === $active_signup ) {
 		$content .= __( 'Registration has been disabled.' );
-	} elseif ( $active_signup == 'blog' && ! is_user_logged_in() ) {
+	} elseif ( 'blog' === $active_signup && ! is_user_logged_in() ) {
 		$content .= sprintf(
 			__( 'You must first <a href="%s">log in</a>, and then you can create a new site.' ),
 			wp_login_url( network_site_url( 'wp-signup.php' ) )
@@ -621,17 +777,21 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 		$stage = isset( $_POST['stage'] ) ? $_POST['stage'] : 'default';
 		switch ( $stage ) {
 			case 'validate-user-signup':
-				if ( $active_signup == 'all' || $_POST['signup_for'] == 'blog' && $active_signup == 'blog' || $_POST['signup_for'] == 'user' && $active_signup == 'user' ) {
+				if ( 'all' === $active_signup
+					|| ( 'blog' === $_POST['signup_for'] && 'blog' === $active_signup )
+					|| ( 'user' === $_POST['signup_for'] && 'user' === $active_signup )
+				) {
 					$result = tml_get_data( 'signup_result' );
 					$form   = tml_get_data( 'signup_form' );
-					if ( 'user' == $form ) {
+					if ( 'user' === $form ) {
 						$content .= tml_ms_get_user_signup_form( $result['user_name'], $result['user_email'], $result['errors'] );
-					} elseif ( 'blog' == $form ) {
+					} elseif ( 'blog' === $form ) {
 						$content .= tml_ms_get_blog_signup_form( $result['user_name'], $result['user_email'] );
 					} else {
 						$content .= '<h2>' . sprintf( __( '%s is your new username' ), tml_is_email_login_type() ? $result['user_email'] : $result['user_name'] ) . '</h2>';
 						$content .= '<p>' . __( 'But, before you can start using your new username, <strong>you must activate it</strong>.' ) . '</p>';
-						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click the link given.' ), '<strong>' . $result['user_email'] . '</strong>' ) . '</p>';
+						/* translators: %s: The user email address. */
+						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click on the given link.' ), '<strong>' . $result['user_email'] . '</strong>' ) . '</p>';
 						$content .= '<p>' . __( 'If you do not activate your username within two days, you will have to sign up again.' ) . '</p>';
 					}
 				} else {
@@ -640,22 +800,24 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 				break;
 
 			case 'validate-blog-signup':
-				if ( $active_signup == 'all' || $active_signup == 'blog' ) {
+				if ( 'all' === $active_signup || 'blog' === $active_signup ) {
 					$user_result = tml_get_data( 'signup_user_result' );
 					$blog_result = tml_get_data( 'signup_result' );
 					$form        = tml_get_data( 'signup_form' );
-					if ( 'user' == $form ) {
+					if ( 'user' === $form ) {
 						$content .= tml_ms_get_user_signup_form( $user_result['user_name'], $user_result['user_email'], $user_result['errors'] );
-					} elseif ( 'blog' == $form ) {
+					} elseif ( 'blog' === $form ) {
 						$content .= tml_ms_get_blog_signup_form( $user_result['user_name'], $user_result['user_email'], $blog_result['blogname'], $blog_result['blog_title'], $blog_result['errors'] );
 					} else {
 						$content .= '<h2>' . sprintf( __( 'Congratulations! Your new site, %s, is almost ready.' ), "<a href='http://{$blog_result['domain']}{$blog_result['path']}'>{$blog_result['blog_title']}</a>" ) . '</h2>';
 						$content .= '<p>' . __( 'But, before you can start using your site, <strong>you must activate it</strong>.' ) . '</p>';
-						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click the link given.' ), '<strong>' . $user_result['user_email'] . '</strong>' ) . '</p>';
+						/* translators: %s: The user email address. */
+						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click on the given link.' ), '<strong>' . $user_result['user_email'] . '</strong>' ) . '</p>';
 						$content .= '<p>' . __( 'If you do not activate your site within two days, you will have to sign up again.' ) . '</p>';
 						$content .= '<h2>' . __( 'Still waiting for your email?' ) . '</h2>';
+						/* translators: %s: The user email address. */
 						$content .= '<p>' .
-								__( 'If you haven&#8217;t received your email yet, there are a number of things you can do:' ) . '
+								__( 'If you have not received your email yet, there are a number of things you can do:' ) . '
 								<ul id="noemail-tips">
 									<li><p><strong>' . __( 'Wait a little longer. Sometimes delivery of email can be delayed by processes outside of our control.' ) . '</strong></p></li>
 									<li><p>' . __( 'Check the junk or spam folder of your email client. Sometime emails wind up there by mistake.' ) . '</p></li>
@@ -671,7 +833,7 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 			case 'gimmeanotherblog':
 				$result = tml_get_data( 'signup_result' );
 				$form   = tml_get_data( 'signup_form' );
-				if ( 'another_blog' == $form ) {
+				if ( 'another_blog' === $form ) {
 					$content .= tml_ms_get_another_blog_signup_form( $result['blogname'], $result['blog_title'], $result['errors'] );
 				} else {
 					$blog_id = tml_get_data( 'signup_blog_id' );
@@ -686,13 +848,14 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 							$login_url = 'http://' . $result['domain'] . $result['path'] . 'wp-login.php';
 						}
 
-						$site = sprintf( '<a href="%1$s">%2$s</a>',
+						$site = sprintf(
+							'<a href="%1$s">%2$s</a>',
 							esc_url( $home_url ),
 							$result['blog_title']
 						);
 
 						$content .= '<h2>' . sprintf( __( 'The site %s is yours.' ), $site ) . '</h2>';
-						$content .=  sprintf(
+						$content .= sprintf(
 							__( '%1$s is your new site. <a href="%2$s">Log in</a> as &#8220;%3$s&#8221; using your existing password.' ),
 							sprintf(
 								'<a href="%s">%s</a>',
@@ -712,11 +875,11 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 
 				do_action( 'preprocess_signup_form' );
 
-				if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) ) {
+				if ( is_user_logged_in() && ( 'all' === $active_signup || 'blog' === $active_signup ) ) {
 					$content .= tml_ms_get_another_blog_signup_form( $newblogname );
-				} elseif ( ! is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'user' ) ) {
+				} elseif ( ! is_user_logged_in() && ( 'all' === $active_signup || 'user' === $active_signup ) ) {
 					$content .= tml_ms_get_user_signup_form( $newblogname, $user_email );
-				} elseif ( ! is_user_logged_in() && ( $active_signup == 'blog' ) ) {
+				} elseif ( ! is_user_logged_in() && 'blog' === $active_signup ) {
 					$content .= __( 'Sorry, new registrations are not allowed at this time.' );
 				} else {
 					$content .= __( 'You are logged in already. No need to register again!' );
@@ -725,7 +888,7 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 				if ( $newblogname ) {
 					$newblog = get_blogaddress_by_name( $newblogname );
 
-					if ( $active_signup == 'blog' || $active_signup == 'all' ) {
+					if ( 'blog' === $active_signup || 'all' === $active_signup ) {
 						$content .= sprintf(
 							'<p><em>' . __( 'The site you were looking for, %s, does not exist, but you can create it now!' ) . '</em></p>',
 							'<strong>' . $newblog . '</strong>'
@@ -740,6 +903,7 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 				break;
 		}
 	}
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment, WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 
 	return $content;
 }
@@ -755,10 +919,12 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
  */
 function tml_ms_get_user_signup_form( $user_name = '', $user_email = '', $errors = '' ) {
 	if ( ! is_wp_error( $errors ) ) {
-		$errors  = new WP_Error();
+		$errors = new WP_Error();
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- read-only: mirrors the field's pre-filled default, not processed/acted on.
 	$signup_for = isset( $_POST['signup_for'] ) ? esc_html( $_POST['signup_for'] ) : 'blog';
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	/** This filter is documented in wp-signup.php */
 	$filtered_results = apply_filters( 'signup_user_init', compact( 'user_name', 'user_email', 'errors' ) );
@@ -770,25 +936,27 @@ function tml_ms_get_user_signup_form( $user_name = '', $user_email = '', $errors
 
 	$fields = compact( 'user_name', 'user_email' );
 	foreach ( $fields as $field => $value ) {
-		if ( ! $field = $form->get_field( $field ) ) {
+		$field = $form->get_field( $field );
+		if ( ! $field ) {
 			continue;
 		}
 
-		if ( $error = $errors->get_error_message( $field->get_name() ) ) {
+		$error = $errors->get_error_message( $field->get_name() );
+		if ( $error ) {
 			$field->set_error( $error );
-		} else {
-			if ( null !== $value ) {
+		} elseif ( null !== $value ) {
 				$field->set_value( $value );
-			}
 		}
 	}
 
-	return $form->render( array(
-		'before' => '<h2>' . sprintf(
-			__( 'Get your own %s account in seconds' ),
-			get_network()->site_name
-		) . '</h2>',
-	) );
+	return $form->render(
+		array(
+			'before' => '<h2>' . sprintf(
+				__( 'Get your own %s account in seconds' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- reusing WP core's translated "Get your own %s account in seconds" string (see wp-signup.php), not a TML-specific string; no translators comment since it never enters TML's own .pot.
+				get_network()->site_name
+			) . '</h2>',
+		)
+	);
 }
 
 /**
@@ -805,7 +973,7 @@ function tml_ms_get_user_signup_form( $user_name = '', $user_email = '', $errors
  */
 function tml_ms_get_blog_signup_form( $user_name = '', $user_email = '', $blogname = '', $blog_title = '', $errors = '' ) {
 	if ( ! is_wp_error( $errors ) ) {
-		$errors  = new WP_Error();
+		$errors = new WP_Error();
 	}
 
 	/** This filter is documented in wp-signup.php */
@@ -824,16 +992,16 @@ function tml_ms_get_blog_signup_form( $user_name = '', $user_email = '', $blogna
 
 	$fields = compact( 'user_name', 'user_email', 'blogname', 'blog_title' );
 	foreach ( $fields as $field => $value ) {
-		if ( ! $field = $form->get_field( $field ) ) {
+		$field = $form->get_field( $field );
+		if ( ! $field ) {
 			continue;
 		}
 
-		if ( $error = $errors->get_error_message( $field->get_name() ) ) {
+		$error = $errors->get_error_message( $field->get_name() );
+		if ( $error ) {
 			$field->set_error( $error );
-		} else {
-			if ( null !== $value ) {
+		} elseif ( null !== $value ) {
 				$field->set_value( $value );
-			}
 		}
 	}
 
@@ -863,6 +1031,7 @@ function tml_ms_get_another_blog_signup_form( $blogname = '', $blog_title = '', 
 	$blog_title       = $filtered_results['blog_title'];
 	$errors           = $filtered_results['errors'];
 
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- these messages intentionally reuse WP core's translated wp-signup.php strings verbatim, not TML-specific strings; no translators comments since they never enter TML's own .pot.
 	$before = '<h2>' . sprintf(
 		__( 'Get <em>another</em> %s site in seconds' ),
 		get_network()->site_name
@@ -875,27 +1044,28 @@ function tml_ms_get_another_blog_signup_form( $blogname = '', $blog_title = '', 
 		$before .= '<p>' . __( 'Sites you are already a member of:' ) . '</p><ul>';
 		foreach ( $blogs as $blog ) {
 			$home_url = get_home_url( $blog->userblog_id );
-			$before .= '<li><a href="' . esc_url( $home_url ) . '">' . $home_url . '</a></li>';
+			$before  .= '<li><a href="' . esc_url( $home_url ) . '">' . $home_url . '</a></li>';
 		}
 		$before .= '</ul>';
 	}
 
-	$before .= '<p>' . __( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!' ) . '</p>';
+	$before .= '<p>' . __( 'If you are not going to use a great site domain, leave it for a new user. Now have at it!' ) . '</p>';
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
 	$form = tml_get_form( 'another_blog_signup' );
 
 	$fields = compact( 'blogname', 'blog_title' );
 	foreach ( $fields as $field => $value ) {
-		if ( ! $field = $form->get_field( $field ) ) {
+		$field = $form->get_field( $field );
+		if ( ! $field ) {
 			continue;
 		}
 
-		if ( $error = $errors->get_error_message( $field->get_name() ) ) {
+		$error = $errors->get_error_message( $field->get_name() );
+		if ( $error ) {
 			$field->set_error( $error );
-		} else {
-			if ( null !== $value ) {
+		} elseif ( null !== $value ) {
 				$field->set_value( $value );
-			}
 		}
 	}
 
@@ -918,23 +1088,27 @@ function tml_ms_render_blog_signup_language_field() {
 
 		$lang = get_site_option( 'WPLANG' );
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- read-only: pre-fills the field's default selection, not processed/acted on.
 		if ( isset( $_POST['site_language'] ) ) {
 			$lang = $_POST['site_language'];
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		// Use US English if the default isn't available.
-		if ( ! in_array( $lang, $languages ) ) {
+		if ( ! in_array( $lang, $languages, true ) ) {
 			$lang = '';
 		}
 
-		$markup .= wp_dropdown_languages( array(
-			'echo'                        => false,
-			'name'                        => 'site_language',
-			'id'                          => 'site-language',
-			'selected'                    => $lang,
-			'languages'                   => $languages,
-			'show_available_translations' => false,
-		) );
+		$markup .= wp_dropdown_languages(
+			array(
+				'echo'                        => false,
+				'name'                        => 'site_language',
+				'id'                          => 'site-language',
+				'selected'                    => $lang,
+				'languages'                   => $languages,
+				'show_available_translations' => false,
+			)
+		);
 	}
 
 	return $markup;
@@ -983,7 +1157,7 @@ function tml_ms_activation_handler() {
 	define( 'WP_INSTALLING', true );
 
 	if ( ! is_multisite() ) {
-		wp_redirect( wp_registration_url() );
+		wp_redirect( wp_registration_url() ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- target is always wp_registration_url(), not user-controlled; matches wp-activate.php's own use of plain wp_redirect() here.
 		exit;
 	}
 
@@ -991,6 +1165,7 @@ function tml_ms_activation_handler() {
 		$wp_object_cache->cache_enabled = false;
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- mirrors wp-activate.php's own activation-key processing, which is a public unauthenticated request with no nonce (the key itself is the credential).
 	if ( ! empty( $_GET['key'] ) || ! empty( $_POST['key'] ) ) {
 		$key = ! empty( $_GET['key'] ) ? $_GET['key'] : $_POST['key'];
 
@@ -1029,6 +1204,7 @@ function tml_ms_activation_handler() {
 
 		tml_set_data( 'activation_result', $result );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 }
 
 /**
@@ -1041,26 +1217,30 @@ function tml_ms_activation_handler() {
  * @param array  $atts    The shortcode attributes.
  * @return string The signup content if $action is 'signup' or the original content otherwise.
  */
-function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', $atts = array() ) {
-	if ( 'activate' != $action ) {
+function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', $atts = array() ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- kept for API/documented-signature consistency with the other shortcode-filter callbacks in this file.
+	if ( 'activate' !== $action ) {
 		return $content;
 	}
 
 	$content = '';
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- mirrors wp-activate.php's own activation-key processing, which is a public unauthenticated request with no nonce (the key itself is the credential).
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- these messages intentionally reuse WP core's translated wp-activate.php strings verbatim, not TML-specific strings; no translators comments since they never enter TML's own .pot.
 	if ( empty( $_GET['key'] ) && empty( $_POST['key'] ) ) {
-		$content .= tml_get_form( 'activate' )->render( array(
-			'before' => '<h2>' . __( 'Activation Key Required' ) . '</h2>',
-		) );
+		$content .= tml_get_form( 'activate' )->render(
+			array(
+				'before' => '<h2>' . __( 'Activation Key Required' ) . '</h2>',
+			)
+		);
 	} else {
 		$result = tml_get_data( 'activation_result' );
 		if ( is_wp_error( $result ) ) {
-			if ( 'already_active' == $result->get_error_code() || 'blog_taken' == $result->get_error_code() ) {
+			if ( 'already_active' === $result->get_error_code() || 'blog_taken' === $result->get_error_code() ) {
 				$signup = $result->get_error_data();
 
 				$content .= '<h2>' . __( 'Your account is now active!' ) . '</h2>';
 				$content .= '<p class="lead-in">';
-				if ( $signup->domain . $signup->path == '' ) {
+				if ( '' === $signup->domain . $signup->path ) {
 					$content .= sprintf(
 						__( 'Your account has been activated. You may now <a href="%1$s">log in</a> to the site using your chosen username of &#8220;%2$s&#8221;. Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.' ),
 						network_site_url( 'wp-login.php', 'login' ),
@@ -1085,9 +1265,11 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
 					$form->set_errors( $result );
 				}
 
-				$content .= $form->render( array(
-					'before' => '<h2>' . __( 'New Password' ) . '</h2>',
-				) );
+				$content .= $form->render(
+					array(
+						'before' => '<h2>' . __( 'New Password' ) . '</h2>',
+					)
+				);
 			} else {
 				$content .= '<h2>' . __( 'An error occurred during the activation' ) . '</h2>';
 				$content .= '<p>' . $result->get_error_message() . '</p>';
@@ -1103,7 +1285,7 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
 			$content .= '<p><span class="h3">' . __( 'Password:' ) . '</span> ' . ( tml_allow_user_passwords() ? '****' : $result['password'] ) . '</p>';
 			$content .= '</div>';
 
-			if ( $url && $url != network_home_url( '', 'http' ) ) {
+			if ( $url && network_home_url( '', 'http' ) !== $url ) {
 				switch_to_blog( (int) $result['blog_id'] );
 				$login_url = wp_login_url();
 				restore_current_blog();
@@ -1118,6 +1300,8 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
 			}
 		}
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
 	return $content;
 }
@@ -1131,9 +1315,11 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
  * @return array The user data to insert.
  */
 function tml_ms_filter_pre_insert_user_data( $data = array() ) {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- reads the just-submitted new-account password to hash it for storage; the registration form itself has no nonce, matching wp-signup.php's own registration flow.
 	if ( tml_allow_user_passwords() && ! empty( $_POST['user_pass1'] ) ) {
 		$data['user_pass'] = wp_hash_password( $_POST['user_pass1'] );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	return $data;
 }
 
@@ -1150,9 +1336,11 @@ function tml_ms_filter_pre_insert_user_data( $data = array() ) {
  */
 function tml_ms_filter_welcome_email( $message, $blog_id, $user_id, $password ) {
 	$user = get_userdata( $user_id );
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- reads the just-submitted new-account password to substitute it into the welcome email; the registration form itself has no nonce, matching wp-signup.php's own registration flow.
 	if ( tml_allow_user_passwords() && ! empty( $_POST['user_pass1'] ) ) {
 		$message = str_replace( $password, $_POST['user_pass1'], $message );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	if ( tml_is_email_login_type() ) {
 		$message = str_replace( $user->user_login, $user->user_email, $message );
 	}
@@ -1169,11 +1357,13 @@ function tml_ms_filter_welcome_email( $message, $blog_id, $user_id, $password ) 
  * @param string $password The user password.
  * @return string The welcome user message.
  */
-function tml_ms_filter_welcome_user_email( $message, $user_id, $password ) {
+function tml_ms_filter_welcome_user_email( $message, $user_id, $password ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- required by the 'update_welcome_user_email' filter's positional signature; the password is substituted via the 'PASSWORD' placeholder token instead.
 	$user = get_userdata( $user_id );
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- reads the just-submitted new-account password to substitute it into the welcome email; the registration form itself has no nonce, matching wp-signup.php's own registration flow.
 	if ( tml_allow_user_passwords() && ! empty( $_POST['user_pass1'] ) ) {
 		$message = str_replace( 'PASSWORD', $_POST['user_pass1'], $message );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	if ( tml_is_email_login_type() ) {
 		$message = str_replace( 'USERNAME', $user->user_email, $message );
 	}

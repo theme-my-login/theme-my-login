@@ -133,16 +133,19 @@ class Theme_My_Login_Form_Field {
 		$this->set_form( $form );
 		$this->set_name( $name );
 
-		$args = wp_parse_args( $args, array(
-			'type'        => 'text',
-			'value'       => '',
-			'label'       => '',
-			'description' => '',
-			'error'       => '',
-			'content'     => '',
-			'options'     => array(),
-			'attributes'  => array(),
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'type'        => 'text',
+				'value'       => '',
+				'label'       => '',
+				'description' => '',
+				'error'       => '',
+				'content'     => '',
+				'options'     => array(),
+				'attributes'  => array(),
+			)
+		);
 
 		$this->set_type( $args['type'] );
 		$this->set_value( $args['value'] );
@@ -158,10 +161,10 @@ class Theme_My_Login_Form_Field {
 
 		if ( ! empty( $args['class'] ) ) {
 			$this->add_class( $args['class'] );
-		} elseif ( 'hidden' != $this->get_type() ) {
-			if ( in_array( $args['type'], array( 'button', 'submit', 'reset' ) ) ) {
+		} elseif ( 'hidden' !== $this->get_type() ) {
+			if ( in_array( $args['type'], array( 'button', 'submit', 'reset' ), true ) ) {
 				$class = 'tml-button';
-			} elseif ( in_array( $args['type'], array( 'checkbox', 'radio', 'radio-group' ) ) ) {
+			} elseif ( in_array( $args['type'], array( 'checkbox', 'radio', 'radio-group' ), true ) ) {
 				$class = 'tml-checkbox';
 			} else {
 				$class = 'tml-field';
@@ -169,7 +172,7 @@ class Theme_My_Login_Form_Field {
 			$this->add_class( $class );
 		}
 
-		if ( 'checkbox' == $args['type'] && ! empty( $args['checked'] ) ) {
+		if ( 'checkbox' === $args['type'] && ! empty( $args['checked'] ) ) {
 			$this->add_attribute( 'checked', 'checked' );
 		}
 
@@ -475,7 +478,7 @@ class Theme_My_Login_Form_Field {
 	 *
 	 * @param array|string $class The class or an array of classes.
 	 */
-	public function add_class( $class ) {
+	public function add_class( $class ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.classFound -- public API parameter name, renaming risks breaking PHP 8 named-argument callers.
 		if ( ! is_array( $class ) ) {
 			$class = explode( ' ', $class );
 		}
@@ -489,7 +492,7 @@ class Theme_My_Login_Form_Field {
 	 *
 	 * @param string $class The class.
 	 */
-	public function remove_class( $class ) {
+	public function remove_class( $class ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.classFound -- public API parameter name, renaming risks breaking PHP 8 named-argument callers.
 		$classes = array_flip( $this->classes );
 		if ( isset( $classes[ $class ] ) ) {
 			unset( $classes[ $class ] );
@@ -505,8 +508,8 @@ class Theme_My_Login_Form_Field {
 	 * @param string $class The class.
 	 * @return bool True if the field has the given class, false if not.
 	 */
-	public function has_class( $class ) {
-		return in_array( $class, $this->classes );
+	public function has_class( $class ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.classFound -- public API parameter name, renaming risks breaking PHP 8 named-argument callers.
+		return in_array( $class, $this->classes, true );
 	}
 
 	/**
@@ -557,18 +560,21 @@ class Theme_My_Login_Form_Field {
 	 * }
 	 */
 	public function render( $args = array() ) {
-		$is_hidden = ( 'hidden' == $this->get_type() );
+		$is_hidden = ( 'hidden' === $this->get_type() );
 
-		if ( 'action' == $this->get_type() ) {
+		if ( 'action' === $this->get_type() ) {
 			return tml_buffer_action_hook( $this->get_name(), $this->render_args );
 		}
 
-		$defaults = wp_parse_args( $this->render_args, array(
-			'before'         => $is_hidden ? '' : '<div class="tml-field-wrap tml-%s-wrap">',
-			'after'          => $is_hidden ? '' : '</div>',
-			'control_before' => '',
-			'control_after'  => '',
-		) );
+		$defaults = wp_parse_args(
+			$this->render_args,
+			array(
+				'before'         => $is_hidden ? '' : '<div class="tml-field-wrap tml-%s-wrap">',
+				'after'          => $is_hidden ? '' : '</div>',
+				'control_before' => '',
+				'control_after'  => '',
+			)
+		);
 
 		/**
 		 * Fires before a form field is rendered.
@@ -605,7 +611,8 @@ class Theme_My_Login_Form_Field {
 		foreach ( $this->get_attributes() as $key => $value ) {
 			$attributes .= ' ' . $key . '="' . esc_attr( $value ) . '"';
 		}
-		if ( $classes = $this->get_classes() ) {
+		$classes = $this->get_classes();
+		if ( $classes ) {
 			$attributes .= ' class="' . implode( ' ', $classes ) . '"';
 		}
 
@@ -631,19 +638,19 @@ class Theme_My_Login_Form_Field {
 		}
 
 		switch ( $this->get_type() ) {
-			case 'custom' :
+			case 'custom':
 				$output .= $label;
 				$output .= $this->get_content();
 				break;
 
-			case 'checkbox' :
+			case 'checkbox':
 				$output .= $args['control_before'];
 				$output .= '<input name="' . $this->get_name() . '" type="checkbox" value="' . esc_attr( $this->get_value() ) . '"' . $attributes . ">\n";
 				$output .= $args['control_after'];
 				$output .= $label;
 				break;
 
-			case 'radio-group' :
+			case 'radio-group':
 				$output .= $label;
 				$output .= $error;
 				$output .= $args['control_before'];
@@ -653,7 +660,7 @@ class Theme_My_Login_Form_Field {
 					$id = $this->get_name() . '_' . $value;
 
 					$option = '<input name="' . $this->get_name() . '" id="' . $id . '" type="radio" value="' . esc_attr( $value ) . '"' . $attributes;
-					if ( $this->get_value() == $value ) {
+					if ( (string) $this->get_value() === (string) $value ) {
 						$option .= ' checked="checked"';
 					}
 					$option .= '>' . "\n";
@@ -666,14 +673,14 @@ class Theme_My_Login_Form_Field {
 				$output .= $args['control_after'];
 				break;
 
-			case 'dropdown' :
+			case 'dropdown':
 				$output .= $label;
 				$output .= $error;
 				$output .= $args['control_before'];
 				$output .= '<select name="' . $this->get_name() . '"' . $attributes . ">\n";
 				foreach ( $this->get_options() as $value => $option ) {
 					$output .= '<option value="' . esc_attr( $value ) . '"';
-					if ( $this->get_value() == $value ) {
+					if ( (string) $this->get_value() === (string) $value ) {
 						$output .= ' selected="selected"';
 					}
 					$output .= '>' . esc_html( $option ) . "</option>\n";
@@ -682,21 +689,21 @@ class Theme_My_Login_Form_Field {
 				$output .= $args['control_after'];
 				break;
 
-			case 'textarea' :
+			case 'textarea':
 				$output .= $label;
 				$output .= $args['control_before'];
 				$output .= '<textarea name="' . $this->get_name() . '"' . $attributes . '>' . esc_textarea( $this->get_value() ) . "</textarea>\n";
 				$output .= $args['control_after'];
 				break;
 
-			case 'button' :
-			case 'submit' :
+			case 'button':
+			case 'submit':
 				$output .= $args['control_before'];
 				$output .= '<button name="' . $this->get_name() . '" type="' . $this->get_type() . '"' . $attributes . '>' . $this->get_value() . "</button>\n";
 				$output .= $args['control_after'];
 				break;
 
-			default :
+			default:
 				$output .= $label;
 				$output .= $error;
 				$output .= $args['control_before'];

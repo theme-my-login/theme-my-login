@@ -38,7 +38,7 @@ define( 'THEME_MY_LOGIN_PATH', plugin_dir_path( __FILE__ ) );
  *
  * @since 7.0
  */
-define( 'THEME_MY_LOGIN_URL',  plugin_dir_url( __FILE__ ) );
+define( 'THEME_MY_LOGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Stores the URL to TML's extensions directory.

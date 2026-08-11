@@ -44,52 +44,56 @@
  *     $ wp menu item add-tml-action sidebar-menu login
  *     Success: Menu item added.
  */
-WP_CLI::add_command( 'menu item add-tml-action', function( $args, $assoc_args ) {
+WP_CLI::add_command(
+	'menu item add-tml-action',
+	function ( $args, $assoc_args ) {
 
-	list( $menu, $action ) = $args;
+		list( $menu, $action ) = $args;
 
-	$menu = wp_get_nav_menu_object( $menu );
-	if ( ! $menu || is_wp_error( $menu ) ) {
-		WP_CLI::error( 'Invalid menu.' );
-	}
-	if ( ! $action = tml_get_action( $action ) ) {
-		WP_CLI::error( 'Invalid action.' );
-	}
-
-	$default_args = [
-		'position'    => 0,
-		'title'       => $action->get_title(),
-		'description' => '',
-		'parent-id'   => 0,
-		'attr-title'  => '',
-		'target'      => '',
-		'classes'     => '',
-		'xfn'         => '',
-		'status'      => 'publish',
-	];
-
-	$menu_item_args = [];
-	foreach ( $default_args as $key => $default_value ) {
-		$menu_item_args[ 'menu-item-' . $key ] = \WP_CLI\Utils\get_flag_value( $assoc_args, $key, $default_value );
-	}
-	$menu_item_args['menu-item-object-id'] = -1;
-	$menu_item_args['menu-item-object']    = $action->get_name();
-	$menu_item_args['menu-item-type']      = 'tml_action';
-	$menu_item_args['menu-item-url']       = $action->get_url();
-
-	$ret = wp_update_nav_menu_item( $menu->term_id, 0, $menu_item_args );
-	if ( is_wp_error( $ret ) ) {
-		WP_CLI::error( $ret->get_error_message() );
-	} elseif ( ! $ret ) {
-		WP_CLI::error( "Couldn't add menu item." );
-	} else {
-		if ( ! is_object_in_term( $ret, 'nav_menu', (int) $menu->term_id ) ) {
-			wp_set_object_terms( $ret, array( (int) $menu->term_id ), 'nav_menu' );
+		$menu = wp_get_nav_menu_object( $menu );
+		if ( ! $menu || is_wp_error( $menu ) ) {
+			WP_CLI::error( 'Invalid menu.' );
 		}
-		if ( ! empty( $assoc_args['porcelain'] ) ) {
-			WP_CLI::line( $ret );
+		$action = tml_get_action( $action );
+		if ( ! $action ) {
+			WP_CLI::error( 'Invalid action.' );
+		}
+
+		$default_args = array(
+			'position'    => 0,
+			'title'       => $action->get_title(),
+			'description' => '',
+			'parent-id'   => 0,
+			'attr-title'  => '',
+			'target'      => '',
+			'classes'     => '',
+			'xfn'         => '',
+			'status'      => 'publish',
+		);
+
+		$menu_item_args = array();
+		foreach ( $default_args as $key => $default_value ) {
+			$menu_item_args[ 'menu-item-' . $key ] = \WP_CLI\Utils\get_flag_value( $assoc_args, $key, $default_value );
+		}
+		$menu_item_args['menu-item-object-id'] = -1;
+		$menu_item_args['menu-item-object']    = $action->get_name();
+		$menu_item_args['menu-item-type']      = 'tml_action';
+		$menu_item_args['menu-item-url']       = $action->get_url();
+
+		$ret = wp_update_nav_menu_item( $menu->term_id, 0, $menu_item_args );
+		if ( is_wp_error( $ret ) ) {
+			WP_CLI::error( $ret->get_error_message() );
+		} elseif ( ! $ret ) {
+			WP_CLI::error( "Couldn't add menu item." );
 		} else {
-			WP_CLI::success( 'Menu item added.' );
+			if ( ! is_object_in_term( $ret, 'nav_menu', (int) $menu->term_id ) ) {
+				wp_set_object_terms( $ret, array( (int) $menu->term_id ), 'nav_menu' );
+			}
+			if ( ! empty( $assoc_args['porcelain'] ) ) {
+				WP_CLI::line( $ret );
+			} else {
+				WP_CLI::success( 'Menu item added.' );
+			}
 		}
 	}
-});
+);

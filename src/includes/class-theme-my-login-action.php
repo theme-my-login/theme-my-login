@@ -115,17 +115,20 @@ class Theme_My_Login_Action {
 
 		$this->set_name( $name );
 
-		$args = wp_parse_args( $args, array(
-			'title'                 => '',
-			'slug'                  => '',
-			'callback'              => '',
-			'ajax_callback'         => '',
-			'network'               => false,
-			'show_on_forms'         => true,
-			'show_in_widget'        => true,
-			'show_in_nav_menus'     => true,
-			'show_in_slug_settings' => true,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'title'                 => '',
+				'slug'                  => '',
+				'callback'              => '',
+				'ajax_callback'         => '',
+				'network'               => false,
+				'show_on_forms'         => true,
+				'show_in_widget'        => true,
+				'show_in_nav_menus'     => true,
+				'show_in_slug_settings' => true,
+			)
+		);
 
 		if ( ! isset( $args['show_nav_menu_item'] ) ) {
 			$args['show_nav_menu_item'] = $args['show_in_nav_menus'];
@@ -224,7 +227,8 @@ class Theme_My_Login_Action {
 	 * @since 7.0.3
 	 */
 	public function add_callback_hook() {
-		if ( $callback = $this->get_callback() ) {
+		$callback = $this->get_callback();
+		if ( $callback ) {
 			add_action( 'tml_action_' . $this->get_name(), $callback, 15 );
 		}
 	}
@@ -235,7 +239,8 @@ class Theme_My_Login_Action {
 	 * @since 7.0.3
 	 */
 	public function remove_callback_hook() {
-		if ( $callback = $this->get_callback() ) {
+		$callback = $this->get_callback();
+		if ( $callback ) {
 			remove_action( 'tml_action_' . $this->get_name(), $callback, 15 );
 		}
 	}
@@ -268,7 +273,8 @@ class Theme_My_Login_Action {
 	 * @since 7.1
 	 */
 	public function add_ajax_callback_hook() {
-		if ( $ajax_callback = $this->get_ajax_callback() ) {
+		$ajax_callback = $this->get_ajax_callback();
+		if ( $ajax_callback ) {
 			add_action( 'tml_action_ajax_' . $this->get_name(), $ajax_callback, 15 );
 		}
 	}
@@ -279,7 +285,8 @@ class Theme_My_Login_Action {
 	 * @since 7.1
 	 */
 	public function remove_ajax_callback_hook() {
-		if ( $ajax_callback = $this->get_ajax_callback() ) {
+		$ajax_callback = $this->get_ajax_callback();
+		if ( $ajax_callback ) {
 			remove_action( 'tml_action_ajax_' . $this->get_name(), $ajax_callback, 15 );
 		}
 	}
@@ -336,11 +343,13 @@ class Theme_My_Login_Action {
 		$function = $network ? 'network_home_url' : 'home_url';
 
 		if ( tml_use_permalinks() ) {
-			$path = user_trailingslashit( str_replace(
-				'%pagename%',
-				$this->get_slug(),
-				$wp_rewrite->get_page_permastruct()
-			) );
+			$path = user_trailingslashit(
+				str_replace(
+					'%pagename%',
+					$this->get_slug(),
+					$wp_rewrite->get_page_permastruct()
+				)
+			);
 			$url  = $function( $path, $scheme );
 		} else {
 			$url = $function( '?action=' . $this->get_name(), $scheme );

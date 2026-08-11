@@ -14,77 +14,102 @@
  */
 function tml_register_default_actions() {
 
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these action titles/labels intentionally reuse WP core's translated wp-login.php strings verbatim, not TML-specific strings.
+
 	// Dashboard
-	tml_register_action( 'dashboard', array(
-		'title'              => __( 'Dashboard' ),
-		'slug'               => 'dashboard',
-		'callback'           => 'tml_dashboard_handler',
-		'show_on_forms'      => false,
-		'show_nav_menu_item' => is_user_logged_in(),
-	) );
+	tml_register_action(
+		'dashboard',
+		array(
+			'title'              => __( 'Dashboard' ),
+			'slug'               => 'dashboard',
+			'callback'           => 'tml_dashboard_handler',
+			'show_on_forms'      => false,
+			'show_nav_menu_item' => is_user_logged_in(),
+		)
+	);
 
 	// Login
-	tml_register_action( 'login', array(
-		'title'              => isset( $_GET['checkemail'] ) ? __( 'Check your email' ) : __( 'Log In' ),
-		'slug'               => 'login',
-		'callback'           => 'tml_login_handler',
-		'ajax_callback'      => 'tml_login_handler',
-		'show_on_forms'      => __( 'Log in' ),
-		'show_nav_menu_item' => ! is_user_logged_in(),
-	) );
+	tml_register_action(
+		'login',
+		array(
+			'title'              => isset( $_GET['checkemail'] ) ? __( 'Check your email' ) : __( 'Log In' ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: just picks a display title, not processed/acted on.
+			'slug'               => 'login',
+			'callback'           => 'tml_login_handler',
+			'ajax_callback'      => 'tml_login_handler',
+			'show_on_forms'      => __( 'Log in' ),
+			'show_nav_menu_item' => ! is_user_logged_in(),
+		)
+	);
 
 	// Logout
-	tml_register_action( 'logout', array(
-		'title'              => __( 'Log Out' ),
-		'slug'               => 'logout',
-		'callback'           => 'tml_logout_handler',
-		'show_on_forms'      => false,
-		'show_in_widget'     => false,
-		'show_nav_menu_item' => is_user_logged_in(),
-	) );
+	tml_register_action(
+		'logout',
+		array(
+			'title'              => __( 'Log Out' ),
+			'slug'               => 'logout',
+			'callback'           => 'tml_logout_handler',
+			'show_on_forms'      => false,
+			'show_in_widget'     => false,
+			'show_nav_menu_item' => is_user_logged_in(),
+		)
+	);
 
 	// Register
-	tml_register_action( 'register', array(
-		'title'              => __( 'Register' ),
-		'slug'               => 'register',
-		'callback'           => 'tml_registration_handler',
-		'ajax_callback'      => 'tml_registration_handler',
-		'show_on_forms'      => (bool) get_option( 'users_can_register' ),
-		'show_nav_menu_item' => ! is_user_logged_in(),
-	) );
+	tml_register_action(
+		'register',
+		array(
+			'title'              => __( 'Register' ),
+			'slug'               => 'register',
+			'callback'           => 'tml_registration_handler',
+			'ajax_callback'      => 'tml_registration_handler',
+			'show_on_forms'      => (bool) get_option( 'users_can_register' ),
+			'show_nav_menu_item' => ! is_user_logged_in(),
+		)
+	);
 
 	// Lost Password
-	tml_register_action( 'lostpassword', array(
-		'title'             => __( 'Lost Password' ),
-		'slug'              => 'lostpassword',
-		'callback'          => 'tml_lost_password_handler',
-		'ajax_callback'     => 'tml_lost_password_handler',
-		'network'           => true,
-		'show_on_forms'     => __( 'Lost your password?' ),
-		'show_in_nav_menus' => false,
-	) );
+	tml_register_action(
+		'lostpassword',
+		array(
+			'title'             => __( 'Lost Password' ),
+			'slug'              => 'lostpassword',
+			'callback'          => 'tml_lost_password_handler',
+			'ajax_callback'     => 'tml_lost_password_handler',
+			'network'           => true,
+			'show_on_forms'     => __( 'Lost your password?' ),
+			'show_in_nav_menus' => false,
+		)
+	);
 
 	// Reset Password
-	tml_register_action( 'resetpass', array(
-		'title'             => __( 'Reset Password' ),
-		'slug'              => 'resetpass',
-		'callback'          => 'tml_password_reset_handler',
-		'network'           => true,
-		'show_on_forms'     => false,
-		'show_in_widget'    => false,
-		'show_in_nav_menus' => false,
-	) );
+	tml_register_action(
+		'resetpass',
+		array(
+			'title'             => __( 'Reset Password' ),
+			'slug'              => 'resetpass',
+			'callback'          => 'tml_password_reset_handler',
+			'network'           => true,
+			'show_on_forms'     => false,
+			'show_in_widget'    => false,
+			'show_in_nav_menus' => false,
+		)
+	);
+
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 
 	// Confirm Action (Data Requests)
-	tml_register_action( 'confirmaction', array(
-		'title'                 => __( 'Your Data Request', 'theme-my-login' ),
-		'slug'                  => 'confirmaction',
-		'callback'              => 'tml_confirmaction_handler',
-		'show_on_forms'         => false,
-		'show_in_widget'        => false,
-		'show_in_nav_menus'     => false,
-		'show_in_slug_settings' => false,
-	) );
+	tml_register_action(
+		'confirmaction',
+		array(
+			'title'                 => __( 'Your Data Request', 'theme-my-login' ),
+			'slug'                  => 'confirmaction',
+			'callback'              => 'tml_confirmaction_handler',
+			'show_on_forms'         => false,
+			'show_in_widget'        => false,
+			'show_in_nav_menus'     => false,
+			'show_in_slug_settings' => false,
+		)
+	);
 }
 
 /**
@@ -104,7 +129,8 @@ function tml_register_action( $action, $args = array() ) {
 		$action = new Theme_My_Login_Action( $action, $args );
 	}
 
-	if ( $slug = get_site_option( 'tml_' . $action->get_name() . '_slug' ) ) {
+	$slug = get_site_option( 'tml_' . $action->get_name() . '_slug' );
+	if ( $slug ) {
 		$action->set_slug( $slug );
 	}
 
@@ -194,7 +220,7 @@ function tml_is_action( $action = '' ) {
 	if ( $current_action && array_key_exists( $current_action->get_name(), tml_get_actions() ) ) {
 		if ( empty( $action ) ) {
 			$is_action = true;
-		} elseif ( $action == $current_action->get_name() ) {
+		} elseif ( $action === $current_action->get_name() ) {
 			$is_action = true;
 		}
 	}
@@ -219,7 +245,8 @@ function tml_is_action( $action = '' ) {
  * @return string The action title.
  */
 function tml_get_action_title( $action = '' ) {
-	if ( ! $action = tml_get_action( $action ) ) {
+	$action = tml_get_action( $action );
+	if ( ! $action ) {
 		return;
 	}
 	return $action->get_title();
@@ -234,7 +261,8 @@ function tml_get_action_title( $action = '' ) {
  * @return string The action slug.
  */
 function tml_get_action_slug( $action = '' ) {
-	if ( ! $action = tml_get_action( $action ) ) {
+	$action = tml_get_action( $action );
+	if ( ! $action ) {
 		return;
 	}
 	return $action->get_slug();
@@ -251,7 +279,8 @@ function tml_get_action_slug( $action = '' ) {
  * @return string The action URL.
  */
 function tml_get_action_url( $action = '', $scheme = 'login', $network = null ) {
-	if ( ! $action = tml_get_action( $action ) ) {
+	$action = tml_get_action( $action );
+	if ( ! $action ) {
 		return;
 	}
 	return $action->get_url( $scheme, $network );
@@ -267,23 +296,27 @@ function tml_get_action_url( $action = '', $scheme = 'login', $network = null ) 
  */
 function tml_action_has_page( $action = '' ) {
 
-	if ( ! $action = tml_get_action( $action ) ) {
+	$action = tml_get_action( $action );
+	if ( ! $action ) {
 		return false;
 	}
 
 	$pages = wp_cache_get( 'pages', 'theme-my-login' );
 	if ( false === $pages ) {
-		$pages = get_posts( [
-			'post_name__in'          => array_map( 'tml_get_action_slug', tml_get_actions() ),
-			'post_type'              => 'page',
-			'nopaging'               => true,
-			'update_post_meta_cache' => false,
-			'update_post_term_cache' => false,
-		] );
+		$pages = get_posts(
+			array(
+				'post_name__in'          => array_map( 'tml_get_action_slug', tml_get_actions() ),
+				'post_type'              => 'page',
+				'nopaging'               => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+			)
+		);
 		wp_cache_set( 'pages', $pages, 'theme-my-login' );
 	}
 
-	if ( $pages = wp_list_filter( $pages, [ 'post_name' => $action->get_slug() ] ) ) {
+	$pages = wp_list_filter( $pages, array( 'post_name' => $action->get_slug() ) );
+	if ( $pages ) {
 		return reset( $pages );
 	}
 
@@ -302,7 +335,7 @@ function tml_action_handler() {
 
 	// Redirect to https login if forced to use SSL
 	if ( force_ssl_admin() && ! is_ssl() ) {
-		if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
+		if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
 			wp_safe_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
 			exit();
 		} else {
@@ -312,24 +345,27 @@ function tml_action_handler() {
 	}
 
 	// Redirect other actions from the login action
-	if ( $action = tml_get_request_value( 'action' ) ) {
-		if ( tml_is_action( 'login' ) && 'login' != $action ) {
+	$action = tml_get_request_value( 'action' );
+	if ( $action ) {
+		if ( tml_is_action( 'login' ) && 'login' !== $action ) {
 			// Fix some alias actions
-			if ( 'retrievepassword' == $action ) {
+			if ( 'retrievepassword' === $action ) {
 				$action = 'lostpassword';
-			} elseif ( 'rp' == $action ) {
+			} elseif ( 'rp' === $action ) {
 				$action = 'resetpass';
 			}
 
 			// Get the action URL
-			if ( $url = tml_get_action_url( $action ) ) {
+			$url = tml_get_action_url( $action );
+			if ( $url ) {
 				// Add the query string to the URL
-				if ( $query = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ) ) {
+				$query = wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY );
+				if ( $query ) {
 					parse_str( $query, $args );
 					unset( $args['action'] );
 					$url = add_query_arg( array_map( 'rawurlencode', $args ), $url );
 				}
-				wp_redirect( $url );
+				wp_safe_redirect( $url );
 				exit;
 			}
 		}
@@ -338,18 +374,22 @@ function tml_action_handler() {
 	nocache_headers();
 
 	// Set a test cookie to test if cookies are enabled
-	$secure = ( 'https' === parse_url( wp_login_url(), PHP_URL_SCHEME ) );
+	$secure = ( 'https' === wp_parse_url( wp_login_url(), PHP_URL_SCHEME ) );
 	setcookie( TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN, $secure );
-	if ( SITECOOKIEPATH != COOKIEPATH ) {
+	if ( SITECOOKIEPATH !== COOKIEPATH ) {
 		setcookie( TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
 	}
 
 	// Add the testcookie field to the login form
-	tml_add_form_field( 'login', 'testcookie', array(
-		'type'     => 'hidden',
-		'value'    => 1,
-		'priority' => 30,
-	) );
+	tml_add_form_field(
+		'login',
+		'testcookie',
+		array(
+			'type'     => 'hidden',
+			'value'    => 1,
+			'priority' => 30,
+		)
+	);
 
 	/** This action is documented in wp-login.php */
 	do_action( 'login_init' );
@@ -381,7 +421,7 @@ function tml_action_handler() {
  */
 function tml_dashboard_handler() {
 	if ( ! is_user_logged_in() ) {
-		wp_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
+		wp_safe_redirect( wp_login_url( $_SERVER['REQUEST_URI'] ) );
 		exit;
 	}
 }
@@ -392,8 +432,9 @@ function tml_dashboard_handler() {
  * @since 7.0
  */
 function tml_login_handler() {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- mirrors wp-login.php's own login-form processing, which authenticates via wp_signon()/credentials rather than a nonce.
 
-	$errors = new WP_Error;
+	$errors = new WP_Error();
 
 	$secure_cookie = '';
 
@@ -430,17 +471,21 @@ function tml_login_handler() {
 
 	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 		if ( headers_sent() ) {
-			$user = new WP_Error( 'test_cookie', sprintf(
-					__( '<strong>Error:</strong> Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
-					__( 'https://wordpress.org/support/article/cookies/' ),
-					__( 'https://wordpress.org/support/forums/' )
+			$user = new WP_Error(
+				'test_cookie',
+				sprintf(
+					__( '<strong>Error:</strong> Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- reusing WP core's translated wp-login.php string verbatim, not a TML-specific string; no translators comment since it never enters TML's own .pot.
+					__( 'https://developer.wordpress.org/advanced-administration/wordpress/cookies/' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated wp-login.php string verbatim, not a TML-specific string.
+					__( 'https://wordpress.org/support/forums/' ) // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated wp-login.php string verbatim, not a TML-specific string.
 				)
 			);
 		} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
 			// If cookies are disabled we can't log in even with a valid user+pass
-			$user = new WP_Error( 'test_cookie', sprintf(
-					__( '<strong>Error:</strong> Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
-					__( 'https://wordpress.org/support/article/cookies#enable-cookies-your-browser' )
+			$user = new WP_Error(
+				'test_cookie',
+				sprintf(
+					__( '<strong>Error:</strong> Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- reusing WP core's translated wp-login.php string verbatim, not a TML-specific string; no translators comment since it never enters TML's own .pot.
+					__( 'https://developer.wordpress.org/advanced-administration/wordpress/cookies/#enable-cookies-in-your-browser' ) // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated wp-login.php string verbatim, not a TML-specific string.
 				)
 			);
 		}
@@ -450,7 +495,7 @@ function tml_login_handler() {
 
 	if ( ! is_wp_error( $user ) && ! $reauth ) {
 
-		if ( ( empty( $redirect_to ) || 'wp-admin/' == $redirect_to || admin_url() == $redirect_to ) ) {
+		if ( ( empty( $redirect_to ) || 'wp-admin/' === $redirect_to || admin_url() === $redirect_to ) ) {
 
 			// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
 			if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) ) {
@@ -468,19 +513,24 @@ function tml_login_handler() {
 			}
 
 			if ( tml_is_ajax_request() ) {
-				tml_send_ajax_success( array(
-					'redirect' => $redirect_to,
-				) );
+				tml_send_ajax_success(
+					array(
+						'redirect' => $redirect_to,
+					)
+				);
 			} else {
+				// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- matches wp-login.php's own use of plain wp_redirect() here; $redirect_to is always internally computed by this point (admin_url()/user_admin_url()/tml_get_action_url()/home_url()), never raw user input.
 				wp_redirect( $redirect_to );
 				exit;
 			}
 		}
 
 		if ( tml_is_ajax_request() ) {
-			tml_send_ajax_success( array(
-				'redirect' => tml_validate_redirect( $redirect_to ),
-			) );
+			tml_send_ajax_success(
+				array(
+					'redirect' => tml_validate_redirect( $redirect_to ),
+				)
+			);
 		} else {
 			wp_safe_redirect( $redirect_to );
 			exit;
@@ -491,36 +541,37 @@ function tml_login_handler() {
 
 	// Clear errors if loggedout is set.
 	if ( ! empty( $_GET['loggedout'] ) || $reauth ) {
-		$errors = new WP_Error;
+		$errors = new WP_Error();
 	}
 
 	if ( empty( $_POST ) && $errors->get_error_codes() === array( 'empty_username', 'empty_password' ) ) {
-		$errors = new WP_Error;
+		$errors = new WP_Error();
 	}
 
 	// Some parts of this script use the main login form to display a message
-	if ( isset( $_GET['loggedout'] ) && true == $_GET['loggedout'] ) {
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- these messages intentionally reuse WP core's translated wp-login.php strings verbatim, not TML-specific strings; no translators comments since they never enter TML's own .pot.
+	if ( isset( $_GET['loggedout'] ) && $_GET['loggedout'] ) {
 		$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
 
-	} elseif ( isset( $_GET['registration'] ) && 'disabled' == $_GET['registration'] ) {
+	} elseif ( isset( $_GET['registration'] ) && 'disabled' === $_GET['registration'] ) {
 		$errors->add( 'registerdisabled', __( '<strong>Error:</strong> User registration is currently not allowed.' ) );
 
-	} elseif ( isset( $_GET['checkemail'] ) && 'confirm' == $_GET['checkemail'] ) {
-		$errors->add( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), wp_login_url() ) , 'message' );
+	} elseif ( isset( $_GET['checkemail'] ) && 'confirm' === $_GET['checkemail'] ) {
+		$errors->add( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), wp_login_url() ), 'message' );
 
-	} elseif ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
+	} elseif ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) {
 		if ( tml_allow_user_passwords() ) {
 			$errors->add( 'registered', __( 'Registration complete. You may now log in.', 'theme-my-login' ), 'message' );
 		} else {
 			$errors->add( 'registered', sprintf( __( 'Registration complete. Please check your email, then visit the <a href="%s">login page</a>.' ), wp_login_url() ), 'message' );
 		}
-
-	} elseif ( isset( $_GET['resetpass'] ) && 'complete' == $_GET['resetpass'] ) {
+	} elseif ( isset( $_GET['resetpass'] ) && 'complete' === $_GET['resetpass'] ) {
 		$errors->add( 'password_reset', __( 'Your password has been reset.' ), 'message' );
 
 	} elseif ( strpos( $redirect_to, 'about.php?updated' ) ) {
 		$errors->add( 'updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
 	}
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 
 	/** This filter is documented in wp-login.php */
 	$errors = apply_filters( 'wp_login_errors', $errors, $redirect_to );
@@ -533,10 +584,13 @@ function tml_login_handler() {
 	}
 
 	if ( tml_is_ajax_request() ) {
-		tml_send_ajax_error( array(
-			'errors' => tml_get_form()->render_errors(),
-		) );
+		tml_send_ajax_error(
+			array(
+				'errors' => tml_get_form()->render_errors(),
+			)
+		);
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing
 }
 
 /**
@@ -579,22 +633,29 @@ function tml_logout_handler() {
  * @since 7.0
  */
 function tml_registration_handler() {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- mirrors wp-login.php's own registration-form processing (register_new_user()), which is a public unauthenticated form with no nonce.
 
 	if ( is_multisite() ) {
 		/** This filter is documented in wp-login.php */
 		$signup_location = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
 
+		// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- matches wp-login.php's own use of plain wp_redirect() here; $signup_location is always network_site_url()-derived, never raw user input.
 		wp_redirect( $signup_location );
 		exit;
 	}
 
 	if ( ! get_option( 'users_can_register' ) ) {
 		if ( tml_is_ajax_request() ) {
+			// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated wp-login.php string verbatim, not a TML-specific string.
 			tml_add_error( 'registerdisabled', __( '<strong>Error:</strong> User registration is currently not allowed.' ) );
-			tml_send_ajax_error( array(
-				'errors' => tml_get_form()->render_errors(),
-			) );
+			// phpcs:enable WordPress.WP.I18n.MissingArgDomain
+			tml_send_ajax_error(
+				array(
+					'errors' => tml_get_form()->render_errors(),
+				)
+			);
 		} else {
+			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- matches wp-login.php's own use of plain wp_redirect() here; target is always site_url()-derived, never raw user input.
 			wp_redirect( site_url( 'wp-login.php?registration=disabled' ) );
 			exit;
 		}
@@ -603,7 +664,7 @@ function tml_registration_handler() {
 	if ( tml_is_post_request() ) {
 		$user_login = tml_get_request_value( 'user_login', 'post' );
 		$user_email = tml_get_request_value( 'user_email', 'post' );
-		$user_id = register_new_user( $user_login, $user_email );
+		$user_id    = register_new_user( $user_login, $user_email );
 		if ( ! is_wp_error( $user_id ) ) {
 			$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url( 'wp-login.php?checkemail=registered' );
 
@@ -618,9 +679,11 @@ function tml_registration_handler() {
 			$redirect_to = apply_filters( 'tml_registration_redirect', $redirect_to, get_userdata( $user_id ) );
 
 			if ( tml_is_ajax_request() ) {
-				wp_send_json_success( array(
-					'redirect' => tml_validate_redirect( $redirect_to ),
-				) );
+				wp_send_json_success(
+					array(
+						'redirect' => tml_validate_redirect( $redirect_to ),
+					)
+				);
 			} else {
 				wp_safe_redirect( $redirect_to );
 				exit;
@@ -628,12 +691,15 @@ function tml_registration_handler() {
 		} else {
 			tml_set_errors( $user_id );
 			if ( tml_is_ajax_request() ) {
-				tml_send_ajax_error( array(
-					'errors' => tml_get_form()->render_errors(),
-				) );
+				tml_send_ajax_error(
+					array(
+						'errors' => tml_get_form()->render_errors(),
+					)
+				);
 			}
 		}
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing
 }
 
 /**
@@ -642,15 +708,20 @@ function tml_registration_handler() {
  * @since 7.0
  */
 function tml_lost_password_handler() {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- mirrors wp-login.php's own lostpassword-form processing, which is a public unauthenticated form with no nonce.
 
 	if ( tml_is_post_request() ) {
 		$errors = retrieve_password();
 		if ( ! is_wp_error( $errors ) ) {
 			if ( tml_is_ajax_request() ) {
+				// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- reusing WP core's translated wp-login.php string verbatim, not a TML-specific string; no translators comment since it never enters TML's own .pot.
 				tml_add_error( 'confirm', sprintf( __( 'Check your email for the confirmation link, then visit the <a href="%s">login page</a>.' ), wp_login_url() ), 'message' );
-				tml_send_ajax_success( array(
-					'notice' => tml_get_form()->render_errors(),
-				) );
+				// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
+				tml_send_ajax_success(
+					array(
+						'notice' => tml_get_form()->render_errors(),
+					)
+				);
 			} else {
 				$redirect_to = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : site_url( 'wp-login.php?checkemail=confirm' );
 				wp_safe_redirect( $redirect_to );
@@ -659,23 +730,28 @@ function tml_lost_password_handler() {
 		} else {
 			tml_set_errors( $errors );
 			if ( tml_is_ajax_request() ) {
-				tml_send_ajax_error( array(
-					'errors' => tml_get_form()->render_errors(),
-				) );
+				tml_send_ajax_error(
+					array(
+						'errors' => tml_get_form()->render_errors(),
+					)
+				);
 			}
 		}
 	}
 
 	if ( isset( $_REQUEST['error'] ) ) {
-		if ( 'invalidkey' == $_REQUEST['error'] ) {
+		// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated wp-login.php strings verbatim, not TML-specific strings.
+		if ( 'invalidkey' === $_REQUEST['error'] ) {
 			tml_add_error( 'invalidkey', __( '<strong>Error:</strong> Your password reset link appears to be invalid. Please request a new link below.' ) );
-		} elseif ( 'expiredkey' == $_REQUEST['error'] ) {
+		} elseif ( 'expiredkey' === $_REQUEST['error'] ) {
 			tml_add_error( 'expiredkey', __( '<strong>Error:</strong> Your password reset link has expired. Please request a new link below.' ) );
 		}
+		// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 	}
 
 	/** This filter is documented in wp-login.php */
 	do_action( 'lost_password', tml_get_errors() );
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 }
 
 /**
@@ -684,9 +760,10 @@ function tml_lost_password_handler() {
  * @since 7.0
  */
 function tml_password_reset_handler() {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- mirrors wp-login.php's own resetpass-form processing, which is secured by the rp_key/rp_login cookie/hash rather than a nonce.
 
 	list( $rp_path ) = explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) );
-	$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
+	$rp_cookie       = 'wp-resetpass-' . COOKIEHASH;
 
 	if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
 		$value = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
@@ -697,6 +774,7 @@ function tml_password_reset_handler() {
 
 	if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
 		list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+
 		$user = check_password_reset_key( $rp_key, $rp_login );
 		if ( isset( $_POST['pass1'] ) && ! hash_equals( $rp_key, $_POST['rp_key'] ) ) {
 			$user = false;
@@ -707,15 +785,19 @@ function tml_password_reset_handler() {
 
 	if ( ! $user || is_wp_error( $user ) ) {
 		setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
+		// phpcs:disable WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- matches wp-login.php's own use of plain wp_redirect() here; target is always a hardcoded site_url() string, never raw user input.
 		if ( $user && $user->get_error_code() === 'expired_key' ) {
 			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) );
 		} else {
 			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) );
 		}
+		// phpcs:enable WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit;
 	}
 
-	$errors = new WP_Error;
+	$errors = new WP_Error();
+
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these messages intentionally reuse WP core's translated wp-login.php strings verbatim, not TML-specific strings.
 
 	// Check if password is one or all empty spaces.
 	if ( ! empty( $_POST['pass1'] ) ) {
@@ -731,17 +813,22 @@ function tml_password_reset_handler() {
 		$errors->add( 'password_reset_mismatch', __( '<strong>Error:</strong> The passwords do not match.' ) );
 	}
 
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain
+
 	/** This action is documented in wp-login.php */
 	do_action( 'validate_password_reset', $errors, $user );
 
 	if ( ( ! $errors->has_errors() ) && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 		reset_password( $user, $_POST['pass1'] );
 		setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
+		// phpcs:disable WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- target is always a hardcoded site_url() string, never raw user input.
 		wp_redirect( site_url( 'wp-login.php?resetpass=complete' ) );
+		// phpcs:enable WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit;
 	} else {
 		tml_set_errors( $errors );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing
 }
 
 /**
@@ -750,6 +837,8 @@ function tml_password_reset_handler() {
  * @since 7.0
  */
 function tml_confirmaction_handler() {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- mirrors wp-login.php's own confirmaction handling, which is secured by the confirm_key/wp_validate_user_request_key() token rather than a nonce.
+	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.Security.EscapeOutput.OutputNotEscaped -- these messages intentionally reuse WP core's translated wp-login.php strings verbatim (static, no dynamic content), not TML-specific strings.
 	if ( ! isset( $_GET['request_id'] ) ) {
 		wp_die( __( 'Missing request ID.' ) );
 	}
@@ -757,14 +846,18 @@ function tml_confirmaction_handler() {
 	if ( ! isset( $_GET['confirm_key'] ) ) {
 		wp_die( __( 'Missing confirm key.' ) );
 	}
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	$request_id = (int) $_GET['request_id'];
 	$key        = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
 	$result     = wp_validate_user_request_key( $request_id, $key );
 
 	if ( is_wp_error( $result ) ) {
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_die() natively supports WP_Error objects (extracts get_error_message() internally via _wp_die_process_input()); this is the standard wp_die( WP_Error ) pattern, not raw unescaped output.
 		wp_die( $result );
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 	/** This action is documented in wp-login.php */
 	do_action( 'user_request_action_confirmed', $request_id );
