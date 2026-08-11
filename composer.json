@@ -9,15 +9,21 @@
         "phpunit/phpunit": "^9.6",
         "yoast/phpunit-polyfills": "^2.0",
         "wp-phpunit/wp-phpunit": "^7.0",
-        "roots/wordpress-no-content": "^7.0"
+        "roots/wordpress-no-content": "^7.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "wp-coding-standards/wpcs": "^3.1",
+        "phpcompatibility/phpcompatibility-wp": "^2.1"
     },
     "config": {
         "allow-plugins": {
-            "composer/installers": true
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "scripts": {
         "test": "phpunit",
-        "test:strict": "WP_TESTS_STRICT_DEPRECATIONS=1 php -d error_reporting=-1 vendor/bin/phpunit --fail-on-risky"
+        "test:strict": "WP_TESTS_STRICT_DEPRECATIONS=1 php -d error_reporting=-1 vendor/bin/phpunit --fail-on-risky",
+        "lint": "phpcs",
+        "lint:fix": "phpcbf"
     }
 }

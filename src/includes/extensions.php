@@ -18,7 +18,7 @@
  * }
  * @return Theme_My_Login_Extension The extension object.
  */
-function tml_register_extension( $extension, $args = array() ) {
+function tml_register_extension( $extension, $args = array() ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- kept for API/documented-signature consistency with tml_register_action()/tml_register_form().
 
 	if ( ! $extension instanceof Theme_My_Login_Extension ) {
 		return false;
@@ -100,20 +100,25 @@ function tml_extension_exists( $extension ) {
 function tml_add_extension_data_to_plugins_api( $result = false, $action = '', $args = array() ) {
 
 	// Bail if not a "plugin_information" call
-	if ( 'plugin_information' != $action ) {
+	if ( 'plugin_information' !== $action ) {
 		return $result;
 	}
 
 	// Bail if the extension doesn't exist
-	if ( ! $extension = tml_get_extension( $args->slug ) ) {
+	$extension = tml_get_extension( $args->slug );
+	if ( ! $extension ) {
 		return $result;
 	}
 
-	if ( $result = tml_extension_api_call( $extension->get_store_url(), array(
-		'license' => $extension->get_license_key(),
-		'item_id' => $extension->get_item_id(),
-		'slug'    => $extension->get_name(),
-	) ) ) {
+	$result = tml_extension_api_call(
+		$extension->get_store_url(),
+		array(
+			'license' => $extension->get_license_key(),
+			'item_id' => $extension->get_item_id(),
+			'slug'    => $extension->get_name(),
+		)
+	);
+	if ( $result ) {
 		if ( empty( $result->version ) && ! empty( $result->new_version ) ) {
 			$result->version = $result->new_version;
 		}
@@ -136,11 +141,14 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 	}
 
 	foreach ( tml_get_extensions() as $extension ) {
-		$response = tml_extension_api_call( $extension->get_store_url(), array(
-			'license' => $extension->get_license_key(),
-			'item_id' => $extension->get_item_id(),
-			'slug'    => $extension->get_name(),
-		) );
+		$response = tml_extension_api_call(
+			$extension->get_store_url(),
+			array(
+				'license' => $extension->get_license_key(),
+				'item_id' => $extension->get_item_id(),
+				'slug'    => $extension->get_name(),
+			)
+		);
 
 		if ( is_object( $response ) ) {
 			$basename = $extension->get_basename();
@@ -148,15 +156,15 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 			$update = (object) array(
 				'slug'             => $extension->get_name(),
 				'plugin'           => $basename,
-				'new_version'      => isset( $response->new_version )      ? $response->new_version      : ( isset( $response->version )       ? $response->version       : '' ),
-				'url'              => isset( $response->url )              ? $response->url              : ( isset( $response->homepage )      ? $response->homepage      : '' ),
-				'package'          => isset( $response->package )          ? $response->package          : ( isset( $response->download_link ) ? $response->download_link : '' ),
-				'icons'            => isset( $response->icons )            ? $response->icons            : array(),
-				'banners'          => isset( $response->banners )          ? $response->banners          : array(),
-				'banners_rtl'      => isset( $response->banners_rtl )      ? $response->banners_rtl      : array(),
-				'requires'         => isset( $response->requires )         ? $response->requires         : '',
-				'tested'           => isset( $response->tested )           ? $response->tested           : '',
-				'requires_php'     => isset( $response->requires_php )     ? $response->requires_php     : '',
+				'new_version'      => isset( $response->new_version ) ? $response->new_version : ( isset( $response->version ) ? $response->version : '' ),
+				'url'              => isset( $response->url ) ? $response->url : ( isset( $response->homepage ) ? $response->homepage : '' ),
+				'package'          => isset( $response->package ) ? $response->package : ( isset( $response->download_link ) ? $response->download_link : '' ),
+				'icons'            => isset( $response->icons ) ? $response->icons : array(),
+				'banners'          => isset( $response->banners ) ? $response->banners : array(),
+				'banners_rtl'      => isset( $response->banners_rtl ) ? $response->banners_rtl : array(),
+				'requires'         => isset( $response->requires ) ? $response->requires : '',
+				'tested'           => isset( $response->tested ) ? $response->tested : '',
+				'requires_php'     => isset( $response->requires_php ) ? $response->requires_php : '',
 				'requires_plugins' => isset( $response->requires_plugins ) ? $response->requires_plugins : array(),
 			);
 
@@ -168,7 +176,7 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 			if ( ! empty( $update->new_version ) && version_compare( $extension->get_version(), $update->new_version, '<' ) ) {
 				$transient->response[ $basename ] = $update;
 
-			// This is just fetching the plugin information
+				// This is just fetching the plugin information
 			} else {
 				$transient->no_update[ $basename ] = $update;
 			}
@@ -190,15 +198,19 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
  *                              extension doesn't exist or WP_Error on failure.
  */
 function tml_activate_extension_license( $extension ) {
-	if ( ! $extension = tml_get_extension( $extension ) ) {
+	$extension = tml_get_extension( $extension );
+	if ( ! $extension ) {
 		return false;
 	}
 
-	$response = tml_extension_api_call( $extension->get_store_url(), array(
-		'edd_action' => 'activate_license',
-		'license'    => $extension->get_license_key(),
-		'item_id'    => $extension->get_item_id(),
-	) );
+	$response = tml_extension_api_call(
+		$extension->get_store_url(),
+		array(
+			'edd_action' => 'activate_license',
+			'license'    => $extension->get_license_key(),
+			'item_id'    => $extension->get_item_id(),
+		)
+	);
 
 	if ( empty( $response ) ) {
 		return new WP_Error( 'http_error', __( 'An error occurred, please try again.', 'theme-my-login' ) );
@@ -206,34 +218,35 @@ function tml_activate_extension_license( $extension ) {
 
 	if ( false === $response->success ) {
 		switch ( $response->error ) {
-			case 'expired' :
+			case 'expired':
 				$message = sprintf(
+					/* translators: %s: License expiration date. */
 					__( 'Your license key expired on %s.', 'theme-my-login' ),
-					date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+					date_i18n( get_option( 'date_format' ), strtotime( $response->expires, time() ) )
 				);
 				break;
 
-			case 'disabled' :
+			case 'disabled':
 				$message = __( 'Your license key has been disabled.', 'theme-my-login' );
 				break;
 
-			case 'missing' :
-			case 'missing_url' :
-			case 'key_mismatch' :
-			case 'invalid_item_id' :
-			case 'item_name_mismatch' :
+			case 'missing':
+			case 'missing_url':
+			case 'key_mismatch':
+			case 'invalid_item_id':
+			case 'item_name_mismatch':
 				$message = __( 'Invalid license.', 'theme-my-login' );
 				break;
 
-			case 'no_activations_left' :
+			case 'no_activations_left':
 				$message = __( 'Your license key has reached its activation limit.', 'theme-my-login' );
 				break;
 
-			case 'license_not_activable' :
+			case 'license_not_activable':
 				$message = __( 'You are attempting to activate a bundle license. Please use the license that corresponds to the individual extension you are attemtping to activate.', 'theme-my-login' );
 				break;
 
-			default :
+			default:
 				$message = __( 'An error occurred, please try again.', 'theme-my-login' );
 				break;
 		}
@@ -253,25 +266,33 @@ function tml_activate_extension_license( $extension ) {
  *                              extension doesn't exist or WP_Error on failure.
  */
 function tml_deactivate_extension_license( $extension ) {
-	if ( ! $extension = tml_get_extension( $extension ) ) {
+	$extension = tml_get_extension( $extension );
+	if ( ! $extension ) {
 		return false;
 	}
 
-	$response = tml_extension_api_call( $extension->get_store_url(), array(
-		'edd_action' => 'deactivate_license',
-		'license'    => $extension->get_license_key(),
-		'item_id'    => $extension->get_item_id(),
-	) );
+	$response = tml_extension_api_call(
+		$extension->get_store_url(),
+		array(
+			'edd_action' => 'deactivate_license',
+			'license'    => $extension->get_license_key(),
+			'item_id'    => $extension->get_item_id(),
+		)
+	);
 
 	if ( empty( $response ) ) {
 		return new WP_Error( 'http_error', __( 'An error occurred, please try again.', 'theme-my-login' ) );
 	}
 
 	if ( false === $response->success ) {
-		return new WP_Error( 'deactivation_failed', sprintf(
-			__( 'Unable to deactivate license. Please deactivate it on <a href="%1$s" target="_blank">our site</a>.', 'theme-my-login' ),
-			'https://thememylogin.com/your-account/?action=license-keys'
-		) );
+		return new WP_Error(
+			'deactivation_failed',
+			sprintf(
+				/* translators: %1$s: URL to deactivate the license on thememylogin.com. */
+				__( 'Unable to deactivate license. Please deactivate it on <a href="%1$s" target="_blank">our site</a>.', 'theme-my-login' ),
+				'https://thememylogin.com/your-account/?action=license-keys'
+			)
+		);
 	}
 
 	return $response->license;
@@ -287,16 +308,20 @@ function tml_deactivate_extension_license( $extension ) {
  *                              extension doesn't exist or WP_Error on failure.
  */
 function tml_check_extension_license( $extension ) {
-	if ( ! $extension = tml_get_extension( $extension ) ) {
+	$extension = tml_get_extension( $extension );
+	if ( ! $extension ) {
 		return false;
 	}
 
-	$response = tml_extension_api_call( $extension->get_store_url(), array(
-		'edd_action' => 'check_license',
-		'license'    => $extension->get_license_key(),
-		'item_id'    => $extension->get_item_id(),
-		'url'        => home_url(),
-	) );
+	$response = tml_extension_api_call(
+		$extension->get_store_url(),
+		array(
+			'edd_action' => 'check_license',
+			'license'    => $extension->get_license_key(),
+			'item_id'    => $extension->get_item_id(),
+			'url'        => home_url(),
+		)
+	);
 
 	if ( empty( $response ) ) {
 		return new WP_Error( 'http_error', __( 'An error occurred, please try again.', 'theme-my-login' ) );
@@ -324,26 +349,33 @@ function tml_check_extension_license( $extension ) {
  * @return object|false The response object or false on failure.
  */
 function tml_extension_api_call( $url, $args = array() ) {
-	$args = wp_parse_args( $args, array(
-		'edd_action' => 'get_version',
-		'license'    => '',
-		'item_id'    => '',
-		'slug'       => '',
-		'url'        => '',
-		'beta'       => false,
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'edd_action' => 'get_version',
+			'license'    => '',
+			'item_id'    => '',
+			'slug'       => '',
+			'url'        => '',
+			'beta'       => false,
+		)
+	);
 
+	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- one-way hash input for a cache key, never unserialized; no object-injection risk.
 	$cache_key = md5( serialize( $args ) );
 
 	$response = wp_cache_get( $cache_key, 'tml_api_calls' );
 	if ( ! $response ) {
-		$response = wp_remote_post( $url, array(
-			'timeout'   => 30,
-			'sslverify' => true,
-			'body'      => $args,
-		) );
+		$response = wp_remote_post(
+			$url,
+			array(
+				'timeout'   => 30,
+				'sslverify' => true,
+				'body'      => $args,
+			)
+		);
 
-		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
+		if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
 			return false;
 		}
 

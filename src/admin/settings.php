@@ -93,28 +93,31 @@ function tml_admin_get_settings_sections() {
 	 *
 	 * @param array $sections The settings sections.
 	 */
-	return (array) apply_filters( 'tml_admin_get_settings_sections', array(
-		'tml_settings_general' => array(
-			'title'    => __( 'General', 'theme-my-login' ),
-			'callback' => '__return_null',
-			'page'     => 'theme-my-login',
-		),
-		'tml_settings_login' => array(
-			'title'    => __( 'Log In' ),
-			'callback' => '__return_null',
-			'page'     => 'theme-my-login',
-		),
-		'tml_settings_registration' => array(
-			'title'    => __( 'Registration', 'theme-my-login' ),
-			'callback' => '__return_null',
-			'page'     => 'theme-my-login',
-		),
-		'tml_settings_slugs' => array(
-			'title'    => __( 'Slugs', 'theme-my-login' ),
-			'callback' => 'tml_admin_setting_callback_slugs_section',
-			'page'     => 'theme-my-login',
-		),
-	) );
+	return (array) apply_filters(
+		'tml_admin_get_settings_sections',
+		array(
+			'tml_settings_general'      => array(
+				'title'    => __( 'General', 'theme-my-login' ),
+				'callback' => '__return_null',
+				'page'     => 'theme-my-login',
+			),
+			'tml_settings_login'        => array(
+				'title'    => __( 'Log In' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Log In" string, not a TML-specific string.
+				'callback' => '__return_null',
+				'page'     => 'theme-my-login',
+			),
+			'tml_settings_registration' => array(
+				'title'    => __( 'Registration', 'theme-my-login' ),
+				'callback' => '__return_null',
+				'page'     => 'theme-my-login',
+			),
+			'tml_settings_slugs'        => array(
+				'title'    => __( 'Slugs', 'theme-my-login' ),
+				'callback' => 'tml_admin_setting_callback_slugs_section',
+				'page'     => 'theme-my-login',
+			),
+		)
+	);
 }
 
 /**
@@ -134,7 +137,7 @@ function tml_admin_get_settings_fields() {
 			'title'             => __( 'AJAX', 'theme-my-login' ),
 			'callback'          => 'tml_admin_setting_callback_checkbox_field',
 			'sanitize_callback' => 'sanitize_text_field',
-			'args' => array(
+			'args'              => array(
 				'label_for' => 'tml_ajax',
 				'label'     => __( 'Enable AJAX requests', 'theme-my-login' ),
 				'value'     => '1',
@@ -150,13 +153,13 @@ function tml_admin_get_settings_fields() {
 			'title'             => __( 'Login Type', 'theme-my-login' ),
 			'callback'          => 'tml_admin_setting_callback_radio_group_field',
 			'sanitize_callback' => 'sanitize_text_field',
-			'args' => array(
+			'args'              => array(
 				'label_for' => 'tml_login_type',
 				'legend'    => __( 'Login Type', 'theme-my-login' ),
 				'options'   => array(
-					'default'  => __( 'Default',       'theme-my-login' ),
+					'default'  => __( 'Default', 'theme-my-login' ),
 					'username' => __( 'Username only', 'theme-my-login' ),
-					'email'    => __( 'Email only',    'theme-my-login' ),
+					'email'    => __( 'Email only', 'theme-my-login' ),
 				),
 				'checked'   => get_site_option( 'tml_login_type', 'default' ),
 			),
@@ -170,22 +173,22 @@ function tml_admin_get_settings_fields() {
 			'title'             => __( 'Registration Type', 'theme-my-login' ),
 			'callback'          => 'tml_admin_setting_callback_radio_group_field',
 			'sanitize_callback' => 'sanitize_text_field',
-			'args' => array(
+			'args'              => array(
 				'label_for' => 'tml_registration_type',
 				'legend'    => __( 'Registration Type', 'theme-my-login' ),
 				'options'   => array(
-					'default'  => __( 'Default',    'theme-my-login' ),
-					'email'    => __( 'Email only', 'theme-my-login' ),
+					'default' => __( 'Default', 'theme-my-login' ),
+					'email'   => __( 'Email only', 'theme-my-login' ),
 				),
 				'checked'   => get_site_option( 'tml_registration_type', 'default' ),
 			),
 		),
 		// User passwords
-		'tml_user_passwords' => array(
+		'tml_user_passwords'    => array(
 			'title'             => __( 'Passwords', 'theme-my-login' ),
 			'callback'          => 'tml_admin_setting_callback_checkbox_field',
 			'sanitize_callback' => 'sanitize_text_field',
-			'args' => array(
+			'args'              => array(
 				'label_for' => 'tml_user_passwords',
 				'label'     => __( 'Allow users to set their own password', 'theme-my-login' ),
 				'value'     => '1',
@@ -193,11 +196,11 @@ function tml_admin_get_settings_fields() {
 			),
 		),
 		// Auto-login
-		'tml_auto_login' => array(
+		'tml_auto_login'        => array(
 			'title'             => __( 'Auto-Login', 'theme-my-login' ),
 			'callback'          => 'tml_admin_setting_callback_checkbox_field',
 			'sanitize_callback' => 'sanitize_text_field',
-			'args' => array(
+			'args'              => array(
 				'label_for' => 'tml_auto_login',
 				'label'     => __( 'Automatically log in users after registration', 'theme-my-login' ),
 				'value'     => '1',
@@ -219,12 +222,12 @@ function tml_admin_get_settings_fields() {
 			'title'             => $action->get_title(),
 			'callback'          => 'tml_admin_setting_callback_input_field',
 			'sanitize_callback' => 'sanitize_text_field',
-			'args' => array(
+			'args'              => array(
 				'label_for'   => $slug_option,
 				'value'       => get_site_option( $slug_option, $action->get_slug() ),
 				'attributes'  => array(
-					'checked' => true,
-					'class' => 'regular-text code',
+					'checked'  => true,
+					'class'    => 'regular-text code',
 					'required' => true,
 				),
 				'description' => sprintf( '<a href="%1$s">%1$s</a>', $action->get_url() ),
@@ -248,11 +251,11 @@ function tml_admin_get_settings_fields() {
  * @since 7.0.5
  */
 function tml_admin_setting_callback_slugs_section() {
-?>
+	?>
 
 <p><?php esc_html_e( 'The slugs defined here will be used to generate the URL to the corresponding action. You can see this URL below the slug field. If you would like to use pages for these actions, simply make sure the slug for the action below matches the slug of the page you would like to use for that action.', 'theme-my-login' ); ?></p>
 
-<?php
+	<?php
 }
 
 /**
@@ -272,43 +275,64 @@ function tml_admin_setting_callback_slugs_section() {
  * }
  */
 function tml_admin_setting_callback_input_field( $args ) {
-	$args = wp_parse_args( $args, array(
-		'label_for'   => '',
-		'value'       => '',
-		'description' => '',
-		'attributes'  => array(),
-		'input_type'  => 'text',
-		'input_class' => 'regular-text',
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'label_for'   => '',
+			'value'       => '',
+			'description' => '',
+			'attributes'  => array(),
+			'input_type'  => 'text',
+			'input_class' => 'regular-text',
+		)
+	);
 
 	$attributes = is_array( $args['attributes'] ) ? array_filter( $args['attributes'] ) : array();
 
-	isset( $args['label_for'] ) && $attributes['name'] = $args['label_for'];
-	isset( $args['label_for'] ) && $attributes['id'] = $args['label_for'];
-	isset( $args['value'] ) && $attributes['value'] = $args['value'];
-	isset( $args['input_type'] ) && empty( $attributes['type'] ) && $attributes['type'] = $args['input_type'];
-	isset( $args['input_class'] ) && empty( $attributes['class'] ) && $attributes['class'] = $args['input_class'];
+	if ( isset( $args['label_for'] ) ) {
+		$attributes['name'] = $args['label_for'];
+		$attributes['id']   = $args['label_for'];
+	}
+	if ( isset( $args['value'] ) ) {
+		$attributes['value'] = $args['value'];
+	}
+	if ( isset( $args['input_type'] ) && empty( $attributes['type'] ) ) {
+		$attributes['type'] = $args['input_type'];
+	}
+	if ( isset( $args['input_class'] ) && empty( $attributes['class'] ) ) {
+		$attributes['class'] = $args['input_class'];
+	}
 
-	$attributes = array_map( function ( $key ) use ( $attributes ) {
-		return is_bool( $attributes[ $key ] ) ? esc_attr( $key ) : sprintf( "%s='%s'", esc_attr( $key ), esc_attr( $attributes[ $key ] ) );
-	}, array_keys( $attributes ) );
+	$attributes = array_map(
+		function ( $key ) use ( $attributes ) {
+			return is_bool( $attributes[ $key ] ) ? esc_attr( $key ) : sprintf( "%s='%s'", esc_attr( $key ), esc_attr( $attributes[ $key ] ) );
+		},
+		array_keys( $attributes )
+	);
 
-	usort( $attributes, function ( $a, $b ) {
-		$x = strpos( $a, '=' ) === false;
-		$y = strpos( $b, '=' ) === false;
-		if ( $x && !$y ) return 1;
-		if ( $y && !$x ) return -1;
-		return strcmp( $a, $b );
-	} );
-?>
+	usort(
+		$attributes,
+		function ( $a, $b ) {
+			$x = strpos( $a, '=' ) === false;
+			$y = strpos( $b, '=' ) === false;
+			if ( $x && ! $y ) {
+				return 1;
+			}
+			if ( $y && ! $x ) {
+				return -1;
+			}
+			return strcmp( $a, $b );
+		}
+	);
+	?>
 
-	<input <?php echo implode( ' ', $attributes ); ?>/>
+	<input <?php echo implode( ' ', $attributes ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each attribute string is already built via esc_attr() above. */ ?>/>
 
 	<?php if ( ! empty( $args['description'] ) ) : ?>
-		<p class="description"><?php echo $args['description']; ?></p>
+		<p class="description"><?php echo wp_kses_post( $args['description'] ); ?></p>
 	<?php endif; ?>
 
-<?php
+	<?php
 }
 
 /**
@@ -327,22 +351,25 @@ function tml_admin_setting_callback_input_field( $args ) {
  * }
  */
 function tml_admin_setting_callback_checkbox_field( $args ) {
-	$args = wp_parse_args( $args, array(
-		'label_for'   => '',
-		'label'       => '',
-		'value'       => '1',
-		'checked'     => '',
-		'description' => '',
-	) );
-?>
+	$args = wp_parse_args(
+		$args,
+		array(
+			'label_for'   => '',
+			'label'       => '',
+			'value'       => '1',
+			'checked'     => '',
+			'description' => '',
+		)
+	);
+	?>
 
-	<input type="checkbox" name="<?php echo esc_attr( $args['label_for'] ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo $args['value']; ?>" <?php checked( ! empty( $args['checked'] ) ); ?> /> <label for="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
+	<input type="checkbox" name="<?php echo esc_attr( $args['label_for'] ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>" <?php checked( ! empty( $args['checked'] ) ); ?> /> <label for="<?php echo esc_attr( $args['label_for'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
 
 	<?php if ( ! empty( $args['description'] ) ) : ?>
-		<p class="description"><?php echo $args['description']; ?></p>
+		<p class="description"><?php echo wp_kses_post( $args['description'] ); ?></p>
 	<?php endif; ?>
 
-<?php
+	<?php
 }
 
 /**
@@ -359,11 +386,14 @@ function tml_admin_setting_callback_checkbox_field( $args ) {
  * }
  */
 function tml_admin_setting_callback_checkbox_group_field( $args ) {
-	$args = wp_parse_args( $args, array(
-		'legend'      => '',
-		'options'     => array(),
-		'description' => '',
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'legend'      => '',
+			'options'     => array(),
+			'description' => '',
+		)
+	);
 
 	$options = array();
 	foreach ( (array) $args['options'] as $option_name => $option ) {
@@ -375,18 +405,18 @@ function tml_admin_setting_callback_checkbox_group_field( $args ) {
 			esc_html( $option['label'] )
 		);
 	}
-?>
+	?>
 
 	<fieldset>
 		<legend class="screen-reader-text"><span><?php echo esc_html( $args['legend'] ); ?></span></legend>
-		<?php echo implode( "<br />\n", $options ); ?>
+		<?php echo implode( "<br />\n", $options ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each $options entry is already built via esc_attr()/esc_html() above. */ ?>
 	</fieldset>
 
 	<?php if ( ! empty( $args['description'] ) ) : ?>
-		<p class="description"><?php echo $args['description']; ?></p>
+		<p class="description"><?php echo wp_kses_post( $args['description'] ); ?></p>
 	<?php endif; ?>
 
-<?php
+	<?php
 }
 
 /**
@@ -404,12 +434,15 @@ function tml_admin_setting_callback_checkbox_group_field( $args ) {
  * }
  */
 function tml_admin_setting_callback_dropdown_field( $args ) {
-	$args = wp_parse_args( $args, array(
-		'label_for'   => '',
-		'options'     => array(),
-		'selected'    => '',
-		'description' => '',
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'label_for'   => '',
+			'options'     => array(),
+			'selected'    => '',
+			'description' => '',
+		)
+	);
 
 	$options = array();
 	foreach ( (array) $args['options'] as $value => $label ) {
@@ -420,17 +453,17 @@ function tml_admin_setting_callback_dropdown_field( $args ) {
 			esc_html( $label )
 		);
 	}
-?>
+	?>
 
 	<select name="<?php echo esc_attr( $args['label_for'] ); ?>" id="<?php echo esc_attr( $args['label_for'] ); ?>">
-		<?php echo implode( "<br />\n", $options ); ?>
+		<?php echo implode( "<br />\n", $options ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each $options entry is already built via esc_attr()/esc_html() above. */ ?>
 	</select>
 
 	<?php if ( ! empty( $args['description'] ) ) : ?>
-		<p class="description"><?php echo $args['description']; ?></p>
+		<p class="description"><?php echo wp_kses_post( $args['description'] ); ?></p>
 	<?php endif; ?>
 
-<?php
+	<?php
 }
 
 /**
@@ -449,13 +482,16 @@ function tml_admin_setting_callback_dropdown_field( $args ) {
  * }
  */
 function tml_admin_setting_callback_radio_group_field( $args ) {
-	$args = wp_parse_args( $args, array(
-		'label_for'   => '',
-		'legend'      => '',
-		'options'     => array(),
-		'checked'     => '',
-		'description' => '',
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'label_for'   => '',
+			'legend'      => '',
+			'options'     => array(),
+			'checked'     => '',
+			'description' => '',
+		)
+	);
 
 	$options = array();
 	foreach ( (array) $args['options'] as $value => $label ) {
@@ -467,18 +503,18 @@ function tml_admin_setting_callback_radio_group_field( $args ) {
 			esc_html( $label )
 		);
 	}
-?>
+	?>
 
 	<fieldset>
 		<legend class="screen-reader-text"><span><?php echo esc_html( $args['legend'] ); ?></span></legend>
-		<?php echo implode( "<br />\n", $options ); ?>
+		<?php echo implode( "<br />\n", $options ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each $options entry is already built via esc_attr()/esc_html() above. */ ?>
 	</fieldset>
 
 	<?php if ( ! empty( $args['description'] ) ) : ?>
-		<p class="description"><?php echo $args['description']; ?></p>
+		<p class="description"><?php echo wp_kses_post( $args['description'] ); ?></p>
 	<?php endif; ?>
 
-<?php
+	<?php
 }
 
 /**
@@ -494,22 +530,26 @@ function tml_admin_setting_callback_radio_group_field( $args ) {
  * }
  */
 function tml_admin_setting_callback_license_key_field( $args ) {
-	$args = wp_parse_args( $args, array(
-		'label_for' => '',
-		'extension' => '',
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'label_for' => '',
+			'extension' => '',
+		)
+	);
 
-	if ( ! $extension = tml_get_extension( $args['extension'] ) ) {
+	$extension = tml_get_extension( $args['extension'] );
+	if ( ! $extension ) {
 		return;
 	}
 
 	$license = $extension->get_license_key();
 	$status  = $extension->get_license_status();
 
-	if ( 'valid' == $status ) {
+	if ( 'valid' === $status ) {
 		$class = 'tml-license-valid';
 		$text  = __( 'Active', 'theme-my-login' );
-	} elseif ( 'invalid' == $status ) {
+	} elseif ( 'invalid' === $status ) {
 		$class = 'tml-license-invalid';
 		$text  = __( 'Invalid', 'theme-my-login' );
 	} else {
@@ -522,7 +562,7 @@ function tml_admin_setting_callback_license_key_field( $args ) {
 		esc_attr( $args['label_for'] ),
 		esc_attr( $license ),
 		esc_attr( $class ),
-		'valid' == $status ? 'readonly="readonly"' : ''
+		'valid' === $status ? 'readonly="readonly"' : ''
 	) . "\n";
 
 	submit_button(
@@ -533,7 +573,7 @@ function tml_admin_setting_callback_license_key_field( $args ) {
 		array(
 			'data-action'    => 'deactivate',
 			'data-extension' => $extension->get_name(),
-			'style'          => ( empty( $license ) || 'valid' != $status ) ? 'display: none;' : '',
+			'style'          => ( empty( $license ) || 'valid' !== $status ) ? 'display: none;' : '',
 		)
 	);
 
@@ -545,7 +585,7 @@ function tml_admin_setting_callback_license_key_field( $args ) {
 		array(
 			'data-action'    => 'activate',
 			'data-extension' => $extension->get_name(),
-			'style'          => ( empty( $license ) || 'valid' == $status ) ? 'display: none;' : '',
+			'style'          => ( empty( $license ) || 'valid' === $status ) ? 'display: none;' : '',
 		)
 	);
 
@@ -567,21 +607,24 @@ function tml_admin_setting_callback_license_key_field( $args ) {
 function tml_admin_settings_page() {
 	global $title, $plugin_page;
 
-	if ( 'theme-my-login' == $plugin_page ) {
+	if ( 'theme-my-login' === $plugin_page ) {
 		tml_flush_rewrite_rules();
 	}
 
 	settings_errors();
-?>
+	?>
 
 <div class="wrap">
-	<h1><?php echo esc_html( $title ) ?></h1>
+	<h1><?php echo esc_html( $title ); ?></h1>
 	<hr class="wp-header-end">
 
-	<form id="tml-settings" action="<?php echo is_network_admin()
+	<form id="tml-settings" action="
+	<?php
+	echo is_network_admin()
 		? 'edit.php?action=theme-my-login'
 		: 'options.php';
-	?>" method="post">
+	?>
+	" method="post">
 
 		<?php settings_fields( $plugin_page ); ?>
 
@@ -591,7 +634,7 @@ function tml_admin_settings_page() {
 	</form>
 </div>
 
-<?php
+	<?php
 }
 
 /**
@@ -605,9 +648,10 @@ function tml_admin_save_ms_settings() {
 		return;
 	}
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- the nonce action name below is derived from $option_page itself, so it must be read before check_admin_referer() can run; verified two lines down.
 	$option_page = ! empty( $_REQUEST['option_page'] ) ? $_REQUEST['option_page'] : '';
 
-	if ( empty( $option_page) || ! theme_my_login_admin()->has_page( $option_page ) ) {
+	if ( empty( $option_page ) || ! theme_my_login_admin()->has_page( $option_page ) ) {
 		return;
 	}
 
@@ -622,7 +666,8 @@ function tml_admin_save_ms_settings() {
 	if ( ! isset( $allowed_options[ $option_page ] ) ) {
 		wp_die(
 			sprintf(
-				__( '<strong>Error:</strong> The %s options page is not in the allowed options list.' ),
+				/* translators: %s: The options page name. */
+				__( '<strong>Error:</strong> The %s options page is not in the allowed options list.' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.Security.EscapeOutput.OutputNotEscaped -- reusing WP core's translated error string verbatim (see wp-admin/options.php); the dynamic value is already esc_html()'d below.
 				'<code>' . esc_html( $option_page ) . '</code>'
 			)
 		);
@@ -648,12 +693,12 @@ function tml_admin_save_ms_settings() {
 	tml_flush_rewrite_rules();
 
 	if ( ! count( get_settings_errors() ) ) {
-		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'updated' );
+		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'updated' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Settings saved." string, not a TML-specific string.
 	}
 	set_transient( 'settings_errors', get_settings_errors(), 30 );
 
 	$goback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );
-	wp_redirect( $goback );
+	wp_safe_redirect( $goback );
 	exit;
 }
 
@@ -667,23 +712,27 @@ function tml_admin_save_ms_settings() {
 function tml_admin_add_settings_help_tabs( $screen ) {
 	global $plugin_page;
 
-	$help_tabs = $sidebar_links = array();
+	$help_tabs     = array();
+	$sidebar_links = array();
 
 	if ( empty( $plugin_page ) || ! theme_my_login_admin()->has_page( $plugin_page ) ) {
 		return;
 	}
 
 	// Core page
-	if ( 'theme-my-login' == $plugin_page ) {
+	if ( 'theme-my-login' === $plugin_page ) {
 		$help_tabs['overview'] = array(
 			'id'      => 'theme-my-login-overview',
-			'title'   => __( 'Overview' ),
-			'content' => '<p>' . implode( '</p><p>', array(
-				__( 'Welcome to Theme My Login!', 'theme-my-login' ),
-				__( 'Below, you can configure how you would like users to register and log in to your site.', 'theme-my-login' ),
-				__( 'Additionally, you can change the slugs that are used to generate the URLs that represent specific actions.', 'theme-my-login' ),
-				__( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ),
-			) ) . '</p>',
+			'title'   => __( 'Overview' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Overview" string, not a TML-specific string.
+			'content' => '<p>' . implode(
+				'</p><p>',
+				array(
+					__( 'Welcome to Theme My Login!', 'theme-my-login' ),
+					__( 'Below, you can configure how you would like users to register and log in to your site.', 'theme-my-login' ),
+					__( 'Additionally, you can change the slugs that are used to generate the URLs that represent specific actions.', 'theme-my-login' ),
+					__( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-admin/options-general.php), not a TML-specific string.
+				)
+			) . '</p>',
 		);
 
 		$sidebar_links['documentation'] = array(
@@ -696,74 +745,91 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 			'url'   => 'https://wordpress.org/support/plugin/theme-my-login',
 		);
 
-	// Licenses page
-	} elseif ( 'theme-my-login-licenses' == $plugin_page ) {
+		// Licenses page
+	} elseif ( 'theme-my-login-licenses' === $plugin_page ) {
 		$help_tabs['overview'] = array(
 			'id'      => 'theme-my-login-licenses-overview',
-			'title'   => __( 'Overview' ),
-			'content' => '<p>' . implode( '</p><p>', array(
-				__( 'When you purchase extensions for Theme My Login, you will enter your license keys on this page.', 'theme-my-login' ),
-				__( 'After you enter your license keys and click the Save Changes button at the bottom of the screen, you will see a new button next to each field with a license in it.', 'theme-my-login' ),
-				__( 'If you have not yet activated your license, this button will say "Activate". Click this button to activate your license.', 'theme-my-login' ),
-				__( 'If you have already activated your license, this button will say "Deactivate". Click this button to deactivate your license.', 'theme-my-login' ),
-			) ) . '</p>',
+			'title'   => __( 'Overview' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Overview" string, not a TML-specific string.
+			'content' => '<p>' . implode(
+				'</p><p>',
+				array(
+					__( 'When you purchase extensions for Theme My Login, you will enter your license keys on this page.', 'theme-my-login' ),
+					__( 'After you enter your license keys and click the Save Changes button at the bottom of the screen, you will see a new button next to each field with a license in it.', 'theme-my-login' ),
+					__( 'If you have not yet activated your license, this button will say "Activate". Click this button to activate your license.', 'theme-my-login' ),
+					__( 'If you have already activated your license, this button will say "Deactivate". Click this button to deactivate your license.', 'theme-my-login' ),
+				)
+			) . '</p>',
 		);
 
 		$sidebar_links['documentation'] = array(
 			'title' => __( 'View Documentation', 'theme-my-login' ),
 			'url'   => 'https://docs.thememylogin.com/article/59-how-do-i-install-an-extension',
 		);
-		$sidebar_links['support'] = array(
+		$sidebar_links['support']       = array(
 			'title' => __( 'Get Support', 'theme-my-login' ),
 			'url'   => 'https://thememylogin.com/support',
 		);
 
-	// Extensions page
-	} elseif ( 'theme-my-login-extensions' == $plugin_page ) {
+		// Extensions page
+	} elseif ( 'theme-my-login-extensions' === $plugin_page ) {
 		$help_tabs['overview'] = array(
 			'id'      => 'theme-my-login-extensions-overview',
-			'title'   => __( 'Overview' ),
-			'content' => '<p>' . implode( '</p><p>', array(
-				__( 'This page shows you all of the extensions available to purchase for Theme My Login.', 'theme-my-login' ),
-				__( 'Once you purchase an extension, you download it from your email receipt or your account page on our website. Then, you install it just like a normal WordPress plugin.', 'theme-my-login' ),
-			) ) . '</p>',
+			'title'   => __( 'Overview' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Overview" string, not a TML-specific string.
+			'content' => '<p>' . implode(
+				'</p><p>',
+				array(
+					__( 'This page shows you all of the extensions available to purchase for Theme My Login.', 'theme-my-login' ),
+					__( 'Once you purchase an extension, you download it from your email receipt or your account page on our website. Then, you install it just like a normal WordPress plugin.', 'theme-my-login' ),
+				)
+			) . '</p>',
 		);
 
 		$sidebar_links['documentation'] = array(
 			'title' => __( 'View Documentation', 'theme-my-login' ),
 			'url'   => 'https://docs.thememylogin.com/article/59-how-do-i-install-an-extension',
 		);
-		$sidebar_links['store'] = array(
+		$sidebar_links['store']         = array(
 			'title' => __( 'Go to the Extensions Store', 'theme-my-login' ),
 			'url'   => 'https://thememylogin.com/extensions',
 		);
-		$sidebar_links['account'] = array(
+		$sidebar_links['account']       = array(
 			'title' => __( 'View your Theme My Login account', 'theme-my-login' ),
 			'url'   => 'https://thememylogin.com/your-account',
 		);
 
-	// Extension page
-	} elseif ( $extension = tml_get_extension( $plugin_page ) ) {
+		// Extension page
+	} else {
+		$extension = tml_get_extension( $plugin_page );
+	}
+
+	if ( ! empty( $extension ) ) {
 		$help_tabs['overview'] = array(
 			'id'      => $plugin_page . '-overview',
-			'title'   => __( 'Overview' ),
-			'content' => '<p>' . implode( '</p><p>', array(
-				sprintf(
-					__( 'On this page, you can configure the settings for the Theme My Login %s extension.', 'theme-my-login' ),
-					$extension->get_title()
-				),
-				__( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ),
-			) ) . '</p>',
+			'title'   => __( 'Overview' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Overview" string, not a TML-specific string.
+			'content' => '<p>' . implode(
+				'</p><p>',
+				array(
+					sprintf(
+						/* translators: %s: The extension title. */
+						__( 'On this page, you can configure the settings for the Theme My Login %s extension.', 'theme-my-login' ),
+						$extension->get_title()
+					),
+					// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-admin/options-general.php), not a TML-specific string.
+					__( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ),
+				)
+			) . '</p>',
 		);
 
-		if ( $documentation_url = $extension->get_documentation_url() ) {
+		$documentation_url = $extension->get_documentation_url();
+		if ( $documentation_url ) {
 			$sidebar_links['documentation'] = array(
 				'title' => __( 'View Documentation', 'theme-my-login' ),
 				'url'   => $documentation_url,
 			);
 		}
 
-		if ( $support_url = $extension->get_support_url() ) {
+		$support_url = $extension->get_support_url();
+		if ( $support_url ) {
 			$sidebar_links['support'] = array(
 				'title' => __( 'Get Support', 'theme-my-login' ),
 				'url'   => $support_url,
@@ -788,9 +854,10 @@ function tml_admin_add_settings_help_tabs( $screen ) {
 
 	// Add the sidebar links
 	if ( ! empty( $sidebar_links ) ) {
-		$sidebar_content = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
+		$sidebar_content = '<p><strong>' . __( 'For more information:' ) . '</strong></p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "For more information:" string, not a TML-specific string.
 		foreach ( $sidebar_links as $sidebar_link ) {
-			$sidebar_content .= sprintf( '<p><a href="%s">%s</a></p>',
+			$sidebar_content .= sprintf(
+				'<p><a href="%s">%s</a></p>',
 				$sidebar_link['url'],
 				$sidebar_link['title']
 			);

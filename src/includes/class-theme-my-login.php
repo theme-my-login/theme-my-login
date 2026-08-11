@@ -99,18 +99,14 @@ final class Theme_My_Login {
 	 * @param string|Theme_My_Login_Action $action The action name or object.
 	 */
 	public function unregister_action( $action ) {
-		if ( $action instanceof Theme_My_Login_Action ) {
+		if ( ! $action instanceof Theme_My_Login_Action ) {
+			$action = $this->get_action( $action );
+		}
 
+		if ( $action instanceof Theme_My_Login_Action ) {
 			$action->remove_callback_hook();
 
 			unset( $this->actions[ $action->get_name() ] );
-		} else {
-			if ( $action = $this->get_action( $action ) ) {
-
-				$action->remove_callback_hook();
-
-				unset( $this->actions[ $action->get_name() ] );
-			}
 		}
 	}
 
@@ -309,7 +305,7 @@ final class Theme_My_Login {
 	 * @param mixed  $default The value to return if the property is not set.
 	 * @return mixed The property value or $default if not set.
 	 */
-	public function get_data( $name, $default = false ) {
+	public function get_data( $name, $default = false ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.defaultFound -- public API parameter name, renaming risks breaking PHP 8 named-argument callers.
 		if ( array_key_exists( $name, $this->data ) ) {
 			return $this->data[ $name ];
 		}
@@ -326,7 +322,7 @@ final class Theme_My_Login {
 	 */
 	public function set_data( $name, $value = '' ) {
 		if ( is_array( $name ) ) {
-			foreach( $name as $k => $v ) {
+			foreach ( $name as $k => $v ) {
 				$this->data[ $k ] = $v;
 			}
 		} else {
@@ -366,13 +362,11 @@ final class Theme_My_Login {
 	 */
 	public static function __callStatic( $name, $args ) {
 		switch ( $name ) {
-			case 'get_object' :
+			case 'get_object':
 				return self::get_instance();
-				break;
 
-			case 'is_tml_page' :
+			case 'is_tml_page':
 				return tml_is_action( isset( $args[0] ) ? $args[0] : '' );
-				break;
 		}
 	}
 }

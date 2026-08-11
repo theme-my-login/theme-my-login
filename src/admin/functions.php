@@ -30,7 +30,7 @@ function tml_admin_is_plugin_page( $page = '' ) {
 	global $plugin_page;
 
 	if ( ! empty( $page ) ) {
-		return ( "theme-my-login-$page" == $plugin_page ) || ( "tml-$page" == $plugin_page );
+		return ( "theme-my-login-$page" === $plugin_page ) || ( "tml-$page" === $plugin_page );
 	}
 
 	return ( strpos( $plugin_page, 'theme-my-login' ) === 0 ) || ( strpos( $plugin_page, 'tml-' ) === 0 );
@@ -62,23 +62,29 @@ function tml_admin_add_menu_items() {
 	}
 
 	// Add the main menu item
-	tml_admin_add_menu_item( array(
-		'page_title'  => esc_html__( 'Theme My Login Settings', 'theme-my-login' ),
-		'menu_title'  => esc_html__( 'Theme My Login',          'theme-my-login' ),
-		'menu_slug'   => 'theme-my-login',
-		'menu_icon'   => 'data:image/svg+xml;base64,' . base64_encode(
-			file_get_contents( THEME_MY_LOGIN_PATH . 'admin/assets/images/logo.svg' )
-		),
-		'parent_slug' => false,
-	) );
+	tml_admin_add_menu_item(
+		array(
+			'page_title'  => esc_html__( 'Theme My Login Settings', 'theme-my-login' ),
+			'menu_title'  => esc_html__( 'Theme My Login', 'theme-my-login' ),
+			'menu_slug'   => 'theme-my-login',
+			// phpcs:disable WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- reading a local plugin asset and base64-encoding it into a data: URI for the admin menu icon, not a remote fetch or obfuscation.
+			'menu_icon'   => 'data:image/svg+xml;base64,' . base64_encode(
+				file_get_contents( THEME_MY_LOGIN_PATH . 'admin/assets/images/logo.svg' )
+			),
+			// phpcs:enable WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+			'parent_slug' => false,
+		)
+	);
 
 	// Add the submenu item
-	tml_admin_add_menu_item( array(
-		'page_title'  => esc_html__( 'Theme My Login Settings', 'theme-my-login' ),
-		'menu_title'  => esc_html__( 'General',                 'theme-my-login' ),
-		'menu_slug'   => 'theme-my-login',
-		'parent_slug' => 'theme-my-login',
-	) );
+	tml_admin_add_menu_item(
+		array(
+			'page_title'  => esc_html__( 'Theme My Login Settings', 'theme-my-login' ),
+			'menu_title'  => esc_html__( 'General', 'theme-my-login' ),
+			'menu_slug'   => 'theme-my-login',
+			'parent_slug' => 'theme-my-login',
+		)
+	);
 
 	$has_licenses = false;
 
@@ -95,23 +101,27 @@ function tml_admin_add_menu_items() {
 
 	if ( $has_licenses ) {
 		// Add the licenses menu item
-		tml_admin_add_menu_item( array(
-			'page_title'  => esc_html__( 'Theme My Login Licenses', 'theme-my-login' ),
-			'menu_title'  => esc_html__( 'Licenses',                'theme-my-login' ),
-			'menu_slug'   => 'theme-my-login-licenses',
-			'parent_slug' => 'theme-my-login',
-		) );
+		tml_admin_add_menu_item(
+			array(
+				'page_title'  => esc_html__( 'Theme My Login Licenses', 'theme-my-login' ),
+				'menu_title'  => esc_html__( 'Licenses', 'theme-my-login' ),
+				'menu_slug'   => 'theme-my-login-licenses',
+				'parent_slug' => 'theme-my-login',
+			)
+		);
 		add_settings_section( 'tml_settings_licenses', '', '__return_null', 'theme-my-login-licenses' );
 	}
 
 	// Add the extensions menu item
-	tml_admin_add_menu_item( array(
-		'page_title'  => esc_html__( 'Theme My Login Extensions', 'theme-my-login' ),
-		'menu_title'  => esc_html__( 'Extensions',                'theme-my-login' ),
-		'menu_slug'   => 'theme-my-login-extensions',
-		'parent_slug' => 'theme-my-login',
-		'function'    => 'tml_admin_extensions_page',
-	) );
+	tml_admin_add_menu_item(
+		array(
+			'page_title'  => esc_html__( 'Theme My Login Extensions', 'theme-my-login' ),
+			'menu_title'  => esc_html__( 'Extensions', 'theme-my-login' ),
+			'menu_slug'   => 'theme-my-login-extensions',
+			'parent_slug' => 'theme-my-login',
+			'function'    => 'tml_admin_extensions_page',
+		)
+	);
 }
 
 /**
@@ -124,14 +134,24 @@ function tml_admin_enqueue_style_and_scripts() {
 
 	wp_enqueue_style( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/styles/theme-my-login-admin$suffix.css", array(), THEME_MY_LOGIN_VERSION );
 
-	wp_enqueue_script( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/scripts/theme-my-login-admin$suffix.js", array( 'jquery', 'postbox' ), THEME_MY_LOGIN_VERSION );
-	wp_localize_script( 'theme-my-login-admin', 'tmlAdmin', array(
-		'ajaxUrl'         => admin_url( 'admin-ajax.php' ),
-		'interimLoginUrl' => site_url( add_query_arg( array(
-			'interim-login' => 1,
-			'wp_lang'       => get_user_locale(),
-		), 'wp-login.php' ), 'login' ),
-	) );
+	wp_enqueue_script( 'theme-my-login-admin', THEME_MY_LOGIN_URL . "admin/assets/scripts/theme-my-login-admin$suffix.js", array( 'jquery', 'postbox' ), THEME_MY_LOGIN_VERSION, true );
+	wp_localize_script(
+		'theme-my-login-admin',
+		'tmlAdmin',
+		array(
+			'ajaxUrl'         => admin_url( 'admin-ajax.php' ),
+			'interimLoginUrl' => site_url(
+				add_query_arg(
+					array(
+						'interim-login' => 1,
+						'wp_lang'       => get_user_locale(),
+					),
+					'wp-login.php'
+				),
+				'login'
+			),
+		)
+	);
 }
 
 /**
@@ -145,7 +165,7 @@ function tml_admin_notices() {
 	$screen = get_current_screen();
 
 	// Bail if not on Dashboard or a TML page
-	if ( 'dashboard' != $screen->id && 'theme-my-login' != $screen->parent_base ) {
+	if ( 'dashboard' !== $screen->id && 'theme-my-login' !== $screen->parent_base ) {
 		return;
 	}
 
@@ -154,13 +174,14 @@ function tml_admin_notices() {
 		return;
 	}
 
-	$is_pre_7 = ( $previous_version = tml_get_previous_version() ) && version_compare( $previous_version, '7.0', '<' );
+	$previous_version = tml_get_previous_version();
+	$is_pre_7         = $previous_version && version_compare( $previous_version, '7.0', '<' );
 
-	if ( 'theme-my-login-extensions' == $plugin_page && $is_pre_7 ) {
+	if ( 'theme-my-login-extensions' === $plugin_page && $is_pre_7 ) {
 		?>
 
 		<div class="notice notice-info">
-			<p><?php _e( 'As a token of our gratitude, we would like to offer your an incentive for upgrading Theme My Login to version 7.0. For a limited time, we are offering a <strong>20% discount</strong> when you use the code <strong>SAVINGFACE</strong> at checkout. Act now - this offer won\'t last!', 'theme-my-login' ); ?></p>
+			<p><?php echo wp_kses_post( __( 'As a token of our gratitude, we would like to offer your an incentive for upgrading Theme My Login to version 7.0. For a limited time, we are offering a <strong>20% discount</strong> when you use the code <strong>SAVINGFACE</strong> at checkout. Act now - this offer won\'t last!', 'theme-my-login' ) ); ?></p>
 		</div>
 
 		<?php
@@ -172,23 +193,34 @@ function tml_admin_notices() {
 
 		$notice_key = 'new_extension-' . $extension->info->slug;
 
-		if ( ! in_array( $notice_key, get_site_option( '_tml_dismissed_notices', array() ) ) ) : ?>
+		if ( ! in_array( $notice_key, get_site_option( '_tml_dismissed_notices', array() ), true ) ) :
+			?>
 
-		<div class="notice notice-info tml-notice is-dismissible" data-notice="<?php echo $notice_key; ?>" data-nonce="<?php echo wp_create_nonce( $notice_key ); ?>">
-			<?php echo implode( "\n", array(
-				'<p>' . __( 'A new <strong>Theme My Login</strong> extension is available!', 'theme-my-login' ) . '</p>',
-				'<p>' . sprintf( '<strong>%s</strong>: %s',
-					$extension->info->title,
-					$extension->info->excerpt
-				) . '</p>',
-				'<p>' . sprintf( '<a class="button button-primary" href="%s">%s</a>',
-					$extension->info->link,
-					__( 'Get This Extension', 'theme-my-login' )
-				) . '</p>',
-			) ); ?>
+		<div class="notice notice-info tml-notice is-dismissible" data-notice="<?php echo esc_attr( $notice_key ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( $notice_key ) ); ?>">
+			<?php
+			echo wp_kses_post(
+				implode(
+					"\n",
+					array(
+						'<p>' . __( 'A new <strong>Theme My Login</strong> extension is available!', 'theme-my-login' ) . '</p>',
+						'<p>' . sprintf(
+							'<strong>%s</strong>: %s',
+							esc_html( $extension->info->title ),
+							esc_html( $extension->info->excerpt )
+						) . '</p>',
+						'<p>' . sprintf(
+							'<a class="button button-primary" href="%s">%s</a>',
+							esc_url( $extension->info->link ),
+							__( 'Get This Extension', 'theme-my-login' )
+						) . '</p>',
+					)
+				)
+			);
+			?>
 		</div>
 
-		<?php endif;
+			<?php
+		endif;
 	}
 }
 
@@ -204,7 +236,7 @@ function tml_admin_ajax_dismiss_notice() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_send_json_error( null, 403 );
 	}
-	$dismissed_notices = get_site_option( '_tml_dismissed_notices', array() );
+	$dismissed_notices   = get_site_option( '_tml_dismissed_notices', array() );
 	$dismissed_notices[] = sanitize_key( $_POST['notice'] );
 	update_site_option( '_tml_dismissed_notices', $dismissed_notices );
 	wp_send_json_success();
@@ -237,11 +269,11 @@ function tml_admin_update() {
 
 	// Set the first time install date
 	if ( ! get_site_option( '_tml_installed_at' ) ) {
-		update_site_option( '_tml_installed_at', current_time( 'timestamp' ) );
+		update_site_option( '_tml_installed_at', time() );
 	}
 
 	// Set the update date
-	update_site_option( '_tml_updated_at', current_time( 'timestamp' ) );
+	update_site_option( '_tml_updated_at', time() );
 
 	// Store the previous version
 	if ( ! empty( $version ) ) {
@@ -277,7 +309,8 @@ function tml_sanitize_slug( $slug ) {
  * @since 7.0
  */
 function tml_admin_add_nav_menu_meta_box() {
-	add_meta_box( 'tml_actions',
+	add_meta_box(
+		'tml_actions',
 		__( 'Theme My Login Actions', 'theme-my-login' ),
 		'tml_admin_nav_menu_meta_box',
 		'nav-menus',
@@ -294,24 +327,34 @@ function tml_admin_add_nav_menu_meta_box() {
 function tml_admin_nav_menu_meta_box() {
 	global $_nav_menu_placeholder, $nav_menu_selected_id;
 
+	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- mirrors WP core's own placeholder-ID counter pattern in wp-admin/includes/nav-menu.php.
 	$_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
 
-	$actions = wp_list_filter( tml_get_actions(), array(
-		'show_in_nav_menus' => true
-	) );
+	$actions = wp_list_filter(
+		tml_get_actions(),
+		array(
+			'show_in_nav_menus' => true,
+		)
+	);
 	?>
 
 	<div id="tml-action" class="posttypediv">
 		<div class="tabs-panel tabs-panel-active">
 			<ul class="categorychecklist form-no-clear">
-				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $actions ), 0, (object) array(
-					'walker' => new Walker_Nav_Menu_Checklist(),
-				) ); ?>
+				<?php
+				echo walk_nav_menu_tree(
+					array_map( 'wp_setup_nav_menu_item', $actions ),
+					0,
+					(object) array(
+						'walker' => new Walker_Nav_Menu_Checklist(),
+					)
+				);
+				?>
 			</ul>
 		</div>
 		<p class="button-controls wp-clearfix">
 			<span class="add-to-menu">
-				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-tml-action-menu-item" id="submit-tml-action" />
+				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); /* phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Add to Menu" string (see wp-admin/includes/nav-menu.php), not a TML-specific string. */ ?>" name="add-tml-action-menu-item" id="submit-tml-action" />
 				<span class="spinner"></span>
 			</span>
 		</p>
@@ -328,7 +371,7 @@ function tml_admin_nav_menu_meta_box() {
  * @param string $walker The name of the walker class.
  * @return string The name of the walker class.
  */
-function tml_admin_filter_edit_nav_menu_walker( $walker )  {
+function tml_admin_filter_edit_nav_menu_walker( $walker ) {
 	$walker = 'Theme_My_Login_Walker_Nav_Menu_Edit';
 	if ( ! class_exists( $walker ) ) {
 		require_once THEME_MY_LOGIN_PATH . 'admin/class-theme-my-login-walker-nav-menu-edit.php';
@@ -347,13 +390,15 @@ function tml_admin_filter_edit_nav_menu_walker( $walker )  {
  * @param string $context The plugin context.
  * @return array The plugin action links.
  */
-function tml_admin_filter_plugin_action_links( $actions, $file, $data, $context ) {
-	if ( 'theme-my-login/theme-my-login.php' == $file ) {
-		$actions['settings'] = sprintf( '<a href="%1$s">%2$s</a>',
+function tml_admin_filter_plugin_action_links( $actions, $file, $data, $context ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $data/$context are unused but required by the plugin_action_links_{$file} filter signature.
+	if ( 'theme-my-login/theme-my-login.php' === $file ) {
+		$actions['settings']   = sprintf(
+			'<a href="%1$s">%2$s</a>',
 			admin_url( 'admin.php?page=theme-my-login' ),
-			__( 'Settings' )
+			__( 'Settings' ) // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Settings" string, not a TML-specific string.
 		);
-		$actions['extensions'] = sprintf( '<a href="%1$s">%2$s</a>',
+		$actions['extensions'] = sprintf(
+			'<a href="%1$s">%2$s</a>',
 			admin_url( 'admin.php?page=theme-my-login-extensions' ),
 			__( 'Extensions', 'theme-my-login' )
 		);

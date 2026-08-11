@@ -28,21 +28,30 @@ function tml_shortcode( $atts = array() ) {
 		$atts['action'] = $atts['default_action'];
 	}
 
-	$atts = shortcode_atts( array(
-		'action'      => '',
-		'show_links'  => null,
-		'redirect_to' => null,
-	), $atts, 'theme-my-login' );
+	$atts = shortcode_atts(
+		array(
+			'action'      => '',
+			'show_links'  => null,
+			'redirect_to' => null,
+		),
+		$atts,
+		'theme-my-login'
+	);
 
 	$content = '';
 
 	if ( empty( $atts['action'] ) ) {
 		$action = tml_is_action() ? tml_get_action() : tml_get_action( 'login' );
-	} elseif ( ! $action = tml_get_action( $atts['action'] ) ) {
-		return $content;
+	} else {
+		$action = tml_get_action( $atts['action'] );
+		if ( ! $action ) {
+			return $content;
+		}
 	}
 
-	if ( $form = tml_get_form( $action->get_name() ) ) {
+	$form = tml_get_form( $action->get_name() );
+
+	if ( $form ) {
 
 		$args = array();
 
@@ -51,7 +60,8 @@ function tml_shortcode( $atts = array() ) {
 		}
 
 		if ( null !== $atts['redirect_to'] ) {
-			if ( $redirect_to = $form->get_field( 'redirect_to' ) ) {
+			$redirect_to = $form->get_field( 'redirect_to' );
+			if ( $redirect_to ) {
 				$redirect_to->set_value( $atts['redirect_to'] );
 			}
 			unset( $redirect_to );
@@ -59,15 +69,18 @@ function tml_shortcode( $atts = array() ) {
 
 		$content = $form->render( $args );
 
-	} elseif ( 'confirmaction' == $action->get_name() && isset( $_GET['request_id'] ) ) {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- request_id/confirm_key are validated via wp_validate_user_request_key() in tml_confirmaction_handler() before this branch is ever reached.
+	} elseif ( 'confirmaction' === $action->get_name() && isset( $_GET['request_id'] ) ) {
 		$content = _wp_privacy_account_request_confirmed_message( $_GET['request_id'] );
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-	} elseif ( 'dashboard' == $action->get_name() ) {
+	} elseif ( 'dashboard' === $action->get_name() ) {
 		$content = '<div class="tml-dashboard">';
 
 		$content .= '<div class="tml-dashboard-avatar">' . get_avatar( get_current_user_id() ) . '</div>';
 
-		$content .= '<p class="tml-dashboard-greeting">' . sprintf( __( 'Howdy, %s' ), wp_get_current_user()->display_name ) . '</p>';
+		// translators: %s: Current user's display name.
+		$content .= '<p class="tml-dashboard-greeting">' . sprintf( __( 'Howdy, %s' ), wp_get_current_user()->display_name ) . '</p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- intentionally reusing WP core's translated "Howdy, %s" string (see wp-includes/admin-bar.php), not a TML-specific string.
 
 		/**
 		 * Filter the dashboard links.
@@ -76,20 +89,27 @@ function tml_shortcode( $atts = array() ) {
 		 *
 		 * @param array $links The dashboard links.
 		 */
-		$links = apply_filters( 'tml_dashboard_links', array_filter( array(
-			'site_admin' => current_user_can( 'edit_posts' ) ? array(
-				'title'  => __( 'Site Admin' ),
-				'url'    => admin_url(),
-			) : false,
-			'profile'    => array(
-				'title'  => __( 'Edit Profile' ),
-				'url'    => admin_url( 'profile.php' ),
-			),
-			'logout'     => array(
-				'title'  => __( 'Log Out' ),
-				'url'    => wp_logout_url(),
-			),
-		) ) );
+		// phpcs:disable WordPress.WP.I18n.MissingArgDomain -- these labels intentionally reuse WP core's translated strings ("Site Admin"/"Edit Profile"/"Log Out" all exist verbatim in wp-includes), not TML-specific strings.
+		$links = apply_filters(
+			'tml_dashboard_links',
+			array_filter(
+				array(
+					'site_admin' => current_user_can( 'edit_posts' ) ? array(
+						'title' => __( 'Site Admin' ),
+						'url'   => admin_url(),
+					) : false,
+					'profile'    => array(
+						'title' => __( 'Edit Profile' ),
+						'url'   => admin_url( 'profile.php' ),
+					),
+					'logout'     => array(
+						'title' => __( 'Log Out' ),
+						'url'   => wp_logout_url(),
+					),
+				)
+			)
+		);
+		// phpcs:enable WordPress.WP.I18n.MissingArgDomain
 
 		if ( ! empty( $links ) ) {
 			$content .= '<ul class="tml-dashboard-links">';

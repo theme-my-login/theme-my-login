@@ -18,9 +18,12 @@
  * @return array|WP_Error The extensions array or WP_Error on failure.
  */
 function tml_admin_get_extensions_feed( $args = array() ) {
-	$args = wp_parse_args( $args, array(
-		'number' => 12,
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'number' => 12,
+		)
+	);
 
 	$transient_key = 'tml_extensions_feed-' . md5( http_build_query( $args ) );
 
@@ -28,9 +31,12 @@ function tml_admin_get_extensions_feed( $args = array() ) {
 	if ( false === $feed ) {
 		$url = add_query_arg( $args, THEME_MY_LOGIN_EXTENSIONS_API_URL );
 
-		$response = wp_remote_get( $url, array(
-			'timeout' => 30,
-		) );
+		$response = wp_remote_get(
+			$url,
+			array(
+				'timeout' => 30,
+			)
+		);
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
@@ -38,7 +44,7 @@ function tml_admin_get_extensions_feed( $args = array() ) {
 		$code    = wp_remote_retrieve_response_code( $response );
 		$message = wp_remote_retrieve_response_message( $response );
 
-		if ( '200' != $code ) {
+		if ( 200 !== (int) $code ) {
 			return new WP_Error( 'http_error_' . $code, $message );
 		}
 
@@ -60,16 +66,21 @@ function tml_admin_extensions_page() {
 	global $title, $plugin_page;
 
 	$extensions = tml_admin_get_extensions_feed();
-?>
+	?>
 
 <div class="wrap">
-	<h1><?php echo esc_html( $title ) ?></h1>
+	<h1><?php echo esc_html( $title ); ?></h1>
 	<hr class="wp-header-end">
 
 	<?php if ( is_wp_error( $extensions ) ) : ?>
 
 		<h3><?php echo esc_html_e( 'Whoops! Looks like there was an error fetching extensions from the server. Please try again.', 'theme-my-login' ); ?></h3>
-		<p><?php echo esc_html( sprintf( __( 'Error: %s', 'theme-my-login' ), $extensions->get_error_message() ) ); ?></p>
+		<p>
+		<?php
+		/* translators: %s: The error message. */
+		echo esc_html( sprintf( __( 'Error: %s', 'theme-my-login' ), $extensions->get_error_message() ) );
+		?>
+		</p>
 
 	<?php else : ?>
 
@@ -101,11 +112,11 @@ function tml_admin_extensions_page() {
 	<?php endif; ?>
 
 	<div class="tml-view-all-extensions-wrap">
-		<a class="tml-view-all-extensions-link" href="<?php echo THEME_MY_LOGIN_EXTENSIONS_URL; ?>"><?php esc_html_e( 'View All Extensions', 'theme-my-login' ); ?></a>
+		<a class="tml-view-all-extensions-link" href="<?php echo esc_url( THEME_MY_LOGIN_EXTENSIONS_URL ); ?>"><?php esc_html_e( 'View All Extensions', 'theme-my-login' ); ?></a>
 	</div>
 </div>
 
-<?php
+	<?php
 }
 
 /**
@@ -119,13 +130,14 @@ function tml_admin_handle_extension_licenses() {
 		return;
 	}
 
-	if ( tml_get_request_value('option_page') !== 'theme-my-login-licenses' ) {
+	if ( tml_get_request_value( 'option_page' ) !== 'theme-my-login-licenses' ) {
 		return;
 	}
 
 	check_admin_referer( 'theme-my-login-licenses-options' );
 
 	if ( ! current_user_can( 'manage_options' ) ) {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain, WordPress.Security.EscapeOutput.OutputNotEscaped -- reusing WP core's translated string verbatim (see wp-admin/options-general.php), not a TML-specific string.
 		wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 	}
 
@@ -134,10 +146,12 @@ function tml_admin_handle_extension_licenses() {
 
 		// Handle license activations
 		if ( isset( $_POST['tml_activate_license'][ $extension->get_name() ] ) ) {
-			if ( $response = tml_activate_extension_license( $extension ) ) {
+			$response = tml_activate_extension_license( $extension );
+			if ( $response ) {
 				if ( is_wp_error( $response ) ) {
 					$extension->set_license_status();
-					add_settings_error( 'tml_activate_license',
+					add_settings_error(
+						'tml_activate_license',
 						$response->get_error_code(),
 						$response->get_error_message()
 					);
@@ -149,9 +163,11 @@ function tml_admin_handle_extension_licenses() {
 
 		// Handle license deactivations
 		if ( isset( $_POST['tml_deactivate_license'][ $extension->get_name() ] ) ) {
-			if ( $response = tml_deactivate_extension_license( $extension ) ) {
+			$response = tml_deactivate_extension_license( $extension );
+			if ( $response ) {
 				if ( is_wp_error( $response ) ) {
-					add_settings_error( 'tml_deactivate_license',
+					add_settings_error(
+						'tml_deactivate_license',
 						$response->get_error_code(),
 						$response->get_error_message()
 					);
@@ -170,14 +186,17 @@ function tml_admin_handle_extension_licenses() {
  */
 function tml_admin_ajax_activate_extension_license() {
 	if ( ! check_ajax_referer( 'theme-my-login-licenses-options', '_wpnonce', false ) ) {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string verbatim (see wp-includes/class-wp-customize-manager.php), not a TML-specific string.
 		tml_send_ajax_error( __( 'There was an authentication problem. Please reload and try again.' ) );
 	}
 
-	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
+	$extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) );
+	if ( ! $extension ) {
 		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
 	}
 
 	if ( ! current_user_can( 'manage_options' ) ) {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string verbatim (see wp-admin/options-general.php), not a TML-specific string.
 		tml_send_ajax_error( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 	}
 
@@ -204,14 +223,17 @@ function tml_admin_ajax_activate_extension_license() {
  */
 function tml_admin_ajax_deactivate_extension_license() {
 	if ( ! check_ajax_referer( 'theme-my-login-licenses-options', '_wpnonce', false ) ) {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string verbatim (see wp-includes/class-wp-customize-manager.php), not a TML-specific string.
 		tml_send_ajax_error( __( 'There was an authentication problem. Please reload and try again.' ) );
 	}
 
-	if ( ! $extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) ) ) {
+	$extension = tml_get_extension( tml_get_request_value( 'extension', 'post' ) );
+	if ( ! $extension ) {
 		tml_send_ajax_error( __( 'Invalid extension.', 'theme-my-login' ) );
 	}
 
 	if ( ! current_user_can( 'manage_options' ) ) {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string verbatim (see wp-admin/options-general.php), not a TML-specific string.
 		tml_send_ajax_error( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 	}
 
@@ -238,7 +260,7 @@ function tml_admin_check_extension_licenses() {
 		return;
 	}
 
-	if ( 'theme-my-login-licenses' != $plugin_page ) {
+	if ( 'theme-my-login-licenses' !== $plugin_page ) {
 		return;
 	}
 
@@ -246,7 +268,7 @@ function tml_admin_check_extension_licenses() {
 		if ( ! $extension->get_license_key() ) {
 			continue;
 		}
-		if ( 'valid' != $extension->get_license_status() ) {
+		if ( 'valid' !== $extension->get_license_status() ) {
 			continue;
 		}
 		$status = tml_check_extension_license( $extension );
@@ -276,7 +298,7 @@ function tml_admin_extension_update_message( $data, $response ) {
 	if ( empty( $response->package ) ) {
 		echo ' ' . sprintf(
 			'<em>In order to enable automatic updates, please enter and activate your <a href="%1$s">license key</a>.',
-			admin_url( 'admin.php?page=theme-my-login-licenses' )
+			esc_url( admin_url( 'admin.php?page=theme-my-login-licenses' ) )
 		);
 	}
 }
