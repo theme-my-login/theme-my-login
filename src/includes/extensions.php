@@ -99,12 +99,10 @@ function tml_extension_exists( $extension ) {
  */
 function tml_add_extension_data_to_plugins_api( $result = false, $action = '', $args = array() ) {
 
-	// Bail if not a "plugin_information" call
 	if ( 'plugin_information' !== $action ) {
 		return $result;
 	}
 
-	// Bail if the extension doesn't exist
 	$extension = tml_get_extension( $args->slug );
 	if ( ! $extension ) {
 		return $result;
