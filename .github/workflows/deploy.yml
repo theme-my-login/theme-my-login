@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Generate POT file
+        run: wp i18n make-pot build build/languages/theme-my-login.pot --slug=theme-my-login --domain=theme-my-login
+
+      # THROWAWAY-BRANCH TEST CONFIG: dry-run is forced true here so this
+      # workflow is structurally incapable of a real SVN write while it's
+      # still wired to test/release-pipeline. Cutover step: remove this
+      # override (see release-please-config.json / plan) once validated.
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          dry-run: true
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: theme-my-login
+          VERSION: ${{ github.event.release.tag_name }}
+          BUILD_DIR: build

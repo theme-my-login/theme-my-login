@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "simple",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "generic",
+          "path": "src/theme-my-login.php"
+        },
+        {
+          "type": "generic",
+          "path": "theme-my-login.php"
+        }
+      ]
+    }
+  }
+}
