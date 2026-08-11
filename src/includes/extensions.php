@@ -173,8 +173,6 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 			// This is a valid update
 			if ( ! empty( $update->new_version ) && version_compare( $extension->get_version(), $update->new_version, '<' ) ) {
 				$transient->response[ $basename ] = $update;
-
-				// This is just fetching the plugin information
 			} else {
 				$transient->no_update[ $basename ] = $update;
 			}
