@@ -184,7 +184,7 @@ class Theme_My_Login_Widget extends WP_Widget {
 		?>
 
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'action' ) ); ?>"><?php esc_html_e( 'Action:', 'theme-my-login' ); ?>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'action' ) ); ?>"><?php esc_html_e( 'Action' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reuses WP core's translated "Action" string verbatim, not a TML-specific string. ?>
 				<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'action' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'action' ) ); ?>">
 					<?php foreach ( $actions as $action ) : ?>
 						<option value="<?php echo esc_attr( $action->get_name() ); ?>"<?php selected( $action->get_name(), $instance['action'] ); ?>><?php echo esc_html( $action->get_title() ); ?></option>

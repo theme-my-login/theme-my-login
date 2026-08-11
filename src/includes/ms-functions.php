@@ -99,7 +99,7 @@ function tml_ms_register_user_signup_form() {
 			array(
 				'type'        => 'text',
 				'label'       => __( 'Username:' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Username:" string (see wp-signup.php), not a TML-specific string.
-				'description' => __( '(Must be at least 4 characters, letters and numbers only.)', 'theme-my-login' ),
+				'description' => __( '(Must be at least 4 characters, lowercase letters and numbers only.)' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
 				'value'       => '',
 				'id'          => 'user_name',
 				'attributes'  => array(
@@ -130,7 +130,7 @@ function tml_ms_register_user_signup_form() {
 		array(
 			'type'        => 'email',
 			'label'       => __( 'Email&nbsp;Address:' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Email&nbsp;Address:" string (see wp-signup.php), not a TML-specific string.
-			'description' => __( 'We send your registration email to this address. (Double-check your email address before continuing.)', 'theme-my-login' ),
+			'description' => __( 'Your registration email is sent to this address. (Double-check your email address before continuing.)' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
 			'value'       => '',
 			'id'          => 'user_email',
 			'attributes'  => array(
@@ -265,7 +265,7 @@ function tml_ms_register_blog_signup_form() {
 		'submit',
 		array(
 			'type'     => 'submit',
-			'value'    => __( 'Signup', 'theme-my-login' ),
+			'value'    => __( 'Sign up' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
 			'priority' => 30,
 		)
 	);
@@ -347,7 +347,7 @@ function tml_ms_add_blog_signup_form_fields( $form ) {
 			'blogname',
 			array(
 				'type'        => 'text',
-				'label'       => __( 'Site Name: ', 'theme-my-login' ),
+				'label'       => __( 'Site Name (subdirectory only):' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
 				'value'       => '',
 				'id'          => 'blogname',
 				'attributes'  => array(
@@ -375,7 +375,7 @@ function tml_ms_add_blog_signup_form_fields( $form ) {
 			'blogname',
 			array(
 				'type'        => 'text',
-				'label'       => __( 'Site Domain:', 'theme-my-login' ),
+				'label'       => __( 'Site Domain (subdomain only):' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string (see wp-signup.php), not a TML-specific string.
 				'value'       => '',
 				'id'          => 'blogname',
 				'attributes'  => array(
@@ -791,7 +791,7 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 						$content .= '<h2>' . sprintf( __( '%s is your new username' ), tml_is_email_login_type() ? $result['user_email'] : $result['user_name'] ) . '</h2>';
 						$content .= '<p>' . __( 'But, before you can start using your new username, <strong>you must activate it</strong>.' ) . '</p>';
 						/* translators: %s: The user email address. */
-						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click the link given.', 'theme-my-login' ), '<strong>' . $result['user_email'] . '</strong>' ) . '</p>';
+						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click on the given link.' ), '<strong>' . $result['user_email'] . '</strong>' ) . '</p>';
 						$content .= '<p>' . __( 'If you do not activate your username within two days, you will have to sign up again.' ) . '</p>';
 					}
 				} else {
@@ -812,12 +812,12 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 						$content .= '<h2>' . sprintf( __( 'Congratulations! Your new site, %s, is almost ready.' ), "<a href='http://{$blog_result['domain']}{$blog_result['path']}'>{$blog_result['blog_title']}</a>" ) . '</h2>';
 						$content .= '<p>' . __( 'But, before you can start using your site, <strong>you must activate it</strong>.' ) . '</p>';
 						/* translators: %s: The user email address. */
-						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click the link given.', 'theme-my-login' ), '<strong>' . $user_result['user_email'] . '</strong>' ) . '</p>';
+						$content .= '<p>' . sprintf( __( 'Check your inbox at %s and click on the given link.' ), '<strong>' . $user_result['user_email'] . '</strong>' ) . '</p>';
 						$content .= '<p>' . __( 'If you do not activate your site within two days, you will have to sign up again.' ) . '</p>';
 						$content .= '<h2>' . __( 'Still waiting for your email?' ) . '</h2>';
 						/* translators: %s: The user email address. */
 						$content .= '<p>' .
-								__( 'If you haven&#8217;t received your email yet, there are a number of things you can do:', 'theme-my-login' ) . '
+								__( 'If you have not received your email yet, there are a number of things you can do:' ) . '
 								<ul id="noemail-tips">
 									<li><p><strong>' . __( 'Wait a little longer. Sometimes delivery of email can be delayed by processes outside of our control.' ) . '</strong></p></li>
 									<li><p>' . __( 'Check the junk or spam folder of your email client. Sometime emails wind up there by mistake.' ) . '</p></li>
@@ -1048,9 +1048,9 @@ function tml_ms_get_another_blog_signup_form( $blogname = '', $blog_title = '', 
 		}
 		$before .= '</ul>';
 	}
-	// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
-	$before .= '<p>' . __( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!', 'theme-my-login' ) . '</p>';
+	$before .= '<p>' . __( 'If you are not going to use a great site domain, leave it for a new user. Now have at it!' ) . '</p>';
+	// phpcs:enable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment
 
 	$form = tml_get_form( 'another_blog_signup' );
 
