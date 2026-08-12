@@ -8,6 +8,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     env:
       SLUG: theme-my-login
       SVN_URL: https://plugins.svn.wordpress.org/theme-my-login
@@ -35,6 +38,21 @@ jobs:
 
       - name: Generate POT file
         run: wp i18n make-pot build build/languages/theme-my-login.pot --slug=theme-my-login --domain=theme-my-login
+
+      - name: Package zip and attach to the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+
+          VERSION="${RELEASE_TAG#v}"
+          ZIP_NAME="${SLUG}.${VERSION}.zip"
+
+          cp -r build "${SLUG}"
+          zip -rq "${ZIP_NAME}" "${SLUG}"
+
+          gh release upload "${RELEASE_TAG}" "${ZIP_NAME}" --clobber
 
       - name: Install svn
         run: sudo apt-get update -y && sudo apt-get install -y subversion
