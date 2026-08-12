@@ -1,0 +1,20 @@
+name: Lint commits
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    branches: [ master ]
+
+jobs:
+  lint-commits:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: wagoid/commitlint-github-action@v6
