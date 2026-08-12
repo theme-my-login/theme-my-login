@@ -1,9 +1,11 @@
 === Theme My Login ===
 Contributors: thememylogin, jfarthing84
-Tags: login, register, password, branding, customize, widget, wp-login, wp-login.php
+Tags: login, register, password, branding, customize
 Requires at least: 5.4
 Tested up to: 6.8.2
 Stable tag: trunk
+License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
 
