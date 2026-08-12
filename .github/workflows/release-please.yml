@@ -12,6 +12,11 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
 
+    outputs:
+      release_created: ${{ steps.release-please.outputs.release_created }}
+      tag_name: ${{ steps.release-please.outputs.tag_name }}
+      sha: ${{ steps.release-please.outputs.sha }}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,3 +59,12 @@ jobs:
           git add src/readme.txt
           git commit -m "chore: draft changelog for ${version}"
           git push origin "$branch"
+
+  deploy:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      tag_name: ${{ needs.release-please.outputs.tag_name }}
+      sha: ${{ needs.release-please.outputs.sha }}
+    secrets: inherit

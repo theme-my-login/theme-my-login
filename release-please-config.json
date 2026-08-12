@@ -4,6 +4,7 @@
   "packages": {
     ".": {
       "release-type": "simple",
+      "draft": true,
       "extra-files": [
         {
           "type": "generic",

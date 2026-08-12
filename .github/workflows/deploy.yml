@@ -1,8 +1,14 @@
 name: Deploy
 
 on:
-  release:
-    types: [ published ]
+  workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
+      sha:
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -18,7 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          # The tag itself doesn't exist as a real ref yet while the release
+          # is still a draft (GitHub only materializes it on publish) — check
+          # out the commit release-please tagged instead.
+          ref: ${{ inputs.sha }}
 
       - uses: actions/setup-node@v4
         with:
@@ -42,7 +51,7 @@ jobs:
       - name: Package zip and attach to the GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TAG: ${{ inputs.tag_name }}
         run: |
           set -euo pipefail
 
@@ -62,11 +71,12 @@ jobs:
       # still wired to test/release-pipeline. Cutover step: remove this
       # override (see release-please-config.json / plan) once validated.
       - name: Deploy to WordPress.org
+        id: deploy
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           DRY_RUN: true
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TAG: ${{ inputs.tag_name }}
         run: |
           set -euo pipefail
 
@@ -76,6 +86,7 @@ jobs:
           # Bail early if this version is already tagged.
           if svn info "${SVN_URL}/tags/${VERSION}" >/dev/null 2>&1; then
             echo "Version ${VERSION} is already tagged; nothing to do."
+            echo "deployed=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -105,6 +116,7 @@ jobs:
 
           if [ "${DRY_RUN}" = "true" ]; then
             echo "Dry run: files not committed."
+            echo "deployed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -113,3 +125,12 @@ jobs:
 
           svn commit -m "Version ${VERSION}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
           svn copy "${SVN_URL}/trunk" "${SVN_URL}/tags/${VERSION}" -m "Tagging ${VERSION}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+
+          echo "deployed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the GitHub Release
+        if: steps.deploy.outputs.deployed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag_name }}
+        run: gh release edit "${RELEASE_TAG}" --draft=false
