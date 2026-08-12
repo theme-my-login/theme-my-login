@@ -59,6 +59,17 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.15 =
+* Resync Multisite signup form strings with current WordPress core wording
+* Fix potential stored XSS in textarea form fields
+* Prevent a PHP 8.5 deprecation notice on wp-admin screens with no TML settings page
+* Escape settings field attributes to prevent stored XSS from unescaped option values
+* Sanitize Multisite network settings on save, matching single-site behavior
+* Verify nonce on extension license activate/deactivate requests to prevent CSRF
+* Fix extension icons not displaying due to unserialized API data
+* Reduce extension data added to the plugins update transient
+* Use a dedicated cache group when caching TML pages
+
 = 7.1.14 =
 * Ensure license nonce check only occurs on licenses page
 
