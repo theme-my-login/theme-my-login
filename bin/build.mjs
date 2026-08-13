@@ -117,17 +117,18 @@ async function compileImages( srcDir, outDir ) {
 	let entries;
 
 	try {
-		entries = await readdir( srcDir, { withFileTypes: true } );
+		entries = await readdir( srcDir, { recursive: true, withFileTypes: true } );
 	} catch ( err ) {
 		if ( err.code === 'ENOENT' ) return;
 		throw err;
 	}
 
-	await mkdir( outDir, { recursive: true } );
-
 	await Promise.all( entries.filter( ( e ) => e.isFile() ).map( async ( entry ) => {
-		const from = join( srcDir, entry.name );
-		const to = join( outDir, entry.name );
+		const from = join( entry.parentPath, entry.name );
+		const rel = relative( srcDir, from );
+		const to = join( outDir, rel );
+
+		await mkdir( dirname( to ), { recursive: true } );
 
 		if ( entry.name.endsWith( '.svg' ) ) {
 			const svg = await readFile( from, 'utf8' );
