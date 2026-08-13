@@ -1,0 +1,125 @@
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
+      sha:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    env:
+      SLUG: theme-my-login
+      SVN_URL: https://plugins.svn.wordpress.org/theme-my-login
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The tag itself doesn't exist as a real ref yet while the release
+          # is still a draft (GitHub only materializes it on publish) — check
+          # out the commit release-please tagged instead.
+          ref: ${{ inputs.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Generate POT file
+        run: wp i18n make-pot build build/languages/theme-my-login.pot --slug=theme-my-login --domain=theme-my-login
+
+      - name: Package zip and attach to the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag_name }}
+        run: |
+          set -euo pipefail
+
+          VERSION="${RELEASE_TAG#v}"
+          ZIP_NAME="${SLUG}.${VERSION}.zip"
+
+          cp -r build "${SLUG}"
+          zip -rq "${ZIP_NAME}" "${SLUG}"
+
+          gh release upload "${RELEASE_TAG}" "${ZIP_NAME}" --clobber
+
+      - name: Install svn
+        run: sudo apt-get update -y && sudo apt-get install -y subversion
+
+      - name: Deploy to WordPress.org
+        id: deploy
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          RELEASE_TAG: ${{ inputs.tag_name }}
+        run: |
+          set -euo pipefail
+
+          VERSION="${RELEASE_TAG#v}"
+          SVN_DIR="${HOME}/svn-${SLUG}"
+
+          # Bail early if this version is already tagged.
+          if svn info "${SVN_URL}/tags/${VERSION}" >/dev/null 2>&1; then
+            echo "Version ${VERSION} is already tagged; nothing to do."
+            echo "deployed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          svn checkout --depth immediates "${SVN_URL}" "${SVN_DIR}"
+          cd "${SVN_DIR}"
+          svn update --set-depth infinity assets
+          svn update --set-depth infinity trunk
+
+          rsync -rc --delete --exclude=.svn "${GITHUB_WORKSPACE}/build/" trunk/
+
+          cd trunk
+          svn add --force . -q
+          svn status | { grep '^!' || true; } | awk '{print $2}' | xargs -r svn rm -q
+          cd ..
+
+          # Fix screenshots/banners getting force-downloaded instead of
+          # previewed on WordPress.org: https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/
+          if [ -d assets ]; then
+            find assets -maxdepth 1 -iname '*.png' -exec svn propset svn:mime-type image/png {} \; || true
+            find assets -maxdepth 1 -iname '*.jpg' -exec svn propset svn:mime-type image/jpeg {} \; || true
+            find assets -maxdepth 1 -iname '*.gif' -exec svn propset svn:mime-type image/gif {} \; || true
+            find assets -maxdepth 1 -iname '*.svg' -exec svn propset svn:mime-type image/svg+xml {} \; || true
+          fi
+
+          echo "----- svn status -----"
+          svn status
+
+          # Guard against "Directory out of date" if trunk moved since checkout.
+          svn update --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}" --non-interactive
+
+          svn commit -m "Version ${VERSION}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+          svn copy "${SVN_URL}/trunk" "${SVN_URL}/tags/${VERSION}" -m "Tagging ${VERSION}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+
+          echo "deployed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the GitHub Release
+        if: steps.deploy.outputs.deployed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag_name }}
+        run: gh release edit "${RELEASE_TAG}" --draft=false

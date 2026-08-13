@@ -1,0 +1,69 @@
+name: Release Please
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+
+    outputs:
+      release_created: ${{ steps.release-please.outputs.release_created }}
+      tag_name: ${{ steps.release-please.outputs.tag_name }}
+      sha: ${{ steps.release-please.outputs.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: googleapis/release-please-action@v5
+        id: release-please
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Draft WordPress-style changelog onto the Release PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          branch=$(gh pr list --label "autorelease: pending" --base master --json headRefName --jq '.[0].headRefName')
+          if [ -z "$branch" ]; then
+            echo "No pending release-please PR found; skipping changelog draft."
+            exit 0
+          fi
+
+          git fetch origin "$branch"
+          git checkout "$branch"
+
+          version=$(php -r '$m = json_decode(file_get_contents(".release-please-manifest.json"), true); echo $m["."];')
+
+          php bin/draft-changelog.php "$version"
+
+          if git diff --quiet -- src/readme.txt; then
+            echo "No feat/fix/perf commits since last tag; nothing to draft."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/readme.txt
+          git commit -m "chore: draft changelog for ${version}"
+          git push origin "$branch"
+
+  deploy:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      tag_name: ${{ needs.release-please.outputs.tag_name }}
+      sha: ${{ needs.release-please.outputs.sha }}
+    secrets: inherit
