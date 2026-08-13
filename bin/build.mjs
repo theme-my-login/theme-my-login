@@ -2,7 +2,7 @@
 
 /**
  * Build script for the plugin's front-end assets. Replaces the old
- * gulpfile.js with plain esbuild/sass/postcss/svgo, invoked via
+ * gulpfile.js with plain esbuild/postcss/svgo, invoked via
  * `npm run build` / `npm run watch` / `npm run clean`.
  */
 
@@ -11,8 +11,8 @@ import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as esbuild from 'esbuild';
-import * as sass from 'sass';
 import postcss from 'postcss';
+import postcssNested from 'postcss-nested';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 import { optimize } from 'svgo';
@@ -21,7 +21,7 @@ const ROOT = join( dirname( fileURLToPath( import.meta.url ) ), '..' );
 const SRC = join( ROOT, 'src' );
 const BUILD = join( ROOT, 'build' );
 
-const prefix = postcss( [ autoprefixer ] );
+const prefix = postcss( [ postcssNested, autoprefixer ] );
 const minify = postcss( [ cssnano ] );
 
 async function clean() {
@@ -42,11 +42,11 @@ async function copy() {
 	} );
 }
 
-async function compileStyles( entry, outDir, outName ) {
-	const { css } = sass.compile( entry, {
-		loadPaths: [ join( ROOT, 'node_modules' ) ],
-		style: 'expanded',
-	} );
+async function compileStyles( srcDir, files, outDir, outName ) {
+	const contents = await Promise.all(
+		files.map( ( f ) => readFile( join( srcDir, f ), 'utf8' ) )
+	);
+	const css = contents.join( '\n' );
 
 	await mkdir( outDir, { recursive: true } );
 
@@ -59,7 +59,8 @@ async function compileStyles( entry, outDir, outName ) {
 
 function styles() {
 	return compileStyles(
-		join( SRC, 'assets/styles/theme-my-login.scss' ),
+		join( SRC, 'assets/styles' ),
+		[ 'tml.css', 'alerts.css', 'pass-strength.css' ],
 		join( BUILD, 'assets/styles' ),
 		'theme-my-login'
 	);
@@ -67,7 +68,8 @@ function styles() {
 
 function adminStyles() {
 	return compileStyles(
-		join( SRC, 'admin/assets/styles/theme-my-login-admin.scss' ),
+		join( SRC, 'admin/assets/styles' ),
+		[ 'extensions.css', 'licenses.css' ],
 		join( BUILD, 'admin/assets/styles' ),
 		'theme-my-login-admin'
 	);
