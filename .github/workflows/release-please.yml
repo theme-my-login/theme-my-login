@@ -66,6 +66,22 @@ jobs:
           git commit -m "chore: draft changelog for ${version}"
           git push origin "$branch"
 
+      - name: Request review from Jeff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_PLEASE_PR: ${{ steps.release-please.outputs.pr }}
+        run: |
+          set -euo pipefail
+
+          branch=$(echo "$RELEASE_PLEASE_PR" | jq -r '.headBranchName // empty')
+          if [ -z "$branch" ]; then
+            echo "No pending release-please PR found; skipping reviewer request."
+            exit 0
+          fi
+
+          pr_number=$(gh pr list --repo ${{ github.repository }} --head "$branch" --json number --jq '.[0].number')
+          gh pr edit "$pr_number" --repo ${{ github.repository }} --add-reviewer jfarthing84
+
   deploy:
     needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
