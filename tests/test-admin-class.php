@@ -91,6 +91,53 @@ class Test_Admin_Class extends WP_UnitTestCase {
 		$this->assertTrue( $admin->has_page( 'tml-test-submenu' ) );
 	}
 
+	public function test_add_menu_item_defaults_capability_to_manage_options_outside_network_admin() {
+		$admin = Theme_My_Login_Admin::get_instance();
+
+		$admin->add_menu_item( array(
+			'page_title'  => 'Test Capability Site',
+			'menu_title'  => 'Test Capability Site',
+			'menu_slug'   => 'tml-test-capability-site',
+			'parent_slug' => '',
+		) );
+
+		$this->assertSame( 'manage_options', $this->get_registered_menu_capability( 'tml-test-capability-site' ) );
+	}
+
+	public function test_add_menu_item_defaults_capability_to_manage_network_options_in_network_admin() {
+		// A hook name ending in "-network" resolves is_network_admin() to
+		// true via $current_screen->in_admin('network') — see WP_Screen::get().
+		// The base test case resets $GLOBALS['current_screen'] to null before
+		// the next test runs, so no manual reset is needed here.
+		set_current_screen( 'toplevel_page_tml-test-network' );
+
+		$admin = Theme_My_Login_Admin::get_instance();
+
+		$admin->add_menu_item( array(
+			'page_title'  => 'Test Capability Network',
+			'menu_title'  => 'Test Capability Network',
+			'menu_slug'   => 'tml-test-capability-network',
+			'parent_slug' => '',
+		) );
+
+		$this->assertSame( 'manage_network_options', $this->get_registered_menu_capability( 'tml-test-capability-network' ) );
+	}
+
+	/**
+	 * add_menu_page() (WP core) stores the capability as index 1 of its
+	 * entry in the $menu global, keyed by position rather than slug — this
+	 * scans for the entry by slug (index 2) instead.
+	 */
+	protected function get_registered_menu_capability( $menu_slug ) {
+		foreach ( $GLOBALS['menu'] as $item ) {
+			if ( $item[2] === $menu_slug ) {
+				return $item[1];
+			}
+		}
+
+		return null;
+	}
+
 	public function test_has_page_is_false_for_an_unregistered_page() {
 		$admin = Theme_My_Login_Admin::get_instance();
 
