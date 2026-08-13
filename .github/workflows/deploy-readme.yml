@@ -30,13 +30,12 @@ jobs:
 
           SVN_DIR="${HOME}/svn-${SLUG}"
 
-          svn checkout --depth empty "${SVN_URL}/trunk" "${SVN_DIR}"
+          svn checkout --depth files "${SVN_URL}/trunk" "${SVN_DIR}"
           cp src/readme.txt "${SVN_DIR}/readme.txt"
 
           cd "${SVN_DIR}"
-          svn add --force readme.txt -q
 
-          if svn status | grep -q '^[MA]'; then
+          if svn status | grep -q '^M'; then
             svn commit -m "Update readme.txt" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
           else
             echo "readme.txt unchanged; nothing to commit."
