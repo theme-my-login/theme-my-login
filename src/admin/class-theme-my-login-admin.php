@@ -68,7 +68,7 @@ final class Theme_My_Login_Admin {
 				'menu_title'  => '',
 				'menu_slug'   => '',
 				'parent_slug' => 'theme-my-login',
-				'capability'  => 'manage_options',
+				'capability'  => is_network_admin() ? 'manage_network_options' : 'manage_options',
 				'function'    => 'tml_admin_settings_page',
 			)
 		);
