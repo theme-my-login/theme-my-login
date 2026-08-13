@@ -5,16 +5,13 @@
   },
   "description": "Creates an alternate login, registration and password recovery experience within your theme.",
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-clean": "^0.4.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-imagemin": "^7.1.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.1.0",
-    "gulp-uglify": "^3.0.2",
-    "sass": "^1.52.3"
+    "autoprefixer": "^10.4.21",
+    "chokidar": "^4.0.3",
+    "cssnano": "^7.1.1",
+    "esbuild": "^0.25.11",
+    "postcss": "^8.5.6",
+    "sass": "^1.93.3",
+    "svgo": "^4.0.0"
   },
   "homepage": "https://thememylogin.com",
   "keywords": [
@@ -30,8 +27,9 @@
     "url": "https://github.com/theme-my-login/theme-my-login"
   },
   "scripts": {
-    "build": "gulp",
-    "watch": "gulp watch",
-    "clean": "gulp clean"
-  }
+    "build": "node bin/build.mjs",
+    "watch": "node bin/build.mjs --watch",
+    "clean": "node bin/build.mjs --clean"
+  },
+  "type": "module"
 }
