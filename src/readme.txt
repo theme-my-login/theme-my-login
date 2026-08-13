@@ -2,7 +2,7 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, register, password, branding, customize
 Requires at least: 5.4
-Tested up to: 6.8.2
+Tested up to: 7.0.4
 Stable tag: trunk
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
