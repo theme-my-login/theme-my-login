@@ -32,10 +32,11 @@ jobs:
       - name: Draft WordPress-style changelog onto the Release PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_PLEASE_PR: ${{ steps.release-please.outputs.pr }}
         run: |
           set -euo pipefail
 
-          branch=$(gh pr list --label "autorelease: pending" --base master --json headRefName --jq '.[0].headRefName')
+          branch=$(echo "$RELEASE_PLEASE_PR" | jq -r '.headBranchName // empty')
           if [ -z "$branch" ]; then
             echo "No pending release-please PR found; skipping changelog draft."
             exit 0

@@ -29,7 +29,7 @@ $record_sep = "\x1e";
 $field_sep  = "\x1f";
 
 $log     = (string) shell_exec(
-	'git log ' . escapeshellarg( $range ) . " --pretty=format:%s{$field_sep}%b{$record_sep}"
+	'git log --no-merges ' . escapeshellarg( $range ) . " --pretty=format:%s{$field_sep}%b{$record_sep}"
 );
 $records = array_filter(
 	array_map( 'trim', explode( $record_sep, $log ) ),
