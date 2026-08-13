@@ -61,6 +61,11 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.1.16 =
+* Make compileImages() recurse into subdirectories
+* Rename commitlint.config.js to .cjs for ESM package
+* Trim readme tags to 5 and add missing License field
+
 = 7.1.15 =
 * Resync Multisite signup form strings with current WordPress core wording
 * Fix potential stored XSS in textarea form fields
