@@ -1,0 +1,43 @@
+name: Deploy readme.txt
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'src/readme.txt'
+  workflow_dispatch: {}
+
+jobs:
+  deploy-readme:
+    runs-on: ubuntu-latest
+
+    env:
+      SLUG: theme-my-login
+      SVN_URL: https://plugins.svn.wordpress.org/theme-my-login
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install svn
+        run: sudo apt-get update -y && sudo apt-get install -y subversion
+
+      - name: Push readme.txt to WordPress.org trunk
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          SVN_DIR="${HOME}/svn-${SLUG}"
+
+          svn checkout --depth empty "${SVN_URL}/trunk" "${SVN_DIR}"
+          cp src/readme.txt "${SVN_DIR}/readme.txt"
+
+          cd "${SVN_DIR}"
+          svn add --force readme.txt -q
+
+          if svn status | grep -q '^[MA]'; then
+            svn commit -m "Update readme.txt" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+          else
+            echo "readme.txt unchanged; nothing to commit."
+          fi
