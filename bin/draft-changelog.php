@@ -9,6 +9,9 @@
  * folding duplicates, "Tested up to" bullets) while reviewing the Release PR
  * it gets committed onto - not a finished changelog. See CONTRIBUTING.md.
  *
+ * Safe to re-run: replaces any existing changelog block for the given
+ * version instead of appending a duplicate.
+ *
  * Usage: php bin/draft-changelog.php <version>
  */
 
@@ -77,6 +80,14 @@ if ( false === $readme ) {
 	fwrite( STDERR, "Could not read {$readme_path}\n" );
 	exit( 1 );
 }
+
+// Strip any existing block for this version so re-running the script
+// replaces it instead of appending a duplicate.
+$readme = (string) preg_replace(
+	'/= ' . preg_quote( $version, '/' ) . " =\n(?:\\* .*\n)*\n?/",
+	'',
+	$readme
+);
 
 $marker = '== Changelog ==';
 $pos    = strpos( $readme, $marker );
