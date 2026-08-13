@@ -2,7 +2,7 @@ name: Release Please
 
 on:
   push:
-    branches: [ test/release-pipeline ]
+    branches: [ master ]
 
 permissions:
   contents: write
@@ -26,7 +26,6 @@ jobs:
         id: release-please
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          target-branch: test/release-pipeline
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -36,7 +35,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          branch=$(gh pr list --label "autorelease: pending" --base test/release-pipeline --json headRefName --jq '.[0].headRefName')
+          branch=$(gh pr list --label "autorelease: pending" --base master --json headRefName --jq '.[0].headRefName')
           if [ -z "$branch" ]; then
             echo "No pending release-please PR found; skipping changelog draft."
             exit 0
