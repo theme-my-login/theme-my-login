@@ -22,6 +22,8 @@ Allowed types:
 
 `feat`/`fix`/`perf` are the only types that ship in the plugin's changelog and trigger a version bump. The rest are invisible to plugin users by design.
 
+**A `readme.txt`-only change is always `chore`, even when it's user-facing** (e.g. correcting the `Tags`/`License` fields, bumping `Tested up to`). `readme.txt` is read straight off SVN trunk for the WordPress.org directory listing (`Stable tag: trunk`) and deploys independently via `deploy-readme.yml` on every push to `master` that touches it — it doesn't need a version bump to reach users, so it shouldn't trigger one. Reserve `fix`/`feat` for changes that need a new plugin build to reach users.
+
 **Branch names should be prefixed with the same type**, e.g. `fix/nonce-check-on-license-page`, `feat/passwordless-login`, `chore/bump-phpunit`.
 
 ### Squashing
