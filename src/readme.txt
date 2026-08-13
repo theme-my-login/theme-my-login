@@ -62,6 +62,7 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 == Changelog ==
 
 = 7.1.16 =
+* Trim readme tags to 5 and add missing License field
 
 = 7.1.15 =
 * Resync Multisite signup form strings with current WordPress core wording
