@@ -9,6 +9,11 @@
  * folding duplicates, "Tested up to" bullets) while reviewing the Release PR
  * it gets committed onto - not a finished changelog. See CONTRIBUTING.md.
  *
+ * Safe to re-run: replaces any existing block for the given version
+ * instead of appending a duplicate. Re-running discards hand edits made
+ * to that block since the last run - only hand-edit right before merging
+ * the Release PR, not mid-review.
+ *
  * Usage: php bin/draft-changelog.php <version>
  */
 
@@ -86,8 +91,22 @@ if ( false === $pos ) {
 	exit( 1 );
 }
 
-$insert_at = $pos + strlen( $marker );
-$readme    = substr( $readme, 0, $insert_at ) . "\n\n" . $entry . substr( $readme, $insert_at );
+$head          = substr( $readme, 0, $pos + strlen( $marker ) );
+$changelog_raw = ltrim( substr( $readme, $pos + strlen( $marker ) ), "\n" );
+
+// Split on version headings and drop any existing block for this version,
+// so re-running the script replaces it instead of appending a duplicate -
+// splitting on heading lines (rather than matching bullet lines) handles
+// hand-edited bullets that wrap onto a continuation line too.
+$blocks = preg_split( '/(?=^= .+ =$)/m', $changelog_raw );
+$blocks = array_filter(
+	$blocks,
+	static function ( $block ) use ( $version ) {
+		return 0 !== strpos( ltrim( $block ), "= {$version} =" );
+	}
+);
+
+$readme = $head . "\n\n" . $entry . "\n\n" . implode( '', $blocks );
 
 file_put_contents( $readme_path, $readme );
 
