@@ -7,6 +7,12 @@
 
 	.tml-field-wrap {
 		margin-bottom: 1em;
+
+		&:has(.tml-checkbox) {
+			align-items: center;
+			display: flex;
+			gap: 0.5em;
+		}
 	}
 
 	.tml-label {
@@ -15,6 +21,8 @@
 	}
 
 	.tml-checkbox {
+		vertical-align: middle;
+
 		+ .tml-label {
 			display: inline;
 		}
@@ -30,4 +38,38 @@
 		font-style: italic;
 		margin: 0.5em 0;
 	}
+}
+
+:where(.tml .tml-field) {
+	background-color: #fff;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	color: #2c3338;
+	padding: 0.75em 1em;
+}
+
+:where(.tml .tml-field:focus) {
+	border-color: #3c434a;
+	box-shadow: 0 0 0 1px #3c434a;
+	outline: 2px solid transparent;
+}
+
+:where(.tml .tml-button) {
+	background-color: #f6f7f7;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	color: #2c3338;
+	cursor: pointer;
+	padding: 0.75em 1.5em;
+}
+
+:where(.tml .tml-button:hover) {
+	background-color: #f0f0f1;
+	border-color: #6c7079;
+}
+
+:where(.tml .tml-button:focus) {
+	border-color: #3c434a;
+	box-shadow: 0 0 0 1px #3c434a;
+	outline: 2px solid transparent;
 }
