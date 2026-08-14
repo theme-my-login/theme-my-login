@@ -2,9 +2,11 @@
 
 ## Commits and PR titles
 
-This repo uses [Conventional Commits](https://www.conventionalcommits.org/). PRs merge into `master` as real merge commits, not squashed, so every individual commit lands on `master` verbatim and is what release automation actually scans — the PR title is checked too (CI lints both), but it's the commits that count.
+This repo uses [Conventional Commits](https://www.conventionalcommits.org/) for commit messages. PRs merge into `master` as real merge commits, not squashed, so every individual commit lands on `master` verbatim and is what release automation actually scans.
 
-Format: `type: subject` (lowercase after the colon, no trailing period). This applies per-commit: squash together commits that are really one change split across saves before opening a PR (see the note on squashing below), but every commit that survives still needs its own correct type — CI lints each one individually, not just the PR title.
+Format: `type: subject` (lowercase after the colon, no trailing period). This applies per-commit: squash together commits that are really one change split across saves before opening a PR (see the note on squashing below), but every commit that survives still needs its own correct type — CI lints each commit individually.
+
+**PR titles are plain English, not Conventional Commits format** (e.g. `Default network admin menu items to manage_network_options`, not `fix: ...`). GitHub embeds the PR title in the merge commit it creates, and a conventional-format title there gets double-counted by release automation as a duplicate commit.
 
 Allowed types:
 
