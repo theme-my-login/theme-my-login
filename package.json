@@ -5,13 +5,7 @@
   },
   "description": "Creates an alternate login, registration and password recovery experience within your theme.",
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "chokidar": "^4.0.3",
-    "cssnano": "^7.1.1",
-    "esbuild": "^0.25.11",
-    "postcss": "^8.5.6",
-    "postcss-nested": "^8.0.1",
-    "svgo": "^4.0.0"
+    "tml-workflows": "github:theme-my-login/tml-workflows"
   },
   "homepage": "https://thememylogin.com",
   "keywords": [
@@ -27,9 +21,9 @@
     "url": "https://github.com/theme-my-login/theme-my-login"
   },
   "scripts": {
-    "build": "node bin/build.mjs",
-    "watch": "node bin/build.mjs --watch",
-    "clean": "node bin/build.mjs --clean"
+    "build": "tml-build",
+    "watch": "tml-build --watch",
+    "clean": "tml-build --clean"
   },
   "type": "module"
 }

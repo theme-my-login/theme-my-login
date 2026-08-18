@@ -5,79 +5,15 @@ on:
     branches: [ master ]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          tools: composer
-          coverage: none
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
-
-      - name: Run phpcs
-        run: composer run lint
+  # wp-phpunit's version pins which WordPress core test suite gets
+  # installed, so a green run here is also our "Tested up to" signal:
+  # bump the wp-phpunit constraint in composer.json when a new WP version
+  # ships, push, and a green run is the go-ahead to bump readme.txt.
+  # tests/phpunit/multisite.xml existing is what makes tml-workflows run
+  # the multisite suite too - shared with every tml-* extension, they
+  # just don't have that file.
+  test:
+    uses: theme-my-login/tml-workflows/.github/workflows/test.yml@main
 
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-  phpunit:
-    runs-on: ubuntu-latest
-
-    # wp-phpunit's version pins which WordPress core test suite gets
-    # installed, so this is also our "Tested up to" signal: bump the
-    # wp-phpunit constraint in composer.json when a new WP version ships,
-    # push, and a green run here is the go-ahead to bump readme.txt.
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_DATABASE: wordpress_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          tools: composer
-          coverage: none
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
-
-      - name: Run test suite
-        env:
-          WP_TESTS_DB_HOST: 127.0.0.1
-        run: vendor/bin/phpunit
-
-      - name: Run multisite test suite
-        env:
-          WP_TESTS_DB_HOST: 127.0.0.1
-        run: vendor/bin/phpunit -c tests/phpunit/multisite.xml
+    uses: theme-my-login/tml-workflows/.github/workflows/build.yml@main
