@@ -1,0 +1,18 @@
+{
+  "subtrees": [
+    {
+      "dir": "assets",
+      "styles": {
+        "theme-my-login": ["tml.css", "alerts.css", "pass-strength.css"]
+      },
+      "scripts": "theme-my-login"
+    },
+    {
+      "dir": "admin/assets",
+      "styles": {
+        "theme-my-login-admin": ["extensions.css", "licenses.css"]
+      },
+      "scripts": "theme-my-login-admin"
+    }
+  ]
+}
