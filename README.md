@@ -61,7 +61,7 @@ composer lint:fix    # phpcbf
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for commit/PR conventions (this repo uses Conventional Commits per-commit, plain-English PR titles, and `release-please`-driven versioning).
+See [CONTRIBUTING.md](https://github.com/theme-my-login/.github/blob/main/CONTRIBUTING.md) (org-wide default) for commit/PR conventions (this repo uses Conventional Commits per-commit, plain-English PR titles, and `release-please`-driven versioning).
 
 ## License
 

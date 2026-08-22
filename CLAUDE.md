@@ -1,6 +1,6 @@
 # Theme My Login
 
-WordPress plugin providing a themed login/registration/password-recovery experience. See [README.md](README.md) for setup and [CONTRIBUTING.md](CONTRIBUTING.md) for commit/PR conventions, both required reading before making changes.
+WordPress plugin providing a themed login/registration/password-recovery experience. See [README.md](README.md) for setup and [CONTRIBUTING.md](https://github.com/theme-my-login/.github/blob/main/CONTRIBUTING.md) (org-wide default) for commit/PR conventions, both required reading before making changes.
 
 ## Source of truth
 
@@ -16,7 +16,7 @@ The plugin version is kept in sync by `release-please` via `x-release-please-*` 
 - the `THEME_MY_LOGIN_VERSION` constant, also in `src/theme-my-login.php`
 - (extensions built on this plugin also carry a `protected $version` property with the same marker — not present in the base plugin itself)
 
-Don't hand-bump these; version bumps come from Conventional Commits (`feat`/`fix`/`perf`) per [CONTRIBUTING.md](CONTRIBUTING.md).
+Don't hand-bump these; version bumps come from Conventional Commits (`feat`/`fix`/`perf`) per [CONTRIBUTING.md](https://github.com/theme-my-login/.github/blob/main/CONTRIBUTING.md).
 
 ## Architecture
 
@@ -40,5 +40,5 @@ composer lint:fix                  # phpcbf
 ## Conventions
 
 - WordPress Coding Standards enforced via `phpcs.xml.dist` (`WordPress-Extra` + `PHPCompatibilityWP`, PHP 7.4+ target). Run `composer lint` before considering PHP changes done.
-- Commit messages are Conventional Commits, linted per-commit by CI (merges to `master` are real merge commits, not squashed). PR titles are plain English, not Conventional Commits — see [CONTRIBUTING.md](CONTRIBUTING.md) for the full rationale and the type table.
+- Commit messages are Conventional Commits, linted per-commit by CI (merges to `master` are real merge commits, not squashed). PR titles are plain English, not Conventional Commits — see [CONTRIBUTING.md](https://github.com/theme-my-login/.github/blob/main/CONTRIBUTING.md) for the full rationale and the type table.
 - CI workflows in `.github/workflows/` are thin callers into the shared `theme-my-login/tml-workflows` repo (consumed as the `tml-workflows` npm devDependency, which also provides `build.mjs` via `npm run build`). Repo-specific config (`phpcs.xml.dist`, `phpunit.xml.dist`, `commitlint.config.cjs`, `build.config.json`) is what actually varies per repo.
