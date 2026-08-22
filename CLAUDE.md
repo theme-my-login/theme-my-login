@@ -1,6 +1,6 @@
 # Theme My Login
 
-WordPress plugin providing a themed login/registration/password-recovery experience. See [README.md](README.md) for setup and [CONTRIBUTING.md](CONTRIBUTING.md) for commit/PR conventions, both required reading before making changes.
+WordPress plugin providing a themed login/registration/password-recovery experience. See [README.md](README.md) for setup and [CONTRIBUTING.md](https://github.com/theme-my-login/.github/blob/main/CONTRIBUTING.md) (org-wide default) for commit/PR conventions, both required reading before making changes.
 
 ## Source of truth
 
