@@ -7,7 +7,8 @@
  *
  * This is a mechanical first draft only, meant to be hand-edited (wording,
  * folding duplicates, "Tested up to" bullets) while reviewing the Release PR
- * it gets committed onto - not a finished changelog. See CONTRIBUTING.md.
+ * it gets committed onto - not a finished changelog. See
+ * https://github.com/theme-my-login/.github/blob/main/CONTRIBUTING.md.
  *
  * Safe to re-run: replaces any existing block for the given version
  * instead of appending a duplicate. Re-running discards hand edits made
