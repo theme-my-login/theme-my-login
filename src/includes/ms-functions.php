@@ -577,6 +577,10 @@ function tml_ms_signup_handler() {
 
 	$newblogname = isset( $_GET['new'] ) ? strtolower( preg_replace( '/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'] ) ) : null;
 
+	if ( 'none' === $active_signup || ( 'blog' === $active_signup && ! is_user_logged_in() ) ) {
+		return;
+	}
+
 	$stage = isset( $_POST['stage'] ) ? $_POST['stage'] : 'default';
 	switch ( $stage ) {
 		case 'validate-user-signup':
@@ -661,6 +665,10 @@ function tml_ms_signup_handler() {
 		case 'gimmeanotherblog':
 			if ( ! is_user_logged_in() ) {
 				die;
+			}
+
+			if ( 'all' !== $active_signup && 'blog' !== $active_signup ) {
+				return;
 			}
 
 			$current_user = wp_get_current_user();
@@ -831,6 +839,11 @@ function tml_ms_filter_signup_shortcode( $content = '', $action = 'signup', $att
 				break;
 
 			case 'gimmeanotherblog':
+				if ( 'all' !== $active_signup && 'blog' !== $active_signup ) {
+					$content .= __( 'Site registration has been disabled.' );
+					break;
+				}
+
 				$result = tml_get_data( 'signup_result' );
 				$form   = tml_get_data( 'signup_form' );
 				if ( 'another_blog' === $form ) {
