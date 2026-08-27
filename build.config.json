@@ -3,7 +3,7 @@
     {
       "dir": "assets",
       "styles": {
-        "theme-my-login": ["tml.css", "alerts.css", "pass-strength.css"]
+        "theme-my-login": ["tml.css", "alerts.css", "pass-strength.css", "password-toggle.css"]
       },
       "scripts": "theme-my-login"
     },

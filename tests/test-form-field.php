@@ -69,6 +69,17 @@ class Test_Form_Field extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( 'checked="checked"', $unchecked );
 	}
 
+	public function test_password_field_renders_a_visibility_toggle() {
+		$output = $this->field( 'pwd', array(
+			'type' => 'password',
+			'id'   => 'user_pass',
+		) )->render();
+
+		$this->assertStringContainsString( '<div class="tml-pwd">', $output );
+		$this->assertStringContainsString( 'type="password"', $output );
+		$this->assertStringContainsString( '<button type="button" class="tml-toggle-pwd"', $output );
+	}
+
 	public function test_dropdown_marks_the_matching_option_selected() {
 		$output = $this->field( 'role', array(
 			'type'    => 'dropdown',
