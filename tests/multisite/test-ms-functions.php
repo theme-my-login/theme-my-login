@@ -18,10 +18,11 @@
  * that works without process isolation. is_multisite() itself is always
  * true for this whole file (that's what makes it "the multisite suite"),
  * so that specific guard branch in both handlers is unreachable here by
- * construction. The 'gimmeanotherblog' stage (creates a real site via
- * wpmu_create_blog()) and the wpmu_signup_user()/wpmu_signup_blog()
- * success calls are still left out — safe to add later, just scoped out
- * of this pass to keep it to the highest-value subset.
+ * construction. The wpmu_signup_user() success call (as opposed to
+ * wpmu_signup_blog(), covered via the 'gimmeanotherblog'/
+ * 'validate-blog-signup' tests below) is still left out — safe to add
+ * later, just scoped out of this pass to keep it to the highest-value
+ * subset.
  *
  * tml_ms_activation_handler() does `define( 'WP_INSTALLING', true )`
  * unconditionally on every call, which raises a "Constant already
@@ -173,9 +174,12 @@ class Test_MS_Functions extends WP_UnitTestCase {
 	}
 
 	public function test_signup_get_active_signup_can_be_filtered() {
-		add_filter( 'wpmu_active_signup', function () {
-			return 'filtered';
-		} );
+		add_filter(
+			'wpmu_active_signup',
+			function () {
+				return 'filtered';
+			}
+		);
 
 		$this->assertSame( 'filtered', tml_ms_signup_get_active_signup() );
 
@@ -223,7 +227,12 @@ class Test_MS_Functions extends WP_UnitTestCase {
 	public function test_filter_welcome_email_swaps_username_for_email_on_email_login_type() {
 		update_site_option( 'tml_login_type', 'email' );
 
-		$user_id = self::factory()->user->create( array( 'user_login' => 'someuser', 'user_email' => 'someone@example.org' ) );
+		$user_id = self::factory()->user->create(
+			array(
+				'user_login' => 'someuser',
+				'user_email' => 'someone@example.org',
+			)
+		);
 
 		$message = tml_ms_filter_welcome_email( 'Log in as someuser.', 1, $user_id, 'irrelevant' );
 
@@ -258,6 +267,18 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Registration has been disabled.', $content );
 	}
 
+	public function test_signup_shortcode_filter_reports_disabled_site_registration_for_gimmeanotherblog_when_not_allowed() {
+		update_site_option( 'registration', 'user' );
+
+		wp_set_current_user( self::factory()->user->create() );
+
+		$_POST['stage'] = 'gimmeanotherblog';
+
+		$content = tml_ms_filter_signup_shortcode( '', 'signup', array() );
+
+		$this->assertStringContainsString( 'Site registration has been disabled.', $content );
+	}
+
 	public function test_activation_shortcode_filter_ignores_other_actions() {
 		$this->assertSame( 'original', tml_ms_filter_activation_shortcode( 'original', 'signup', array() ) );
 	}
@@ -274,7 +295,12 @@ class Test_MS_Functions extends WP_UnitTestCase {
 	public function test_activation_shortcode_filter_reports_an_already_active_account() {
 		$_GET['key'] = 'some-key';
 
-		$signup = (object) array( 'domain' => '', 'path' => '', 'user_login' => 'someuser', 'user_email' => 'someone@example.org' );
+		$signup = (object) array(
+			'domain'     => '',
+			'path'       => '',
+			'user_login' => 'someuser',
+			'user_email' => 'someone@example.org',
+		);
 		$error  = new WP_Error( 'already_active', 'Already active.', $signup );
 
 		tml_set_data( 'activation_result', $error );
@@ -287,10 +313,15 @@ class Test_MS_Functions extends WP_UnitTestCase {
 	// tml_ms_signup_handler() — exit-free branches only
 
 	public function test_signup_handler_default_stage_fires_preprocess_signup_form() {
+		update_site_option( 'registration', 'all' );
+
 		$fired = false;
-		add_action( 'preprocess_signup_form', function () use ( &$fired ) {
-			$fired = true;
-		} );
+		add_action(
+			'preprocess_signup_form',
+			function () use ( &$fired ) {
+				$fired = true;
+			}
+		);
 
 		tml_ms_signup_handler();
 
@@ -299,13 +330,31 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$this->assertTrue( $fired );
 	}
 
+	public function test_signup_handler_is_a_no_op_when_registration_is_disabled() {
+		update_site_option( 'registration', 'none' );
+
+		$fired = false;
+		add_action(
+			'preprocess_signup_form',
+			function () use ( &$fired ) {
+				$fired = true;
+			}
+		);
+
+		tml_ms_signup_handler();
+
+		remove_all_actions( 'preprocess_signup_form' );
+
+		$this->assertFalse( $fired );
+	}
+
 	public function test_signup_handler_validate_user_signup_records_errors_for_an_empty_username() {
 		update_site_option( 'registration', 'all' );
 
-		$_POST['stage']       = 'validate-user-signup';
-		$_POST['signup_for']  = 'user';
-		$_POST['user_name']   = '';
-		$_POST['user_email']  = '';
+		$_POST['stage']      = 'validate-user-signup';
+		$_POST['signup_for'] = 'user';
+		$_POST['user_name']  = '';
+		$_POST['user_email'] = '';
 
 		tml_ms_signup_handler();
 
@@ -328,14 +377,88 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$this->assertSame( 'blog', tml_get_data( 'signup_form' ) );
 	}
 
+	public function test_signup_handler_validate_blog_signup_does_not_create_a_pending_signup_for_an_anonymous_user_when_only_logged_in_users_may_register() {
+		update_site_option( 'registration', 'blog' );
+
+		// Anonymous: no wp_set_current_user() call.
+		$_POST['stage']       = 'validate-blog-signup';
+		$_POST['user_name']   = 'anonblogsignupuser';
+		$_POST['user_email']  = 'anonblogsignupuser@example.org';
+		$_POST['blogname']    = 'anonblogsignup1';
+		$_POST['blog_title']  = 'Anonymous Blog Signup';
+		$_POST['blog_public'] = 1;
+
+		tml_ms_signup_handler();
+
+		global $wpdb;
+		$signup = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->signups WHERE user_login = %s", 'anonblogsignupuser' ) );
+
+		$this->assertNull( $signup );
+	}
+
+	public function test_signup_handler_gimmeanotherblog_does_not_create_a_site_when_registration_is_disabled() {
+		update_site_option( 'registration', 'none' );
+
+		wp_set_current_user( self::factory()->user->create() );
+
+		$_POST['stage']       = 'gimmeanotherblog';
+		$_POST['blogname']    = 'blockedsignup1';
+		$_POST['blog_title']  = 'Blocked Signup';
+		$_POST['blog_public'] = 1;
+
+		tml_ms_signup_handler();
+
+		$this->assertFalse( tml_get_data( 'signup_blog_id' ) );
+		$this->assertEmpty( domain_exists( get_network()->domain, get_network()->path . 'blockedsignup1/' ) );
+	}
+
+	public function test_signup_handler_gimmeanotherblog_does_not_create_a_site_when_only_user_signup_is_active() {
+		update_site_option( 'registration', 'user' );
+
+		wp_set_current_user( self::factory()->user->create() );
+
+		$_POST['stage']       = 'gimmeanotherblog';
+		$_POST['blogname']    = 'blockedsignup2';
+		$_POST['blog_title']  = 'Blocked Signup';
+		$_POST['blog_public'] = 1;
+
+		tml_ms_signup_handler();
+
+		$this->assertFalse( tml_get_data( 'signup_blog_id' ) );
+		$this->assertEmpty( domain_exists( get_network()->domain, get_network()->path . 'blockedsignup2/' ) );
+	}
+
+	public function test_signup_handler_gimmeanotherblog_creates_a_site_when_blog_signup_is_active() {
+		update_site_option( 'registration', 'blog' );
+
+		wp_set_current_user( self::factory()->user->create() );
+
+		$_POST['stage']       = 'gimmeanotherblog';
+		$_POST['blogname']    = 'allowedsignup1';
+		$_POST['blog_title']  = 'Allowed Signup';
+		$_POST['blog_public'] = 1;
+
+		tml_ms_signup_handler();
+
+		$blog_id = tml_get_data( 'signup_blog_id' );
+
+		$this->assertNotWPError( $blog_id );
+		$this->assertNotEmpty( $blog_id );
+
+		wpmu_delete_blog( $blog_id, true );
+	}
+
 	// tml_ms_signup_handler() redirect guards
 
 	protected function capture_redirect( callable $callback ) {
 		$captured = null;
-		add_filter( 'wp_redirect', function ( $location ) use ( &$captured ) {
-			$captured = $location;
-			throw new TML_Test_Redirect_Exception();
-		} );
+		add_filter(
+			'wp_redirect',
+			function ( $location ) use ( &$captured ) {
+				$captured = $location;
+				throw new TML_Test_Redirect_Exception();
+			}
+		);
 
 		try {
 			$callback();
@@ -416,7 +539,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		global $wpdb;
 		$signup = $wpdb->get_row( $wpdb->prepare( "SELECT activation_key FROM $wpdb->signups WHERE user_login = %s", 'msactivationuser' ) );
 
-		$_GET['key']        = $signup->activation_key;
+		$_GET['key'] = $signup->activation_key;
 		// tml_allow_user_passwords() being true also means the handler
 		// requires (and validates) a submitted password before activating.
 		$_POST['user_pass1'] = 'a-brand-new-password';
