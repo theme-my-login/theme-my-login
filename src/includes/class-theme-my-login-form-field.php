@@ -650,6 +650,18 @@ class Theme_My_Login_Form_Field {
 				$output .= $label;
 				break;
 
+			case 'password':
+				$output .= $label;
+				$output .= $error;
+				$output .= $args['control_before'];
+				$output .= '<div class="tml-pwd">';
+				$output .= '<input name="' . $this->get_name() . '" type="password" value="' . esc_attr( $this->get_value() ) . '"' . $attributes . ">\n";
+				// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reuses WP core's translated wp-login.php string verbatim.
+				$output .= '<button type="button" class="tml-toggle-pwd" aria-label="' . esc_attr__( 'Show password' ) . '"><span class="dashicons dashicons-visibility" aria-hidden="true"></span></button>';
+				$output .= "</div>\n";
+				$output .= $args['control_after'];
+				break;
+
 			case 'radio-group':
 				$output .= $label;
 				$output .= $error;
