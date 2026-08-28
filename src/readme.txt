@@ -61,6 +61,14 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.2.0 =
+* Add a filter to disable autofocus on login/register fields
+* Add a show/hide toggle to password fields
+* Block multisite site creation when network registration is disabled
+* Add default field/button styling
+* Update alert styling to match current WP core admin notices
+* Default network admin menu items to manage_network_options
+
 = 7.1.15 =
 * Resync Multisite signup form strings with current WordPress core wording
 * Fix potential stored XSS in textarea form fields
