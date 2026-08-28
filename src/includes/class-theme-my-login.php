@@ -345,14 +345,11 @@ final class Theme_My_Login {
 		 */
 		do_action( 'tml_init', $this );
 
-		// Get the main plugin file path
-		$plugin_file = str_replace( array( 'src', 'build' ), '', THEME_MY_LOGIN_PATH . 'theme-my-login.php' );
-
 		// Run the activation hook
-		register_activation_hook( $plugin_file, array( $this, 'activate' ) );
+		register_activation_hook( THEME_MY_LOGIN_FILE, array( $this, 'activate' ) );
 
 		// Run the deactivation hook
-		register_deactivation_hook( $plugin_file, array( $this, 'deactivate' ) );
+		register_deactivation_hook( THEME_MY_LOGIN_FILE, array( $this, 'deactivate' ) );
 	}
 
 	/**
