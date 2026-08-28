@@ -24,9 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # The tag itself doesn't exist as a real ref yet while the release
-          # is still a draft (GitHub only materializes it on publish) — check
-          # out the commit release-please tagged instead.
           ref: ${{ inputs.sha }}
 
       - uses: actions/setup-node@v4
@@ -67,7 +64,6 @@ jobs:
         run: sudo apt-get update -y && sudo apt-get install -y subversion
 
       - name: Deploy to WordPress.org
-        id: deploy
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
@@ -81,7 +77,6 @@ jobs:
           # Bail early if this version is already tagged.
           if svn info "${SVN_URL}/tags/${VERSION}" >/dev/null 2>&1; then
             echo "Version ${VERSION} is already tagged; nothing to do."
-            echo "deployed=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -114,12 +109,3 @@ jobs:
 
           svn commit -m "Version ${VERSION}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
           svn copy "${SVN_URL}/trunk" "${SVN_URL}/tags/${VERSION}" -m "Tagging ${VERSION}" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
-
-          echo "deployed=true" >> "$GITHUB_OUTPUT"
-
-      - name: Publish the GitHub Release
-        if: steps.deploy.outputs.deployed == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_TAG: ${{ inputs.tag_name }}
-        run: gh release edit "${RELEASE_TAG}" --draft=false
