@@ -71,6 +71,23 @@ class Test_Extensions extends WP_UnitTestCase {
 		}, 10, 3 );
 	}
 
+	protected function capture_http_request_args( $body ) {
+		$captured = new stdClass();
+
+		add_filter( 'pre_http_request', function ( $preempt, $parsed_args, $url ) use ( $body, &$captured ) {
+			$this->http_request_count++;
+			$captured->args = $parsed_args['body'];
+
+			return array(
+				'response' => array( 'code' => 200, 'message' => 'OK' ),
+				'body'     => is_string( $body ) ? $body : wp_json_encode( $body ),
+				'headers'  => array(),
+			);
+		}, 10, 3 );
+
+		return $captured;
+	}
+
 	public function test_register_extension_adds_it_to_the_registry() {
 		$extension = $this->make_extension();
 
@@ -238,6 +255,16 @@ class Test_Extensions extends WP_UnitTestCase {
 		$this->assertSame( '2.0', $result->version );
 	}
 
+	public function test_add_extension_data_to_plugins_api_sends_the_site_url() {
+		tml_register_extension( $this->make_extension() );
+
+		$captured = $this->capture_http_request_args( array( 'new_version' => '2.0' ) );
+
+		tml_add_extension_data_to_plugins_api( 'original', 'plugin_information', (object) array( 'slug' => 'tml-test-extension' ) );
+
+		$this->assertSame( home_url(), $captured->args['url'] );
+	}
+
 	public function test_add_extension_data_to_plugins_transient_flags_an_available_update() {
 		$extension = tml_register_extension( $this->make_extension() );
 
@@ -258,5 +285,15 @@ class Test_Extensions extends WP_UnitTestCase {
 
 		$this->assertArrayHasKey( $extension->get_basename(), $transient->no_update );
 		$this->assertArrayNotHasKey( $extension->get_basename(), (array) ( $transient->response ?? array() ) );
+	}
+
+	public function test_add_extension_data_to_plugins_transient_sends_the_site_url() {
+		tml_register_extension( $this->make_extension() );
+
+		$captured = $this->capture_http_request_args( array( 'new_version' => '2.0', 'package' => 'https://example.org/download.zip' ) );
+
+		tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		$this->assertSame( home_url(), $captured->args['url'] );
 	}
 }

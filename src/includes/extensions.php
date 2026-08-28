@@ -114,6 +114,7 @@ function tml_add_extension_data_to_plugins_api( $result = false, $action = '', $
 			'license' => $extension->get_license_key(),
 			'item_id' => $extension->get_item_id(),
 			'slug'    => $extension->get_name(),
+			'url'     => home_url(),
 		)
 	);
 	if ( $result ) {
@@ -145,6 +146,7 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 				'license' => $extension->get_license_key(),
 				'item_id' => $extension->get_item_id(),
 				'slug'    => $extension->get_name(),
+				'url'     => home_url(),
 			)
 		);
 
