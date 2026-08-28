@@ -18,15 +18,16 @@ jobs:
       sha: ${{ steps.release-please.outputs.sha }}
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - uses: actions/create-github-app-token@v2
         id: app-token
         with:
           app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
           private-key: ${{ secrets.RELEASE_PLEASE_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
       - uses: googleapis/release-please-action@v5
         id: release-please
@@ -37,8 +38,9 @@ jobs:
 
       - name: Draft WordPress-style changelog onto the Release PR
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_PLEASE_PR: ${{ steps.release-please.outputs.pr }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          APP_ID: ${{ secrets.RELEASE_PLEASE_APP_ID }}
         run: |
           set -euo pipefail
 
@@ -60,8 +62,8 @@ jobs:
             exit 0
           fi
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${APP_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
           git add src/readme.txt
           git commit -m "chore: draft changelog for ${version}"
           git push origin "$branch"
