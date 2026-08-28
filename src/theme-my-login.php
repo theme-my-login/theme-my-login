@@ -38,6 +38,13 @@ define( 'THEME_MY_LOGIN_VERSION', '7.2.0' );
 define( 'THEME_MY_LOGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
+ * Stores the path to the plugin's main file, as registered with WordPress.
+ *
+ * @since 7.2.1
+ */
+define( 'THEME_MY_LOGIN_FILE', dirname( THEME_MY_LOGIN_PATH ) . '/theme-my-login.php' );
+
+/**
  * Stores the URL to TML.
  *
  * @since 7.0
