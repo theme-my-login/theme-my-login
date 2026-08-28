@@ -69,8 +69,8 @@ function tml_shortcode( $atts = array() ) {
 
 		$content = $form->render( $args );
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- request_id/confirm_key are validated via wp_validate_user_request_key() in tml_confirmaction_handler() before this branch is ever reached.
-	} elseif ( 'confirmaction' === $action->get_name() && isset( $_GET['request_id'] ) ) {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- request_id/confirm_key are validated via wp_validate_user_request_key() in tml_confirmaction_handler(), which tml_is_action() confirms has already run (template_redirect, before this shortcode renders) without wp_die()'ing on an invalid key.
+	} elseif ( 'confirmaction' === $action->get_name() && tml_is_action( 'confirmaction' ) && isset( $_GET['request_id'] ) ) {
 		$content = _wp_privacy_account_request_confirmed_message( $_GET['request_id'] );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 

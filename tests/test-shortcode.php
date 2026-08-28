@@ -37,6 +37,29 @@ class Test_Shortcode extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Ada Lovelace', $content );
 	}
 
+	public function test_confirmaction_renders_nothing_when_not_the_current_routed_action() {
+		$_GET['request_id'] = 1;
+
+		$content = tml_shortcode( array( 'action' => 'confirmaction' ) );
+
+		unset( $_GET['request_id'] );
+
+		$this->assertSame( '', $content );
+	}
+
+	public function test_confirmaction_renders_once_routed_as_the_current_action() {
+		global $wp;
+
+		$wp->query_vars['action'] = 'confirmaction';
+		$_GET['request_id']       = 1;
+
+		$content = tml_shortcode( array( 'action' => 'confirmaction' ) );
+
+		unset( $wp->query_vars['action'], $_GET['request_id'] );
+
+		$this->assertNotSame( '', $content );
+	}
+
 	public function test_shortcode_content_is_filterable() {
 		add_filter( 'tml_shortcode', function () {
 			return 'filtered content';
