@@ -61,6 +61,17 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.3.0 =
+* Add a filter to disable autofocus on login/register fields
+* Add a show/hide toggle to password fields
+* Block multisite site creation when network registration is disabled
+* Add default field/button styling
+* Update alert styling to match current WP core admin notices
+* Default network admin menu items to manage_network_options
+* Make compileImages() recurse into subdirectories
+* Rename commitlint.config.js to .cjs for ESM package
+* Trim readme tags to 5 and add missing License field
+
 = 7.2.0 =
 * Add a filter to disable autofocus on login/register fields
 * Add a show/hide toggle to password fields
