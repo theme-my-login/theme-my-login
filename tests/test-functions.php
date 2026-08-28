@@ -654,6 +654,22 @@ class Test_Functions extends WP_UnitTestCase {
 		$this->assertTrue( $fired );
 	}
 
+	public function test_enqueue_scripts_localizes_autofocus_as_true_by_default() {
+		tml_enqueue_scripts();
+
+		$this->assertStringContainsString( '"autofocus":"1"', wp_scripts()->registered['theme-my-login']->extra['data'] );
+	}
+
+	public function test_enqueue_scripts_localizes_autofocus_as_false_when_filtered() {
+		add_filter( 'tml_autofocus', '__return_false' );
+
+		tml_enqueue_scripts();
+
+		remove_filter( 'tml_autofocus', '__return_false' );
+
+		$this->assertStringContainsString( '"autofocus":""', wp_scripts()->registered['theme-my-login']->extra['data'] );
+	}
+
 	// tml_do_login_head() / tml_do_login_footer()
 
 	public function test_do_login_head_is_a_no_op_outside_a_tml_action() {

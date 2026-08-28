@@ -5,7 +5,7 @@
 	function initFocus() {
 		var userLogin, key;
 
-		if ( ! themeMyLogin.action ) {
+		if ( ! themeMyLogin.action || ! themeMyLogin.autofocus ) {
 			return;
 		}
 
