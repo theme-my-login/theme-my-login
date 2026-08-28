@@ -4,7 +4,6 @@
   "packages": {
     ".": {
       "release-type": "simple",
-      "draft": true,
       "skip-changelog": true,
       "extra-files": [
         {
