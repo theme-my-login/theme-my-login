@@ -64,7 +64,7 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 = 7.2.0 =
 * Add a filter to disable autofocus on login/register fields
 * Add a show/hide toggle to password fields
-* Block multisite site creation when network registration is disabled
+* Block multisite site creation when network registration is disabled (props Jakub Herman)
 * Add default field/button styling
 * Update alert styling to match current WP core admin notices
 * Default network admin menu items to manage_network_options
