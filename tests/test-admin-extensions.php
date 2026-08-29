@@ -40,7 +40,22 @@ class Test_Admin_Extensions extends WP_UnitTestCase {
 
 		delete_site_transient( 'tml_extensions_feed-' . md5( http_build_query( array( 'number' => 12 ) ) ) );
 
+		wp_set_current_user( 0 );
+
 		parent::tearDown();
+	}
+
+	protected function register_licensed_test_extension() {
+		$extension = new TML_Test_Extension( WP_PLUGIN_DIR . '/tml-test-extension/tml-test-extension.php', array(
+			'name'                  => 'tml-test-extension',
+			'license_key_option'    => '_tml_test_ext_license_key',
+			'license_status_option' => '_tml_test_ext_license_status',
+		) );
+
+		update_site_option( '_tml_test_ext_license_key', 'test-key' );
+		update_site_option( '_tml_test_ext_license_status', 'valid' );
+
+		tml_register_extension( $extension );
 	}
 
 	protected function mock_http_response( $body, $code = 200 ) {
@@ -160,6 +175,38 @@ class Test_Admin_Extensions extends WP_UnitTestCase {
 		tml_admin_check_extension_licenses();
 
 		$this->assertSame( 0, $this->http_request_count );
+	}
+
+	public function test_check_extension_licenses_is_a_no_op_without_the_manage_options_capability() {
+		global $plugin_page;
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$plugin_page               = 'theme-my-login-licenses';
+
+		$this->register_licensed_test_extension();
+		$this->mock_http_response( array( 'license' => 'valid' ) );
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+
+		tml_admin_check_extension_licenses();
+
+		$this->assertSame( 0, $this->http_request_count );
+	}
+
+	public function test_check_extension_licenses_checks_licenses_for_a_user_with_the_capability() {
+		global $plugin_page;
+
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$plugin_page               = 'theme-my-login-licenses';
+
+		$this->register_licensed_test_extension();
+		$this->mock_http_response( array( 'license' => 'valid' ) );
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		tml_admin_check_extension_licenses();
+
+		$this->assertSame( 1, $this->http_request_count );
 	}
 
 	public function test_extension_update_message_prompts_for_a_license_when_no_package_is_present() {

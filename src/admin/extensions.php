@@ -264,6 +264,10 @@ function tml_admin_check_extension_licenses() {
 		return;
 	}
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	foreach ( tml_get_extensions() as $extension ) {
 		if ( ! $extension->get_license_key() ) {
 			continue;
