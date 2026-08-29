@@ -221,7 +221,7 @@ function tml_admin_get_settings_fields() {
 		$fields['tml_settings_slugs'][ $slug_option ] = array(
 			'title'             => $action->get_title(),
 			'callback'          => 'tml_admin_setting_callback_input_field',
-			'sanitize_callback' => 'sanitize_text_field',
+			'sanitize_callback' => 'sanitize_title',
 			'args'              => array(
 				'label_for'   => $slug_option,
 				'value'       => get_site_option( $slug_option, $action->get_slug() ),

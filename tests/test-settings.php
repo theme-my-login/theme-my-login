@@ -125,6 +125,12 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertArrayNotHasKey( 'tml_confirmaction_slug', $fields['tml_settings_slugs'], 'confirmaction has show_in_slug_settings = false and should be excluded.' );
 	}
 
+	public function test_slug_fields_are_sanitized_with_sanitize_title() {
+		$fields = tml_admin_get_settings_fields();
+
+		$this->assertSame( 'sanitize_title', $fields['tml_settings_slugs']['tml_login_slug']['sanitize_callback'], 'Slugs are interpolated directly into a rewrite rule regex in tml_add_rewrite_rules(), so sanitize_text_field() alone is not sufficient.' );
+	}
+
 	public function test_get_settings_fields_can_be_filtered() {
 		add_filter( 'tml_admin_get_settings_fields', function () {
 			return array( 'custom' => array() );
