@@ -1289,7 +1289,7 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
 			}
 		} else {
 			$url  = isset( $result['blog_id'] ) ? get_home_url( (int) $result['blog_id'] ) : '';
-			$user = get_userdata( (int) $result['user_id'] );
+			$user = isset( $result['user_id'] ) ? get_userdata( (int) $result['user_id'] ) : false;
 
 			$content .= '<h2>' . __( 'Your account is now active!' ) . '</h2>';
 
