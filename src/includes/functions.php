@@ -900,6 +900,10 @@ function tml_handle_auto_login( $user_id ) {
 		return;
 	}
 
+	if ( is_user_logged_in() ) {
+		return;
+	}
+
 	if ( 'wpmu_activate_blog' === current_filter() ) {
 		$user_id = func_get_arg( 1 );
 	}
