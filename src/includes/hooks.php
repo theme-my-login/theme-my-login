@@ -100,3 +100,4 @@ add_filter( 'nav_menu_css_class', 'tml_nav_menu_css_class', 10, 2 );
 // Extensions
 add_filter( 'plugins_api', 'tml_add_extension_data_to_plugins_api', 10, 3 );
 add_filter( 'pre_set_site_transient_update_plugins', 'tml_add_extension_data_to_plugins_transient', 10, 1 );
+add_action( 'delete_site_transient_update_plugins', 'tml_clear_extension_version_check_cache', 10, 0 );

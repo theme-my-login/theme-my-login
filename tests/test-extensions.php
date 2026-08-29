@@ -3,7 +3,8 @@
  * Coverage for src/includes/extensions.php: the extension registry
  * (register/unregister/get/exists), the EDD-flavored license activation,
  * deactivation, and check calls, the shared tml_extension_api_call()
- * cache, and the WP plugins-API/update-transient integrations.
+ * request-scoped and persistent caching, and the WP
+ * plugins-API/update-transient integrations.
  *
  * Theme_My_Login_Extension is abstract, so tests use a minimal concrete
  * subclass with test-only license option names and store URL.
@@ -36,6 +37,9 @@ class Test_Extensions extends WP_UnitTestCase {
 		remove_all_filters( 'tml_extension_exists' );
 
 		wp_cache_flush_group( 'tml_api_calls' );
+
+		global $wpdb;
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( '_site_transient_tml_api_call-' ) . '%' ) );
 
 		parent::tearDown();
 	}
@@ -231,6 +235,56 @@ class Test_Extensions extends WP_UnitTestCase {
 		tml_check_extension_license( $extension );
 
 		$this->assertSame( 1, $this->http_request_count );
+	}
+
+	public function test_extension_api_call_persists_version_checks_in_a_site_transient() {
+		tml_register_extension( $this->make_extension() );
+
+		$this->mock_http_response( array( 'new_version' => '2.0' ) );
+
+		tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		// Simulate a fresh request: the non-persistent object cache is gone,
+		// but the site transient survives.
+		wp_cache_flush_group( 'tml_api_calls' );
+
+		tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		$this->assertSame( 1, $this->http_request_count );
+	}
+
+	public function test_extension_api_call_does_not_persist_license_checks_across_requests() {
+		$extension = tml_register_extension( $this->make_extension() );
+
+		$this->mock_http_response( array( 'license' => 'valid' ) );
+
+		tml_check_extension_license( $extension );
+
+		// Simulate a fresh request: license checks must always hit the store
+		// live, so this should not be served from a persistent cache.
+		wp_cache_flush_group( 'tml_api_calls' );
+
+		tml_check_extension_license( $extension );
+
+		$this->assertSame( 2, $this->http_request_count );
+	}
+
+	public function test_clear_extension_version_check_cache_forces_a_live_recheck() {
+		tml_register_extension( $this->make_extension() );
+
+		$this->mock_http_response( array( 'new_version' => '2.0' ) );
+
+		tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		// Simulate WordPress invalidating its own update_plugins transient
+		// (e.g. after installing/updating a plugin).
+		delete_site_transient( 'update_plugins' );
+
+		wp_cache_flush_group( 'tml_api_calls' );
+
+		tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		$this->assertSame( 2, $this->http_request_count );
 	}
 
 	public function test_add_extension_data_to_plugins_api_ignores_unrelated_actions() {
