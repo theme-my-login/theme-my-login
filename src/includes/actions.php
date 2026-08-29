@@ -363,7 +363,7 @@ function tml_action_handler() {
 				if ( $query ) {
 					parse_str( $query, $args );
 					unset( $args['action'] );
-					$url = add_query_arg( array_map( 'rawurlencode', $args ), $url );
+					$url = add_query_arg( tml_array_map_recursive( 'rawurlencode', $args ), $url );
 				}
 				wp_safe_redirect( $url );
 				exit;

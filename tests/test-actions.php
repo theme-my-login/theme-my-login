@@ -19,10 +19,21 @@
  * @package Theme_My_Login
  */
 
+if ( ! class_exists( 'TML_Test_Redirect_Exception' ) ) {
+	class TML_Test_Redirect_Exception extends Exception {}
+}
+
 class Test_Actions extends WP_UnitTestCase {
 
 	public function tearDown(): void {
+		global $wp;
+
 		unset( $_GET['checkemail'] );
+
+		$_REQUEST               = array();
+		$_SERVER['REQUEST_URI'] = '/';
+		remove_all_filters( 'wp_redirect' );
+		unset( $wp->query_vars['action'] );
 
 		delete_site_option( 'tml_login_slug' );
 
@@ -167,6 +178,29 @@ class Test_Actions extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( 'WP_Post', $page );
 		$this->assertSame( $page_id, $page->ID );
+	}
+
+	public function test_action_handler_redirects_bracketed_query_args_without_error() {
+		global $wp;
+
+		$wp->query_vars['action'] = 'login';
+
+		$_REQUEST['action']     = 'lostpassword';
+		$_SERVER['REQUEST_URI'] = '/login/?action=lostpassword&x[]=1';
+
+		$captured = null;
+		add_filter( 'wp_redirect', function ( $location ) use ( &$captured ) {
+			$captured = $location;
+			throw new TML_Test_Redirect_Exception();
+		} );
+
+		try {
+			tml_action_handler();
+			$this->fail( 'Expected the login action to redirect to the lost password action.' );
+		} catch ( TML_Test_Redirect_Exception $e ) {
+			$this->assertStringContainsString( 'action=lostpassword', $captured );
+			$this->assertStringContainsString( 'x%5B0%5D=1', $captured );
+		}
 	}
 
 	public function test_action_handler_is_a_no_op_when_no_tml_action_is_current() {
