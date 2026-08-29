@@ -296,4 +296,34 @@ class Test_Extensions extends WP_UnitTestCase {
 
 		$this->assertSame( home_url(), $captured->args['url'] );
 	}
+
+	public function test_extension_api_call_unserializes_serialized_array_fields() {
+		tml_register_extension( $this->make_extension() );
+
+		$this->mock_http_response( array(
+			'new_version' => '2.0',
+			'icons'       => serialize( array( '1x' => 'https://example.org/icon.png' ) ),
+			'banners'     => serialize( array( 'low' => 'https://example.org/banner.png' ) ),
+		) );
+
+		$transient = tml_add_extension_data_to_plugins_transient( (object) array() );
+		$update    = $transient->response[ $this->make_extension()->get_basename() ];
+
+		$this->assertSame( array( '1x' => 'https://example.org/icon.png' ), $update->icons );
+		$this->assertSame( array( 'low' => 'https://example.org/banner.png' ), $update->banners );
+	}
+
+	public function test_extension_api_call_blocks_object_injection_in_serialized_fields() {
+		tml_register_extension( $this->make_extension() );
+
+		$this->mock_http_response( array(
+			'new_version' => '2.0',
+			'icons'       => serialize( new TML_Test_Extension( WP_PLUGIN_DIR . '/tml-test-extension/tml-test-extension.php' ) ),
+		) );
+
+		$transient = tml_add_extension_data_to_plugins_transient( (object) array() );
+		$update    = $transient->response[ $this->make_extension()->get_basename() ];
+
+		$this->assertNotInstanceOf( TML_Test_Extension::class, $update->icons );
+	}
 }
