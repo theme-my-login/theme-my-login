@@ -885,7 +885,7 @@ class Test_Functions extends WP_UnitTestCase {
 		$this->assertSame( $before, get_userdata( $user_id )->user_pass );
 	}
 
-	// tml_handle_auto_login() bail branch (the enabled branch sets real auth cookies via setcookie(), out of scope here)
+	// tml_handle_auto_login() bail branches (the successful branch sets real auth cookies via setcookie(), out of scope here)
 
 	public function test_handle_auto_login_is_a_no_op_when_auto_login_is_disabled() {
 		$user_id = self::factory()->user->create();
@@ -894,6 +894,20 @@ class Test_Functions extends WP_UnitTestCase {
 		tml_handle_auto_login( $user_id );
 
 		$this->assertTrue( true );
+	}
+
+	public function test_handle_auto_login_does_not_hijack_an_already_logged_in_session() {
+		update_site_option( 'tml_auto_login', true );
+
+		$visitor_id = self::factory()->user->create();
+		wp_set_current_user( $visitor_id );
+
+		$new_user_id = self::factory()->user->create();
+
+		// Should not raise a warning/error, and should not attempt to replace the visitor's auth cookie.
+		tml_handle_auto_login( $new_user_id );
+
+		$this->assertSame( $visitor_id, get_current_user_id() );
 	}
 
 	// tml_send_new_user_notifications() bail branch (the enabled branch sends real mail via wp_new_user_notification(), out of scope here)
