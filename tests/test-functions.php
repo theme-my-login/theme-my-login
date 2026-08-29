@@ -853,9 +853,36 @@ class Test_Functions extends WP_UnitTestCase {
 		$user_id = self::factory()->user->create();
 
 		$_POST['user_pass1'] = 'a-brand-new-password';
+		$_POST['user_pass2'] = 'a-brand-new-password';
 		tml_set_new_user_password( $user_id );
 
 		$this->assertTrue( wp_check_password( 'a-brand-new-password', get_userdata( $user_id )->user_pass, $user_id ) );
+	}
+
+	public function test_set_new_user_password_is_a_no_op_on_mismatched_passwords() {
+		update_site_option( 'tml_user_passwords', true );
+
+		$user_id = self::factory()->user->create();
+		$before  = get_userdata( $user_id )->user_pass;
+
+		$_POST['user_pass1'] = 'password-one';
+		$_POST['user_pass2'] = 'password-two';
+		tml_set_new_user_password( $user_id );
+
+		$this->assertSame( $before, get_userdata( $user_id )->user_pass );
+	}
+
+	public function test_set_new_user_password_is_a_no_op_on_a_backslash() {
+		update_site_option( 'tml_user_passwords', true );
+
+		$user_id = self::factory()->user->create();
+		$before  = get_userdata( $user_id )->user_pass;
+
+		$_POST['user_pass1'] = 'pass\\\\word';
+		$_POST['user_pass2'] = 'pass\\\\word';
+		tml_set_new_user_password( $user_id );
+
+		$this->assertSame( $before, get_userdata( $user_id )->user_pass );
 	}
 
 	// tml_handle_auto_login() bail branch (the enabled branch sets real auth cookies via setcookie(), out of scope here)

@@ -878,11 +878,11 @@ function tml_set_new_user_password( $user_id ) {
 		return;
 	}
 
-	// phpcs:disable WordPress.Security.NonceVerification.Missing -- mirrors WP core's own registration password handling (register_new_user()), which has no nonce of its own.
-	if ( empty( $_POST['user_pass1'] ) ) {
+	if ( tml_validate_new_user_password()->has_errors() ) {
 		return;
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- mirrors WP core's own registration password handling (register_new_user()), which has no nonce of its own.
 	wp_set_password( $_POST['user_pass1'], $user_id );
 	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	update_user_option( $user_id, 'default_password_nag', false, true );
