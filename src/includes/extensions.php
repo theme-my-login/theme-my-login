@@ -329,6 +329,26 @@ function tml_check_extension_license( $extension ) {
 }
 
 /**
+ * Unserialize a value if it is serialized, without allowing any objects.
+ *
+ * Behaves like `maybe_unserialize()`, except it restricts unserialization to
+ * plain arrays/scalars so a tampered store response can't instantiate an
+ * object and trigger a PHP object injection gadget chain.
+ *
+ * @since 7.2.1
+ *
+ * @param mixed $value The value to unserialize.
+ * @return mixed The unserialized value, or the original value if it wasn't serialized.
+ */
+function tml_maybe_unserialize_no_objects( $value ) {
+	if ( is_serialized( $value ) ) {
+		return unserialize( $value, array( 'allowed_classes' => false ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- allowed_classes is set to disable object injection.
+	}
+
+	return $value;
+}
+
+/**
  * Make an API call the store of an extension.
  *
  * @since 7.0
@@ -384,13 +404,13 @@ function tml_extension_api_call( $url, $args = array() ) {
 
 		if ( is_object( $response ) ) {
 			if ( isset( $response->sections ) ) {
-				$response->sections = maybe_unserialize( $response->sections );
+				$response->sections = tml_maybe_unserialize_no_objects( $response->sections );
 			}
 			if ( isset( $response->banners ) ) {
-				$response->banners = maybe_unserialize( $response->banners );
+				$response->banners = tml_maybe_unserialize_no_objects( $response->banners );
 			}
 			if ( isset( $response->icons ) ) {
-				$response->icons = maybe_unserialize( $response->icons );
+				$response->icons = tml_maybe_unserialize_no_objects( $response->icons );
 			}
 		} else {
 			$response = false;
