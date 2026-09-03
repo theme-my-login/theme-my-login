@@ -16,7 +16,7 @@ jobs:
       SVN_URL: https://plugins.svn.wordpress.org/theme-my-login
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install svn
         run: sudo apt-get update -y && sudo apt-get install -y subversion
