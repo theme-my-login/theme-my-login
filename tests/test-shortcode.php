@@ -37,6 +37,25 @@ class Test_Shortcode extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Ada Lovelace', $content );
 	}
 
+	public function test_dashboard_action_escapes_the_display_name() {
+		global $wpdb;
+
+		$user_id = self::factory()->user->create();
+
+		// Core strips tags from display_name on save, so write it straight to
+		// the table - the case this guards against is a name that arrived by
+		// some other route (an import, another plugin, a direct query).
+		$wpdb->update( $wpdb->users, array( 'display_name' => '<script>alert(1)</script>' ), array( 'ID' => $user_id ) );
+		clean_user_cache( $user_id );
+
+		wp_set_current_user( $user_id );
+
+		$content = tml_shortcode( array( 'action' => 'dashboard' ) );
+
+		$this->assertStringNotContainsString( '<script>', $content );
+		$this->assertStringContainsString( '&lt;script&gt;', $content );
+	}
+
 	public function test_confirmaction_renders_nothing_when_not_the_current_routed_action() {
 		$_GET['request_id'] = 1;
 

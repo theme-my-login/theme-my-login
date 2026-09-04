@@ -80,7 +80,7 @@ function tml_shortcode( $atts = array() ) {
 		$content .= '<div class="tml-dashboard-avatar">' . get_avatar( get_current_user_id() ) . '</div>';
 
 		// translators: %s: Current user's display name.
-		$content .= '<p class="tml-dashboard-greeting">' . sprintf( __( 'Howdy, %s' ), wp_get_current_user()->display_name ) . '</p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- intentionally reusing WP core's translated "Howdy, %s" string (see wp-includes/admin-bar.php), not a TML-specific string.
+		$content .= '<p class="tml-dashboard-greeting">' . sprintf( __( 'Howdy, %s' ), esc_html( wp_get_current_user()->display_name ) ) . '</p>'; // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- intentionally reusing WP core's translated "Howdy, %s" string (see wp-includes/admin-bar.php), not a TML-specific string.
 
 		/**
 		 * Filter the dashboard links.
