@@ -66,6 +66,12 @@ foreach ( $records as $record ) {
 		$text = trim( $matches[3] );
 	}
 
+	// commitlint's subject-full-stop rule already guarantees a subject never
+	// ends in a period, but nothing lints a `Release-Note:` trailer, so the
+	// two paths can disagree. Normalize the end of the text the same way
+	// ucfirst() normalizes the start. The lookbehind leaves an ellipsis alone.
+	$text = preg_replace( '/(?<!\.)\.\z/', '', $text );
+
 	$bullets[] = '* ' . ucfirst( $text );
 }
 
