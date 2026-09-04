@@ -1211,23 +1211,23 @@
         },
         {
             "name": "roots/wordpress-no-content",
-            "version": "7.0.4",
+            "version": "7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress.git",
-                "reference": "7.0.4"
+                "reference": "7.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.w.org/release/wordpress-7.0.4-no-content.zip",
-                "reference": "7.0.4",
-                "shasum": "c43ba63174abfef77d00fbc6041db0d801869e09"
+                "url": "https://downloads.wordpress.org/release/wordpress-7.1-no-content.zip",
+                "reference": "7.1",
+                "shasum": "7b28e5af89345d79a30b44a16cbe3244379d1765"
             },
             "require": {
                 "php": ">= 7.4"
             },
             "provide": {
-                "wordpress/core-implementation": "7.0.4"
+                "wordpress/core-implementation": "7.1"
             },
             "suggest": {
                 "ext-curl": "Performs remote request operations.",
@@ -1278,7 +1278,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-08-12T14:47:33+00:00"
+            "time": "2026-08-19T20:16:40+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2488,16 +2488,16 @@
         },
         {
             "name": "wp-phpunit/wp-phpunit",
-            "version": "7.0.2",
+            "version": "7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-phpunit/wp-phpunit.git",
-                "reference": "0d17335392d78b12b3e7e6b519cd53db728df52a"
+                "reference": "797edc710afc958854852d859c93d9aa1de6447d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-phpunit/wp-phpunit/zipball/0d17335392d78b12b3e7e6b519cd53db728df52a",
-                "reference": "0d17335392d78b12b3e7e6b519cd53db728df52a",
+                "url": "https://api.github.com/repos/wp-phpunit/wp-phpunit/zipball/797edc710afc958854852d859c93d9aa1de6447d",
+                "reference": "797edc710afc958854852d859c93d9aa1de6447d",
                 "shasum": ""
             },
             "type": "library",
@@ -2532,7 +2532,7 @@
                 "issues": "https://github.com/wp-phpunit/issues",
                 "source": "https://github.com/wp-phpunit/wp-phpunit"
             },
-            "time": "2026-07-10T02:38:55+00:00"
+            "time": "2026-08-20T00:59:59+00:00"
         },
         {
             "name": "yoast/phpunit-polyfills",
