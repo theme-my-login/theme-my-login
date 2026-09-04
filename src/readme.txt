@@ -61,6 +61,21 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.2.1 =
+* Stop the dashboard greeting from rendering HTML in a user's name
+* Prevent invalid characters in custom action slugs from breaking site URLs
+* Stop making a live request to the extension store on every admin/cron update check
+* Block object injection in extension store API responses
+* Restrict extension license checks to administrators
+* Stop auto-login from replacing an already logged-in visitor's session
+* Prevent a fatal error on the login page from bracketed query parameters
+* Keep the activation confirmation page from breaking without an activation
+* Enforce password validation on every registration entry point
+* Keep the password show/hide button from breaking under page button styles
+* Fix permalinks sometimes not flushing on activation
+* Stop unconfirmed privacy-request links from disclosing request status
+* Stop extension auto-updates from failing to download in wp-admin
+
 = 7.2.0 =
 * Add a filter to disable autofocus on login/register fields
 * Add a show/hide toggle to password fields
