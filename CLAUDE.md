@@ -14,7 +14,7 @@ WordPress plugin providing a themed login/registration/password-recovery experie
 
 - Edit under `src/`, never under `build/`. `build/` is generated (`npm run build`) and gitignored; it's what actually ships.
 - The root `theme-my-login.php` loads `build/theme-my-login.php` when it exists, otherwise falls back to `src/theme-my-login.php`. Define `TML_LOAD_SOURCE` to force loading from `src/` regardless. PHPUnit always forces source loading itself (`tests/bootstrap.php`) — no build step needed before running tests.
-- `src/readme.txt` is the WordPress.org plugin listing (description, FAQ, changelog) in svn-readme format. It is not this repo's README and deploys independently via `deploy-readme.yml` whenever it changes on `master`. `release-please.yml` drafts changelog entries into it automatically from `feat`/`fix`/`perf` commits (see `bin/draft-changelog.php`); check that draft over rather than editing the changelog by hand mid-release.
+- `src/readme.txt` is the WordPress.org plugin listing (description, FAQ, changelog) in svn-readme format. It is not this repo's README and deploys independently via `deploy-readme.yml` whenever it changes on `master`. `release-please.yml` drafts changelog entries into it automatically from `feat`/`fix`/`perf` commits (see `bin/draft-changelog.php`); check that draft over rather than editing the changelog by hand mid-release. A `Props: <name>` trailer on a commit appends `(props <name>)` to its bullet, so reporter credit lands in the changelog without a hand edit.
 
 ## Multisite
 

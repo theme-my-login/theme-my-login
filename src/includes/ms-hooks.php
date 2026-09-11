@@ -31,6 +31,6 @@ add_filter( 'tml_shortcode', 'tml_ms_filter_activation_shortcode', 10, 3 );
 add_filter( 'network_site_url', 'tml_filter_site_url', 10, 3 );
 
 // Passwords
-add_filter( 'wp_pre_insert_user_data', 'tml_ms_filter_pre_insert_user_data', 10, 1 );
+add_filter( 'wp_pre_insert_user_data', 'tml_ms_filter_pre_insert_user_data', 10, 2 );
 add_filter( 'update_welcome_email', 'tml_ms_filter_welcome_email', 10, 4 );
 add_filter( 'update_welcome_user_email', 'tml_ms_filter_welcome_user_email', 10, 3 );

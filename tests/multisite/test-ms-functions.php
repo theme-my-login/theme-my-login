@@ -50,6 +50,14 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		delete_site_option( 'tml_registration_type' );
 		delete_site_option( 'tml_user_passwords' );
 
+		// The data store is a process-global singleton, so it outlives a test.
+		tml_set_data(
+			array(
+				'activation_password' => '',
+				'activation_result'   => null,
+			)
+		);
+
 		tml_register_default_forms();
 		tml_ms_register_default_forms();
 		tml_register_default_actions();
@@ -199,7 +207,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 
 	public function test_filter_pre_insert_user_data_hashes_the_submitted_password_when_allowed() {
 		update_site_option( 'tml_user_passwords', true );
-		$_POST['user_pass1'] = 'a-submitted-password';
+		tml_set_data( 'activation_password', 'a-submitted-password' );
 
 		$data = tml_ms_filter_pre_insert_user_data( array( 'user_pass' => 'original-hash' ) );
 
@@ -207,14 +215,58 @@ class Test_MS_Functions extends WP_UnitTestCase {
 	}
 
 	public function test_filter_pre_insert_user_data_is_untouched_when_passwords_are_not_allowed() {
+		tml_set_data( 'activation_password', 'a-submitted-password' );
+
 		$data = tml_ms_filter_pre_insert_user_data( array( 'user_pass' => 'original-hash' ) );
 
 		$this->assertSame( 'original-hash', $data['user_pass'] );
 	}
 
+	public function test_filter_pre_insert_user_data_ignores_a_password_posted_outside_an_activation() {
+		update_site_option( 'tml_user_passwords', true );
+		$_POST['user_pass1'] = 'attacker-chosen-password';
+
+		$data = tml_ms_filter_pre_insert_user_data( array( 'user_pass' => 'original-hash' ) );
+
+		$this->assertSame( 'original-hash', $data['user_pass'] );
+	}
+
+	public function test_filter_pre_insert_user_data_never_touches_an_existing_user() {
+		update_site_option( 'tml_user_passwords', true );
+		tml_set_data( 'activation_password', 'a-submitted-password' );
+
+		$data = tml_ms_filter_pre_insert_user_data( array( 'user_pass' => 'original-hash' ), true );
+
+		$this->assertSame( 'original-hash', $data['user_pass'] );
+	}
+
+	/**
+	 * Regression test for CVE-2026-89079: a lost-password request stores its
+	 * reset key through wp_update_user(), which runs every user insert/update
+	 * through 'wp_pre_insert_user_data'. Reading the password out of $_POST
+	 * there let an unauthenticated request rewrite any account's password.
+	 */
+	public function test_a_lost_password_request_cannot_rewrite_an_existing_password() {
+		update_site_option( 'tml_user_passwords', true );
+
+		$user_id = self::factory()->user->create( array( 'user_pass' => 'the-real-password' ) );
+
+		$_POST['user_login'] = get_userdata( $user_id )->user_login;
+		$_POST['user_pass1'] = 'attacker-chosen-password';
+
+		// Assert the vulnerable write actually happened, so this can't pass
+		// by never reaching wp_update_user() in the first place.
+		$this->assertNotWPError( get_password_reset_key( get_userdata( $user_id ) ) );
+		$this->assertNotEmpty( get_userdata( $user_id )->user_activation_key );
+
+		$hash = get_userdata( $user_id )->user_pass;
+		$this->assertTrue( wp_check_password( 'the-real-password', $hash ) );
+		$this->assertFalse( wp_check_password( 'attacker-chosen-password', $hash ) );
+	}
+
 	public function test_filter_welcome_email_swaps_in_the_submitted_password() {
 		update_site_option( 'tml_user_passwords', true );
-		$_POST['user_pass1'] = 'a-submitted-password';
+		tml_set_data( 'activation_password', 'a-submitted-password' );
 
 		$user_id = self::factory()->user->create();
 
@@ -244,7 +296,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 
 	public function test_filter_welcome_user_email_swaps_in_the_submitted_password() {
 		update_site_option( 'tml_user_passwords', true );
-		$_POST['user_pass1'] = 'a-submitted-password';
+		tml_set_data( 'activation_password', 'a-submitted-password' );
 
 		$user_id = self::factory()->user->create();
 
@@ -545,9 +597,31 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$_POST['user_pass1'] = 'a-brand-new-password';
 		$_POST['user_pass2'] = 'a-brand-new-password';
 
+		// The welcome email is sent from inside wpmu_activate_signup(), so this
+		// also pins the ordering the filters now depend on: the chosen password
+		// is in scope while they run, and gone by the time the handler returns.
+		$welcome_email = null;
+		add_filter(
+			'update_welcome_user_email',
+			function ( $message ) use ( &$welcome_email ) {
+				$welcome_email = $message;
+				return $message;
+			},
+			99
+		);
+
 		$captured = $this->capture_redirect( 'tml_ms_activation_handler' );
 
+		remove_all_filters( 'update_welcome_user_email', 99 );
+
 		$this->assertNotEmpty( $captured );
+
+		// The chosen password is what the activated account ends up with, and
+		// it doesn't outlive the activation it was submitted for.
+		$user = get_user_by( 'login', 'msactivationuser' );
+		$this->assertTrue( wp_check_password( 'a-brand-new-password', $user->user_pass ) );
+		$this->assertStringContainsString( 'a-brand-new-password', $welcome_email );
+		$this->assertSame( '', tml_get_data( 'activation_password' ) );
 
 		delete_site_option( 'tml_user_passwords' );
 		error_reporting( $error_level );
