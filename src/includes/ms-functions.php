@@ -1188,9 +1188,15 @@ function tml_ms_activation_handler() {
 				tml_set_data( 'activation_result', $errors );
 				return;
 			}
+			tml_set_data( 'activation_password', $_POST['user_pass1'] );
 		}
 
-		$result = wpmu_activate_signup( $key );
+		try {
+			$result = wpmu_activate_signup( $key );
+		} finally {
+			// The chosen password applies only to the account just activated.
+			tml_set_data( 'activation_password', '' );
+		}
 
 		if ( ! is_wp_error( $result ) ) {
 			$activation_redirect = null;
@@ -1320,19 +1326,42 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
 }
 
 /**
- * Filter the user data before it is inserter by wp_insert_user().
+ * Get the password chosen during the activation currently being handled.
+ *
+ * Only set by tml_ms_activation_handler(), after the submitted password has
+ * been validated, and cleared again once the activation is done.
+ *
+ * @since 7.2.2
+ *
+ * @return string The chosen password, or an empty string if there isn't one.
+ */
+function tml_ms_get_activation_password() {
+	if ( ! tml_allow_user_passwords() ) {
+		return '';
+	}
+	return (string) tml_get_data( 'activation_password', '' );
+}
+
+/**
+ * Filter the user data before it is inserted by wp_insert_user().
  *
  * @since 7.0
+ * @since 7.2.2 Added the `$update` parameter.
  *
- * @param array $data The user data to insert.
+ * @param array $data   The user data to insert.
+ * @param bool  $update Whether an existing user is being updated.
  * @return array The user data to insert.
  */
-function tml_ms_filter_pre_insert_user_data( $data = array() ) {
-	// phpcs:disable WordPress.Security.NonceVerification.Missing -- reads the just-submitted new-account password to hash it for storage; the registration form itself has no nonce, matching wp-signup.php's own registration flow.
-	if ( tml_allow_user_passwords() && ! empty( $_POST['user_pass1'] ) ) {
-		$data['user_pass'] = wp_hash_password( $_POST['user_pass1'] );
+function tml_ms_filter_pre_insert_user_data( $data = array(), $update = false ) {
+	if ( $update ) {
+		return $data;
 	}
-	// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+	$password = tml_ms_get_activation_password();
+	if ( '' !== $password ) {
+		$data['user_pass'] = wp_hash_password( $password );
+	}
+
 	return $data;
 }
 
@@ -1348,12 +1377,11 @@ function tml_ms_filter_pre_insert_user_data( $data = array() ) {
  * @return string The welcome email message.
  */
 function tml_ms_filter_welcome_email( $message, $blog_id, $user_id, $password ) {
-	$user = get_userdata( $user_id );
-	// phpcs:disable WordPress.Security.NonceVerification.Missing -- reads the just-submitted new-account password to substitute it into the welcome email; the registration form itself has no nonce, matching wp-signup.php's own registration flow.
-	if ( tml_allow_user_passwords() && ! empty( $_POST['user_pass1'] ) ) {
-		$message = str_replace( $password, $_POST['user_pass1'], $message );
+	$user            = get_userdata( $user_id );
+	$chosen_password = tml_ms_get_activation_password();
+	if ( '' !== $chosen_password ) {
+		$message = str_replace( $password, $chosen_password, $message );
 	}
-	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	if ( tml_is_email_login_type() ) {
 		$message = str_replace( $user->user_login, $user->user_email, $message );
 	}
@@ -1371,12 +1399,11 @@ function tml_ms_filter_welcome_email( $message, $blog_id, $user_id, $password ) 
  * @return string The welcome user message.
  */
 function tml_ms_filter_welcome_user_email( $message, $user_id, $password ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- required by the 'update_welcome_user_email' filter's positional signature; the password is substituted via the 'PASSWORD' placeholder token instead.
-	$user = get_userdata( $user_id );
-	// phpcs:disable WordPress.Security.NonceVerification.Missing -- reads the just-submitted new-account password to substitute it into the welcome email; the registration form itself has no nonce, matching wp-signup.php's own registration flow.
-	if ( tml_allow_user_passwords() && ! empty( $_POST['user_pass1'] ) ) {
-		$message = str_replace( 'PASSWORD', $_POST['user_pass1'], $message );
+	$user            = get_userdata( $user_id );
+	$chosen_password = tml_ms_get_activation_password();
+	if ( '' !== $chosen_password ) {
+		$message = str_replace( 'PASSWORD', $chosen_password, $message );
 	}
-	// phpcs:enable WordPress.Security.NonceVerification.Missing
 	if ( tml_is_email_login_type() ) {
 		$message = str_replace( 'USERNAME', $user->user_email, $message );
 	}
