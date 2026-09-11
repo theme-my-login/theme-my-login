@@ -72,6 +72,12 @@ foreach ( $records as $record ) {
 	// ucfirst() normalizes the start. The lookbehind leaves an ellipsis alone.
 	$text = preg_replace( '/(?<!\.)\.\z/', '', $text );
 
+	// A `Props:` trailer credits whoever reported or contributed the change,
+	// matching how the hand-written entries have always read.
+	if ( preg_match( '/^Props:\s*(.+)$/mi', $body, $props ) ) {
+		$text .= ' (props ' . trim( $props[1] ) . ')';
+	}
+
 	$bullets[] = '* ' . ucfirst( $text );
 }
 
