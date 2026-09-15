@@ -61,6 +61,9 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.2.2 =
+* Stop a lost password request from overwriting an account's password on multisite (props R3D)
+
 = 7.2.1 =
 * Stop the dashboard greeting from rendering HTML in a user's name
 * Prevent invalid characters in custom action slugs from breaking site URLs
