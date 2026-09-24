@@ -410,12 +410,16 @@ abstract class Theme_My_Login_Extension {
 		 */
 		do_action( 'tml_activate_extension', $this->get_name() );
 
+		$slug = $this->get_slug();
+
 		/**
 		 * Fires when the extension is being activated.
 		 *
+		 * The dynamic portion of the hook name, `$slug`, refers to the extension slug.
+		 *
 		 * @since 7.0
 		 */
-		do_action( 'tml_activate_' . $this->get_slug() );
+		do_action( "tml_activate_{$slug}" );
 	}
 
 	/**
@@ -429,16 +433,20 @@ abstract class Theme_My_Login_Extension {
 		 *
 		 * @since 7.0.14
 		 *
-		 * @param string $slug The extension name.
+		 * @param string $name The extension name.
 		 */
 		do_action( 'tml_deactivate_extension', $this->get_name() );
+
+		$slug = $this->get_slug();
 
 		/**
 		 * Fires when the extension is being deactivated.
 		 *
+		 * The dynamic portion of the hook name, `$slug`, refers to the extension slug.
+		 *
 		 * @since 7.0
 		 */
-		do_action( 'tml_deactivate_' . $this->get_slug() );
+		do_action( "tml_deactivate_{$slug}" );
 	}
 
 	/**
