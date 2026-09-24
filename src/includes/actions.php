@@ -394,23 +394,31 @@ function tml_action_handler() {
 	/** This action is documented in wp-login.php */
 	do_action( 'login_init' );
 
+	$action_name = tml_get_action()->get_name();
+
 	/** This action is documented in wp-login.php */
-	do_action( 'login_form_' . tml_get_action()->get_name() );
+	do_action( "login_form_{$action_name}" );
+
+	$action_name = tml_get_action()->get_name();
 
 	if ( tml_is_ajax_request() ) {
 		/**
 		 * Fires when a TML action is being requested.
 		 *
+		 * The dynamic portion of the hook name, `$action_name`, refers to the action name.
+		 *
 		 * @since 7.1
 		 */
-		do_action( 'tml_action_ajax_' . tml_get_action()->get_name() );
+		do_action( "tml_action_ajax_{$action_name}" );
 	} else {
 		/**
 		 * Fires when a TML action is being requested.
 		 *
+		 * The dynamic portion of the hook name, `$action_name`, refers to the action name.
+		 *
 		 * @since 7.0.3
 		 */
-		do_action( 'tml_action_' . tml_get_action()->get_name() );
+		do_action( "tml_action_{$action_name}" );
 	}
 }
 
