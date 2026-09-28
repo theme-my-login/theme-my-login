@@ -31,6 +31,7 @@ class Test_Functions extends WP_UnitTestCase {
 		wp_deregister_style( 'theme-my-login' );
 		wp_dequeue_script( 'theme-my-login' );
 		wp_deregister_script( 'theme-my-login' );
+		wp_dequeue_script( 'password-strength-meter' );
 
 		$this->set_permalink_structure( '' );
 
@@ -668,6 +669,42 @@ class Test_Functions extends WP_UnitTestCase {
 		remove_filter( 'tml_autofocus', '__return_false' );
 
 		$this->assertStringContainsString( '"autofocus":""', wp_scripts()->registered['theme-my-login']->extra['data'] );
+	}
+
+	// tml_enqueue_form_scripts()
+
+	public function test_enqueue_form_scripts_enqueues_the_password_strength_meter_for_resetpass() {
+		tml_enqueue_form_scripts( 'resetpass' );
+
+		$this->assertTrue( wp_script_is( 'password-strength-meter', 'enqueued' ) );
+	}
+
+	public function test_enqueue_form_scripts_enqueues_the_password_strength_meter_for_register_with_user_passwords() {
+		update_site_option( 'tml_user_passwords', true );
+
+		tml_enqueue_form_scripts( 'register' );
+
+		$this->assertTrue( wp_script_is( 'password-strength-meter', 'enqueued' ) );
+	}
+
+	public function test_enqueue_form_scripts_skips_register_without_user_passwords() {
+		tml_enqueue_form_scripts( 'register' );
+
+		$this->assertFalse( wp_script_is( 'password-strength-meter', 'enqueued' ) );
+	}
+
+	public function test_enqueue_form_scripts_skips_other_forms() {
+		tml_enqueue_form_scripts( 'login' );
+
+		$this->assertFalse( wp_script_is( 'password-strength-meter', 'enqueued' ) );
+	}
+
+	public function test_rendering_the_resetpass_form_outside_its_action_enqueues_the_password_strength_meter() {
+		unset( $GLOBALS['wp']->query_vars['action'] );
+
+		tml_get_form( 'resetpass' )->render();
+
+		$this->assertTrue( wp_script_is( 'password-strength-meter', 'enqueued' ) );
 	}
 
 	// tml_do_login_head() / tml_do_login_footer()

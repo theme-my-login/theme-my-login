@@ -310,6 +310,21 @@ function tml_enqueue_scripts() {
 }
 
 /**
+ * Enqueue the password strength meter when a form using it is rendered.
+ *
+ * Covers forms rendered outside their own action, such as via shortcode or widget.
+ *
+ * @since 7.2.3
+ *
+ * @param string $name The form name.
+ */
+function tml_enqueue_form_scripts( $name ) {
+	if ( 'resetpass' === $name || ( 'register' === $name && tml_allow_user_passwords() ) ) {
+		wp_enqueue_script( 'password-strength-meter' );
+	}
+}
+
+/**
  * Do the `login_head` action hook.
  *
  * @since 7.0.13
