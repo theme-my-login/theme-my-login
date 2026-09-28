@@ -34,6 +34,10 @@
 	}
 
 	$( document ).ready( function() {
+		if ( 'undefined' === typeof wp || ! wp.passwordStrength ) {
+			return;
+		}
+
 		$( '#pass1' ).val( '' ).on( 'keyup paste', checkPasswordStrength );
 	} );
 } )( jQuery );

@@ -37,6 +37,7 @@ add_action( 'wp_enqueue_scripts', 'tml_enqueue_styles', 10 );
 add_action( 'wp_enqueue_scripts', 'tml_enqueue_scripts', 10 );
 add_action( 'wp_head', 'tml_do_login_head', 10 );
 add_action( 'wp_footer', 'tml_do_login_footer', 10 );
+add_action( 'tml_render_form', 'tml_enqueue_form_scripts' );
 
 // Registration
 add_action( 'pre_user_login', 'tml_set_user_login' );
