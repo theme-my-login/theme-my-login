@@ -61,6 +61,9 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.2.3 =
+* Keep the password strength meter working on forms embedded in other pages (props miked62)
+
 = 7.2.2 =
 * Stop a lost password request from overwriting an account's password on multisite (props R3D)
 
