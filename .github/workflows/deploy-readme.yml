@@ -1,10 +1,11 @@
-name: Deploy readme.txt
+name: Deploy readme.txt and listing assets
 
 on:
   push:
     branches: [ master ]
     paths:
       - 'src/readme.txt'
+      - '.wordpress-org/**'
   workflow_dispatch: {}
 
 jobs:
@@ -39,4 +40,34 @@ jobs:
             svn commit -m "Update readme.txt" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
           else
             echo "readme.txt unchanged; nothing to commit."
+          fi
+
+      # Adds and updates only; an asset removed from .wordpress-org stays in SVN until deleted there.
+      - name: Push .wordpress-org to WordPress.org assets
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          ASSETS_DIR="${HOME}/svn-${SLUG}-assets"
+
+          svn checkout "${SVN_URL}/assets" "${ASSETS_DIR}"
+          cp -R .wordpress-org/. "${ASSETS_DIR}/"
+
+          cd "${ASSETS_DIR}"
+          svn add --force --quiet .
+
+          shopt -s nullglob
+          for f in *.png; do
+            svn propset --quiet svn:mime-type image/png "$f"
+          done
+          for f in *.svg; do
+            svn propset --quiet svn:mime-type image/svg+xml "$f"
+          done
+
+          if svn status | grep -q .; then
+            svn commit -m "Update listing assets" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+          else
+            echo "Listing assets unchanged; nothing to commit."
           fi
