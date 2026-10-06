@@ -53,6 +53,7 @@ function tml_admin_get_extensions_feed( $args = array() ) {
 		$feed = $response->products;
 
 		set_site_transient( $transient_key, $feed, DAY_IN_SECONDS / 2 );
+		set_site_transient( 'tml_promotion', isset( $response->promotion ) && is_object( $response->promotion ) ? (array) $response->promotion : array(), DAY_IN_SECONDS / 2 );
 	}
 	return $feed;
 }

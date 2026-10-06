@@ -175,6 +175,7 @@ function tml_admin_notices() {
 	}
 
 	if ( 'theme-my-login' === $screen->parent_base ) {
+		tml_admin_promotion_notice();
 		tml_admin_review_notice();
 	}
 

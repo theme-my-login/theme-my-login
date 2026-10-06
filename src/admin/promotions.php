@@ -136,3 +136,125 @@ function tml_admin_ajax_review_request() {
 
 	wp_send_json_success();
 }
+
+/**
+ * Get the sale currently announced by thememylogin.com, if any.
+ *
+ * The announcement arrives with the extensions feed, so it is cached for as
+ * long as the feed is.
+ *
+ * @since 7.3
+ *
+ * @param int|null $now The current time. Defaults to now.
+ * @return array|null The promotion, or null if none is running.
+ */
+function tml_admin_get_promotion( $now = null ) {
+	$promotion = get_site_transient( 'tml_promotion' );
+
+	if ( false === $promotion ) {
+		delete_site_transient( 'tml_extensions_feed-' . md5( http_build_query( array( 'number' => 12 ) ) ) );
+		tml_admin_get_extensions_feed();
+		$promotion = get_site_transient( 'tml_promotion' );
+	}
+
+	// A failed fetch sets nothing, so hold off an hour rather than retry on every screen load.
+	if ( false === $promotion ) {
+		$promotion = array();
+		set_site_transient( 'tml_promotion', $promotion, HOUR_IN_SECONDS );
+	}
+
+	return tml_admin_sanitize_promotion( $promotion, null === $now ? time() : $now );
+}
+
+/**
+ * Validate a promotion from the extensions feed.
+ *
+ * The feed is remote data, so every field is checked rather than trusted, and
+ * the link may only point at thememylogin.com or one of its subdomains.
+ *
+ * @since 7.3
+ *
+ * @param mixed $promotion The promotion from the feed.
+ * @param int   $now       The current time.
+ * @return array|null The promotion, or null if it is invalid or not running.
+ */
+function tml_admin_sanitize_promotion( $promotion, $now ) {
+	if ( ! is_array( $promotion ) ) {
+		return null;
+	}
+
+	foreach ( array( 'name', 'code', 'discount', 'starts', 'ends', 'url' ) as $key ) {
+		if ( ! isset( $promotion[ $key ] ) || ! is_scalar( $promotion[ $key ] ) ) {
+			return null;
+		}
+	}
+
+	$starts = (int) $promotion['starts'];
+	$ends   = (int) $promotion['ends'];
+	$url    = wp_parse_url( (string) $promotion['url'] );
+
+	if (
+		$now < $starts
+		|| $now >= $ends
+		|| ! preg_match( '/^[A-Za-z0-9_-]{1,50}$/', (string) $promotion['code'] )
+		|| ! preg_match( '/^\d{1,2}(\.\d+)?%$/', (string) $promotion['discount'] )
+		|| empty( $url['scheme'] ) || 'https' !== $url['scheme']
+		|| empty( $url['host'] ) || ! preg_match( '/(^|\.)thememylogin\.com$/', $url['host'] )
+	) {
+		return null;
+	}
+
+	$timezone = isset( $promotion['timezone'] ) ? (string) $promotion['timezone'] : '';
+
+	return array(
+		'name'     => wp_strip_all_tags( substr( (string) $promotion['name'], 0, 80 ) ),
+		'code'     => (string) $promotion['code'],
+		'discount' => (string) $promotion['discount'],
+		'starts'   => $starts,
+		'ends'     => $ends,
+		'timezone' => in_array( $timezone, timezone_identifiers_list(), true ) ? $timezone : 'UTC',
+		'url'      => (string) $promotion['url'],
+	);
+}
+
+/**
+ * Render the announcement of a running sale.
+ *
+ * @since 7.3
+ */
+function tml_admin_promotion_notice() {
+	$promotion = tml_admin_get_promotion();
+
+	if ( ! $promotion ) {
+		return;
+	}
+
+	$notice_key = sanitize_key( 'promotion-' . $promotion['code'] . '-' . $promotion['ends'] );
+
+	if ( tml_admin_notice_is_dismissed( $notice_key ) ) {
+		return;
+	}
+
+	// Ends are exclusive, so the last moment of the sale is a second earlier.
+	$ends = wp_date( get_option( 'date_format' ), $promotion['ends'] - 1, new DateTimeZone( $promotion['timezone'] ) );
+	?>
+	<div class="notice notice-info tml-notice is-dismissible" data-notice="<?php echo esc_attr( $notice_key ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( $notice_key ) ); ?>">
+		<p>
+			<?php
+			echo wp_kses(
+				sprintf(
+					/* translators: 1: Sale name, 2: Discount such as 30%, 3: Discount code, 4: Last day of the sale. */
+					__( '<strong>%1$s:</strong> %2$s off Theme My Login extensions with code <strong>%3$s</strong>, through %4$s.', 'theme-my-login' ),
+					esc_html( $promotion['name'] ),
+					esc_html( $promotion['discount'] ),
+					esc_html( $promotion['code'] ),
+					esc_html( $ends )
+				),
+				array( 'strong' => array() )
+			);
+			?>
+		</p>
+		<p><a class="button button-primary" href="<?php echo esc_url( $promotion['url'] ); ?>" target="_blank"><?php esc_html_e( 'Shop Extensions', 'theme-my-login' ); ?></a></p>
+	</div>
+	<?php
+}

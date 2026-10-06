@@ -47,6 +47,45 @@ class Test_Admin_Promotions extends WP_UnitTestCase {
 		parent::tearDown();
 	}
 
+	protected function promotion( $overrides = array() ) {
+		return array_merge(
+			array(
+				'name'     => 'Black Friday',
+				'code'     => 'BLACKFRIDAY30',
+				'discount' => '30%',
+				'starts'   => 1000,
+				'ends'     => 2000,
+				'timezone' => 'America/New_York',
+				'url'      => 'https://thememylogin.com/extensions/?discount=BLACKFRIDAY30',
+			),
+			$overrides
+		);
+	}
+
+	public function serve_feed( $promotion ) {
+		add_filter(
+			'pre_http_request',
+			function () use ( $promotion ) {
+				$this->feed_requests++;
+
+				return array(
+					'headers'  => array(),
+					'body'     => wp_json_encode(
+						array(
+							'products'  => array(),
+							'promotion' => $promotion,
+						)
+					),
+					'response' => array(
+						'code'    => 200,
+						'message' => 'OK',
+					),
+					'cookies'  => array(),
+				);
+			}
+		);
+	}
+
 	public function test_suggestion_links_to_the_extension() {
 		$suggestion = tml_admin_get_extension_suggestion( 'moderation', 'Moderation', 'Approve new users.' );
 
@@ -119,6 +158,87 @@ class Test_Admin_Promotions extends WP_UnitTestCase {
 		tml_admin_dismiss_notice( 'review' );
 
 		$this->assertFalse( tml_admin_review_request_is_due( PHP_INT_MAX ) );
+	}
+
+	public function test_promotion_is_shown_only_while_running() {
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion(), 999 ) );
+		$this->assertSame( $this->promotion(), tml_admin_sanitize_promotion( $this->promotion(), 1000 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion(), 2000 ) );
+	}
+
+	public function test_promotion_from_the_feed_is_validated() {
+		$this->assertNull( tml_admin_sanitize_promotion( null, 1500 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion( array( 'url' => 'https://example.com/' ) ), 1500 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion( array( 'url' => 'http://thememylogin.com/' ) ), 1500 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion( array( 'url' => 'https://evilthememylogin.com/' ) ), 1500 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion( array( 'url' => 'https://thememylogin.com.example.com/' ) ), 1500 ) );
+		$this->assertNotNull( tml_admin_sanitize_promotion( $this->promotion( array( 'url' => 'https://test.thememylogin.com/extensions/' ) ), 1500 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion( array( 'code' => '<b>X</b>' ) ), 1500 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion( array( 'discount' => '100% off everything' ) ), 1500 ) );
+		$this->assertNull( tml_admin_sanitize_promotion( $this->promotion( array( 'ends' => array() ) ), 1500 ) );
+
+		$sanitized = tml_admin_sanitize_promotion( $this->promotion( array( 'name' => '<script>x</script>Sale', 'timezone' => 'Mars/Olympus' ) ), 1500 );
+
+		$this->assertSame( 'Sale', $sanitized['name'] );
+		$this->assertSame( 'UTC', $sanitized['timezone'] );
+	}
+
+	public function test_feed_fetch_stores_the_promotion() {
+		$this->serve_feed( $this->promotion() );
+
+		$this->assertSame( $this->promotion(), tml_admin_get_promotion( 1500 ) );
+		$this->assertSame( 1, $this->feed_requests );
+
+		tml_admin_get_promotion( 1500 );
+
+		$this->assertSame( 1, $this->feed_requests );
+	}
+
+	public function test_a_failed_feed_fetch_is_not_retried_for_an_hour() {
+		add_filter(
+			'pre_http_request',
+			function () {
+				$this->feed_requests++;
+
+				return new WP_Error( 'http_request_failed', 'down' );
+			}
+		);
+
+		$this->assertNull( tml_admin_get_promotion( 1500 ) );
+		$this->assertNull( tml_admin_get_promotion( 1500 ) );
+		$this->assertSame( 1, $this->feed_requests );
+		$this->assertSame( array(), get_site_transient( 'tml_promotion' ) );
+	}
+
+	public function test_feed_without_a_promotion_announces_nothing() {
+		$this->serve_feed( null );
+
+		$this->assertNull( tml_admin_get_promotion( 1500 ) );
+		$this->assertSame( array(), get_site_transient( 'tml_promotion' ) );
+	}
+
+	public function test_promotion_notice_shows_the_last_day_in_the_store_timezone() {
+		$ends = strtotime( '2026-12-01 04:59:59 UTC' ) + 1;
+		set_site_transient( 'tml_promotion', $this->promotion( array( 'starts' => time() - 60, 'ends' => $ends ) ) );
+		update_option( 'date_format', 'F j, Y' );
+
+		ob_start();
+		tml_admin_promotion_notice();
+		$html = ob_get_clean();
+
+		$this->assertStringContainsString( '<strong>Black Friday:</strong> 30% off Theme My Login extensions with code <strong>BLACKFRIDAY30</strong>, through November 30, 2026.', $html );
+		$this->assertStringContainsString( 'href="https://thememylogin.com/extensions/?discount=BLACKFRIDAY30"', $html );
+	}
+
+	public function test_promotion_notice_stays_away_once_dismissed() {
+		$promotion = $this->promotion( array( 'starts' => time() - 60, 'ends' => time() + 60 ) );
+		set_site_transient( 'tml_promotion', $promotion );
+		tml_admin_dismiss_notice( sanitize_key( 'promotion-' . $promotion['code'] . '-' . $promotion['ends'] ) );
+
+		ob_start();
+		tml_admin_promotion_notice();
+
+		$this->assertSame( '', ob_get_clean() );
 	}
 }
 
