@@ -174,6 +174,10 @@ function tml_admin_notices() {
 		return;
 	}
 
+	if ( 'theme-my-login' === $screen->parent_base ) {
+		tml_admin_review_notice();
+	}
+
 	$previous_version = tml_get_previous_version();
 	$is_pre_7         = $previous_version && version_compare( $previous_version, '7.0', '<' );
 

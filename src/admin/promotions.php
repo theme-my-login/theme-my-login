@@ -69,3 +69,70 @@ function tml_admin_extension_suggestions_toggle() {
 	</p>
 	<?php
 }
+
+/**
+ * Determine whether it is time to ask for a review.
+ *
+ * @since 7.3
+ *
+ * @param int|null $now The current time. Defaults to now.
+ * @return bool True if the review request should be shown.
+ */
+function tml_admin_review_request_is_due( $now = null ) {
+	$installed_at = (int) get_site_option( '_tml_installed_at' );
+
+	if ( ! $installed_at || tml_admin_notice_is_dismissed( 'review' ) ) {
+		return false;
+	}
+
+	$now = null === $now ? time() : $now;
+
+	return $now >= max( $installed_at + 30 * DAY_IN_SECONDS, (int) get_site_option( '_tml_review_later', 0 ) );
+}
+
+/**
+ * Render the review request.
+ *
+ * @since 7.3
+ */
+function tml_admin_review_notice() {
+	if ( ! tml_admin_review_request_is_due() ) {
+		return;
+	}
+	?>
+	<div class="notice notice-info tml-review-notice is-dismissible" data-nonce="<?php echo esc_attr( wp_create_nonce( 'tml-review-request' ) ); ?>">
+		<p><?php esc_html_e( 'You have been using Theme My Login for a while now. If it has been useful, would you leave a review on WordPress.org? It helps other people find it.', 'theme-my-login' ); ?></p>
+		<p>
+			<a class="button button-primary" href="https://wordpress.org/support/plugin/theme-my-login/reviews/#new-post" target="_blank" data-choice="reviewed"><?php esc_html_e( 'Leave a Review', 'theme-my-login' ); ?></a>
+			<a class="button" href="#" data-choice="later"><?php esc_html_e( 'Maybe Later', 'theme-my-login' ); ?></a>
+			<a class="button-link" href="#" data-choice="never"><?php esc_html_e( 'Don&#8217;t Ask Again', 'theme-my-login' ); ?></a>
+		</p>
+	</div>
+	<?php
+}
+
+/**
+ * Handle an answer to the review request.
+ *
+ * @since 7.3
+ */
+function tml_admin_ajax_review_request() {
+	if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'tml-review-request' ) ) {
+		wp_send_json_error( null, 400 );
+	}
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		wp_send_json_error( null, 403 );
+	}
+
+	$choice = isset( $_POST['choice'] ) ? sanitize_key( $_POST['choice'] ) : '';
+
+	if ( 'later' === $choice ) {
+		update_site_option( '_tml_review_later', time() + 90 * DAY_IN_SECONDS );
+	} elseif ( in_array( $choice, array( 'reviewed', 'never' ), true ) ) {
+		tml_admin_dismiss_notice( 'review' );
+	} else {
+		wp_send_json_error( null, 400 );
+	}
+
+	wp_send_json_success();
+}

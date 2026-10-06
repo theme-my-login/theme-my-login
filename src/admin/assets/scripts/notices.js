@@ -26,5 +26,26 @@
 			$( '.tml-extension-suggestion' ).closest( '.description' ).remove();
 			link.closest( '.tml-extension-suggestions-hide' ).remove();
 		} );
+
+		$( '.tml-review-notice' ).on( 'click', '[data-choice], .notice-dismiss', function( e ) {
+			var notice = $( e.delegateTarget ),
+				choice = $( this ).data( 'choice' ) || 'later';
+
+			if ( 'reviewed' !== choice ) {
+				e.preventDefault();
+			}
+
+			$.post( ajaxurl, {
+				action: 'tml-review-request',
+				choice: choice,
+				nonce: notice.data( 'nonce' )
+			} );
+
+			notice.fadeTo( 100, 0, function() {
+				notice.slideUp( 100, function() {
+					notice.remove();
+				} );
+			} );
+		} );
 	}
 } )( jQuery );

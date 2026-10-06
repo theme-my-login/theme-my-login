@@ -17,6 +17,7 @@ add_action( 'admin_enqueue_scripts', 'tml_admin_enqueue_style_and_scripts' );
 // Notices
 add_action( 'admin_notices', 'tml_admin_notices' );
 add_action( 'wp_ajax_tml-dismiss-notice', 'tml_admin_ajax_dismiss_notice' );
+add_action( 'wp_ajax_tml-review-request', 'tml_admin_ajax_review_request' );
 
 // Extensions
 add_action( 'admin_init', 'tml_admin_handle_extension_licenses' );

@@ -96,4 +96,90 @@ class Test_Admin_Promotions extends WP_UnitTestCase {
 		tml_admin_extension_suggestions_toggle();
 		$this->assertSame( '', ob_get_clean() );
 	}
+
+	public function test_review_request_waits_thirty_days_from_install() {
+		update_site_option( '_tml_installed_at', 1000 );
+
+		$this->assertFalse( tml_admin_review_request_is_due( 1000 + 30 * DAY_IN_SECONDS - 1 ) );
+		$this->assertTrue( tml_admin_review_request_is_due( 1000 + 30 * DAY_IN_SECONDS ) );
+	}
+
+	public function test_review_request_waits_after_maybe_later() {
+		update_site_option( '_tml_installed_at', 1000 );
+		update_site_option( '_tml_review_later', 1000 + 100 * DAY_IN_SECONDS );
+
+		$this->assertFalse( tml_admin_review_request_is_due( 1000 + 99 * DAY_IN_SECONDS ) );
+		$this->assertTrue( tml_admin_review_request_is_due( 1000 + 100 * DAY_IN_SECONDS ) );
+	}
+
+	public function test_review_request_never_returns_once_dismissed_or_without_an_install_time() {
+		$this->assertFalse( tml_admin_review_request_is_due( PHP_INT_MAX ) );
+
+		update_site_option( '_tml_installed_at', 1000 );
+		tml_admin_dismiss_notice( 'review' );
+
+		$this->assertFalse( tml_admin_review_request_is_due( PHP_INT_MAX ) );
+	}
+}
+
+class Test_Admin_Review_Request_Ajax extends WP_Ajax_UnitTestCase {
+
+	public function setUp(): void {
+		parent::setUp();
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+	}
+
+	public function tearDown(): void {
+		$_POST = $_REQUEST = array();
+
+		delete_site_option( '_tml_dismissed_notices' );
+		delete_site_option( '_tml_review_later' );
+
+		wp_set_current_user( 0 );
+
+		parent::tearDown();
+	}
+
+	protected function answer( $choice, $nonce = null ) {
+		$_POST['choice'] = $choice;
+		$_POST['nonce']  = null === $nonce ? wp_create_nonce( 'tml-review-request' ) : $nonce;
+
+		try {
+			ob_start();
+			tml_admin_ajax_review_request();
+		} catch ( WPAjaxDieContinueException $e ) {
+			unset( $e );
+		} catch ( WPAjaxDieStopException $e ) {
+			unset( $e );
+		}
+
+		return json_decode( $this->_last_response, true );
+	}
+
+	public function test_maybe_later_asks_again_in_ninety_days() {
+		$response = $this->answer( 'later' );
+
+		$this->assertTrue( $response['success'] );
+		$this->assertEqualsWithDelta( time() + 90 * DAY_IN_SECONDS, get_site_option( '_tml_review_later' ), 5 );
+		$this->assertFalse( tml_admin_notice_is_dismissed( 'review' ) );
+	}
+
+	public function test_reviewed_and_never_stop_asking() {
+		$this->answer( 'reviewed' );
+		$this->assertTrue( tml_admin_notice_is_dismissed( 'review' ) );
+
+		delete_site_option( '_tml_dismissed_notices' );
+		$this->_last_response = '';
+
+		$this->answer( 'never' );
+		$this->assertTrue( tml_admin_notice_is_dismissed( 'review' ) );
+	}
+
+	public function test_a_bad_nonce_changes_nothing() {
+		$response = $this->answer( 'never', 'nope' );
+
+		$this->assertFalse( $response['success'] );
+		$this->assertFalse( tml_admin_notice_is_dismissed( 'review' ) );
+	}
 }
