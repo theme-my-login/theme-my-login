@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/readme.txt'
       - '.wordpress-org/**'
+      - '.github/workflows/deploy-readme.yml'
   workflow_dispatch: {}
 
 jobs:
@@ -66,7 +67,7 @@ jobs:
             svn propset --quiet svn:mime-type image/svg+xml "$f"
           done
 
-          if svn status | grep -q .; then
+          if [ -n "$(svn status)" ]; then
             svn commit -m "Update listing assets" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
           else
             echo "Listing assets unchanged; nothing to commit."
