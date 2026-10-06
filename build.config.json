@@ -10,7 +10,7 @@
     {
       "dir": "admin/assets",
       "styles": {
-        "theme-my-login-admin": ["extensions.css", "licenses.css"]
+        "theme-my-login-admin": ["extensions.css", "licenses.css", "promotions.css"]
       },
       "scripts": "theme-my-login-admin"
     }

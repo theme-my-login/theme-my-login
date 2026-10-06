@@ -109,6 +109,7 @@ if ( is_admin() ) {
 	require THEME_MY_LOGIN_PATH . 'admin/functions.php';
 	require THEME_MY_LOGIN_PATH . 'admin/settings.php';
 	require THEME_MY_LOGIN_PATH . 'admin/extensions.php';
+	require THEME_MY_LOGIN_PATH . 'admin/promotions.php';
 	require THEME_MY_LOGIN_PATH . 'admin/hooks.php';
 
 	// Prepare for something somewhat amazing!
