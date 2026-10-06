@@ -236,10 +236,21 @@ function tml_admin_ajax_dismiss_notice() {
 	if ( ! current_user_can( 'activate_plugins' ) ) {
 		wp_send_json_error( null, 403 );
 	}
-	$dismissed_notices   = get_site_option( '_tml_dismissed_notices', array() );
-	$dismissed_notices[] = sanitize_key( $_POST['notice'] );
-	update_site_option( '_tml_dismissed_notices', $dismissed_notices );
+	tml_admin_dismiss_notice( sanitize_key( $_POST['notice'] ) );
 	wp_send_json_success();
+}
+
+/**
+ * Record a notice as dismissed.
+ *
+ * @since 7.3
+ *
+ * @param string $notice The notice key.
+ */
+function tml_admin_dismiss_notice( $notice ) {
+	$dismissed_notices   = (array) get_site_option( '_tml_dismissed_notices', array() );
+	$dismissed_notices[] = $notice;
+	update_site_option( '_tml_dismissed_notices', array_values( array_unique( $dismissed_notices ) ) );
 }
 
 /**
