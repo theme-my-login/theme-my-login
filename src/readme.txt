@@ -1,50 +1,69 @@
 === Theme My Login ===
 Contributors: thememylogin, jfarthing84
-Tags: login, register, password, branding, customize
+Tags: login, registration, custom login, login page, frontend login
 Requires at least: 5.4
 Tested up to: 7.1
 Stable tag: trunk
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The ultimate login branding solution! Theme My Login offers matchless customization of your WordPress user experience!
+Frontend login, registration and password reset pages that match your theme, at your own URLs, instead of the default wp-login.php screen.
 
 
 == Description ==
 
-Ever wished that your WordPress login page matched the rest of your site? Your wish has come true! Theme My Login allows you to bypass the default WordPress-branded login page that looks nothing like the rest of your site. Instead, your users will be presented with the login, registration and password recovery pages right within your theme. The best part? It works right out of the box, with no configuration necessary! Take back your login page, WordPress users!
-
+Theme My Login replaces the default WordPress login screen (wp-login.php) with login, registration and password reset pages that live inside your theme, so they look like the rest of your site. It works as soon as you activate it: the pages appear at /login, /register and /lostpassword by default, and WordPress's own login, logout and registration links point to them.
 
 = Features =
 
-* Have you users log in from the frontend of your site.
-* Have your users register from the frontend of your site.
-* Have your users recover their password from the frontend of your site.
-* Customize the slugs used for login, registration, password recovery and other pages.
-* Allow your users to register with only their email.
-* Allow your users to set their own passwords upon registration.
-* Allow your users to log in using either their email and password, username and password or a combination of the two.
-* Allow your users to be logged in automatically after registration with auto-login.
-
+* Login, registration, lost password and password reset forms on the frontend of your site, styled by your theme.
+* Choose the URL of each page, such as /sign-in instead of /login.
+* Let users log in with their username, their email address, or either.
+* Let users register with just an email address, no username needed.
+* Let users choose their own password at registration, with a strength meter and a show/hide toggle.
+* Log new users in automatically after they register.
+* Put the forms anywhere with the `[theme-my-login]` shortcode or the login widget.
+* Add login, logout and registration links to your navigation menus.
+* Submit forms without a page reload by turning on AJAX.
+* Works on multisite networks, including network signup.
 
 = Do More With Extensions =
 
-Boost your user experience even more with add-on plugins from our [extensions catalog](https://thememylogin.com/extensions). Some of our extensions include:
+Theme My Login is free. Paid add-ons from our [extensions catalog](https://thememylogin.com/extensions/) build on it:
 
-* [Redirection](https://thememylogin.com/extensions/redirection) allows you to redirect your users on login, logout and registration based on their role.
-* [Restrictions](https://thememylogin.com/extensions/restrictions) allows you to restrict posts/pages, widgets and nav menu items based on a users login status and/or role.
-* [Profiles](https://thememylogin.com/extensions/profiles) lets your users edit their profile from the frontend of your site.
-* [Moderation](https://thememylogin.com/extensions/moderation) allows you to moderate your users by requiring them to confirm their email or by requiring admin approval.
-* [reCAPTCHA](https://thememylogin.com/extensions/recaptcha) enables Google reCAPTCHA support for your registration and login forms.
-* [Social](https://thememylogin.com/extensions/social) allows you to allow your users to log in to your site using their favorite social providers.
+* [Redirection](https://thememylogin.com/extensions/redirection/): control where users land after they log in, log out or register, based on their role.
+* [Moderation](https://thememylogin.com/extensions/moderation/): stop spam sign-ups by requiring email confirmation, admin approval, or both before new users can log in.
+* [Restrictions](https://thememylogin.com/extensions/restrictions/): limit posts, pages, menus and widgets to logged-in users or specific roles, or make your whole site private.
+* [Security](https://thememylogin.com/extensions/security/): stop brute-force attacks with IP lockouts, set password rules, and shut off wp-login.php.
+* [reCAPTCHA](https://thememylogin.com/extensions/recaptcha/): block spam bots on your login, registration, lost password and comment forms with Google reCAPTCHA.
+* [Profiles](https://thememylogin.com/extensions/profiles/): give users a profile page that matches your theme, and keep them out of wp-admin.
+* [Notifications](https://thememylogin.com/extensions/notifications/): rewrite WordPress's account emails, send them as HTML, and create your own notifications for registration and password events.
+* [2FA](https://thememylogin.com/extensions/2fa/): add authenticator-app two-factor authentication to your login, with backup codes and the option to require 2FA for specific roles.
+* [Social](https://thememylogin.com/extensions/social/): let visitors log in or register with Google, Facebook or X.
+* [Avatars](https://thememylogin.com/extensions/avatars/): let users upload their own profile pictures instead of depending on Gravatar.
+* [Favorites](https://thememylogin.com/extensions/favorites/): let logged-in users save posts to a personal favorites page and come back to them later.
+* [Mailchimp](https://thememylogin.com/extensions/mailchimp/): add new users to your Mailchimp audiences at registration, automatically or with an opt-in checkbox.
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/theme-my-login` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+1. Install the plugin from the Plugins > Add New Plugin screen in WordPress, or upload the plugin files to `/wp-content/plugins/theme-my-login`.
+1. Activate it on the Plugins screen.
+1. Your login page is now at /login. To change page URLs or login and registration options, go to Theme My Login > General.
 
 
 == Frequently Asked Questions ==
+
+= How do I add a login form to a page or sidebar? =
+
+Use the `[theme-my-login]` shortcode in any post or page, or add the Theme My Login widget to a sidebar. The shortcode shows the login form by default. `[theme-my-login action="register"]` shows the registration form and `[theme-my-login action="lostpassword"]` the lost password form. See [Using the Shortcode](https://docs.thememylogin.com/article/91-using-the-shortcode).
+
+= Can I change the login page URL? =
+
+Yes. Go to Theme My Login > General and edit the Slugs section, for example changing `login` to `sign-in`. The default wp-login.php keeps working alongside it. To shut wp-login.php off, use the [Security](https://thememylogin.com/extensions/security/) extension.
+
+= Why do I see "User registration is currently not allowed"? =
+
+WordPress ships with registration turned off. Go to Settings > General, check "Anyone can register" next to Membership, and save. See [User Registration Currently Not Allowed](https://docs.thememylogin.com/article/127-user-registration-currently-not-allowed).
 
 = Where can I find documentation? =
 
@@ -57,6 +76,15 @@ Support can be found using our [support form](https://thememylogin.com/support).
 = Where can I report a bug? =
 
 Report bugs, suggest ideas and participate in development at [GitHub](https://github.com/theme-my-login/theme-my-login/).
+
+
+== Screenshots ==
+
+1. The login page inside your theme, at /login.
+2. Registration with user-chosen passwords, a strength meter and a show/hide toggle.
+3. Login and registration settings.
+4. Choose the URL of every page.
+5. Browse extensions from inside WordPress.
 
 
 == Changelog ==
