@@ -1,0 +1,16 @@
+.tml-extension-suggestion {
+	display: inline-block;
+	margin-top: 4px;
+}
+
+.tml-extension-suggestion::before {
+	content: "\f155";
+	font: normal 16px/1 dashicons;
+	color: #dba617;
+	vertical-align: text-bottom;
+	margin-right: 4px;
+}
+
+.tml-extension-suggestions-hide {
+	margin-top: 2em;
+}

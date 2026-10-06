@@ -154,14 +154,15 @@ function tml_admin_get_settings_fields() {
 			'callback'          => 'tml_admin_setting_callback_radio_group_field',
 			'sanitize_callback' => 'sanitize_text_field',
 			'args'              => array(
-				'label_for' => 'tml_login_type',
-				'legend'    => __( 'Login Type', 'theme-my-login' ),
-				'options'   => array(
+				'description' => tml_admin_get_extension_suggestion( '2fa', '2FA', __( 'Add authenticator-app two-factor authentication to logins.', 'theme-my-login' ) ),
+				'label_for'   => 'tml_login_type',
+				'legend'      => __( 'Login Type', 'theme-my-login' ),
+				'options'     => array(
 					'default'  => __( 'Default', 'theme-my-login' ),
 					'username' => __( 'Username only', 'theme-my-login' ),
 					'email'    => __( 'Email only', 'theme-my-login' ),
 				),
-				'checked'   => get_site_option( 'tml_login_type', 'default' ),
+				'checked'     => get_site_option( 'tml_login_type', 'default' ),
 			),
 		),
 	);
@@ -174,13 +175,22 @@ function tml_admin_get_settings_fields() {
 			'callback'          => 'tml_admin_setting_callback_radio_group_field',
 			'sanitize_callback' => 'sanitize_text_field',
 			'args'              => array(
-				'label_for' => 'tml_registration_type',
-				'legend'    => __( 'Registration Type', 'theme-my-login' ),
-				'options'   => array(
+				'description' => implode(
+					'<br />',
+					array_filter(
+						array(
+							tml_admin_get_extension_suggestion( 'moderation', 'Moderation', __( 'Require email confirmation or admin approval for new users.', 'theme-my-login' ) ),
+							tml_admin_get_extension_suggestion( 'recaptcha', 'reCAPTCHA', __( 'Block spam bots on login, registration and lost password forms.', 'theme-my-login' ) ),
+						)
+					)
+				),
+				'label_for'   => 'tml_registration_type',
+				'legend'      => __( 'Registration Type', 'theme-my-login' ),
+				'options'     => array(
 					'default' => __( 'Default', 'theme-my-login' ),
 					'email'   => __( 'Email only', 'theme-my-login' ),
 				),
-				'checked'   => get_site_option( 'tml_registration_type', 'default' ),
+				'checked'     => get_site_option( 'tml_registration_type', 'default' ),
 			),
 		),
 		// User passwords
@@ -189,10 +199,11 @@ function tml_admin_get_settings_fields() {
 			'callback'          => 'tml_admin_setting_callback_checkbox_field',
 			'sanitize_callback' => 'sanitize_text_field',
 			'args'              => array(
-				'label_for' => 'tml_user_passwords',
-				'label'     => __( 'Allow users to set their own password', 'theme-my-login' ),
-				'value'     => '1',
-				'checked'   => get_site_option( 'tml_user_passwords' ),
+				'description' => tml_admin_get_extension_suggestion( 'security', 'Security', __( 'Set password rules and lock out brute-force attacks.', 'theme-my-login' ) ),
+				'label_for'   => 'tml_user_passwords',
+				'label'       => __( 'Allow users to set their own password', 'theme-my-login' ),
+				'value'       => '1',
+				'checked'     => get_site_option( 'tml_user_passwords' ),
 			),
 		),
 		// Auto-login
@@ -201,10 +212,11 @@ function tml_admin_get_settings_fields() {
 			'callback'          => 'tml_admin_setting_callback_checkbox_field',
 			'sanitize_callback' => 'sanitize_text_field',
 			'args'              => array(
-				'label_for' => 'tml_auto_login',
-				'label'     => __( 'Automatically log in users after registration', 'theme-my-login' ),
-				'value'     => '1',
-				'checked'   => get_site_option( 'tml_auto_login' ),
+				'description' => tml_admin_get_extension_suggestion( 'redirection', 'Redirection', __( 'Choose where users land after they register or log in, by role.', 'theme-my-login' ) ),
+				'label_for'   => 'tml_auto_login',
+				'label'       => __( 'Automatically log in users after registration', 'theme-my-login' ),
+				'value'       => '1',
+				'checked'     => get_site_option( 'tml_auto_login' ),
 			),
 		),
 	);
@@ -632,6 +644,8 @@ function tml_admin_settings_page() {
 
 		<?php submit_button(); ?>
 	</form>
+
+	<?php tml_admin_extension_suggestions_toggle(); ?>
 </div>
 
 	<?php

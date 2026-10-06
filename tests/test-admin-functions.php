@@ -129,4 +129,13 @@ class Test_Admin_Functions extends WP_UnitTestCase {
 		$this->assertFalse( get_option( 'theme_my_login' ) );
 		$this->assertSame( '6.4', get_site_option( '_tml_previous_version' ) );
 	}
+
+	public function test_dismissing_a_notice_twice_stores_it_once() {
+		tml_admin_dismiss_notice( 'new_extension-tml-test' );
+		tml_admin_dismiss_notice( 'new_extension-tml-test' );
+
+		$this->assertSame( array( 'new_extension-tml-test' ), get_site_option( '_tml_dismissed_notices' ) );
+
+		delete_site_option( '_tml_dismissed_notices' );
+	}
 }
