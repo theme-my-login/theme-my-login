@@ -671,6 +671,12 @@ class Test_Functions extends WP_UnitTestCase {
 		$this->assertStringContainsString( '"autofocus":""', wp_scripts()->registered['theme-my-login']->extra['data'] );
 	}
 
+	public function test_enqueue_scripts_localizes_a_fallback_ajax_error_message() {
+		tml_enqueue_scripts();
+
+		$this->assertStringContainsString( '"ajaxErrorMessage":"An error occurred while processing your request.', wp_scripts()->registered['theme-my-login']->extra['data'] );
+	}
+
 	// tml_enqueue_form_scripts()
 
 	public function test_enqueue_form_scripts_enqueues_the_password_strength_meter_for_resetpass() {

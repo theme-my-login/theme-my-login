@@ -7,6 +7,14 @@
 			container = $( e.delegateTarget ),
 			notices = container.find( '.tml-alerts' );
 
+		function showErrors( errors ) {
+			if ( ! errors ) {
+				errors = $( '<ul class="tml-errors"><li class="tml-error"></li></ul>' );
+				errors.find( 'li' ).text( themeMyLogin.ajaxErrorMessage );
+			}
+			notices.hide().html( errors ).fadeIn();
+		}
+
 		e.preventDefault();
 
 		notices.empty();
@@ -24,7 +32,7 @@
 			submit.prop( 'disabled', false );
 		} )
 		.done( function( response ) {
-			if ( response.success ) {
+			if ( response && response.success ) {
 				if ( response.data.refresh ) {
 					location.reload( true );
 				} else if ( response.data.redirect ) {
@@ -33,13 +41,13 @@
 					notices.hide().html( response.data.notice ).fadeIn();
 				}
 			} else {
-				notices.hide().html( response.data.errors ).fadeIn();
+				showErrors( response && response.data && response.data.errors );
 			}
 		} )
-		.fail( function( jqXHR, textStatus, errorThrown ) {
-			if ( jqXHR.responseJSON.data.errors ) {
-				notices.hide().html( jqXHR.responseJSON.data.errors ).fadeIn();
-			}
+		.fail( function( jqXHR ) {
+			var json = jqXHR.responseJSON;
+
+			showErrors( json && json.data && json.data.errors );
 		} );
 	} );
 } )( jQuery );
