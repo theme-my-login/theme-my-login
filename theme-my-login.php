@@ -14,6 +14,7 @@ Description: Creates an alternate login, registration and password recovery expe
 Version: 7.3.0
 // x-release-please-end
 Requires at least: 5.7
+Requires PHP: 7.4
 Author: Theme My Login
 Author URI: https://thememylogin.com
 License: GPLv2
