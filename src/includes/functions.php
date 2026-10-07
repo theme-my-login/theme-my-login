@@ -298,6 +298,8 @@ function tml_enqueue_scripts() {
 			'showPasswordLabel' => __( 'Show password' ),
 			// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reuses WP core's translated wp-login.php strings verbatim.
 			'hidePasswordLabel' => __( 'Hide password' ),
+			// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reuses WP core's translated wp-ajax-response string verbatim.
+			'ajaxErrorMessage'  => __( 'An error occurred while processing your request. Please try again later.' ),
 		)
 	);
 
