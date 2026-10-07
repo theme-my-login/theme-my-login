@@ -37,6 +37,8 @@ class Test_Actions extends WP_UnitTestCase {
 
 		delete_site_option( 'tml_login_slug' );
 
+		// Visibility flags read is_user_logged_in() at registration time.
+		wp_set_current_user( 0 );
 		tml_register_default_actions();
 
 		parent::tearDown();
