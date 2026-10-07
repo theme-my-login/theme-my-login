@@ -50,6 +50,11 @@ function tml_admin_get_extensions_feed( $args = array() ) {
 
 		$response = json_decode( wp_remote_retrieve_body( $response ) );
 
+		if ( ! is_object( $response ) || ! isset( $response->products ) || ! is_array( $response->products ) ) {
+			// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated string verbatim (see wp-includes/widgets.php), not a TML-specific string.
+			return new WP_Error( 'invalid_response', __( 'An error has occurred, which probably means the feed is down. Try again later.' ) );
+		}
+
 		$feed = $response->products;
 
 		set_site_transient( $transient_key, $feed, DAY_IN_SECONDS / 2 );

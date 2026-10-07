@@ -113,6 +113,25 @@ class Test_Admin_Extensions extends WP_UnitTestCase {
 		$this->assertSame( 'http_error_404', $feed->get_error_code() );
 	}
 
+	public function test_get_extensions_feed_returns_a_wp_error_on_a_non_json_body() {
+		$this->mock_http_response( '<html><body>Access denied</body></html>' );
+
+		$feed = tml_admin_get_extensions_feed();
+
+		$this->assertWPError( $feed );
+		$this->assertSame( 'invalid_response', $feed->get_error_code() );
+		$this->assertFalse( get_site_transient( 'tml_extensions_feed-' . md5( http_build_query( array( 'number' => 12 ) ) ) ) );
+	}
+
+	public function test_get_extensions_feed_returns_a_wp_error_when_products_is_missing() {
+		$this->mock_http_response( array( 'promotion' => array() ) );
+
+		$feed = tml_admin_get_extensions_feed();
+
+		$this->assertWPError( $feed );
+		$this->assertSame( 'invalid_response', $feed->get_error_code() );
+	}
+
 	public function test_get_extensions_feed_passes_the_number_argument_to_the_transient_key() {
 		$this->mock_http_response( array( 'products' => array( 1, 2, 3 ) ) );
 
