@@ -124,9 +124,7 @@ abstract class Theme_My_Login_Extension {
 		register_activation_hook( $file, array( $this, 'activate' ) );
 		register_deactivation_hook( $file, array( $this, 'deactivate' ) );
 
-		if ( is_admin() ) {
-			$this->update();
-		}
+		add_action( 'plugins_loaded', array( $this, 'maybe_update' ) );
 	}
 
 	/**
@@ -447,6 +445,19 @@ abstract class Theme_My_Login_Extension {
 		 * @since 7.0
 		 */
 		do_action( "tml_deactivate_{$slug}" );
+	}
+
+	/**
+	 * Run the extension's update routine on admin requests.
+	 *
+	 * Deferred to plugins_loaded so update routines can use pluggable functions.
+	 *
+	 * @since 7.2.3
+	 */
+	public function maybe_update() {
+		if ( is_admin() ) {
+			$this->update();
+		}
 	}
 
 	/**
