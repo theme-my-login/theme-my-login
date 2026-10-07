@@ -159,6 +159,22 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertArrayHasKey( 'tml_login_type', $registered );
 	}
 
+	public function test_register_settings_accepts_a_field_without_a_sanitize_callback() {
+		add_filter( 'tml_admin_get_settings_fields', function ( $fields ) {
+			$fields['tml_settings_general']['tml_test_unsanitized'] = array(
+				'title'    => 'Test',
+				'callback' => '__return_null',
+			);
+			return $fields;
+		} );
+
+		tml_admin_register_settings();
+
+		$registered = get_registered_settings();
+		$this->assertArrayHasKey( 'tml_test_unsanitized', $registered );
+		$this->assertNull( $registered['tml_test_unsanitized']['sanitize_callback'] );
+	}
+
 	public function test_register_settings_adds_a_license_field_for_extensions_with_a_license_key_option() {
 		global $wp_settings_fields;
 
