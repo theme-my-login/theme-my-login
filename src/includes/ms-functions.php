@@ -1167,7 +1167,9 @@ function tml_ms_signup_get_active_signup() {
 function tml_ms_activation_handler() {
 	global $wp_object_cache;
 
-	define( 'WP_INSTALLING', true );
+	if ( ! defined( 'WP_INSTALLING' ) ) {
+		define( 'WP_INSTALLING', true );
+	}
 
 	if ( ! is_multisite() ) {
 		wp_redirect( wp_registration_url() ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- target is always wp_registration_url(), not user-controlled; matches wp-activate.php's own use of plain wp_redirect() here.
