@@ -407,7 +407,7 @@ function tml_admin_filter_edit_nav_menu_walker( $walker ) {
  * @return array The plugin action links.
  */
 function tml_admin_filter_plugin_action_links( $actions, $file, $data, $context ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $data/$context are unused but required by the plugin_action_links_{$file} filter signature.
-	if ( 'theme-my-login/theme-my-login.php' === $file ) {
+	if ( plugin_basename( THEME_MY_LOGIN_FILE ) === $file ) {
 		$actions['settings']   = sprintf(
 			'<a href="%1$s">%2$s</a>',
 			admin_url( 'admin.php?page=theme-my-login' ),

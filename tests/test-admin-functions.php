@@ -87,7 +87,7 @@ class Test_Admin_Functions extends WP_UnitTestCase {
 	}
 
 	public function test_plugin_action_links_are_added_for_the_tml_plugin_file() {
-		$actions = tml_admin_filter_plugin_action_links( array( 'deactivate' => 'Deactivate' ), 'theme-my-login/theme-my-login.php', array(), 'plugin-list' );
+		$actions = tml_admin_filter_plugin_action_links( array( 'deactivate' => 'Deactivate' ), plugin_basename( THEME_MY_LOGIN_FILE ), array(), 'plugin-list' );
 
 		$this->assertArrayHasKey( 'settings', $actions );
 		$this->assertArrayHasKey( 'extensions', $actions );
