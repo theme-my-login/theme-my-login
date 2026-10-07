@@ -18,7 +18,7 @@
 
 	<!-- composer.json pins php >=7.4 as the minimum supported version. -->
 	<config name="testVersion" value="7.4-"/>
-	<config name="minimum_supported_wp_version" value="5.0"/>
+	<config name="minimum_supported_wp_version" value="5.7"/>
 
 	<rule ref="WordPress-Extra">
 		<!-- Multi-file plugin with one class per admin/includes concern; not all class files follow the class-{name}.php convention. -->

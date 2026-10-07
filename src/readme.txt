@@ -1,7 +1,7 @@
 === Theme My Login ===
 Contributors: thememylogin, jfarthing84
 Tags: login, registration, custom login, login page, frontend login
-Requires at least: 5.4
+Requires at least: 5.7
 Tested up to: 7.1
 Stable tag: trunk
 License: GPLv2

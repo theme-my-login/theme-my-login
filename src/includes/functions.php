@@ -332,8 +332,6 @@ function tml_enqueue_form_scripts( $name ) {
  * @since 7.0.13
  */
 function tml_do_login_head() {
-	global $wp_version;
-
 	if ( ! tml_is_action() ) {
 		return;
 	}
@@ -342,12 +340,8 @@ function tml_do_login_head() {
 	remove_action( 'login_head', 'wp_print_head_scripts', 9 );
 
 	// Don't index TML actions
-	if ( version_compare( $wp_version, '5.7', '>=' ) ) {
-		add_filter( 'wp_robots', 'wp_robots_sensitive_page' );
-		add_action( 'login_head', 'wp_strict_cross_origin_referrer' );
-	} else {
-		add_action( 'login_head', 'wp_sensitive_page_meta' );
-	}
+	add_filter( 'wp_robots', 'wp_robots_sensitive_page' );
+	add_action( 'login_head', 'wp_strict_cross_origin_referrer' );
 
 	/** This action is documented in wp-login.php */
 	do_action( 'login_head' );

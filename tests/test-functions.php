@@ -752,6 +752,25 @@ class Test_Functions extends WP_UnitTestCase {
 		$this->assertTrue( $fired );
 	}
 
+	public function test_do_login_head_marks_tml_actions_as_sensitive_pages() {
+		global $wp;
+
+		$wp->query_vars['action'] = 'login';
+
+		ob_start();
+		tml_do_login_head();
+		ob_end_clean();
+
+		$has_robots   = has_filter( 'wp_robots', 'wp_robots_sensitive_page' );
+		$has_referrer = has_action( 'login_head', 'wp_strict_cross_origin_referrer' );
+
+		remove_filter( 'wp_robots', 'wp_robots_sensitive_page' );
+		remove_all_actions( 'login_head' );
+
+		$this->assertNotFalse( $has_robots );
+		$this->assertNotFalse( $has_referrer );
+	}
+
 	public function test_do_login_footer_is_a_no_op_outside_a_tml_action() {
 		unset( $GLOBALS['wp']->query_vars['action'] );
 

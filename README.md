@@ -9,7 +9,7 @@ Creates an alternate login, registration, and password recovery experience withi
 ## Requirements
 
 - PHP >= 7.4
-- WordPress >= 5.4
+- WordPress >= 5.7
 
 ## Repo layout
 
