@@ -21,6 +21,9 @@ Text Domain: theme-my-login
 Network: true
 */
 
+// When running from the repo, this loader is the main plugin file, not the copy it includes.
+define( 'THEME_MY_LOGIN_FILE', __FILE__ );
+
 if ( ! file_exists( __DIR__ . '/build/theme-my-login.php' ) || defined( 'TML_LOAD_SOURCE' ) ) {
 	include __DIR__ . '/src/theme-my-login.php';
 } else {

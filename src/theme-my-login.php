@@ -39,10 +39,13 @@ define( 'THEME_MY_LOGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * Stores the path to the plugin's main file, as registered with WordPress.
+ * This file is the main file once built, so the repo-root loader defines it first.
  *
  * @since 7.2.1
  */
-define( 'THEME_MY_LOGIN_FILE', dirname( THEME_MY_LOGIN_PATH ) . '/theme-my-login.php' );
+if ( ! defined( 'THEME_MY_LOGIN_FILE' ) ) {
+	define( 'THEME_MY_LOGIN_FILE', __FILE__ );
+}
 
 /**
  * Stores the URL to TML.
