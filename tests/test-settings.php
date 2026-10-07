@@ -118,6 +118,21 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertArrayHasKey( 'tml_auto_login', $fields['tml_settings_registration'] );
 	}
 
+	public function test_get_settings_fields_leads_the_registration_section_with_the_core_membership_option() {
+		update_option( 'users_can_register', 1 );
+
+		$fields = tml_admin_get_settings_fields();
+
+		$this->assertSame( 'users_can_register', key( $fields['tml_settings_registration'] ) );
+		$this->assertNotEmpty( $fields['tml_settings_registration']['users_can_register']['args']['checked'] );
+
+		update_option( 'users_can_register', 0 );
+
+		$fields = tml_admin_get_settings_fields();
+
+		$this->assertEmpty( $fields['tml_settings_registration']['users_can_register']['args']['checked'] );
+	}
+
 	public function test_get_settings_fields_includes_a_slug_field_per_visible_action() {
 		$fields = tml_admin_get_settings_fields();
 
@@ -157,6 +172,21 @@ class Test_Settings extends WP_UnitTestCase {
 
 		$this->assertArrayHasKey( 'tml_ajax', $registered );
 		$this->assertArrayHasKey( 'tml_login_type', $registered );
+	}
+
+	public function test_register_settings_saves_the_membership_option_from_the_tml_screen() {
+		global $new_allowed_options;
+
+		$new_allowed_options = array();
+
+		tml_admin_register_settings();
+
+		$this->assertContains( 'users_can_register', $new_allowed_options['theme-my-login'] );
+
+		// options.php saves an unchecked box as null; core's own sanitizing turns that into 0.
+		$this->assertNull( get_registered_settings()['users_can_register']['sanitize_callback'] );
+		$this->assertSame( 0, sanitize_option( 'users_can_register', null ) );
+		$this->assertSame( 1, sanitize_option( 'users_can_register', '1' ) );
 	}
 
 	public function test_register_settings_accepts_a_field_without_a_sanitize_callback() {
@@ -214,6 +244,14 @@ class Test_Settings extends WP_UnitTestCase {
 		$output = ob_get_clean();
 
 		$this->assertStringContainsString( '<p>', $output );
+	}
+
+	public function test_registration_section_callback_renders_nothing_on_single_site() {
+		ob_start();
+		tml_admin_setting_callback_registration_section();
+		$output = ob_get_clean();
+
+		$this->assertSame( '', $output );
 	}
 
 	public function test_input_field_callback_renders_the_expected_attributes() {
