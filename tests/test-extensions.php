@@ -4,7 +4,8 @@
  * (register/unregister/get/exists), the EDD-flavored license activation,
  * deactivation, and check calls, the shared tml_extension_api_call()
  * request-scoped and persistent caching, and the WP
- * plugins-API/update-transient integrations.
+ * plugins-API/update-transient integrations, plus when the base class runs
+ * an extension's update routine.
  *
  * Theme_My_Login_Extension is abstract, so tests use a minimal concrete
  * subclass with test-only license option names and store URL.
@@ -18,6 +19,14 @@ class TML_Test_Extension extends Theme_My_Login_Extension {
 			$this->$key = $value;
 		}
 		parent::__construct( $file );
+	}
+}
+
+class TML_Test_Updating_Extension extends TML_Test_Extension {
+	public $update_count = 0;
+
+	protected function update() {
+		$this->update_count++;
 	}
 }
 
@@ -379,5 +388,29 @@ class Test_Extensions extends WP_UnitTestCase {
 		$update    = $transient->response[ $this->make_extension()->get_basename() ];
 
 		$this->assertNotInstanceOf( TML_Test_Extension::class, $update->icons );
+	}
+
+	protected function make_updating_extension() {
+		return new TML_Test_Updating_Extension( WP_PLUGIN_DIR . '/tml-test-extension/tml-test-extension.php' );
+	}
+
+	public function test_construct_defers_update_to_plugins_loaded() {
+		set_current_screen( 'dashboard' );
+
+		$extension = $this->make_updating_extension();
+
+		$this->assertSame( 0, $extension->update_count );
+		$this->assertSame( 10, has_action( 'plugins_loaded', array( $extension, 'maybe_update' ) ) );
+
+		$extension->maybe_update();
+
+		$this->assertSame( 1, $extension->update_count );
+	}
+
+	public function test_maybe_update_skips_update_outside_admin() {
+		$extension = $this->make_updating_extension();
+		$extension->maybe_update();
+
+		$this->assertSame( 0, $extension->update_count );
 	}
 }
