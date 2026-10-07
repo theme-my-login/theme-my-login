@@ -72,7 +72,7 @@ function tml_admin_register_settings() {
 				}
 
 				// Register the setting
-				register_setting( $page, $field_id, $field['sanitize_callback'] );
+				register_setting( $page, $field_id, isset( $field['sanitize_callback'] ) ? $field['sanitize_callback'] : array() );
 			}
 		}
 	}
