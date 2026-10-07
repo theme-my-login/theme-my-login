@@ -13,6 +13,7 @@ Description: Creates an alternate login, registration and password recovery expe
 // x-release-please-start-version
 Version: 7.2.2
 // x-release-please-end
+Requires at least: 5.7
 Author: Theme My Login
 Author URI: https://thememylogin.com
 License: GPLv2
