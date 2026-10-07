@@ -24,14 +24,6 @@
  * later, just scoped out of this pass to keep it to the highest-value
  * subset.
  *
- * tml_ms_activation_handler() does `define( 'WP_INSTALLING', true )`
- * unconditionally on every call, which raises a "Constant already
- * defined" E_WARNING on the second and subsequent calls within the same
- * process — suppressed the same way test-password-reset-handler.php
- * suppresses the analogous setcookie() warning, since it's a test-
- * environment artifact (a constant can only ever be defined once per
- * process), not something under test.
- *
  * @package Theme_My_Login
  */
 
@@ -567,21 +559,20 @@ class Test_MS_Functions extends WP_UnitTestCase {
 	// tml_ms_activation_handler()
 
 	public function test_activation_handler_is_a_no_op_without_a_key() {
-		$error_level = error_reporting();
-		error_reporting( $error_level & ~E_WARNING );
-
 		// Should return early without attempting anything.
 		tml_ms_activation_handler();
-
-		error_reporting( $error_level );
 
 		$this->assertTrue( true );
 	}
 
-	public function test_activation_handler_redirects_on_successful_activation() {
-		$error_level = error_reporting();
-		error_reporting( $error_level & ~E_WARNING );
+	public function test_activation_handler_can_run_more_than_once_per_request() {
+		tml_ms_activation_handler();
+		tml_ms_activation_handler();
 
+		$this->assertTrue( defined( 'WP_INSTALLING' ) );
+	}
+
+	public function test_activation_handler_redirects_on_successful_activation() {
 		// The redirect only happens when tml_user_passwords is enabled —
 		// otherwise $activation_redirect stays null/falsy and the handler
 		// falls through to tml_set_data('activation_result', ...) instead.
@@ -624,13 +615,9 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$this->assertSame( '', tml_get_data( 'activation_password' ) );
 
 		delete_site_option( 'tml_user_passwords' );
-		error_reporting( $error_level );
 	}
 
 	public function test_activation_handler_records_the_result_without_a_redirect_by_default() {
-		$error_level = error_reporting();
-		error_reporting( $error_level & ~E_WARNING );
-
 		wpmu_signup_user( 'msactivationuser2', 'msactivationuser2@example.org', array() );
 		global $wpdb;
 		$signup = $wpdb->get_row( $wpdb->prepare( "SELECT activation_key FROM $wpdb->signups WHERE user_login = %s", 'msactivationuser2' ) );
@@ -640,8 +627,6 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		// No tml_user_passwords, so this should NOT redirect — it should
 		// return normally after recording the activation result.
 		tml_ms_activation_handler();
-
-		error_reporting( $error_level );
 
 		$result = tml_get_data( 'activation_result' );
 		$this->assertNotWPError( $result );
