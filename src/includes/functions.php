@@ -915,6 +915,11 @@ function tml_handle_auto_login( $user_id ) {
 		return;
 	}
 
+	// A followed activation link alone must not log the visitor in.
+	if ( in_array( current_filter(), array( 'wpmu_activate_user', 'wpmu_activate_blog' ), true ) && ! tml_is_post_request() ) {
+		return;
+	}
+
 	if ( 'wpmu_activate_blog' === current_filter() ) {
 		$user_id = func_get_arg( 1 );
 

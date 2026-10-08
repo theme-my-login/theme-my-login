@@ -1221,6 +1221,11 @@ function tml_ms_activation_handler() {
 			tml_set_data( 'activation_password', $_POST['user_pass1'] );
 		}
 
+		// Auto-login needs the activation form submitted, so show it instead.
+		if ( tml_allow_auto_login() && ! tml_is_post_request() ) {
+			return;
+		}
+
 		try {
 			$result = wpmu_activate_signup( $key );
 		} finally {
@@ -1286,7 +1291,7 @@ function tml_ms_filter_activation_shortcode( $content = '', $action = 'signup', 
 
 	// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- mirrors wp-activate.php's own activation-key processing, which is a public unauthenticated request with no nonce (the key itself is the credential).
 	// phpcs:disable WordPress.WP.I18n.MissingArgDomain, WordPress.WP.I18n.MissingTranslatorsComment -- these messages intentionally reuse WP core's translated wp-activate.php strings verbatim, not TML-specific strings; no translators comments since they never enter TML's own .pot.
-	if ( empty( $_GET['key'] ) && empty( $_POST['key'] ) ) {
+	if ( ! tml_get_data( 'activation_result' ) ) {
 		$content .= tml_get_form( 'activate' )->render(
 			array(
 				'before' => '<h2>' . __( 'Activation Key Required' ) . '</h2>',

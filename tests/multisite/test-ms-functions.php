@@ -42,6 +42,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		delete_site_option( 'tml_registration_type' );
 		delete_site_option( 'tml_user_passwords' );
 		delete_site_option( 'tml_auto_login' );
+		unset( $_SERVER['REQUEST_METHOD'] );
 
 		// The data store is a process-global singleton, so it outlives a test.
 		tml_set_data(
@@ -679,9 +680,12 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$this->assertSame( 'msactivationuser2', get_userdata( $result['user_id'] )->user_login );
 	}
 
-	private function activate_blog_signup_capturing_login( $user_login ) {
-		update_site_option( 'tml_auto_login', true );
+	private function get_activation_key( $user_login ) {
+		global $wpdb;
+		return $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM $wpdb->signups WHERE user_login = %s", $user_login ) );
+	}
 
+	private function capture_login( callable $callback ) {
 		$logged_in_user_id = null;
 		add_action(
 			'set_logged_in_cookie',
@@ -692,12 +696,23 @@ class Test_MS_Functions extends WP_UnitTestCase {
 			4
 		);
 
-		global $wpdb;
-		$signup = $wpdb->get_row( $wpdb->prepare( "SELECT activation_key FROM $wpdb->signups WHERE user_login = %s", $user_login ) );
-
-		$result = wpmu_activate_signup( $signup->activation_key );
+		$callback();
 
 		remove_all_actions( 'set_logged_in_cookie' );
+
+		return $logged_in_user_id;
+	}
+
+	private function activate_blog_signup_capturing_login( $user_login ) {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+
+		$result            = null;
+		$logged_in_user_id = $this->capture_login(
+			function () use ( $user_login, &$result ) {
+				$result = wpmu_activate_signup( $this->get_activation_key( $user_login ) );
+			}
+		);
 
 		$this->assertNotWPError( $result );
 
@@ -728,6 +743,60 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		list( $user_id, $logged_in_user_id ) = $this->activate_blog_signup_capturing_login( 'victimuser' );
 
 		$this->assertSame( $victim_id, $user_id );
+		$this->assertNull( $logged_in_user_id );
+	}
+
+	public function test_activation_handler_shows_the_form_for_a_followed_link_when_auto_login_is_enabled() {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+
+		wpmu_signup_user( 'linkactivationuser', 'linkactivationuser@example.org', array() );
+		$key = $this->get_activation_key( 'linkactivationuser' );
+
+		$_GET['key']     = $key;
+		$_REQUEST['key'] = $key;
+
+		tml_ms_activation_handler();
+
+		$this->assertFalse( username_exists( 'linkactivationuser' ) );
+		$this->assertEmpty( tml_get_data( 'activation_result' ) );
+
+		tml_ms_register_activation_form();
+		$content = tml_ms_filter_activation_shortcode( '', 'activate', array() );
+
+		$this->assertStringContainsString( '<form', $content );
+		$this->assertStringContainsString( $key, $content );
+	}
+
+	public function test_activation_handler_logs_in_on_form_submission_when_auto_login_is_enabled() {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+
+		wpmu_signup_user( 'formactivationuser', 'formactivationuser@example.org', array() );
+		$_POST['key'] = $this->get_activation_key( 'formactivationuser' );
+
+		$logged_in_user_id = $this->capture_login( 'tml_ms_activation_handler' );
+
+		$result = tml_get_data( 'activation_result' );
+		$this->assertNotWPError( $result );
+		$this->assertSame( $result['user_id'], $logged_in_user_id );
+	}
+
+	public function test_activation_by_link_outside_the_activation_form_does_not_log_in() {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+
+		wpmu_signup_user( 'coreactivationuser', 'coreactivationuser@example.org', array() );
+		$key = $this->get_activation_key( 'coreactivationuser' );
+
+		// As wp-activate.php does on a GET.
+		$logged_in_user_id = $this->capture_login(
+			function () use ( $key ) {
+				wpmu_activate_signup( $key );
+			}
+		);
+
+		$this->assertNotFalse( username_exists( 'coreactivationuser' ) );
 		$this->assertNull( $logged_in_user_id );
 	}
 }
