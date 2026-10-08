@@ -11,7 +11,7 @@ Plugin Name: Theme My Login
 Plugin URI: https://thememylogin.com
 Description: Creates an alternate login, registration and password recovery experience within your theme.
 // x-release-please-start-version
-Version: 7.2.2
+Version: 7.3.0
 // x-release-please-end
 Requires at least: 5.7
 Author: Theme My Login
@@ -28,7 +28,7 @@ Network: true
  * @since 7.0
  */
 // x-release-please-start-version
-define( 'THEME_MY_LOGIN_VERSION', '7.2.2' );
+define( 'THEME_MY_LOGIN_VERSION', '7.3.0' );
 // x-release-please-end
 
 /**
