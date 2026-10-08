@@ -47,6 +47,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 			array(
 				'activation_password' => '',
 				'activation_result'   => null,
+				'signup_blog_id'      => false,
 			)
 		);
 
