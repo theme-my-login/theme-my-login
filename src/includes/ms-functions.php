@@ -582,6 +582,12 @@ function tml_ms_signup_handler() {
 	}
 
 	$stage = isset( $_POST['stage'] ) ? $_POST['stage'] : 'default';
+
+	if ( 'default' !== $stage ) {
+		add_filter( 'wpmu_validate_user_signup', 'tml_ms_signup_nonce_check' );
+		add_filter( 'wpmu_validate_blog_signup', 'tml_ms_signup_nonce_check' );
+	}
+
 	switch ( $stage ) {
 		case 'validate-user-signup':
 			if ( 'all' === $active_signup
@@ -724,6 +730,28 @@ function tml_ms_signup_handler() {
 			break;
 	}
 	// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
+}
+
+/**
+ * Verify the signup form nonce.
+ *
+ * Core's signup_nonce_check() only runs on wp-signup.php.
+ *
+ * @since 7.3.1
+ *
+ * @param array $result The signup validation result.
+ * @return array The signup validation result.
+ */
+function tml_ms_signup_nonce_check( $result ) {
+	$nonce   = isset( $_POST['_signup_form'] ) ? sanitize_text_field( wp_unslash( $_POST['_signup_form'] ) ) : '';
+	$form_id = isset( $_POST['signup_form_id'] ) ? absint( $_POST['signup_form_id'] ) : 0;
+
+	if ( ! wp_verify_nonce( $nonce, 'signup_form_' . $form_id ) ) {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated wp-signup.php string verbatim.
+		$result['errors']->add( 'invalid_nonce', __( 'Unable to submit this form, please try again.' ) );
+	}
+
+	return $result;
 }
 
 /**
