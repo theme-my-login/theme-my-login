@@ -917,6 +917,11 @@ function tml_handle_auto_login( $user_id ) {
 
 	if ( 'wpmu_activate_blog' === current_filter() ) {
 		$user_id = func_get_arg( 1 );
+
+		// Core reuses any existing account matching the signup's username.
+		if ( (int) tml_get_data( 'activation_new_user_id' ) !== (int) $user_id ) {
+			return;
+		}
 	}
 
 	wp_set_auth_cookie( $user_id );

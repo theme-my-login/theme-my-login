@@ -41,13 +41,15 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		delete_site_option( 'registration' );
 		delete_site_option( 'tml_registration_type' );
 		delete_site_option( 'tml_user_passwords' );
+		delete_site_option( 'tml_auto_login' );
 
 		// The data store is a process-global singleton, so it outlives a test.
 		tml_set_data(
 			array(
-				'activation_password' => '',
-				'activation_result'   => null,
-				'signup_blog_id'      => false,
+				'activation_password'    => '',
+				'activation_result'      => null,
+				'activation_new_user_id' => 0,
+				'signup_blog_id'         => false,
 			)
 		);
 
@@ -632,5 +634,57 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$result = tml_get_data( 'activation_result' );
 		$this->assertNotWPError( $result );
 		$this->assertSame( 'msactivationuser2', get_userdata( $result['user_id'] )->user_login );
+	}
+
+	private function activate_blog_signup_capturing_login( $user_login ) {
+		update_site_option( 'tml_auto_login', true );
+
+		$logged_in_user_id = null;
+		add_action(
+			'set_logged_in_cookie',
+			function ( $cookie, $expire, $expiration, $user_id ) use ( &$logged_in_user_id ) {
+				$logged_in_user_id = $user_id;
+			},
+			10,
+			4
+		);
+
+		global $wpdb;
+		$signup = $wpdb->get_row( $wpdb->prepare( "SELECT activation_key FROM $wpdb->signups WHERE user_login = %s", $user_login ) );
+
+		$result = wpmu_activate_signup( $signup->activation_key );
+
+		remove_all_actions( 'set_logged_in_cookie' );
+
+		$this->assertNotWPError( $result );
+
+		return array( $result['user_id'], $logged_in_user_id );
+	}
+
+	public function test_blog_activation_auto_login_logs_in_the_user_it_created() {
+		wpmu_signup_blog( get_network()->domain, '/autologinblog/', 'Auto Login Blog', 'autologinbloguser', 'autologinbloguser@example.org' );
+
+		list( $user_id, $logged_in_user_id ) = $this->activate_blog_signup_capturing_login( 'autologinbloguser' );
+
+		$this->assertSame( 'autologinbloguser', get_userdata( $user_id )->user_login );
+		$this->assertSame( $user_id, $logged_in_user_id );
+	}
+
+	public function test_blog_activation_auto_login_skips_a_pre_existing_account() {
+		wpmu_signup_blog( get_network()->domain, '/takeoverblog/', 'Takeover Blog', 'victimuser', 'attacker@example.org' );
+
+		// Created after the signup by a path that skips signup validation.
+		$victim_id = wp_insert_user(
+			array(
+				'user_login' => 'victimuser',
+				'user_email' => 'victim@example.org',
+				'user_pass'  => 'victim-password',
+			)
+		);
+
+		list( $user_id, $logged_in_user_id ) = $this->activate_blog_signup_capturing_login( 'victimuser' );
+
+		$this->assertSame( $victim_id, $user_id );
+		$this->assertNull( $logged_in_user_id );
 	}
 }

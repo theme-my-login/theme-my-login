@@ -1229,6 +1229,17 @@ function tml_ms_activation_handler() {
 }
 
 /**
+ * Record the ID of a user created during this request.
+ *
+ * @since 7.3.1
+ *
+ * @param int $user_id The user ID.
+ */
+function tml_ms_record_new_user( $user_id ) {
+	tml_set_data( 'activation_new_user_id', (int) $user_id );
+}
+
+/**
  * Render the activate action.
  *
  * @since 7.0
