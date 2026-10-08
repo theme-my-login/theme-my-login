@@ -1,0 +1,19 @@
+version: 2
+
+updates:
+  # Workflow actions are pinned to commit SHAs, so this is what moves them. A major stays a
+  # deliberate change rather than an automated PR.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns:
+          - '*'
+    ignore:
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major
+    commit-message:
+      prefix: ci
