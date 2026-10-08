@@ -108,7 +108,7 @@ function tml_admin_get_settings_sections() {
 			),
 			'tml_settings_registration' => array(
 				'title'    => __( 'Registration', 'theme-my-login' ),
-				'callback' => '__return_null',
+				'callback' => 'tml_admin_setting_callback_registration_section',
 				'page'     => 'theme-my-login',
 			),
 			'tml_settings_slugs'        => array(
@@ -168,7 +168,23 @@ function tml_admin_get_settings_fields() {
 	);
 
 	// Registration
-	$fields['tml_settings_registration'] = array(
+	$fields['tml_settings_registration'] = array();
+
+	// Anyone can register. On multisite, the network's registration setting overrides this option.
+	if ( ! is_multisite() ) {
+		$fields['tml_settings_registration']['users_can_register'] = array(
+			'title'    => __( 'Membership' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Membership" string (see wp-admin/options-general.php).
+			'callback' => 'tml_admin_setting_callback_checkbox_field',
+			'args'     => array(
+				'label_for' => 'users_can_register',
+				'label'     => __( 'Anyone can register' ), // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- reusing WP core's translated "Anyone can register" string (see wp-admin/options-general.php).
+				'value'     => '1',
+				'checked'   => get_option( 'users_can_register' ),
+			),
+		);
+	}
+
+	$fields['tml_settings_registration'] += array(
 		// Registration type
 		'tml_registration_type' => array(
 			'title'             => __( 'Registration Type', 'theme-my-login' ),
@@ -266,6 +282,30 @@ function tml_admin_setting_callback_slugs_section() {
 	?>
 
 <p><?php esc_html_e( 'The slugs defined here will be used to generate the URL to the corresponding action. You can see this URL below the slug field. If you would like to use pages for these actions, simply make sure the slug for the action below matches the slug of the page you would like to use for that action.', 'theme-my-login' ); ?></p>
+
+	<?php
+}
+
+/**
+ * Render the "Registration" section.
+ *
+ * @since 7.3
+ */
+function tml_admin_setting_callback_registration_section() {
+	if ( ! is_multisite() ) {
+		return;
+	}
+	?>
+
+<p>
+	<?php
+	printf(
+		/* translators: %s: The Network Settings URL. */
+		wp_kses_post( __( 'Whether new users can register is set in <a href="%s">Network Settings</a>.', 'theme-my-login' ) ),
+		esc_url( network_admin_url( 'settings.php' ) )
+	);
+	?>
+</p>
 
 	<?php
 }
