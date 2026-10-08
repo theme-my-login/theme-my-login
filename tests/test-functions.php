@@ -450,7 +450,7 @@ class Test_Functions extends WP_UnitTestCase {
 		) );
 
 		$this->assertSame( 11, $menu_item->object_id );
-		$this->assertObjectNotHasProperty( '_invalid', $menu_item );
+		$this->assertFalse( property_exists( $menu_item, '_invalid' ) );
 		$this->assertStringContainsString( 'action=login', $menu_item->url );
 	}
 
@@ -548,7 +548,7 @@ class Test_Functions extends WP_UnitTestCase {
 
 		tml_parse_query( $wp_query );
 
-		$this->assertObjectNotHasProperty( 'is_tml_action', $wp_query );
+		$this->assertFalse( property_exists( $wp_query, 'is_tml_action' ) );
 	}
 
 	public function test_the_posts_bails_on_a_non_main_query() {
