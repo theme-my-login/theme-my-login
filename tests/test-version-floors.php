@@ -8,7 +8,8 @@
 class Test_Version_Floors extends WP_UnitTestCase {
 
 	const HEADERS = array(
-		'wp' => 'Requires at least',
+		'wp'  => 'Requires at least',
+		'php' => 'Requires PHP',
 	);
 
 	private function root() {
@@ -36,6 +37,18 @@ class Test_Version_Floors extends WP_UnitTestCase {
 			'root loader' => array( 'theme-my-login.php' ),
 			'source'      => array( 'src/theme-my-login.php' ),
 		);
+	}
+
+	public function test_shipped_composer_php_constraint_matches_the_readme() {
+		$composer = json_decode( file_get_contents( $this->root() . '/src/composer.json' ), true );
+
+		$this->assertSame( '>=' . $this->readme_floors()['php'], $composer['require']['php'] );
+	}
+
+	public function test_phpcs_lints_at_the_declared_php_floor() {
+		$phpcs = file_get_contents( $this->root() . '/phpcs.xml.dist' );
+
+		$this->assertMatchesRegularExpression( '/name="testVersion" value="' . preg_quote( $this->readme_floors()['php'], '/' ) . '-"/', $phpcs );
 	}
 
 	public function test_phpcs_minimum_wp_version_matches_the_readme() {
