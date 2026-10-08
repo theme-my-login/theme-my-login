@@ -59,9 +59,14 @@ foreach ( $records as $record ) {
 		continue;
 	}
 
-	// A `Release-Note:` trailer overrides the subject for user-facing wording.
+	// A `Release-Note:` trailer overrides the subject for user-facing wording,
+	// or keeps the commit out of the changelog entirely when set to `none`.
 	if ( preg_match( '/^Release-Note:\s*(.+)$/mi', $body, $note ) ) {
 		$text = trim( $note[1] );
+
+		if ( 0 === strcasecmp( $text, 'none' ) ) {
+			continue;
+		}
 	} else {
 		$text = trim( $matches[3] );
 	}
