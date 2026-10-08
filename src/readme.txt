@@ -89,6 +89,17 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.3.0 =
+* Turn user registration on or off from the Theme My Login settings screen
+* Show the Settings and Extensions links on the Plugins screen from any plugin folder name
+* Show an error when an AJAX form submission gets an unexpected server response
+* Show an error instead of a blank Extensions page when the feed can't be read
+* Prevent extension upgrades from running before WordPress has fully loaded
+* Make the login and register pages work right after activation
+* Require WordPress 5.7 or later
+* Keep dismissed notices from piling up in the database
+* Keep the password strength meter working on forms embedded in other pages (props miked62)
+
 = 7.2.2 =
 * Stop a lost password request from overwriting an account's password on multisite (props R3D)
 
