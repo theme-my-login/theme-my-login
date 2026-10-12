@@ -30,7 +30,7 @@ Tested separately under `tests/multisite/`, via its own PHPUnit config (`tests/p
 
 - WordPress Coding Standards enforced via `phpcs.xml.dist` (`WordPress-Extra` + `PHPCompatibilityWP`, PHP 7.4+ target). Run `composer lint` before considering PHP changes done.
 - Commit messages are Conventional Commits, linted per-commit by CI (merges to `master` are real merge commits, not squashed). PR titles are plain English, not Conventional Commits — see [CONTRIBUTING.md](https://github.com/theme-my-login/.github/blob/main/CONTRIBUTING.md) for the full rationale and the type table.
-- CI workflows in `.github/workflows/` are thin callers into the shared `theme-my-login/tml-workflows` repo (consumed as the `tml-workflows` npm devDependency, which also provides `build.mjs` via `npm run build`). Repo-specific config (`phpcs.xml.dist`, `phpunit.xml.dist`, `commitlint.config.cjs`, `build.config.json`) is what actually varies per repo.
+- CI workflows in `.github/workflows/` are thin callers into the shared `theme-my-login/tml-workflows` repo (consumed as the `tml-workflows` npm devDependency, which also provides `build.mjs` via `npm run build`). Repo-specific config (`phpcs.xml.dist`, `phpunit.xml.dist`, `build.config.json`) is what actually varies per repo.
 
 ## i18n
 
