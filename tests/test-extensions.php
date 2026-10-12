@@ -350,6 +350,49 @@ class Test_Extensions extends WP_UnitTestCase {
 		$this->assertArrayNotHasKey( $extension->get_basename(), (array) ( $transient->response ?? array() ) );
 	}
 
+	public function test_add_extension_data_to_plugins_transient_sends_the_tml_version() {
+		tml_register_extension( $this->make_extension() );
+
+		$captured = $this->capture_http_request_args( array( 'new_version' => '2.0', 'package' => 'https://example.org/download.zip' ) );
+
+		tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		$this->assertSame( THEME_MY_LOGIN_VERSION, $captured->args['tml_version'] );
+	}
+
+	public function test_add_extension_data_to_plugins_transient_holds_back_an_update_needing_newer_tml() {
+		$extension = tml_register_extension( $this->make_extension() );
+
+		$this->mock_http_response(
+			array(
+				'new_version'  => '2.0',
+				'package'      => 'https://example.org/download.zip',
+				'requires_tml' => '999.0',
+			)
+		);
+
+		$transient = tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		$this->assertArrayHasKey( $extension->get_basename(), $transient->no_update );
+		$this->assertArrayNotHasKey( $extension->get_basename(), (array) ( $transient->response ?? array() ) );
+	}
+
+	public function test_add_extension_data_to_plugins_transient_offers_an_update_within_the_tml_floor() {
+		$extension = tml_register_extension( $this->make_extension() );
+
+		$this->mock_http_response(
+			array(
+				'new_version'  => '2.0',
+				'package'      => 'https://example.org/download.zip',
+				'requires_tml' => THEME_MY_LOGIN_VERSION,
+			)
+		);
+
+		$transient = tml_add_extension_data_to_plugins_transient( (object) array() );
+
+		$this->assertArrayHasKey( $extension->get_basename(), $transient->response );
+	}
+
 	public function test_add_extension_data_to_plugins_transient_sends_the_site_url() {
 		tml_register_extension( $this->make_extension() );
 

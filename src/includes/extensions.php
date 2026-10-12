@@ -172,8 +172,14 @@ function tml_add_extension_data_to_plugins_transient( $transient = '' ) {
 				$update->upgrade_notice = $response->upgrade_notice;
 			}
 
+			$requires_tml = isset( $response->requires_tml ) ? (string) $response->requires_tml : '';
+
 			// This is a valid update
-			if ( ! empty( $update->new_version ) && version_compare( $extension->get_version(), $update->new_version, '<' ) ) {
+			if (
+				! empty( $update->new_version )
+				&& version_compare( $extension->get_version(), $update->new_version, '<' )
+				&& ( '' === $requires_tml || version_compare( THEME_MY_LOGIN_VERSION, $requires_tml, '>=' ) )
+			) {
 				$transient->response[ $basename ] = $update;
 			} else {
 				$transient->no_update[ $basename ] = $update;
@@ -357,12 +363,13 @@ function tml_maybe_unserialize_no_objects( $value ) {
  */
 function tml_get_extension_api_call_arg_defaults() {
 	return array(
-		'edd_action' => 'get_version',
-		'license'    => '',
-		'item_id'    => '',
-		'slug'       => '',
-		'url'        => '',
-		'beta'       => false,
+		'edd_action'  => 'get_version',
+		'license'     => '',
+		'item_id'     => '',
+		'slug'        => '',
+		'url'         => '',
+		'beta'        => false,
+		'tml_version' => THEME_MY_LOGIN_VERSION,
 	);
 }
 
