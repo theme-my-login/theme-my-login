@@ -41,13 +41,16 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		delete_site_option( 'registration' );
 		delete_site_option( 'tml_registration_type' );
 		delete_site_option( 'tml_user_passwords' );
+		delete_site_option( 'tml_auto_login' );
+		unset( $_SERVER['REQUEST_METHOD'] );
 
 		// The data store is a process-global singleton, so it outlives a test.
 		tml_set_data(
 			array(
-				'activation_password' => '',
-				'activation_result'   => null,
-				'signup_blog_id'      => false,
+				'activation_password'    => '',
+				'activation_result'      => null,
+				'activation_new_user_id' => 0,
+				'signup_blog_id'         => false,
 			)
 		);
 
@@ -393,6 +396,11 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$this->assertFalse( $fired );
 	}
 
+	private function add_signup_nonce() {
+		$_POST['signup_form_id'] = '12345';
+		$_POST['_signup_form']   = wp_create_nonce( 'signup_form_12345' );
+	}
+
 	public function test_signup_handler_validate_user_signup_records_errors_for_an_empty_username() {
 		update_site_option( 'registration', 'all' );
 
@@ -416,6 +424,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$_POST['signup_for'] = 'blog';
 		$_POST['user_name']  = 'avalidnewuser123';
 		$_POST['user_email'] = 'valid-signup@example.org';
+		$this->add_signup_nonce();
 
 		tml_ms_signup_handler();
 
@@ -432,6 +441,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$_POST['blogname']    = 'anonblogsignup1';
 		$_POST['blog_title']  = 'Anonymous Blog Signup';
 		$_POST['blog_public'] = 1;
+		$this->add_signup_nonce();
 
 		tml_ms_signup_handler();
 
@@ -482,6 +492,7 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$_POST['blogname']    = 'allowedsignup1';
 		$_POST['blog_title']  = 'Allowed Signup';
 		$_POST['blog_public'] = 1;
+		$this->add_signup_nonce();
 
 		tml_ms_signup_handler();
 
@@ -491,6 +502,41 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$this->assertNotEmpty( $blog_id );
 
 		wpmu_delete_blog( $blog_id, true );
+	}
+
+	public function test_signup_handler_validate_user_signup_rejects_a_missing_nonce() {
+		update_site_option( 'registration', 'all' );
+
+		$_POST['stage']      = 'validate-user-signup';
+		$_POST['signup_for'] = 'user';
+		$_POST['user_name']  = 'nononceuser123';
+		$_POST['user_email'] = 'nononceuser123@example.org';
+
+		tml_ms_signup_handler();
+
+		global $wpdb;
+		$signup = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->signups WHERE user_login = %s", 'nononceuser123' ) );
+
+		$this->assertNull( $signup );
+		$this->assertSame( 'user', tml_get_data( 'signup_form' ) );
+		$this->assertContains( 'invalid_nonce', tml_get_data( 'signup_result' )['errors']->get_error_codes() );
+	}
+
+	public function test_signup_handler_gimmeanotherblog_rejects_a_missing_nonce() {
+		update_site_option( 'registration', 'blog' );
+
+		wp_set_current_user( self::factory()->user->create() );
+
+		$_POST['stage']       = 'gimmeanotherblog';
+		$_POST['blogname']    = 'csrfsignup1';
+		$_POST['blog_title']  = 'CSRF Signup';
+		$_POST['blog_public'] = 1;
+
+		tml_ms_signup_handler();
+
+		$this->assertFalse( tml_get_data( 'signup_blog_id' ) );
+		$this->assertEmpty( domain_exists( get_network()->domain, get_network()->path . 'csrfsignup1/' ) );
+		$this->assertContains( 'invalid_nonce', tml_get_data( 'signup_result' )['errors']->get_error_codes() );
 	}
 
 	// tml_ms_signup_handler() redirect guards
@@ -632,5 +678,125 @@ class Test_MS_Functions extends WP_UnitTestCase {
 		$result = tml_get_data( 'activation_result' );
 		$this->assertNotWPError( $result );
 		$this->assertSame( 'msactivationuser2', get_userdata( $result['user_id'] )->user_login );
+	}
+
+	private function get_activation_key( $user_login ) {
+		global $wpdb;
+		return $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM $wpdb->signups WHERE user_login = %s", $user_login ) );
+	}
+
+	private function capture_login( callable $callback ) {
+		$logged_in_user_id = null;
+		add_action(
+			'set_logged_in_cookie',
+			function ( $cookie, $expire, $expiration, $user_id ) use ( &$logged_in_user_id ) {
+				$logged_in_user_id = $user_id;
+			},
+			10,
+			4
+		);
+
+		$callback();
+
+		remove_all_actions( 'set_logged_in_cookie' );
+
+		return $logged_in_user_id;
+	}
+
+	private function activate_blog_signup_capturing_login( $user_login ) {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+
+		$result            = null;
+		$logged_in_user_id = $this->capture_login(
+			function () use ( $user_login, &$result ) {
+				$result = wpmu_activate_signup( $this->get_activation_key( $user_login ) );
+			}
+		);
+
+		$this->assertNotWPError( $result );
+
+		return array( $result['user_id'], $logged_in_user_id );
+	}
+
+	public function test_blog_activation_auto_login_logs_in_the_user_it_created() {
+		wpmu_signup_blog( get_network()->domain, '/autologinblog/', 'Auto Login Blog', 'autologinbloguser', 'autologinbloguser@example.org' );
+
+		list( $user_id, $logged_in_user_id ) = $this->activate_blog_signup_capturing_login( 'autologinbloguser' );
+
+		$this->assertSame( 'autologinbloguser', get_userdata( $user_id )->user_login );
+		$this->assertSame( $user_id, $logged_in_user_id );
+	}
+
+	public function test_blog_activation_auto_login_skips_a_pre_existing_account() {
+		wpmu_signup_blog( get_network()->domain, '/takeoverblog/', 'Takeover Blog', 'victimuser', 'attacker@example.org' );
+
+		// Created after the signup by a path that skips signup validation.
+		$victim_id = wp_insert_user(
+			array(
+				'user_login' => 'victimuser',
+				'user_email' => 'victim@example.org',
+				'user_pass'  => 'victim-password',
+			)
+		);
+
+		list( $user_id, $logged_in_user_id ) = $this->activate_blog_signup_capturing_login( 'victimuser' );
+
+		$this->assertSame( $victim_id, $user_id );
+		$this->assertNull( $logged_in_user_id );
+	}
+
+	public function test_activation_handler_shows_the_form_for_a_followed_link_when_auto_login_is_enabled() {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+
+		wpmu_signup_user( 'linkactivationuser', 'linkactivationuser@example.org', array() );
+		$key = $this->get_activation_key( 'linkactivationuser' );
+
+		$_GET['key']     = $key;
+		$_REQUEST['key'] = $key;
+
+		tml_ms_activation_handler();
+
+		$this->assertFalse( username_exists( 'linkactivationuser' ) );
+		$this->assertEmpty( tml_get_data( 'activation_result' ) );
+
+		tml_ms_register_activation_form();
+		$content = tml_ms_filter_activation_shortcode( '', 'activate', array() );
+
+		$this->assertStringContainsString( '<form', $content );
+		$this->assertStringContainsString( $key, $content );
+	}
+
+	public function test_activation_handler_logs_in_on_form_submission_when_auto_login_is_enabled() {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+
+		wpmu_signup_user( 'formactivationuser', 'formactivationuser@example.org', array() );
+		$_POST['key'] = $this->get_activation_key( 'formactivationuser' );
+
+		$logged_in_user_id = $this->capture_login( 'tml_ms_activation_handler' );
+
+		$result = tml_get_data( 'activation_result' );
+		$this->assertNotWPError( $result );
+		$this->assertSame( $result['user_id'], $logged_in_user_id );
+	}
+
+	public function test_activation_by_link_outside_the_activation_form_does_not_log_in() {
+		update_site_option( 'tml_auto_login', true );
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+
+		wpmu_signup_user( 'coreactivationuser', 'coreactivationuser@example.org', array() );
+		$key = $this->get_activation_key( 'coreactivationuser' );
+
+		// As wp-activate.php does on a GET.
+		$logged_in_user_id = $this->capture_login(
+			function () use ( $key ) {
+				wpmu_activate_signup( $key );
+			}
+		);
+
+		$this->assertNotFalse( username_exists( 'coreactivationuser' ) );
+		$this->assertNull( $logged_in_user_id );
 	}
 }

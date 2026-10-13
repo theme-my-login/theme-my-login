@@ -16,6 +16,7 @@ add_action( 'init', 'tml_ms_register_default_actions', 0 );
 add_action( 'init', 'tml_ms_register_default_forms', 0 );
 
 // Registration
+add_action( 'wpmu_new_user', 'tml_ms_record_new_user' );
 add_action( 'wpmu_activate_user', 'tml_handle_auto_login', 10, 2 );
 add_action( 'wpmu_activate_blog', 'tml_handle_auto_login', 10, 2 );
 
