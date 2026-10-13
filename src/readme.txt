@@ -89,6 +89,12 @@ Report bugs, suggest ideas and participate in development at [GitHub](https://gi
 
 == Changelog ==
 
+= 7.3.1 =
+* Stop offering extension updates that need a newer Theme My Login
+* Require confirming multisite activation before logging in automatically
+* Protect the multisite signup form against cross-site submissions
+* Stop multisite site activation from logging the visitor into an existing account
+
 = 7.3.0 =
 * Turn user registration on or off from the Theme My Login settings screen
 * Show the Settings and Extensions links on the Plugins screen from any plugin folder name
