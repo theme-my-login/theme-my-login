@@ -45,7 +45,7 @@ class Test_Extensions extends WP_UnitTestCase {
 		remove_all_filters( 'pre_http_request' );
 		remove_all_filters( 'tml_extension_exists' );
 
-		wp_cache_flush_group( 'tml_api_calls' );
+		wp_cache_flush();
 
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s", $wpdb->esc_like( '_site_transient_tml_api_call-' ) . '%' ) );
@@ -255,7 +255,7 @@ class Test_Extensions extends WP_UnitTestCase {
 
 		// Simulate a fresh request: the non-persistent object cache is gone,
 		// but the site transient survives.
-		wp_cache_flush_group( 'tml_api_calls' );
+		wp_cache_flush();
 
 		tml_add_extension_data_to_plugins_transient( (object) array() );
 
@@ -271,7 +271,7 @@ class Test_Extensions extends WP_UnitTestCase {
 
 		// Simulate a fresh request: license checks must always hit the store
 		// live, so this should not be served from a persistent cache.
-		wp_cache_flush_group( 'tml_api_calls' );
+		wp_cache_flush();
 
 		tml_check_extension_license( $extension );
 
@@ -289,7 +289,7 @@ class Test_Extensions extends WP_UnitTestCase {
 		// (e.g. after installing/updating a plugin).
 		delete_site_transient( 'update_plugins' );
 
-		wp_cache_flush_group( 'tml_api_calls' );
+		wp_cache_flush();
 
 		tml_add_extension_data_to_plugins_transient( (object) array() );
 
@@ -448,6 +448,8 @@ class Test_Extensions extends WP_UnitTestCase {
 		$extension->maybe_update();
 
 		$this->assertSame( 1, $extension->update_count );
+
+		set_current_screen( 'front' );
 	}
 
 	public function test_maybe_update_skips_update_outside_admin() {

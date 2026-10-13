@@ -29,6 +29,7 @@ class Test_Admin_Class extends WP_UnitTestCase {
 
 	public function test_tml_admin_init_fires_on_first_construction() {
 		$property = new ReflectionProperty( 'Theme_My_Login_Admin', 'instance' );
+		$property->setAccessible( true );
 		$property->setValue( null, null );
 
 		$fired = false;
