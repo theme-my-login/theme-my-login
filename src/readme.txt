@@ -2,6 +2,7 @@
 Contributors: thememylogin, jfarthing84
 Tags: login, registration, custom login, login page, frontend login
 Requires at least: 5.7
+Requires PHP: 7.4
 Tested up to: 7.1
 Stable tag: trunk
 License: GPLv2
