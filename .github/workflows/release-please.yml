@@ -92,3 +92,30 @@ jobs:
       tag_name: ${{ needs.release-please.outputs.tag_name }}
       sha: ${{ needs.release-please.outputs.sha }}
     secrets: inherit
+
+  # thememylogin.com regenerates its developer reference from the new tag.
+  reference:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PLEASE_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: thememylogin.com
+          permission-contents: write
+
+      - name: Dispatch to thememylogin.com
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ needs.release-please.outputs.tag_name }}
+        run: |
+          gh api "repos/${{ github.repository_owner }}/thememylogin.com/dispatches" \
+            -f event_type=plugin-released \
+            -f "client_payload[repo]=$REPO" \
+            -f "client_payload[tag]=$TAG"
